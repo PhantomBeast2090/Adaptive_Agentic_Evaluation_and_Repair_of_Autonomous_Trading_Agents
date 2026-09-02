@@ -4,6 +4,7 @@ from typing import Dict, Any, Tuple
 class HistoricalMarket:
     def __init__(self, data_path: str):
         self.df = pd.read_parquet(data_path)
+        self._validate_data()
         self.dates = self.df.index.tolist()
         self.current_step = 0
         self.max_steps = len(self.df) - 1
@@ -30,3 +31,19 @@ class HistoricalMarket:
             "market_price": market_price,
             "vix": vix
         }
+
+    def _validate_data(self) -> None:
+        required_columns = {"SPY", "^VIX"}
+        missing_columns = required_columns.difference(self.df.columns)
+        if missing_columns:
+            raise ValueError(f"Market data missing required columns: {sorted(missing_columns)}")
+        if self.df.empty:
+            raise ValueError("Market data must contain at least one row")
+        if self.df.index.has_duplicates:
+            raise ValueError("Market data index contains duplicate timestamps")
+        if not self.df.index.is_monotonic_increasing:
+            raise ValueError("Market data index must be sorted in ascending order")
+        if self.df[["SPY", "^VIX"]].isna().any().any():
+            raise ValueError("Market data contains missing SPY or ^VIX values")
+        if (self.df[["SPY", "^VIX"]] <= 0).any().any():
+            raise ValueError("Market data contains non-positive SPY or ^VIX values")

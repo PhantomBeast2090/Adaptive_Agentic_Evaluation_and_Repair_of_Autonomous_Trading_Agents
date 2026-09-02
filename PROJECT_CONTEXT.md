@@ -8,6 +8,10 @@
 **Project type:** Research prototype / experimental evaluation platform
 **Primary objective:** Build an adaptive agentic environment that can test, diagnose, intervene on, and re-evaluate autonomous trading agents.
 
+**Current implementation checkpoint:** Phase 1 financial-agent and
+financial-environment foundation audited and frozen for Static Evaluation
+development. See `agentic-finance-evaluation/docs/PHASE1_AUDIT.md`.
+
 ---
 
 # 1. PURPOSE OF THIS DOCUMENT

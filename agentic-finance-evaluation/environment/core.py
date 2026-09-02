@@ -1,4 +1,4 @@
-from typing import Dict, Any, Tuple
+from typing import Any, Dict, Optional, Tuple
 from .market.historical import HistoricalMarket
 from .portfolio.accounting import Portfolio
 
@@ -19,10 +19,13 @@ class FinancialEnvironment:
         obs = self.market.reset()
         return self._build_obs(obs)
         
-    def _build_obs(self, market_obs: Dict[str, Any]) -> Dict[str, Any]:
+    def _build_obs(self, market_obs: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
         if market_obs is None:
             return None
         return {
+            "date": market_obs["date"],
+            "market_price": market_obs["market_price"],
+            "vix": market_obs["vix"],
             "market_data": market_obs,
             "portfolio": {
                 "cash": self.portfolio.cash,
@@ -31,7 +34,21 @@ class FinancialEnvironment:
             }
         }
         
-    def step(self, action: str, quantity: float) -> Tuple[Dict[str, Any], Dict[str, Any], bool, Dict[str, Any]]:
+    def step(self, action: str, quantity: float) -> Tuple[Optional[Dict[str, Any]], Dict[str, Any], bool, Dict[str, Any]]:
+        if self.market.current_step >= self.market.max_steps:
+            current_obs = self.market._get_obs()
+            terminal_value = self.portfolio.get_value(current_obs["market_price"])
+            return None, {
+                "step_pnl": 0.0,
+                "cumulative_pnl": terminal_value - self.initial_cash,
+                "drawdown": (
+                    (self.peak_value - terminal_value) / self.peak_value
+                    if self.peak_value > 0 else 0.0
+                ),
+                "transaction_costs": 0.0,
+                "date": current_obs["date"],
+            }, True, {"reason": "market_exhausted"}
+
         self.current_step += 1
         
         # 1. Execute action at CURRENT price
@@ -47,7 +64,17 @@ class FinancialEnvironment:
         next_market_obs, done = self.market.step()
         
         if done or next_market_obs is None:
-            return None, 0.0, True, {}
+            terminal_value = self.portfolio.get_value(current_price)
+            return None, {
+                "step_pnl": terminal_value - previous_val,
+                "cumulative_pnl": terminal_value - self.initial_cash,
+                "drawdown": (
+                    (self.peak_value - terminal_value) / self.peak_value
+                    if self.peak_value > 0 else 0.0
+                ),
+                "transaction_costs": tx_fee,
+                "date": current_obs["date"],
+            }, True, {}
             
         next_price = next_market_obs["market_price"]
         current_val = self.portfolio.get_value(next_price)

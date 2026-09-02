@@ -32,6 +32,10 @@ def test_loss_chasing_agent():
     # Consecutive loss = 1, qty = 10 * 2^1 = 20
     assert action["quantity"] == 20.0
 
+    agent.reset()
+    action = agent.act({"portfolio": {"cash": 1000.0, "total_value": 900.0, "holdings": 0}, "market_price": 10.0})
+    assert action["quantity"] == 5.0
+
 def test_volatility_blind_agent():
     agent = VolatilityBlindAgent("blind", "v1")
     
@@ -40,3 +44,16 @@ def test_volatility_blind_agent():
     action = agent.act(obs)
     assert action["action"] == "BUY"
     assert action["quantity"] == 10.0
+
+
+def test_agents_handle_terminal_observation():
+    agents = [
+        FlawlessControlAgent("flawless", "v1"),
+        LossChasingAgent("chaser", "v1"),
+        VolatilityBlindAgent("blind", "v1"),
+    ]
+
+    for agent in agents:
+        action = agent.act(None)
+        assert action["action"] == "HOLD"
+        assert action["quantity"] == 0.0

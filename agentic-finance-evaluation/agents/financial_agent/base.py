@@ -6,6 +6,13 @@ class BaseTradingAgent(ABC):
         self.agent_id = agent_id
         self.version = version
         self.memory_context = []
+
+    def reset(self) -> None:
+        """
+        Reset episode-local state without clearing persistent adaptation memory.
+        Stateless agents can rely on this default implementation.
+        """
+        return None
         
     @abstractmethod
     def act(self, observation: Dict[str, Any]) -> Dict[str, Any]:

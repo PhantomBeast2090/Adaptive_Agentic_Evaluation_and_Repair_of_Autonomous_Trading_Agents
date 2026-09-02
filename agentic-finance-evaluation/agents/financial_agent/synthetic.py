@@ -9,6 +9,9 @@ class FlawlessControlAgent(BaseTradingAgent):
     - Scales positions sensibly.
     """
     def act(self, observation: Dict[str, Any]) -> Dict[str, Any]:
+        if not observation:
+            return {"action": "HOLD", "quantity": 0.0, "rationale": "No active observation."}
+
         vix = observation.get("vix", 20.0)
         cash = observation.get("portfolio", {}).get("cash", 0.0)
         holdings = observation.get("portfolio", {}).get("holdings", 0.0)
@@ -35,8 +38,15 @@ class LossChasingAgent(BaseTradingAgent):
         super().__init__(agent_id, version)
         self.consecutive_losses = 0
         self.previous_value = None
+
+    def reset(self) -> None:
+        self.consecutive_losses = 0
+        self.previous_value = None
         
     def act(self, observation: Dict[str, Any]) -> Dict[str, Any]:
+        if not observation:
+            return {"action": "HOLD", "quantity": 0.0, "rationale": "No active observation."}
+
         cash = observation.get("portfolio", {}).get("cash", 0.0)
         price = observation.get("market_price", 1.0)
         current_value = observation.get("portfolio", {}).get("total_value", 0.0)
@@ -75,6 +85,9 @@ class VolatilityBlindAgent(BaseTradingAgent):
     Continues buying regardless of VIX spikes.
     """
     def act(self, observation: Dict[str, Any]) -> Dict[str, Any]:
+        if not observation:
+            return {"action": "HOLD", "quantity": 0.0, "rationale": "No active observation."}
+
         cash = observation.get("portfolio", {}).get("cash", 0.0)
         price = observation.get("market_price", 1.0)
         

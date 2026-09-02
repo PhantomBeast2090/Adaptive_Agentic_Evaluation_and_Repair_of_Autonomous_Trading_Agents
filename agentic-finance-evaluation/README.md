@@ -19,4 +19,11 @@ The goal is to build a hierarchical multi-agent system (AEE) that evaluates an a
 2. Create `.env` based on `.env.example`
 
 ## Current Status
-Implementation of the AEE has not yet begun. Only the preliminary directory structure, datasets, and infrastructure are set up.
+The Phase 1 financial-agent and financial-environment foundation has been
+audited and frozen for Static Evaluation development. The repository also
+contains early evaluator modules from later phases, but the next milestone is to
+build the Static Evaluation Pipeline on top of the tested deterministic episode
+runner foundation.
+
+See `docs/PHASE1_AUDIT.md` for the current environment contract, information
+boundary, reproducibility notes, and known limitations.

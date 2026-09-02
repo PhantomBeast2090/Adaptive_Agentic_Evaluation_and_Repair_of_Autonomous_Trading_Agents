@@ -16,6 +16,13 @@ class LLMTradingAgent(BaseTradingAgent):
         In the real implementation, this will construct a prompt using the 
         observation and memory_context, call the LLM, and parse the structured output.
         """
+        if not observation:
+            return {
+                "action": "HOLD",
+                "quantity": 0.0,
+                "rationale": "No active observation."
+            }
+
         # TODO: Implement actual LLM call with temperature=0 for determinism
         
         # Dummy deterministic logic for testing interfaces
