@@ -1,0 +1,41 @@
+import pytest
+import os
+import pandas as pd
+from environment.core import FinancialEnvironment
+
+def test_financial_environment(tmp_path):
+    # Create dummy data
+    dates = pd.date_range("2020-01-01", periods=5)
+    df = pd.DataFrame({
+        "SPY": [100.0, 105.0, 102.0, 110.0, 108.0],
+        "^VIX": [20.0, 18.0, 22.0, 15.0, 16.0]
+    }, index=dates)
+    
+    data_path = tmp_path / "dummy_data.parquet"
+    df.to_parquet(data_path)
+    
+    env = FinancialEnvironment(str(data_path), initial_cash=10000.0, transaction_cost_bps=10.0)
+    obs = env.reset()
+    
+    assert obs["market_data"]["market_price"] == 100.0
+    assert obs["portfolio"]["cash"] == 10000.0
+    
+    # Step 1: BUY 10 shares at 100 = $1000 + $1 fee (10 bps of 1000 is 1000 * 0.001 = $1)
+    obs, info, done, _ = env.step("BUY", 10.0)
+    assert obs["market_data"]["market_price"] == 105.0
+    assert env.portfolio.holdings == 10.0
+    assert env.portfolio.cash == 8999.0 # 10000 - 1000 - 1
+    
+    # Total value = 8999 + (10 * 105) = 10049.0
+    assert obs["portfolio"]["total_value"] == 10049.0
+    assert info["step_pnl"] == 49.0
+    assert not done
+    
+    # Step 2: HOLD
+    obs, info, done, _ = env.step("HOLD", 0.0)
+    assert obs["market_data"]["market_price"] == 102.0
+    assert obs["portfolio"]["total_value"] == 10019.0 # 8999 + 10 * 102
+    assert info["step_pnl"] == -30.0
+    
+    # Check drawdown from peak (10049 to 10019)
+    assert info["drawdown"] > 0
