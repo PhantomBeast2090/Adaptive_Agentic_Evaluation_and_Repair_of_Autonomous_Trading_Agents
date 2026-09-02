@@ -19,3 +19,13 @@
 - Added market-data validation for processed replay inputs.
 - Added deterministic end-to-end episode and edge-case tests.
 - Documented the Phase 1 environment contract and information boundary.
+
+## Phase 1.5 Environment Contract Freeze
+- Defined final-row execution semantics: one action per market row, including
+  the final row.
+- Returned final observable portfolio state on terminal transitions.
+- Added execution price, portfolio value, cash, and holdings to step outcomes.
+- Documented partial-fill, invalid-action, termination, reward, cost, and
+  information-boundary semantics.
+- Added regression tests for final timestep accounting, deterministic replay,
+  trajectory completeness, look-ahead protection, and portfolio invariants.

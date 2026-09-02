@@ -54,6 +54,8 @@ def test_invalid_or_impossible_trades_are_noops():
         ("BUY", 1.0, -100.0),
         ("SELL", -1.0, 100.0),
         ("NOT_AN_ACTION", 1.0, 100.0),
+        (None, 1.0, 100.0),
+        ("BUY", 0.0, 100.0),
     ]:
         fee = portfolio.execute_trade(action, quantity, price)
         assert fee == 0.0

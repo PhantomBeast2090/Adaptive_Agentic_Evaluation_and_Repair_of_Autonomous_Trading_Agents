@@ -66,10 +66,21 @@ def test_environment_invalid_action_and_reset_after_terminal(tmp_path):
     assert done is False
 
     terminal_obs, terminal_info, done, meta = env.step("BUY", 10.0)
-    assert terminal_obs is None
+    assert terminal_obs["date"] == "2020-01-02"
+    assert terminal_obs["portfolio"]["holdings"] == 1000.0 / 105.0
+    assert terminal_info["execution_price"] == 105.0
+    assert terminal_info["portfolio_value"] == 1000.0
+    assert terminal_info["cash"] == 0.0
+    assert terminal_info["holdings"] == 1000.0 / 105.0
     assert terminal_info["transaction_costs"] == 0.0
     assert done is True
     assert meta["reason"] == "market_exhausted"
+
+    repeated_obs, repeated_info, done, meta = env.step("SELL", 1.0)
+    assert repeated_obs["date"] == "2020-01-02"
+    assert repeated_info["portfolio_value"] == 1000.0
+    assert done is True
+    assert meta["reason"] == "episode_already_done"
 
     reset_obs = env.reset()
     assert reset_obs["date"] == "2020-01-01"

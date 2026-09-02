@@ -11,11 +11,13 @@ class FinancialEnvironment:
         self.portfolio = Portfolio(initial_cash, transaction_cost_bps)
         self.peak_value = initial_cash
         self.current_step = 0
+        self.done = False
         
     def reset(self) -> Dict[str, Any]:
         self.portfolio = Portfolio(self.initial_cash, self.transaction_cost_bps)
         self.peak_value = self.initial_cash
         self.current_step = 0
+        self.done = False
         obs = self.market.reset()
         return self._build_obs(obs)
         
@@ -35,10 +37,10 @@ class FinancialEnvironment:
         }
         
     def step(self, action: str, quantity: float) -> Tuple[Optional[Dict[str, Any]], Dict[str, Any], bool, Dict[str, Any]]:
-        if self.market.current_step >= self.market.max_steps:
+        if self.done:
             current_obs = self.market._get_obs()
             terminal_value = self.portfolio.get_value(current_obs["market_price"])
-            return None, {
+            return self._build_obs(current_obs), {
                 "step_pnl": 0.0,
                 "cumulative_pnl": terminal_value - self.initial_cash,
                 "drawdown": (
@@ -46,8 +48,12 @@ class FinancialEnvironment:
                     if self.peak_value > 0 else 0.0
                 ),
                 "transaction_costs": 0.0,
+                "execution_price": current_obs["market_price"],
+                "portfolio_value": terminal_value,
+                "cash": self.portfolio.cash,
+                "holdings": self.portfolio.holdings,
                 "date": current_obs["date"],
-            }, True, {"reason": "market_exhausted"}
+            }, True, {"reason": "episode_already_done"}
 
         self.current_step += 1
         
@@ -59,6 +65,27 @@ class FinancialEnvironment:
         previous_val = self.portfolio.get_value(current_price)
         
         tx_fee = self.portfolio.execute_trade(action, quantity, current_price)
+
+        if self.market.current_step >= self.market.max_steps:
+            terminal_value = self.portfolio.get_value(current_price)
+            if terminal_value > self.peak_value:
+                self.peak_value = terminal_value
+            drawdown = (
+                (self.peak_value - terminal_value) / self.peak_value
+                if self.peak_value > 0 else 0.0
+            )
+            self.done = True
+            return self._build_obs(current_obs), {
+                "step_pnl": terminal_value - previous_val,
+                "cumulative_pnl": terminal_value - self.initial_cash,
+                "drawdown": drawdown,
+                "transaction_costs": tx_fee,
+                "execution_price": current_price,
+                "portfolio_value": terminal_value,
+                "cash": self.portfolio.cash,
+                "holdings": self.portfolio.holdings,
+                "date": current_obs["date"],
+            }, True, {"reason": "market_exhausted"}
         
         # 2. Advance market
         next_market_obs, done = self.market.step()
@@ -73,6 +100,10 @@ class FinancialEnvironment:
                     if self.peak_value > 0 else 0.0
                 ),
                 "transaction_costs": tx_fee,
+                "execution_price": current_price,
+                "portfolio_value": terminal_value,
+                "cash": self.portfolio.cash,
+                "holdings": self.portfolio.holdings,
                 "date": current_obs["date"],
             }, True, {}
             
@@ -92,6 +123,10 @@ class FinancialEnvironment:
             "cumulative_pnl": cumulative_pnl,
             "drawdown": drawdown,
             "transaction_costs": tx_fee,
+            "execution_price": current_price,
+            "portfolio_value": current_val,
+            "cash": self.portfolio.cash,
+            "holdings": self.portfolio.holdings,
             "date": next_market_obs["date"]
         }
         

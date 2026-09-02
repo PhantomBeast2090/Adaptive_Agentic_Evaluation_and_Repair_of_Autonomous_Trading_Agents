@@ -27,3 +27,5 @@ runner foundation.
 
 See `docs/PHASE1_AUDIT.md` for the current environment contract, information
 boundary, reproducibility notes, and known limitations.
+See `docs/ENVIRONMENT_CONTRACT.md` for the frozen Phase 1.5 environment
+semantics that Phase 2 should depend on.

@@ -20,6 +20,9 @@ class Portfolio:
         if quantity <= 0 or price <= 0:
             return 0.0
 
+        if not isinstance(action, str):
+            return 0.0
+
         normalized_action = action.upper()
 
         if normalized_action == "BUY":

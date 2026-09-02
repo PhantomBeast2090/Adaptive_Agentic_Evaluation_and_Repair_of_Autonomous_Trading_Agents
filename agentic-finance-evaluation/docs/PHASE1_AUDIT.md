@@ -3,6 +3,7 @@
 ## Status
 
 Phase 1 is READY for the next milestone: Static Evaluation Pipeline.
+Phase 1.5 has frozen the final environment contract.
 
 The current foundation can execute a deterministic trading episode using the
 financial environment and a deterministic synthetic Agent Under Evaluation.
@@ -22,9 +23,11 @@ financial environment and a deterministic synthetic Agent Under Evaluation.
 - Trace persistence to JSON and parquet.
 - Pydantic schema JSON serialization smoke tests.
 
+See `ENVIRONMENT_CONTRACT.md` for the frozen Phase 1.5 semantics.
+
 ## Environment Contract
 
-At each non-terminal timestep, the agent receives:
+At each active timestep, including the final market row, the agent receives:
 
 - `date`: current timestamp as `YYYY-MM-DD`.
 - `market_price`: current SPY adjusted close used as the execution price.
@@ -43,14 +46,18 @@ The environment accepts:
 Invalid actions, non-positive quantities, and non-positive execution prices are
 treated as no-op trades.
 
+Oversized buys and sells use deterministic partial-fill semantics.
+
 ## Information Boundary
 
 The agent observes only the current timestep's date, SPY price, VIX value, and
 portfolio state. It does not receive next-step price, next-step return, future
 VIX, future reward, future drawdown, future market regime, or holdout labels.
 
-Step outcome is calculated only after the action is submitted and the market is
-advanced.
+Step outcome is calculated only after the action is submitted. For non-final
+rows, the market advances before valuation. For the final row, the final action
+executes at the final current price and returns the final observable portfolio
+state with `done=True`.
 
 ## Market Data Audit
 
