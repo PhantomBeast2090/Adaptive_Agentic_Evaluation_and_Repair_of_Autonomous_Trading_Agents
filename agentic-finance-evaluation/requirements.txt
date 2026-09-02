@@ -10,4 +10,5 @@ tqdm
 pyyaml
 matplotlib
 jupyter
-pytestyfinance
+pytest
+yfinance

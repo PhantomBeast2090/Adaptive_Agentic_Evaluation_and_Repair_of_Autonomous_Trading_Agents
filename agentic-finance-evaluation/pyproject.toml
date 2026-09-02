@@ -6,3 +6,8 @@ build-backend = "setuptools.build_meta"
 name = "agentic-finance-evaluation"
 version = "0.1.0"
 description = "Adaptive Agentic Evaluation Environment for Autonomous Financial Agents"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-ra"
