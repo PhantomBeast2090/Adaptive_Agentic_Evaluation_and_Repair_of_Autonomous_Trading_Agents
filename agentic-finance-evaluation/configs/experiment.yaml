@@ -1,6 +1,20 @@
-experiment_id: "PLACEHOLDER"
-agent_version: "PLACEHOLDER"
+experiment_id: "exp_001_initial_eval"
+agent_version: "v1.0.0"
+phases_to_run: ["Discovery", "Diagnosis", "Intervention", "Re-evaluation", "OOD_Validation"]
 evaluation_budget: 1000
 scenario_count: 100
 random_seed: 42
-model_configuration: "PLACEHOLDER"
+model_configuration: "gpt-4o"
+data_splits:
+  context:
+    start_date: "2015-01-01"
+    end_date: "2018-12-31"
+  discovery:
+    start_date: "2019-01-01"
+    end_date: "2020-12-31"
+  re_evaluation:
+    start_date: "2019-01-01" # Same as discovery
+    end_date: "2020-12-31"
+  ood_validation:
+    start_date: "2021-01-01"
+    end_date: "2023-12-31"
