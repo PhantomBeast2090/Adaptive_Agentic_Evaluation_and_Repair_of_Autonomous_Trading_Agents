@@ -1,0 +1,13 @@
+python-dotenv
+pandas
+numpy
+scipy
+scikit-learn
+pydantic
+requests
+datasets
+tqdm
+pyyaml
+matplotlib
+jupyter
+pytest

@@ -1,0 +1,6 @@
+experiment_id: "PLACEHOLDER"
+agent_version: "PLACEHOLDER"
+evaluation_budget: 1000
+scenario_count: 100
+random_seed: 42
+model_configuration: "PLACEHOLDER"

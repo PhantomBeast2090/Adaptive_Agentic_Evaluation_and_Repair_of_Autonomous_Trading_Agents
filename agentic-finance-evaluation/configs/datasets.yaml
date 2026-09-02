@@ -1,0 +1,10 @@
+finqa:
+  path: "data/raw/finqa/source"
+tatqa:
+  path: "data/raw/tatqa/source"
+financebench:
+  path: "data/raw/financebench/source/data"
+convfinqa:
+  path: "data/raw/convfinqa/source"
+finrl:
+  path: "data/raw/finrl/source"

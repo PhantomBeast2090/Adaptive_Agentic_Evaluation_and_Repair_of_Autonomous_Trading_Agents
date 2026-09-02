@@ -1,0 +1,29 @@
+{
+  "datasets": [
+    {
+      "name": "FinQA",
+      "status": "acquired",
+      "role": "Financial numerical reasoning"
+    },
+    {
+      "name": "TAT-QA",
+      "status": "acquired",
+      "role": "Text + table financial reasoning"
+    },
+    {
+      "name": "FinanceBench",
+      "status": "acquired",
+      "role": "Financial factuality and evidence grounding"
+    },
+    {
+      "name": "ConvFinQA",
+      "status": "acquired",
+      "role": "Multi-turn financial reasoning and consistency"
+    },
+    {
+      "name": "FinRL",
+      "status": "acquired",
+      "role": "Financial market/portfolio simulation infrastructure"
+    }
+  ]
+}
