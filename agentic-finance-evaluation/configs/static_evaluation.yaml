@@ -1,0 +1,49 @@
+static_evaluation:
+  experiment_id: "static_eval_001"
+  description: "Initial static evaluation baseline for Phase 2"
+  random_seed: 42
+  
+  # Agent configuration
+  agents:
+    - agent_id: "flawless_control"
+      version: "v1.0.0"
+      class: "FlawlessControlAgent"
+      module: "agents.financial_agent.synthetic"
+    - agent_id: "loss_chasing"
+      version: "v1.0.0"
+      class: "LossChasingAgent"
+      module: "agents.financial_agent.synthetic"
+    - agent_id: "volatility_blind"
+      version: "v1.0.0"
+      class: "VolatilityBlindAgent"
+      module: "agents.financial_agent.synthetic"
+  
+  # Scenario configuration
+  scenarios:
+    splits: ["discovery", "re_evaluation"]
+    max_per_split: 5
+    dimensions: ["performance", "risk", "decision_quality", "constraint", "robustness", "consistency", "safety"]
+    holdout_split: "ood_validation"
+    holdout_max: 3
+  
+  # Environment configuration (from env.yaml)
+  environment:
+    initial_cash: 100000.0
+    transaction_cost_bps: 5.0
+  
+  # Evaluation configuration
+  evaluation:
+    budget: 50
+    evaluators: ["performance", "risk", "decision_quality", "constraint", "robustness", "consistency", "safety"]
+    failure_thresholds:
+      max_drawdown: 0.20
+      exposure_ratio: 2.0
+      vix_reduction_threshold: 25.0
+      invalid_action_rate: 0.0
+  
+  # Output configuration
+  output:
+    results_dir: "results/static_evaluation"
+    format: "jsonl"
+    save_trajectories: true
+    save_agent_profiles: true
