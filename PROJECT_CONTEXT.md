@@ -15,6 +15,363 @@ next. See `agentic-finance-evaluation/docs/PHASE1_AUDIT.md` and
 
 ---
 
+# 0. IMPLEMENTATION HANDOFF FOR FUTURE AGENTS
+
+This section is the operational continuity record. Read it before making code
+changes. The rest of this document remains the authoritative research concept.
+
+## 0.1 Current Repository State
+
+Repository root:
+
+```text
+Adaptive_Agentic_Evaluation_and_Repair_of_Autonomous_Trading_Agents/
+```
+
+Main implementation package:
+
+```text
+agentic-finance-evaluation/
+```
+
+Remote GitHub repository:
+
+```text
+https://github.com/PhantomBeast2090/Adaptive_Agentic_Evaluation_and_Repair_of_Autonomous_Trading_Agents.git
+```
+
+Latest pushed commit at the time of this handoff:
+
+```text
+0f3d882 Phase 1.5 freeze environment contract
+```
+
+The working tree was clean after the Phase 1.5 push.
+
+## 0.2 What Has Been Built
+
+The project began as a research scaffold and dataset acquisition workspace. It
+now contains a tested deterministic trading-environment foundation plus early
+prototype evaluator modules.
+
+Implemented and tested foundation:
+
+* project structure, configs, docs, schemas, logs/results folders;
+* raw dataset acquisition records and processed market splits;
+* deterministic historical SPY/^VIX market replay;
+* portfolio accounting with transaction costs;
+* base trading-agent interface;
+* deterministic synthetic trading agents;
+* deterministic placeholder LLM trading-agent abstraction;
+* trace logging to JSON and parquet;
+* deterministic metric utilities;
+* Phase 1 audit/freeze documentation;
+* Phase 1.5 frozen environment contract documentation.
+
+Early evaluator prototypes also exist:
+
+* Module A: deterministic vulnerability discovery;
+* Module B: blinded diagnosis interface with deterministic mock behaviour;
+* concordance checker between discovery and diagnosis;
+* Module C: deterministic intervention generation;
+* Module D: deterministic repair re-evaluation and holdout comparator.
+
+Important context: the next research milestone is still Phase 2 Static
+Evaluation Pipeline. The later evaluator modules were created early and are
+tested, but they should not pull the next agent into adaptive evaluation before
+static evaluation is properly implemented.
+
+## 0.3 Commit / Phase Ledger
+
+The Git history documents the project progression:
+
+```text
+0f3d882 Phase 1.5 freeze environment contract
+1a39c2c Phase 1 audit and environment foundation freeze
+1cfd612 Phase 8: Intervention and repair reevaluation modules
+00c45a2 Phase 7b: Blinded diagnosis evaluator (Module B) with tests
+9ea94a8 Phase 7 Complete: Independent discovery evaluator (Module A)
+ebc9bb9 Phase 6 Complete: Synthetic flawed agents (Level 2 validation)
+2429111 Phase 5 Complete: Trace serialization system
+675a853 Phase 4 Complete: Deterministic Metrics engine
+9ec16ba Phase 3 Complete: Simple target trading agent interface
+48d6f67 Phase 2 Complete: Deterministic market environment (SPY+VIX)
+fbe220a Phase 1 Complete: Data Ingestion and Normalization Pipeline
+fb63ec2 Initial research setup and pre-build infrastructure
+```
+
+Do not infer that the full research program is complete from the later phase
+labels. The current stable boundary for future work is:
+
+```text
+Phase 1 - Core Infrastructure: COMPLETE
+Phase 1.5 - Environment Contract: COMPLETE
+Phase 2 - Static Evaluation Pipeline: NEXT
+```
+
+## 0.4 Authoritative Current Docs
+
+Read these files before implementation:
+
+```text
+PROJECT_CONTEXT.md
+agentic-finance-evaluation/docs/ENVIRONMENT_CONTRACT.md
+agentic-finance-evaluation/docs/PHASE1_AUDIT.md
+agentic-finance-evaluation/docs/DATA_SPEC.md
+agentic-finance-evaluation/docs/METRICS.md
+agentic-finance-evaluation/docs/EVALUATION_PROTOCOL.md
+agentic-finance-evaluation/README.md
+```
+
+The most important implementation contract is
+`agentic-finance-evaluation/docs/ENVIRONMENT_CONTRACT.md`.
+
+## 0.5 How To Verify The Current System
+
+Use the project virtual environment:
+
+```bash
+cd agentic-finance-evaluation
+./.venv/bin/pytest -q
+```
+
+Last verified result:
+
+```text
+43 passed
+```
+
+`pyproject.toml` configures pytest to collect only project-owned tests under
+`tests/`. This is intentional because raw upstream datasets include their own
+tests, which are not part of this project's test suite.
+
+## 0.6 Data State
+
+Raw acquired datasets:
+
+* FinQA;
+* TAT-QA;
+* FinanceBench public subset;
+* ConvFinQA;
+* FinRL.
+
+Dataset provenance is recorded in:
+
+```text
+agentic-finance-evaluation/data/DATASET_MANIFEST.json
+agentic-finance-evaluation/data/ACQUISITION_REPORT.md
+agentic-finance-evaluation/data/raw/*/dataset_metadata.json
+```
+
+Processed market data used by the Phase 1.5 environment:
+
+```text
+agentic-finance-evaluation/data/processed/market_splits/context.parquet
+agentic-finance-evaluation/data/processed/market_splits/discovery.parquet
+agentic-finance-evaluation/data/processed/market_splits/re_evaluation.parquet
+agentic-finance-evaluation/data/processed/market_splits/ood_validation.parquet
+```
+
+These splits contain `SPY` and `^VIX`. During Phase 1/1.5 audit they were
+checked for monotonic timestamps, duplicate indexes, missing values, and
+non-positive values. No issues were found.
+
+Raw source files must remain untouched. New transformed data belongs under
+`data/processed/`, `data/scenarios/`, or `data/splits/` as appropriate.
+
+## 0.7 Frozen Environment Contract Summary
+
+The Phase 1.5 environment is frozen as a deterministic single-asset SPY replay
+environment with VIX as an observable risk indicator.
+
+Observation fields available to an agent at timestep `t`:
+
+* `date`: current row date as `YYYY-MM-DD`;
+* `market_price`: current SPY adjusted close;
+* `vix`: current VIX value;
+* `market_data`: nested copy of the current market observation;
+* `portfolio.cash`;
+* `portfolio.holdings`;
+* `portfolio.total_value`.
+
+The agent does not receive future prices, future returns, future rewards,
+future VIX, future market regimes, or holdout labels.
+
+Actions:
+
+* `BUY`;
+* `SELL`;
+* `HOLD`.
+
+Action quantity is a non-negative float share quantity. Fractional shares are
+currently allowed. There is no symbol field because SPY is the only tradable
+asset in Phase 1.5.
+
+Execution semantics:
+
+* orders execute immediately at the current observation's `market_price`;
+* transaction costs are charged once per executed buy/sell;
+* oversized buys are partially filled to the maximum affordable quantity;
+* oversized sells are partially filled to available holdings;
+* invalid actions, non-string actions, zero quantities, negative quantities,
+  and non-positive execution prices are no-ops;
+* no short selling, leverage, slippage, liquidity, or intraday execution is
+  implemented.
+
+Termination semantics:
+
+* one action is permitted for every market row, including the final row;
+* the final-row action executes at the final current price;
+* the final transition returns final observable portfolio state and `done=True`;
+* repeated `step()` after termination is a deterministic no-op with
+  `reason="episode_already_done"`;
+* `reset()` starts a fresh deterministic episode.
+
+Each outcome includes:
+
+* `step_pnl`;
+* `cumulative_pnl`;
+* `drawdown`;
+* `transaction_costs`;
+* `execution_price`;
+* `portfolio_value`;
+* `cash`;
+* `holdings`;
+* `date`.
+
+## 0.8 Core Code Map
+
+Environment:
+
+```text
+agentic-finance-evaluation/environment/core.py
+agentic-finance-evaluation/environment/market/historical.py
+agentic-finance-evaluation/environment/portfolio/accounting.py
+```
+
+Agents:
+
+```text
+agentic-finance-evaluation/agents/financial_agent/base.py
+agentic-finance-evaluation/agents/financial_agent/synthetic.py
+agentic-finance-evaluation/agents/financial_agent/llm_agent.py
+```
+
+Trace/logging:
+
+```text
+agentic-finance-evaluation/src/trace/logger.py
+```
+
+Schemas:
+
+```text
+agentic-finance-evaluation/src/schemas/scenario.py
+agentic-finance-evaluation/src/schemas/evaluation.py
+agentic-finance-evaluation/src/schemas/agent.py
+agentic-finance-evaluation/src/schemas/repair.py
+```
+
+Metrics/evaluators:
+
+```text
+agentic-finance-evaluation/evaluation/metrics/deterministic.py
+agentic-finance-evaluation/evaluation/evaluators/module_a.py
+agentic-finance-evaluation/evaluation/evaluators/module_b.py
+agentic-finance-evaluation/evaluation/evaluators/concordance.py
+agentic-finance-evaluation/evaluation/evaluators/module_c.py
+agentic-finance-evaluation/evaluation/evaluators/module_d.py
+```
+
+Tests:
+
+```text
+agentic-finance-evaluation/tests/
+```
+
+## 0.9 Current Test Coverage
+
+Tests currently cover:
+
+* project infrastructure and config loading;
+* schema instantiation and JSON serialization;
+* deterministic agent behaviours;
+* agent reset and terminal-observation handling;
+* market-data validation;
+* portfolio buy/sell/hold accounting;
+* transaction costs;
+* oversized buy/sell partial fills;
+* invalid actions and impossible trade no-ops;
+* environment reset/step/termination;
+* final timestep accounting;
+* deterministic complete episode replay;
+* no obvious look-ahead fields in observations;
+* trace serialization to JSON and parquet;
+* deterministic metrics;
+* Module A/B/C/D evaluator prototype behaviours.
+
+## 0.10 Known Limitations To Preserve Unless Deliberately Changed
+
+These are known simplifications, not accidental bugs:
+
+* SPY is the only tradable asset;
+* VIX is observable but not tradable;
+* fractional shares are allowed;
+* oversized orders are partially filled, not rejected;
+* invalid actions are no-ops, not exceptions;
+* no short selling;
+* no leverage;
+* no slippage;
+* no liquidity or market-impact model;
+* no intraday order timing;
+* execution uses adjusted close from the current row;
+* LLM trading agent is a deterministic placeholder and does not call any API;
+* current evaluator modules are prototypes and not yet a complete static or
+  adaptive experiment pipeline;
+* no final empirical research claims have been established.
+
+Do not remove these limitations silently. If a future phase changes one, update
+tests and docs at the same time.
+
+## 0.11 What The Next Agent Should Do
+
+The next milestone is:
+
+```text
+Phase 2 - Static Evaluation Pipeline
+```
+
+Recommended next work:
+
+1. Implement a minimal static episode runner that takes an agent, a configured
+   market split/scenario, and an evaluation config.
+2. Emit a complete trajectory through the existing `TraceLogger`.
+3. Compute deterministic baseline metrics from the saved trajectory.
+4. Save an explicit evaluation result separate from source code.
+5. Add tests proving static evaluation is reproducible and does not use holdout
+   data for tuning/adaptation.
+
+Do not begin adaptive scenario selection, diagnosis-driven repair, multi-agent
+orchestration, dashboards, or large experiment infrastructure until the static
+pipeline can run and produce reproducible saved results.
+
+## 0.12 Research Integrity Rules For Continuation
+
+Future agents must:
+
+* keep the project framed as evaluation-and-repair research, not trading-agent
+  optimization;
+* preserve the Phase 1.5 environment contract unless explicitly changing it with
+  tests and documentation;
+* keep raw data immutable;
+* keep holdout data isolated from adaptation/tuning;
+* avoid claiming empirical success without actual experiments;
+* distinguish implemented infrastructure from planned research claims;
+* run tests before and after meaningful changes;
+* update this handoff section when completing a milestone.
+
+---
+
 # 1. PURPOSE OF THIS DOCUMENT
 
 This document is the primary context and source of truth for the software implementation of the research project.
