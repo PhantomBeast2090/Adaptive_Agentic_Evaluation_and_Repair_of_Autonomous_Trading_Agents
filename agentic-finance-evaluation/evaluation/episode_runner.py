@@ -92,12 +92,18 @@ class Trajectory:
         """SHA-256 digest of the reproducible content of this episode.
 
         Excludes `episode_id` and `created_at`, which carry provenance rather
-        than behaviour. Two runs of the same agent on the same scenario must
-        produce the same digest; that is the reproducibility check.
+        than behaviour, and `environment_spec["data_path"]`, which is a
+        machine-specific filesystem location: the identity of the replayed
+        market rows is already carried by `environment_spec["market_fingerprint"]`.
+        Two runs of the same agent on the same scenario must produce the same
+        digest, on any checkout; that is the reproducibility check.
         """
         payload = self.to_dict()
         payload.pop("created_at", None)
         payload.pop("episode_id", None)
+        spec = dict(payload.get("environment_spec") or {})
+        spec.pop("data_path", None)
+        payload["environment_spec"] = spec
         canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"), default=str)
         return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
