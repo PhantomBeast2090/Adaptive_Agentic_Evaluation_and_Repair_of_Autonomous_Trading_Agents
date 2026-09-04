@@ -1,37 +1,37 @@
-"""
-Static Scenario Loader
+"""Static scenario loader for Phase 2 static evaluation.
 
-Loads and creates StaticScenario objects from data splits and configuration.
+Loads and creates StaticScenario objects from data splits. Enforces deterministic
+scenario ordering and guards against duplicate market windows.
 """
 
+import hashlib
 import yaml
 import pandas as pd
 from pathlib import Path
-from typing import List, Dict, Any, Optional
-from datetime import datetime
-import random
+from typing import List, Set
 
 from src.schemas.scenario import StaticScenario
 
 
 class ScenarioLoader:
     """Loads static scenarios from data splits based on configuration."""
-    
-    def __init__(self, config_path: str = "configs/static_evaluation.yaml"):
+
+    def __init__(self, config_path: str = "configs/static_evaluation.yaml", base_dir: str = "."):
         with open(config_path, 'r') as f:
             self.config = yaml.safe_load(f)['static_evaluation']
-        
-        self.random_seed = self.config.get('random_seed', 42)
-        random.seed(self.random_seed)
-        
+
+        self.base_dir = Path(base_dir)
+
         # Market regime detection thresholds
         self.vix_high_threshold = 25.0
         self.vix_low_threshold = 15.0
+
+        self._seen_fingerprints: Set[str] = set()
     
     def load_scenarios(self) -> List[StaticScenario]:
         """Load all scenarios based on configuration."""
         scenarios = []
-        
+
         # Load main evaluation scenarios
         main_scenarios = self._load_scenarios_from_splits(
             splits=self.config['scenarios']['splits'],
@@ -39,35 +39,38 @@ class ScenarioLoader:
             holdout=False
         )
         scenarios.extend(main_scenarios)
-        
-        # Load holdout scenarios
-        holdout_scenarios = self._load_scenarios_from_splits(
-            splits=[self.config['scenarios']['holdout_split']],
-            max_per_split=self.config['scenarios']['holdout_max'],
-            holdout=True
-        )
-        scenarios.extend(holdout_scenarios)
-        
+
+        # Load holdout scenarios if configured
+        holdout_split = self.config['scenarios'].get('holdout_split', '')
+        if holdout_split:
+            holdout_scenarios = self._load_scenarios_from_splits(
+                splits=[holdout_split],
+                max_per_split=self.config['scenarios']['holdout_max'],
+                holdout=True
+            )
+            scenarios.extend(holdout_scenarios)
+
         # Sort by scenario_id for deterministic ordering
         scenarios.sort(key=lambda s: s.scenario_id)
-        
+
         return scenarios
     
     def _load_scenarios_from_splits(
-        self, 
-        splits: List[str], 
-        max_per_split: int, 
+        self,
+        splits: List[str],
+        max_per_split: int,
         holdout: bool
     ) -> List[StaticScenario]:
         """Load scenarios from specified data splits."""
         scenarios = []
-        
+
         for split in splits:
-            split_path = Path(f"data/processed/market_splits/{split}.parquet")
+            split_path = self.base_dir / "data" / "processed" / "market_splits" / f"{split}.parquet"
             if not split_path.exists():
-                print(f"Warning: Split file not found: {split_path}")
-                continue
-            
+                raise FileNotFoundError(
+                    f"Split file not found: {split_path}. Run data preparation first."
+                )
+
             df = pd.read_parquet(split_path)
             split_scenarios = self._create_scenarios_from_split(
                 split_name=split,
@@ -76,61 +79,67 @@ class ScenarioLoader:
                 holdout=holdout
             )
             scenarios.extend(split_scenarios)
-        
+
         return scenarios
     
     def _create_scenarios_from_split(
-        self, 
-        split_name: str, 
-        df: pd.DataFrame, 
+        self,
+        split_name: str,
+        df: pd.DataFrame,
         max_scenarios: int,
         holdout: bool
     ) -> List[StaticScenario]:
         """Create scenario objects from a data split."""
         scenarios = []
-        
+
         # Create time-based windows from the split
         # Each scenario is a contiguous window of market data
         window_size = 63  # ~3 months of trading days
         stride = 21       # ~1 month stride
-        
+
         dates = df.index
         if len(dates) < window_size:
             # If split is smaller than window, use whole split as one scenario
             window_size = len(dates)
             stride = len(dates)
-        
+
         scenario_count = 0
         for i in range(0, len(dates) - window_size + 1, stride):
             if scenario_count >= max_scenarios:
                 break
-            
+
             start_idx = i
             end_idx = min(i + window_size, len(dates))
-            
+
             start_date = dates[start_idx].strftime('%Y-%m-%d')
             end_date = dates[end_idx - 1].strftime('%Y-%m-%d')
-            
-            # Determine market regime for this window
+
+            # Guard against duplicate windows across splits
             window_df = df.iloc[start_idx:end_idx]
+            fingerprint = self._window_fingerprint(window_df)
+            if fingerprint in self._seen_fingerprints:
+                raise ValueError(
+                    f"Duplicate window detected: {split_name} [{start_date}, {end_date}] "
+                    f"has identical market data to a previously loaded window. "
+                    f"Check that data splits are distinct or remove duplicate splits from config."
+                )
+            self._seen_fingerprints.add(fingerprint)
+
+            # Determine market regime for this window
             market_regime = self._detect_market_regime(window_df)
-            
+
             # Determine difficulty based on regime volatility
             difficulty = self._assess_difficulty(window_df, market_regime)
-            
-            # Assign dimension (cycle through dimensions for variety)
-            dimensions = self.config['scenarios']['dimensions']
-            dimension = dimensions[scenario_count % len(dimensions)]
-            
+
             scenario_id = f"{split_name}_{start_date}_{end_date}"
-            
+
             scenario = StaticScenario(
                 scenario_id=scenario_id,
                 source_split=split_name,
                 market_data_path=str(Path(f"data/processed/market_splits/{split_name}.parquet").absolute()),
                 start_date=start_date,
                 end_date=end_date,
-                dimension=dimension,
+                dimension="",  # Not scientifically meaningful; left empty
                 difficulty=difficulty,
                 market_regime=market_regime,
                 initial_cash=self.config['environment']['initial_cash'],
@@ -138,12 +147,24 @@ class ScenarioLoader:
                 holdout=holdout,
                 description=f"{split_name} split from {start_date} to {end_date} ({market_regime} regime)"
             )
-            
+
             scenarios.append(scenario)
             scenario_count += 1
-        
+
         return scenarios
     
+    def _window_fingerprint(self, df: pd.DataFrame) -> str:
+        """SHA-256 fingerprint of a window's (date, SPY, ^VIX) rows.
+
+        Identical to HistoricalMarket.fingerprint() so that duplicate windows
+        are detected even when they come from different split files.
+        """
+        canonical = "\n".join(
+            f"{date.strftime('%Y-%m-%d')},{float(spy)!r},{float(vix)!r}"
+            for date, spy, vix in zip(df.index, df["SPY"], df["^VIX"])
+        )
+        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
     def _detect_market_regime(self, df: pd.DataFrame) -> str:
         """Detect market regime from VIX and price behavior."""
         if '^VIX' not in df.columns or 'SPY' not in df.columns:

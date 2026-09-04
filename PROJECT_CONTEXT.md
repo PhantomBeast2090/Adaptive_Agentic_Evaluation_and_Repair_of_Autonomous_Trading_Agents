@@ -2556,3 +2556,4 @@ Before implementation begins, the coding agent should:
 8. STOP and request researcher approval.
 
 No substantial code should be written until the architecture and MVP have been reviewed.
+claude --resume 8dccf41c-c8d2-442b-b7ef-fb55b31aa43a

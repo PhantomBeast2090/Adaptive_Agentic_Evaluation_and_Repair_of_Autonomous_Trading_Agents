@@ -1,6 +1,11 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, Any, List
-from datetime import datetime
+from datetime import datetime, timezone
+
+
+def _utc_now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
 
 class Scenario(BaseModel):
     scenario_id: str
@@ -30,4 +35,4 @@ class StaticScenario(BaseModel):
     transaction_cost_bps: float
     holdout: bool
     description: str
-    created_at: str = datetime.utcnow().isoformat()
+    created_at: str = Field(default_factory=_utc_now_iso)

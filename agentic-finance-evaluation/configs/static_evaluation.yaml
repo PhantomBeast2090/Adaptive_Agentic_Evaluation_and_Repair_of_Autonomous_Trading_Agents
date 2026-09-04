@@ -20,7 +20,7 @@ static_evaluation:
   
   # Scenario configuration
   scenarios:
-    splits: ["discovery", "re_evaluation"]
+    splits: ["discovery"]
     max_per_split: 5
     dimensions: ["performance", "risk", "decision_quality", "constraint", "robustness", "consistency", "safety"]
     holdout_split: "ood_validation"
