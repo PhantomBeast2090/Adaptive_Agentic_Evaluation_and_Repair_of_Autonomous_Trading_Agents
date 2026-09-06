@@ -233,6 +233,68 @@ class StaticEvaluator:
 
         return distributions
 
+    def evaluate_on_scenario(self, agent: BaseTradingAgent, scenario, seed: Optional[int] = None) -> EpisodeEvaluation:
+        """Evaluate a single agent on a single scenario using Phase-2 logic.
+
+        This preserves Phase-2 behavior but exposes a single-scenario entry
+        point for Phase-3 adaptive selection. It does NOT modify the evaluator's
+        internal episode list unless the caller appends the returned evaluation.
+        """
+        # Create environment for this scenario
+        env = FinancialEnvironment(
+            data_path=scenario.market_data_path,
+            initial_cash=scenario.initial_cash,
+            transaction_cost_bps=scenario.transaction_cost_bps,
+            start_date=scenario.start_date,
+            end_date=scenario.end_date,
+        )
+
+        episode_id = f"{self.run_id}_{agent.agent_id}_{scenario.scenario_id}"
+
+        trajectory = run_episode(
+            agent=agent,
+            environment=env,
+            scenario_id=scenario.scenario_id,
+            episode_id=episode_id,
+            seed=seed,
+        )
+
+        metrics = static_metrics.compute_episode_metrics(trajectory)
+
+        all_failures: List[FailureRecord] = []
+        dimensions_evaluated = []
+        dimensions_passed = []
+        dimensions_failed = []
+
+        for dimension, evaluator in self.evaluators.items():
+            dimensions_evaluated.append(dimension)
+            failures = evaluator.evaluate(
+                trajectory=trajectory,
+                metrics=metrics,
+                episode_id=episode_id,
+                scenario_id=scenario.scenario_id,
+            )
+            if failures:
+                all_failures.extend(failures)
+                dimensions_failed.append(dimension)
+            else:
+                dimensions_passed.append(dimension)
+
+        ep_eval = EpisodeEvaluation(
+            episode_id=episode_id,
+            scenario_id=scenario.scenario_id,
+            agent_id=agent.agent_id,
+            agent_version=agent.version,
+            trajectory_digest=trajectory.content_digest(),
+            metrics=metrics,
+            failures=all_failures,
+            dimensions_evaluated=dimensions_evaluated,
+            dimensions_passed=dimensions_passed,
+            dimensions_failed=dimensions_failed,
+        )
+
+        return ep_eval
+
     def run(self, agents: List[BaseTradingAgent]) -> StaticEvaluationResult:
         """Execute complete static evaluation for all agents.
 
