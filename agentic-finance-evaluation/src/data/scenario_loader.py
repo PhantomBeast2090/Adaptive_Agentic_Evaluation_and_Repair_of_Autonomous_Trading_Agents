@@ -136,7 +136,7 @@ class ScenarioLoader:
             scenario = StaticScenario(
                 scenario_id=scenario_id,
                 source_split=split_name,
-                market_data_path=str(Path(f"data/processed/market_splits/{split_name}.parquet").absolute()),
+                market_data_path=str(self.base_dir / "data" / "processed" / "market_splits" / f"{split_name}.parquet"),
                 start_date=start_date,
                 end_date=end_date,
                 dimension="",  # Not scientifically meaningful; left empty

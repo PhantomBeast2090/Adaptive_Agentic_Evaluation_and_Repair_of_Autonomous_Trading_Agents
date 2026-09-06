@@ -39,7 +39,7 @@ class StaticEvaluator:
     - Reproducible evaluation
     """
 
-    def __init__(self, config_path: str = "configs/static_evaluation.yaml"):
+    def __init__(self, config_path: str = "configs/static_evaluation.yaml", base_dir: str = "."):
         import yaml
 
         with open(config_path, "r") as f:
@@ -50,7 +50,7 @@ class StaticEvaluator:
         self.description = self.config["description"]
 
         # Load fixed scenario set
-        self.loader = ScenarioLoader(config_path)
+        self.loader = ScenarioLoader(config_path, base_dir=base_dir)
         self.scenarios = self.loader.load_scenarios()
 
         # Separate baseline and holdout
