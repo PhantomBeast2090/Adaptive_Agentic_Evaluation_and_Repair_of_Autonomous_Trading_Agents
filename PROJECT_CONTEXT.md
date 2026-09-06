@@ -8,10 +8,12 @@
 **Project type:** Research prototype / experimental evaluation platform
 **Primary objective:** Build an adaptive agentic environment that can test, diagnose, intervene on, and re-evaluate autonomous trading agents.
 
-**Current implementation checkpoint:** Phase 1 core infrastructure and Phase
-1.5 financial-environment contract are complete. Phase 2 Static Evaluation is
-next. See `agentic-finance-evaluation/docs/PHASE1_AUDIT.md` and
-`agentic-finance-evaluation/docs/ENVIRONMENT_CONTRACT.md`.
+**Current implementation checkpoint:** Phase 1 core infrastructure, Phase 1.5
+financial-environment contract, and Phase 2 Static Evaluation Pipeline are
+complete. Phase 3 Adaptive Scenario Selection is next. See
+`agentic-finance-evaluation/docs/PHASE1_AUDIT.md`,
+`agentic-finance-evaluation/docs/ENVIRONMENT_CONTRACT.md`, and
+`agentic-finance-evaluation/docs/STATIC_EVALUATION_PROTOCOL.md`.
 
 ---
 
@@ -43,10 +45,10 @@ https://github.com/PhantomBeast2090/Adaptive_Agentic_Evaluation_and_Repair_of_Au
 Latest pushed commit at the time of this handoff:
 
 ```text
-0f3d882 Phase 1.5 freeze environment contract
+2da1fc8 test(evaluation): add static evaluation end-to-end integration tests
 ```
 
-The working tree was clean after the Phase 1.5 push.
+The working tree was clean after the Phase 2 push.
 
 ## 0.2 What Has Been Built
 
@@ -66,7 +68,21 @@ Implemented and tested foundation:
 * trace logging to JSON and parquet;
 * deterministic metric utilities;
 * Phase 1 audit/freeze documentation;
-* Phase 1.5 frozen environment contract documentation.
+* Phase 1.5 frozen environment contract documentation;
+* Phase 2 static evaluation schemas (FailureRecord, EpisodeEvaluation, StaticAgentProfile, StaticEvaluationResult);
+* Phase 2 dimension evaluators (performance, risk, constraint, safety, consistency, robustness, decision_quality);
+* Phase 2 static evaluation orchestrator with episode runner, metrics, and result persistence;
+* Phase 2 protocol documentation and end-to-end integration tests.
+
+Completed static evaluation pipeline:
+* Fixed scenario set selection and deterministic ordering
+* Episode execution with trajectory recording
+* Metrics computation layer (33+ metrics)
+* Dimension-specific evaluators consuming precomputed metrics
+* Agent profile aggregation across fixed baseline scenarios
+* Result serialization and persistence
+* Reproducibility guarantees (seeds, digests, timestamps)
+* Explicit holdout isolation (never used for Phase 2 scoring)
 
 Early evaluator prototypes also exist:
 
@@ -86,27 +102,25 @@ static evaluation is properly implemented.
 The Git history documents the project progression:
 
 ```text
+2da1fc8 test(evaluation): add static evaluation end-to-end integration tests
+d3f945b feat(evaluation): add static evaluation schemas and dimension evaluators
+09f0811 feat(scenarios): harden scenario loader and fix schema timestamp
+57e2d64 feat(metrics): implement static evaluation metrics layer
+8eedfd3 feat(evaluation): add tested episode runner with reproducibility record
+4259c47 feat(environment): add episode windowing and execution reporting
+da68cb3 Phase 2: Add static scenario definitions and selection mechanism
+ceb73ef Update project context handoff
 0f3d882 Phase 1.5 freeze environment contract
 1a39c2c Phase 1 audit and environment foundation freeze
-1cfd612 Phase 8: Intervention and repair reevaluation modules
-00c45a2 Phase 7b: Blinded diagnosis evaluator (Module B) with tests
-9ea94a8 Phase 7 Complete: Independent discovery evaluator (Module A)
-ebc9bb9 Phase 6 Complete: Synthetic flawed agents (Level 2 validation)
-2429111 Phase 5 Complete: Trace serialization system
-675a853 Phase 4 Complete: Deterministic Metrics engine
-9ec16ba Phase 3 Complete: Simple target trading agent interface
-48d6f67 Phase 2 Complete: Deterministic market environment (SPY+VIX)
-fbe220a Phase 1 Complete: Data Ingestion and Normalization Pipeline
-fb63ec2 Initial research setup and pre-build infrastructure
 ```
 
-Do not infer that the full research program is complete from the later phase
-labels. The current stable boundary for future work is:
+The current stable boundary for future work is:
 
 ```text
 Phase 1 - Core Infrastructure: COMPLETE
 Phase 1.5 - Environment Contract: COMPLETE
-Phase 2 - Static Evaluation Pipeline: NEXT
+Phase 2 - Static Evaluation Pipeline: COMPLETE
+Phase 3 - Adaptive Scenario Selection: NEXT
 ```
 
 ## 0.4 Authoritative Current Docs
@@ -138,7 +152,7 @@ cd agentic-finance-evaluation
 Last verified result:
 
 ```text
-43 passed
+183 passed
 ```
 
 `pyproject.toml` configures pytest to collect only project-owned tests under
@@ -338,22 +352,19 @@ tests and docs at the same time.
 The next milestone is:
 
 ```text
-Phase 2 - Static Evaluation Pipeline
+Phase 3 - Adaptive Scenario Selection
 ```
 
-Recommended next work:
+The static baseline (Phase 2) is complete and reproducible. Phase 3 should implement:
 
-1. Implement a minimal static episode runner that takes an agent, a configured
-   market split/scenario, and an evaluation config.
-2. Emit a complete trajectory through the existing `TraceLogger`.
-3. Compute deterministic baseline metrics from the saved trajectory.
-4. Save an explicit evaluation result separate from source code.
-5. Add tests proving static evaluation is reproducible and does not use holdout
-   data for tuning/adaptation.
+1. Behavior observation from static baseline episode trajectories.
+2. Vulnerability pattern detection from failure records.
+3. Scenario selection logic that adaptively chooses harder tests based on observed agent weaknesses.
+4. Integration with the static evaluator to enable adaptive test sequences.
+5. Tests proving adaptive scenario selection increases meaningful vulnerability discovery compared to random selection.
 
-Do not begin adaptive scenario selection, diagnosis-driven repair, multi-agent
-orchestration, dashboards, or large experiment infrastructure until the static
-pipeline can run and produce reproducible saved results.
+Do not begin diagnosis, repair, or multi-agent orchestration until adaptive scenario
+selection can demonstrate measurable improvement over static evaluation.
 
 ## 0.12 Research Integrity Rules For Continuation
 
