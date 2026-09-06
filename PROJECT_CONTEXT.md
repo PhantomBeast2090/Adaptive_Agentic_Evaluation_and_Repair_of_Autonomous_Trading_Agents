@@ -355,6 +355,101 @@ Do not begin adaptive scenario selection, diagnosis-driven repair, multi-agent
 orchestration, dashboards, or large experiment infrastructure until the static
 pipeline can run and produce reproducible saved results.
 
+## 0.11a Phase 2 Static Evaluation Pipeline - COMPLETE
+
+**Status:** Phase 2 is complete as of commit `2da1fc8`.
+
+The complete static evaluation pipeline has been implemented with comprehensive
+testing (183 tests total). This phase delivers the deterministic baseline layer
+that measures autonomous trading agents across multiple dimensions without
+adaptive feedback loops.
+
+### Phase 2 Deliverables
+
+**Schemas** (`src/schemas/static_evaluation.py`):
+- `FailureRecord`: Observed failures with metric/threshold/evidence (not diagnosed causes)
+- `EpisodeEvaluation`: Per-episode evaluation across all dimensions
+- `StaticAgentProfile`: Aggregated profile across fixed scenario set with failure statistics
+- `StaticEvaluationResult`: Complete run manifest with reproducibility provenance
+
+**Dimension Evaluators** (`evaluation/evaluators/static/`):
+- Performance: Return and portfolio value thresholds
+- Risk: Drawdown, volatility, Sharpe, conditional post-loss metrics
+- Constraint: Invalid action rate, unfilled order compliance
+- Safety: Attempted short/leverage detection (zero tolerance)
+- Consistency: Action repeatability in recurring states, trajectory digest comparison
+- Robustness: Cross-scenario failure rate aggregation (profile-level property)
+- DecisionQuality: EXPLICITLY UNSUPPORTED (no ground truth oracle exists; no fabricated labels)
+
+**Orchestration** (`evaluation/static_evaluator.py`):
+- Fixed scenario set with deterministic ordering
+- Complete pipeline: Episode → Trajectory → Metrics → Evaluators → Profile → Result
+- Holdout scenarios loaded but never used for baseline scoring (holdout_used=False guarantee)
+- Result persistence to disk with JSON serialization
+
+**Metrics Layer** (`evaluation/metrics/static_metrics.py`):
+- 33 deterministic metrics across performance, risk, behavior, execution
+- Explicit handling of edge cases (zero volatility, no losses, no trades)
+- Returns None for undefined metrics (no artificial substitutes)
+- Comprehensive test coverage with hand-calculable fixtures
+
+**Testing**:
+- 43 tests for static metrics calculations
+- 23 tests for dimension evaluators
+- 12 end-to-end integration tests
+- Tests verify reproducibility, holdout isolation, result persistence, and schema serialization
+- All 183 project tests pass (including Phase 1/1.5 tests)
+
+### What Changed in This Phase
+
+The following was added to the codebase:
+- New schemas for static evaluation results
+- 7 dimension-specific evaluators
+- Static evaluator orchestrator class
+- Extended metrics layer (from 5 to 33 metrics)
+- Configuration-driven threshold system
+- Result persistence and JSON serialization
+- Comprehensive integration tests
+- Updated scenario loader with holdout support
+
+### What Did NOT Change
+
+The following Phase 1/1.5 components remain unmodified and stable:
+- Environment contract and market replay
+- Episode runner core logic (only integrated into orchestrator)
+- Agent interface and synthetic agents
+- Trace logging system
+- Basic metric utilities
+
+### Important Scientific Properties Maintained
+
+- ✅ No fabricated metrics or oracle actions
+- ✅ Failures are observed conditions, not diagnosed causes
+- ✅ No holdout data leakage into baseline scoring
+- ✅ Configuration-driven thresholds (auditable, not hard-coded)
+- ✅ Reproducibility preserved (seeds, content digests, timestamps)
+- ✅ Explicit "unsupported" for decision quality (no fake labels)
+
+### What The Next Agent Should Do
+
+The next milestone is Phase 3 - Adaptive Scenario Selection:
+
+```text
+Phase 3 - Adaptive Scenario Selection
+```
+
+Phase 2 (static baseline) is complete and reproducible. Phase 3 should:
+
+1. Analyze behavior patterns from Phase 2 episode trajectories
+2. Detect vulnerability patterns in failure records
+3. Implement scenario selection logic that adaptively chooses harder tests
+4. Integrate adaptive selection with the static evaluator
+5. Measure whether adaptive selection increases vulnerability discovery
+
+Do not begin diagnosis, repair, or multi-agent orchestration until adaptive
+scenario selection can demonstrate measurable improvement over random selection
+under equivalent evaluation budgets.
+
 ## 0.12 Research Integrity Rules For Continuation
 
 Future agents must:
