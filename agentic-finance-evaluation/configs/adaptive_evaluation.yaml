@@ -1,0 +1,45 @@
+adaptive_evaluation:
+  experiment_id: "adaptive_eval_001"
+  description: "Phase-3 Adaptive vs Random scenario-selection comparison (discovery only)"
+
+  # Candidate pool: discovery data ONLY. Holdout/OOD must never enter Phase-3 discovery.
+  # NOTE (known design issue, intentionally NOT fixed here): data/processed/market_splits
+  # discovery.parquet and re_evaluation.parquet currently contain the same period
+  # (2019-01-02 to 2020-12-31). The harness therefore restricts the pool to the
+  # "discovery" split and rejects "ood_validation"/"re_evaluation" pool sources.
+  # The correct re-evaluation period is a separate research-design decision.
+  # Scenario windowing (window 63 / stride 21) is intentionally unchanged; windows
+  # within a split overlap and episodes are not independent (methodological note).
+  candidate_pool:
+    splits: ["discovery"]
+    max_per_split: 8
+    require_discovery_only: true
+    require_holdout_exclusion: true
+    holdout_split: "ood_validation"
+
+  # Agent under evaluation (same agent for both arms of each paired comparison).
+  agents:
+    - agent_id: "volatility_blind"
+      version: "v1.0.0"
+      class: "VolatilityBlindAgent"
+      module: "agents.financial_agent.synthetic"
+
+  # Environment assumptions (must match Phase-2 static evaluation).
+  environment:
+    initial_cash: 100000.0
+    transaction_cost_bps: 5.0
+
+  # Paired comparison design. The independent variable is scenario-selection
+  # strategy only. Both arms share pool, budget, initial samples, batch size,
+  # seed, agent, and evaluation machinery.
+  evaluation:
+    budget: 6
+    initial_samples: 2
+    batch_size: 1
+    seeds: [42, 123]
+    strategies: ["adaptive", "random"]
+
+  # Output convention follows static evaluation (JSON artifacts under results/).
+  output:
+    results_dir: "results/adaptive_evaluation"
+    format: "json"

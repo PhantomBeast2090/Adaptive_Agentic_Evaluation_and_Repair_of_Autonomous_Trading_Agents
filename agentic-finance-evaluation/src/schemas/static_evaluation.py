@@ -60,6 +60,7 @@ class EpisodeEvaluation(BaseModel):
     dimensions_evaluated: List[str]
     dimensions_passed: List[str]
     dimensions_failed: List[str]
+    seed: Optional[int] = None  # Experiment seed propagated to episode execution
     timestamp: str = Field(default_factory=_utc_now_iso)
 
 

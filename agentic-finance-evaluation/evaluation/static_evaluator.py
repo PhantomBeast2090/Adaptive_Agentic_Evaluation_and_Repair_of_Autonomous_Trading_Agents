@@ -291,6 +291,7 @@ class StaticEvaluator:
             dimensions_evaluated=dimensions_evaluated,
             dimensions_passed=dimensions_passed,
             dimensions_failed=dimensions_failed,
+            seed=seed,
         )
 
         return ep_eval
