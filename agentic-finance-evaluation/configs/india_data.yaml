@@ -11,8 +11,8 @@ required_datasets:
   - nse_nifty_500_daily
   - nse_india_vix_daily
   - rbi_gsec_10y_yield
-  - rbi_tbill_91d
-  - rbi_tbill_364d
+  - rbi_gsec_91d_yield
+  - rbi_gsec_364d_yield
   - rbi_usd_inr_daily
   - mcx_gold_futures_individual_contracts
   - mospi_cpi_combined_monthly

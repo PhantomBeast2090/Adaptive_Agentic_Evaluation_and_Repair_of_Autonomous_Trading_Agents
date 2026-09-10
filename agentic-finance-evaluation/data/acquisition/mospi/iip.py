@@ -146,7 +146,10 @@ Expected IIP CSV structure:
 
         return errors
 
-    def load_normalized(self) -> pd.DataFrame:
+    def load_normalized(
+        self,
+        allow_estimated_availability: bool = False,
+    ) -> pd.DataFrame:
         """Load and normalise IIP CSV with release dates.
 
         Same availability_date logic as CPI adapter.
@@ -195,11 +198,16 @@ Expected IIP CSV structure:
             ))
             avail_dates = obs_dates.dt.to_period("M").map(mapping)
         else:
+            if not allow_estimated_availability:
+                raise ValueError(
+                    "Actual IIP release dates are required for point-in-time use. "
+                    "Provide data/raw/india/macro/iip_release_dates.csv; "
+                    "estimated lags cannot become agent-facing data."
+                )
             use_estimated_lag = True
-            avail_dates = obs_dates + pd.Timedelta(days=42)  # ~6 weeks
+            avail_dates = obs_dates + pd.Timedelta(days=42)
             self.logger.warning(
-                "IIP release dates CSV not found. Using estimated 42-day lag. "
-                "Provide data/raw/india/macro/iip_release_dates.csv for accuracy."
+                "Using estimated IIP availability dates in explicitly restricted mode."
             )
 
         result = pd.DataFrame({

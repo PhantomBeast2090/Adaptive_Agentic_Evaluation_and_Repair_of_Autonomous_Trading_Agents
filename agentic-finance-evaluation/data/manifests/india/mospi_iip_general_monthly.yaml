@@ -9,16 +9,25 @@ has_availability_date: false
 has_observation_date: false
 latest_observation: null
 missingness_summary: []
-notes: No raw artifact supplied. Official-source acquisition requires manual download
-  or source-specific access; this manifest intentionally records pending status and
-  no coverage.
+notes: "[mospi_iip_general_monthly] Acquisition from MoSPI IIP / mospi.gov.in failed:\
+  \ MoSPI IIP data requires web download. Release dates (critical for information\
+  \ availability) require separate collection.\n\nManual download instructions:\n\n\
+  MoSPI IIP Manual Download:\n1. Visit: https://mospi.gov.in/index-industrial-production\n\
+  2. Download historical IIP data (Excel or CSV)\n3. Place at: data/raw/india/macro/iip_general.csv\n\
+  \nFor release dates (CRITICAL for information availability):\n1. Visit MoSPI press\
+  \ releases or IIP release calendar\n2. Record the date each month's IIP was first\
+  \ released\n3. Create: data/raw/india/macro/iip_release_dates.csv\n   Columns: reference_month\
+  \ (YYYY-MM), release_date (YYYY-MM-DD)\n\nAlternative source:\n  RBI DBIE: https://dbie.rbi.org.in/\n\
+  \  Navigate: Real Economy \u2192 Industry \u2192 IIP\n\nExpected IIP CSV structure:\n\
+  \  Month/Year | General | Mining | Manufacturing | Electricity\n  Base year: 2011-12=100\
+  \ (current series)\n"
 processed_path: null
 processed_sha256: null
 processing_parameters: {}
 processing_version: 1.0.0
 raw_path: null
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T16:40:58.335205+00:00'
+retrieval_timestamp: '2026-09-10T17:20:51.346312+00:00'
 row_count: null
 source_institution: MOSPI
 source_url: null

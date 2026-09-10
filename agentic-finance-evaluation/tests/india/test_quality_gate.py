@@ -53,3 +53,22 @@ def test_quality_gate_rejects_unresolved_leakage(tmp_path: Path):
     assert result.eligible is False
     assert "ACQUIRED" in result.failed_gates
     assert "CALENDAR_VALID" in result.failed_gates
+
+
+def test_quality_gate_requires_explicit_macro_information_timing(tmp_path: Path):
+    manager = ManifestManager(tmp_path)
+    manifest = manager.create_manifest(
+        dataset_id="macro",
+        tier=DataTier.C,
+        asset_class="macro",
+        variable="CPI",
+        source_institution="MOSPI",
+        source_url="https://example.test/cpi.csv",
+        frequency=DataFrequency.MONTHLY,
+    )
+    result = DatasetQualityGate(manager).evaluate(
+        manifest,
+        leakage_report=LeakageReport([], [], [], []),
+    )
+    assert result.eligible is False
+    assert "INFORMATION_AVAILABILITY_VALID" in result.failed_gates

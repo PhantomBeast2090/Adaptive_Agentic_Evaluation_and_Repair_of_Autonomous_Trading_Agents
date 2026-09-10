@@ -22,10 +22,11 @@ observation_date   the period or effective date described by the value
 availability_date  the first date the value could be known by the agent
 ```
 
-`availability_date` must not precede `observation_date` in the V1 schemas.
-Revisions retain a `revision_version`; a revised value must not replace an
-earlier vintage in the agent information set unless its availability date has
-arrived.
+Retrospective macro observations must not use an availability date before the
+period they describe. Revisions retain a `revision_version`; a revised value
+must not replace an earlier vintage in the agent information set unless its
+availability timestamp has arrived. Missing or estimated release timing is
+`point_in_time_unverified` and is not experiment-eligible.
 
 For retrospective macro data, point-in-time selection is:
 
@@ -35,8 +36,11 @@ selected = latest eligible vintage per variable and observation period
 ```
 
 Estimated release lags are restricted metadata and cannot be used to mark a
-dataset experiment-eligible. RBI policy events use announcement/availability
-date separately from effective date.
+dataset experiment-eligible. RBI policy events use explicit
+`announcement_timestamp`/`availability_date` and `effective_timestamp`/
+`observation_date` semantics: the decision is visible after announcement,
+even if its effective date is later. Policy events are not retrospective
+macro vintages and are not forced through the macro release rule.
 
 An alignment layer may expose a value on a later trading day only when
 `availability_date <= simulated_timestamp`. It must preserve native

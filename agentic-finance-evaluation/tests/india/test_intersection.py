@@ -26,3 +26,16 @@ def test_short_dataset_is_excluded_with_reason():
     result = auditor.compute_common_intersection(min_coverage_days=365)
     assert result.excluded_datasets == ["short"]
     assert "Coverage too short" in result.exclusion_reasons["short"]
+
+
+def test_partial_mandatory_set_is_not_computable():
+    auditor = CoverageAuditor()
+    auditor.audit_dataset("nifty50", _frame("2020-01-01", "2022-12-31"), [], "date")
+    result = auditor.compute_common_intersection(
+        mandatory_datasets=["nifty50", "india_vix"],
+        eligible_datasets={"nifty50"},
+        min_coverage_days=365,
+    )
+    assert result.status == "INCOMPLETE_DATASET_SET"
+    assert result.earliest_common is None
+    assert result.missing_mandatory_datasets == ["india_vix"]

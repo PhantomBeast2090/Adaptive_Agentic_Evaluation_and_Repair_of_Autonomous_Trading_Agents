@@ -9,16 +9,22 @@ has_availability_date: false
 has_observation_date: false
 latest_observation: null
 missingness_summary: []
-notes: No raw artifact supplied. Official-source acquisition requires manual download
-  or source-specific access; this manifest intentionally records pending status and
-  no coverage.
+notes: "[nse_india_vix_daily] Acquisition from https://www.nseindia.com/market-data/india-vix\
+  \ failed: Automated NSE VIX fetch failed: NSE base page returned 403. NSE website\
+  \ requires session authentication that is not reliably automated. Manual download\
+  \ required.\n\nManual download instructions:\n\nIndia VIX Manual Download Instructions:\n\
+  1. Visit: https://www.nseindia.com/market-data/india-vix\n2. Click \"Historical\
+  \ Data\" tab\n3. Select the widest available date range\n4. Download as CSV\n5.\
+  \ Place the file at:\n   data/raw/india/india_vix/india_vix_daily.csv\n\nExpected\
+  \ columns (NSE VIX CSV):\n  Date | Open | High | Low | Close | Previous Close |\
+  \ Change | % Change\n\nNote: India VIX history starts approximately from 2008-11-02.\n"
 processed_path: null
 processed_sha256: null
 processing_parameters: {}
 processing_version: 1.0.0
 raw_path: null
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T16:40:58.328911+00:00'
+retrieval_timestamp: '2026-09-10T17:20:50.733101+00:00'
 row_count: null
 source_institution: NSE
 source_url: https://www.nseindia.com/market-data/india-vix

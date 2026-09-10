@@ -87,6 +87,12 @@ def _load_manifests(manifest_dir: Path) -> list[dict[str, Any]]:
     return manifests
 
 
+def _required_dataset_ids(base_dir: Path) -> list[str]:
+    config_path = base_dir / "configs" / "india_data.yaml"
+    config = yaml.safe_load(config_path.read_text(encoding="utf-8")) or {}
+    return [str(item) for item in config.get("required_datasets", [])]
+
+
 def _markdown_result(result: Any, *, calendar_membership: bool = False) -> list[str]:
     duplicate_timestamps = (
         "not applicable (category membership)"
@@ -190,20 +196,100 @@ def run_audit(base_dir: Path) -> str:
             expected_frequency=frequency,
             is_trading_day_data=is_trading,
             has_availability_date=bool(manifest.get("has_availability_date")),
+            allow_pre_observation=manifest.get("asset_class") == "policy",
             calendar=calendar,
             identifier_cols=["market_segment"] if manifest.get("asset_class") == "calendar" else None,
         )
-        acquired.append({"manifest": manifest, "result": result})
+        acquired.append({"manifest": manifest, "result": result, "df": df})
 
-    mandatory = [
+    mandatory = _required_dataset_ids(base_dir)
+    eligible = {
         item["manifest"]["dataset_id"]
         for item in acquired
-        if item["manifest"].get("asset_class") != "calendar"
+        if str(item["manifest"].get("eligibility_status", "")).lower()
+        == "experiment_eligible"
+    }
+    observed_dates = [
+        set(
+            pd.to_datetime(item["df"][_date_column(item["df"])])
+            .dropna()
+            .dt.date
+        )
+        for item in acquired
+        if _date_column(item["df"]) is not None
     ]
+    session_dates = set().union(*observed_dates) if observed_dates else None
+    auditor_session_dates = session_dates
+    # Re-run availability-aware usability against the actual candidate sessions.
+    if auditor_session_dates:
+        for item in acquired:
+            manifest = item["manifest"]
+            if manifest.get("has_availability_date"):
+                date_col = _date_column(item["df"])
+                auditor.audit_dataset(
+                    dataset_id=item["result"].dataset_id,
+                    df=item["df"],
+                    required_fields=[
+                        field.get("field_name")
+                        for field in manifest.get("missingness_summary", [])
+                        if isinstance(field, dict) and field.get("field_name")
+                    ],
+                    date_col=date_col,
+                    expected_frequency=None,
+                    is_trading_day_data=manifest.get("asset_class")
+                    not in {"macro", "policy", "calendar"},
+                    has_availability_date=True,
+                    calendar=calendar,
+                    session_dates=auditor_session_dates,
+                )
     intersection = auditor.compute_common_intersection(
-        mandatory_datasets=mandatory or None
+        mandatory_datasets=mandatory,
+        eligible_datasets=eligible,
     )
-    leakage = LeakageAuditor().audit_all()
+    price_frames = [
+        item["df"]
+        for item in acquired
+        if item["manifest"].get("asset_class")
+        in {"equity", "index", "volatility", "currency"}
+    ]
+    macro_frames = [
+        item["df"]
+        for item in acquired
+        if item["manifest"].get("asset_class") == "macro"
+    ]
+    policy_frames = [
+        item["df"]
+        for item in acquired
+        if item["manifest"].get("asset_class") == "policy"
+    ]
+    gold_frames = [
+        item["df"]
+        for item in acquired
+        if item["manifest"].get("asset_class") == "gold"
+    ]
+    processing_parameters = {
+        item["manifest"]["dataset_id"]: item["manifest"].get(
+            "processing_parameters", {}
+        )
+        for item in acquired
+        if item["manifest"].get("processing_parameters")
+        and item["manifest"].get("asset_class") != "calendar"
+    }
+    leakage = LeakageAuditor().audit_all(
+        price_df=pd.concat(price_frames, ignore_index=True)
+        if price_frames
+        else None,
+        macro_df=pd.concat(macro_frames, ignore_index=True)
+        if macro_frames
+        else None,
+        policy_df=pd.concat(policy_frames, ignore_index=True)
+        if policy_frames
+        else None,
+        gold_contracts_df=pd.concat(gold_frames, ignore_index=True)
+        if gold_frames
+        else None,
+        processing_parameters=processing_parameters or None,
+    )
     lines = [
         "# Indian Data Coverage Audit",
         "",
@@ -277,6 +363,7 @@ def run_audit(base_dir: Path) -> str:
             "",
             "## 7. Common intersection",
             "",
+            f"- Status: **{intersection.status}**",
             f"- Earliest common usable date: `{intersection.earliest_common or 'not computable'}`",
             f"- Latest common usable date: `{intersection.latest_common or 'not computable'}`",
             f"- Calendar duration: {intersection.total_common_days} days",
@@ -304,6 +391,8 @@ def run_audit(base_dir: Path) -> str:
             "",
             "## 9. Leakage findings",
             "",
+            f"- Leakage validation status: **{leakage.validation_status}**",
+            f"- Datasets checked: {', '.join(leakage.datasets_checked) or 'none'}",
             f"- Confirmed leaks: {len(leakage.confirmed_leaks)}",
             f"- Potential leaks: {len(leakage.potential_leaks)}",
             f"- Mitigated issues: {len(leakage.mitigated)}",

@@ -9,16 +9,30 @@ has_availability_date: false
 has_observation_date: false
 latest_observation: null
 missingness_summary: []
-notes: No raw artifact supplied. Official-source acquisition requires manual download
-  or source-specific access; this manifest intentionally records pending status and
-  no coverage.
+notes: "[mospi_cpi_combined_monthly] Acquisition from MoSPI CPI / mospi.gov.in failed:\
+  \ MoSPI CPI data requires web download from mospi.gov.in. Automated download is\
+  \ not reliably possible. Release dates (critical for information availability) require\
+  \ separate collection from press release archives.\n\nManual download instructions:\n\
+  \nMoSPI CPI Manual Download:\n1. Visit: https://mospi.gov.in/consumer-price-indices-cpi\n\
+  2. Download the \"CPI Data\" historical table (Excel or CSV)\n3. Place at: data/raw/india/macro/cpi_combined.csv\n\
+  \nFor release dates (CRITICAL for information availability):\n1. Visit: https://mospi.gov.in/press-release-consumer-price-index\n\
+  2. Extract the date each month's CPI was released\n3. Or use: https://www.rbi.org.in/scripts/Bs_PressReleaseDisplay.aspx\n\
+  \   (filter by CPI press releases)\n4. Create a CSV with columns: reference_month,\
+  \ release_date\n   reference_month format: YYYY-MM (e.g. 2024-01 for January 2024)\n\
+  \   release_date format: YYYY-MM-DD\n5. Place at: data/raw/india/macro/cpi_release_dates.csv\n\
+  \nAlternative automated source (secondary):\n  RBI DBIE also carries CPI data:\n\
+  \  https://dbie.rbi.org.in/ \u2192 Price and Monetary \u2192 Consumer Price Index\n\
+  \  HOWEVER: DBIE may not include individual release dates.\n  Use MoSPI as the primary\
+  \ source.\n\nExpected CPI CSV structure:\n  Month/Year | CPI_Combined (General)\
+  \ | CPI_Urban | CPI_Rural | ...\n  OR: Month | Year | CPI | [sub-indices]\n  Base\
+  \ year: 2012=100 for the new series\n"
 processed_path: null
 processed_sha256: null
 processing_parameters: {}
 processing_version: 1.0.0
 raw_path: null
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T16:40:58.334695+00:00'
+retrieval_timestamp: '2026-09-10T17:20:51.344324+00:00'
 row_count: null
 source_institution: MOSPI
 source_url: null

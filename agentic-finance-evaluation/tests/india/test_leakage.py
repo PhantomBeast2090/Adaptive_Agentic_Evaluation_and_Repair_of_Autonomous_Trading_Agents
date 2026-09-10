@@ -78,3 +78,29 @@ def test_processing_fit_on_full_sample_is_confirmed():
         {"normalization": "fit_on_full_dataset"}
     )
     assert result[0].severity == "CONFIRMED"
+
+
+def test_leakage_without_datasets_is_not_evaluable():
+    report = LeakageAuditor().audit_all()
+    assert report.validation_status == "NOT_EVALUABLE"
+    assert not report.is_clean
+
+
+def test_supplied_clean_dataset_is_evaluated():
+    report = LeakageAuditor().audit_all(
+        price_df=pd.DataFrame({"close": [100.0, 101.0, 102.0]})
+    )
+    assert report.validation_status == "EVALUATED"
+    assert report.is_clean
+
+
+def test_policy_announcement_can_precede_effective_date():
+    report = LeakageAuditor().audit_all(
+        policy_df=pd.DataFrame({
+            "availability_date": ["2024-02-07"],
+            "announcement_timestamp": ["2024-02-07T10:00:00+05:30"],
+            "effective_timestamp": ["2024-02-08T00:00:00+05:30"],
+        })
+    )
+    assert report.validation_status == "EVALUATED"
+    assert report.is_clean

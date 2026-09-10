@@ -9,16 +9,24 @@ has_availability_date: false
 has_observation_date: false
 latest_observation: null
 missingness_summary: []
-notes: No raw artifact supplied. Official-source acquisition requires manual download
-  or source-specific access; this manifest intentionally records pending status and
-  no coverage.
+notes: "[nse_nifty_50_daily] Acquisition from NSE historical data for NIFTY 50 failed:\
+  \ Automated NSE index download requires session authentication not reliably automatable\
+  \ via HTTP. Manual download required.\n\nManual download instructions:\n\nNSE Index\
+  \ 'NIFTY 50' Manual Download Instructions:\n1. Visit: https://www.nseindia.com/market-data/historical-index-data\n\
+  2. In the \"Select Index\" dropdown, choose: NIFTY 50\n3. In \"From Date\" enter\
+  \ the earliest available date\n4. In \"To Date\" enter today's date\n5. Click \"\
+  Get Data\", then \"Download CSV\"\n6. Place the downloaded file at:\n   data/raw/india/indices/nifty_50_daily.csv\n\
+  \nExpected columns (NSE format):\n  Date | Open | High | Low | Close | Shares Traded\
+  \ | Turnover (Rs. Cr)\n\nNote: NSE historical index data typically starts from:\n\
+  \  NIFTY 50: ~1999-01-04\n  NIFTY 500: ~1995-01-01\n  NIFTY BANK: ~2000-01-04\n\
+  \  NIFTY IT, PHARMA, etc.: varies\n"
 processed_path: null
 processed_sha256: null
 processing_parameters: {}
 processing_version: 1.0.0
 raw_path: null
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T16:40:58.330570+00:00'
+retrieval_timestamp: '2026-09-10T17:20:50.530670+00:00'
 row_count: null
 source_institution: NSE
 source_url: null

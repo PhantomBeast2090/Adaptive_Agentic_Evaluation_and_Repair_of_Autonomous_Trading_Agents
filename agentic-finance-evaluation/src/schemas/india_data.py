@@ -286,7 +286,7 @@ class IndianMacroRecord(BaseModel):
     but must not leak them into the agent observation.
     """
     observation_date: date
-    availability_date: date                # Release date — NEVER before obs date
+    availability_date: date                # Release date; may be timestamp-normalized
     variable: str                          # e.g. "CPI_COMBINED", "IIP", "REPO_RATE"
     value: float
     unit: Optional[str] = None            # e.g. "percent", "index_2012=100"
@@ -302,7 +302,7 @@ class IndianMacroRecord(BaseModel):
             raise ValueError(
                 f"availability_date ({self.availability_date}) must not be before "
                 f"observation_date ({self.observation_date}). "
-                f"Macro data cannot be available before the period it describes."
+                "Retrospective macro records must describe a period already ended."
             )
         return self
 
@@ -317,6 +317,8 @@ class RBIPolicyRecord(BaseModel):
     """
     observation_date: date
     availability_date: date
+    announcement_timestamp: Optional[str] = None
+    effective_timestamp: Optional[str] = None
     rate_type: str                         # e.g. "REPO", "REVERSE_REPO", "SLR", "CRR"
     rate_pct: float
     change_bps: Optional[float] = None    # Change from previous decision

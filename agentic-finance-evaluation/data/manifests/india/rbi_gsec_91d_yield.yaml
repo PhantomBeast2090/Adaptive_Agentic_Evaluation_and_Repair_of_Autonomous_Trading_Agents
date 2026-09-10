@@ -9,16 +9,27 @@ has_availability_date: false
 has_observation_date: false
 latest_observation: null
 missingness_summary: []
-notes: No raw artifact supplied. Official-source acquisition requires manual download
-  or source-specific access; this manifest intentionally records pending status and
-  no coverage.
+notes: "[rbi_gsec_91d_yield] Acquisition from RBI DBIE (91D yield) failed: DBIE automated\
+  \ fetch failed: HTTPSConnectionPool(host='dbie.rbi.org.in', port=443): Max retries\
+  \ exceeded with url: /DBIE/dbie.rbi?site=export&seriesId=BSR1:BISQ:A:A:4:0:WT.TBILL_91D&format=CSV\
+  \ (Caused by SSLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED]\
+  \ certificate verify failed: Hostname mismatch, certificate is not valid for 'dbie.rbi.org.in'.\
+  \ (_ssl.c:1081)\"))). RBI DBIE requires authenticated session or API key. Manual\
+  \ download required.\n\nManual download instructions:\n\nRBI/DBIE 91D Yield Manual\
+  \ Download:\n1. Visit: https://dbie.rbi.org.in/DBIE/dbie.rbi?site=statistics\n2.\
+  \ Navigate: Financial Markets \u2192 Government Securities Market (or Money Market\
+  \ for T-Bills)\n3. Find series for 91D yield/rate\n4. Select maximum date range\n\
+  5. Download as CSV\n6. Place at: data/raw/india/fixed_income/tbill_91d.csv\n\nAlternative\
+  \ (FBIL):\n  https://www.fbil.org.in/#/home  \u2192 Benchmark Rates \u2192 FBIL\
+  \ T-Bill Rates\n  (For T-Bills only; G-Sec rates remain from RBI/DBIE)\n\nExpected\
+  \ CSV columns:\n  Date | Yield (%) | [optional: Price, Security ID]\n"
 processed_path: null
 processed_sha256: null
 processing_parameters: {}
 processing_version: 1.0.0
 raw_path: null
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T16:40:58.333658+00:00'
+retrieval_timestamp: '2026-09-10T17:20:51.188206+00:00'
 row_count: null
 source_institution: RBI
 source_url: null

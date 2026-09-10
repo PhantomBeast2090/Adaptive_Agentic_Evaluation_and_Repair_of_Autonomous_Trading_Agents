@@ -42,3 +42,13 @@ def test_calendar_directory_combines_only_available_years(tmp_path):
     calendar = load_calendar_directory(tmp_path)
     assert calendar is not None
     assert calendar.coverage.covered_years == (2025, 2026)
+
+
+def test_calendar_reports_unavailable_year_instead_of_inventing_weekdays(tmp_path):
+    path = tmp_path / "nse_trading_holidays_2026.json"
+    path.write_text(json.dumps({"CM": [{"tradingDate": "03-Mar-2026"}]}))
+    calendar = NSETradingCalendar.from_nse_json(path)
+    frame = pd.DataFrame({"date": pd.to_datetime(["2025-01-02"])})
+    result = audit_calendar_consistency(frame, "date", calendar=calendar)
+    assert result.calendar_available is False
+    assert result.checked_against.startswith("UNAVAILABLE:")

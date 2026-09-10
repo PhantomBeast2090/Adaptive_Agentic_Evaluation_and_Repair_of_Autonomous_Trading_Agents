@@ -9,16 +9,28 @@ has_availability_date: false
 has_observation_date: false
 latest_observation: null
 missingness_summary: []
-notes: No raw artifact supplied. Official-source acquisition requires manual download
-  or source-specific access; this manifest intentionally records pending status and
-  no coverage.
+notes: "[rbi_usd_inr_daily] Acquisition from RBI Reference Rate Archive / FBIL failed:\
+  \ RBI Reference Rate Archive requires web form interaction not reliably automatable.\
+  \ FBIL may require API key. Manual download required.\n\nManual download instructions:\n\
+  \nUSD/INR Official Rate Manual Download:\n\nOption A \u2014 RBI Reference Rate Archive\
+  \ (preferred):\n  1. Visit: https://www.rbi.org.in/scripts/ReferenceRateArchive.aspx\n\
+  \  2. Select the widest available date range\n  3. Click \"Get Data\" then download/export\n\
+  \  4. Place at: data/raw/india/currency/usd_inr_daily.csv\n\nOption B \u2014 FBIL\
+  \ USD/INR:\n  1. Visit: https://www.fbil.org.in/#/home\n  2. Navigate to Benchmark\
+  \ Rates \u2192 Reference Rates\n  3. Download USD/INR Reference Rate historical\
+  \ data\n  4. Place at: data/raw/india/currency/usd_inr_daily.csv\n\nOption C \u2014\
+  \ RBI DBIE:\n  1. Visit: https://dbie.rbi.org.in/\n  2. Navigate: External Sector\
+  \ \u2192 Exchange Rates \u2192 Spot Rate (USD/INR)\n  3. Download as CSV\n  4. Place\
+  \ at: data/raw/india/currency/usd_inr_daily.csv\n\nExpected minimum columns:\n \
+  \ Date | USD/INR (INR per 1 USD)\n\nNote: This MUST be the official RBI/FBIL reference\
+  \ rate.\nDo NOT use retail/commercial bank rates or Yahoo Finance as primary source.\n"
 processed_path: null
 processed_sha256: null
 processing_parameters: {}
 processing_version: 1.0.0
 raw_path: null
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T16:40:58.332127+00:00'
+retrieval_timestamp: '2026-09-10T17:20:50.736121+00:00'
 row_count: null
 source_institution: RBI
 source_url: null

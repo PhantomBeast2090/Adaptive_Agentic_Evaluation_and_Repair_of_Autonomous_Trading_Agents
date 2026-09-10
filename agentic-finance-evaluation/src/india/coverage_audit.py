@@ -100,6 +100,8 @@ class IntersectionResult:
     jointly_usable_dates: List[date] = field(default_factory=list)
     limiting_datasets: List[str] = field(default_factory=list)
     notes: List[str] = field(default_factory=list)
+    status: str = "COMPUTABLE_COMMON_INTERSECTION"
+    missing_mandatory_datasets: List[str] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -385,6 +387,7 @@ class CoverageAuditor:
         max_gap_days: int = 10,
         is_trading_day_data: bool = False,
         has_availability_date: bool = False,
+        allow_pre_observation: bool = False,
         observation_col: str = "observation_date",
         availability_col: str = "availability_date",
         calendar: Optional[NSETradingCalendar] = None,
@@ -404,7 +407,7 @@ class CoverageAuditor:
         availability_result = None
         if has_availability_date:
             availability_result = audit_availability_consistency(
-                df, observation_col, availability_col
+                df, observation_col, availability_col, allow_pre_observation
             )
 
         notes = []
@@ -446,13 +449,59 @@ class CoverageAuditor:
             .dropna()
             .dt.date
         )
-        usable_dates = observed_dates
-        if has_availability_date and session_dates is not None:
+        valid_rows = df.copy()
+        if required_fields:
+            present_fields = [field for field in required_fields if field in valid_rows]
+            if present_fields:
+                valid_rows = valid_rows.dropna(subset=present_fields)
+            else:
+                valid_rows = valid_rows.iloc[0:0]
+        valid_observed_dates = set(
+            pd.Series(
+                pd.to_datetime(
+                    valid_rows[date_col] if date_col else valid_rows.index
+                )
+            ).dropna().dt.date
+        )
+        usable_dates = valid_observed_dates
+        if is_trading_day_data and (
+            calendar is None or calendar_result is None or not calendar_result.calendar_available
+        ):
             usable_dates = set()
-            available = pd.to_datetime(df[availability_col], errors="coerce")
-            for session in session_dates:
-                if (available.dt.date <= session).any():
-                    usable_dates.add(session)
+        if is_trading_day_data and calendar_result and calendar_result.calendar_available:
+            usable_dates = {
+                value for value in usable_dates if calendar.is_trading_day(value)
+            }
+        if has_availability_date:
+            if availability_col not in df.columns:
+                usable_dates = set()
+            elif session_dates is not None:
+                available = pd.to_datetime(
+                    valid_rows[availability_col], errors="coerce"
+                ).dropna()
+                if is_trading_day_data:
+                    candidate_sessions = {
+                        session for session in session_dates
+                        if calendar is not None and calendar.is_trading_day(session)
+                    }
+                    observed_by_session = valid_observed_dates
+                    usable_dates = {
+                        session
+                        for session in candidate_sessions
+                        if session in observed_by_session
+                        and (available.dt.date <= session).any()
+                    }
+                else:
+                    usable_dates = {
+                        session
+                        for session in session_dates
+                        if (available.dt.date <= session).any()
+                    }
+            else:
+                usable_dates = {
+                    value for value in valid_observed_dates
+                    if (pd.to_datetime(valid_rows[availability_col], errors="coerce").dt.date <= value).any()
+                }
         self._usable_dates[dataset_id] = usable_dates
         return result
 
@@ -460,6 +509,7 @@ class CoverageAuditor:
         self,
         mandatory_datasets: Optional[List[str]] = None,
         min_coverage_days: int = 365,
+        eligible_datasets: Optional[Set[str]] = None,
     ) -> IntersectionResult:
         """Compute the longest clean common date range.
 
@@ -475,6 +525,39 @@ class CoverageAuditor:
         """
         if mandatory_datasets is None:
             mandatory_datasets = list(self._dataset_coverages.keys())
+        mandatory_datasets = list(dict.fromkeys(mandatory_datasets))
+        missing = [
+            dataset_id for dataset_id in mandatory_datasets
+            if dataset_id not in self._dataset_coverages
+        ]
+        ineligible = [
+            dataset_id for dataset_id in mandatory_datasets
+            if eligible_datasets is not None and dataset_id not in eligible_datasets
+        ]
+        missing_or_ineligible = sorted(set(missing + ineligible))
+        if missing_or_ineligible:
+            reasons = {
+                dataset_id: (
+                    "Dataset not audited — no coverage data available."
+                    if dataset_id in missing
+                    else "Dataset is not experiment-eligible."
+                )
+                for dataset_id in missing_or_ineligible
+            }
+            return IntersectionResult(
+                included_datasets=[],
+                excluded_datasets=missing_or_ineligible,
+                exclusion_reasons=reasons,
+                earliest_common=None,
+                latest_common=None,
+                total_common_days=0,
+                notes=[
+                    "INCOMPLETE_DATASET_SET: the full mandatory dataset set is "
+                    "not present and eligible; common intersection is not computable."
+                ],
+                status="INCOMPLETE_DATASET_SET",
+                missing_mandatory_datasets=missing_or_ineligible,
+            )
 
         included: List[str] = []
         excluded: List[str] = []
@@ -507,6 +590,23 @@ class CoverageAuditor:
 
         notes: List[str] = []
 
+        if excluded:
+            notes.append(
+                "INCOMPLETE_DATASET_SET: one or more mandatory datasets lack "
+                "sufficient usable coverage; common intersection is not computable."
+            )
+            return IntersectionResult(
+                included_datasets=included,
+                excluded_datasets=excluded,
+                exclusion_reasons=exclusion_reasons,
+                earliest_common=None,
+                latest_common=None,
+                total_common_days=0,
+                notes=notes,
+                status="INCOMPLETE_DATASET_SET",
+                missing_mandatory_datasets=excluded,
+            )
+
         if not included:
             notes.append("No datasets with sufficient coverage — cannot compute intersection.")
             return IntersectionResult(
@@ -517,6 +617,7 @@ class CoverageAuditor:
                 latest_common=None,
                 total_common_days=0,
                 notes=notes,
+                status="COMPUTABLE_COMMON_INTERSECTION",
             )
 
         usable_sets = [self._usable_dates[ds_id] for ds_id in included]
@@ -539,6 +640,7 @@ class CoverageAuditor:
                 jointly_usable_dates=[],
                 limiting_datasets=included,
                 notes=notes,
+                status="COMPUTABLE_COMMON_INTERSECTION",
             )
 
         total_days = len(common_dates)
@@ -569,6 +671,7 @@ class CoverageAuditor:
             jointly_usable_dates=sorted(common_dates),
             limiting_datasets=limiting,
             notes=notes,
+            status="COMPUTABLE_COMMON_INTERSECTION",
         )
 
     def get_individual_coverages(self) -> Dict[str, Tuple[Optional[date], Optional[date]]]:

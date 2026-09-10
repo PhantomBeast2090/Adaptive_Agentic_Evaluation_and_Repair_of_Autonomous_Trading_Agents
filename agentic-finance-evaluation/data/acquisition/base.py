@@ -28,6 +28,7 @@ from src.schemas.india_data import (
     DataFrequency,
     DataTier,
     ValidationStatus,
+    EligibilityStatus,
 )
 
 logger = logging.getLogger(__name__)
@@ -201,6 +202,11 @@ class BaseAdapter(ABC):
             has_observation_date=metadata["has_observation_date"],
             has_availability_date=metadata["has_availability_date"],
             notes=notes,
+            eligibility_status=(
+                EligibilityStatus.VALIDATED
+                if val_status == ValidationStatus.PASSED
+                else EligibilityStatus.BLOCKED
+            ),
         )
 
         if val_status == ValidationStatus.FAILED:
@@ -266,6 +272,7 @@ class BaseAdapter(ABC):
             source_url=getattr(self, "source_url", None),
             acquisition_status=status,
             validation_status=ValidationStatus.PENDING,
+            eligibility_status=EligibilityStatus.ACQUISITION_PENDING,
             notes=notes,
         )
 

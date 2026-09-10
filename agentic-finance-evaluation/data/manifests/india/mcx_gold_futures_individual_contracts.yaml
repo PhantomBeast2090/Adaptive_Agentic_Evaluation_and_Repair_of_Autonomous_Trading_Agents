@@ -9,16 +9,30 @@ has_availability_date: false
 has_observation_date: false
 latest_observation: null
 missingness_summary: []
-notes: No raw artifact supplied. Official-source acquisition requires manual download
-  or source-specific access; this manifest intentionally records pending status and
-  no coverage.
+notes: "[mcx_gold_futures_individual_contracts] Acquisition from MCX Historical Data\
+  \ failed: No MCX gold futures CSV files found in data/raw/india/gold/. MCX requires\
+  \ individual contract downloads per month/year via their website. Automated bulk\
+  \ download is not available without a data vendor subscription.\n\nManual download\
+  \ instructions:\n\nMCX Gold Futures Manual Download Instructions:\n\nFor EACH contract\
+  \ month:\n1. Visit: https://www.mcxindia.com/market-data/historical-data\n2. Select:\
+  \ Commodity = GOLD (or GOLDM for mini)\n3. In the contract dropdown, select a specific\
+  \ month/year\n4. Set date range = contract full trading period\n5. Click \"Get Data\"\
+  \ \u2192 Download as CSV\n6. Name the file: mcx_gold_<CONTRACTSYMBOL>.csv\n   Example:\
+  \ mcx_gold_GOLDFEB2024.csv\n7. Place at: data/raw/india/gold/\n\nRepeat for all\
+  \ contracts in the desired history window.\n\nFor bulk historical data (alternative):\n\
+  \  MCX data vendor services may provide bulk downloads.\n  Quantsapp, Traders Carnival,\
+  \ NSE Data Analytics may have MCX data.\n  If using a secondary source, document\
+  \ it in the manifest.\n\nExpected CSV columns per file:\n  Date | Open | High |\
+  \ Low | Close | Volume | Open Interest | Value (Lakhs)\n  [optional: Expiry Date\
+  \ | Contract Symbol]\n\nIMPORTANT: Each file = one contract. Do NOT manually concatenate\
+  \ contracts.\nThe roll methodology will be designed separately after coverage audit.\n"
 processed_path: null
 processed_sha256: null
 processing_parameters: {}
 processing_version: 1.0.0
 raw_path: null
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T16:40:58.335690+00:00'
+retrieval_timestamp: '2026-09-10T17:20:51.348130+00:00'
 row_count: null
 source_institution: MCX
 source_url: null

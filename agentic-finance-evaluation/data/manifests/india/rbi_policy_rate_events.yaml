@@ -9,16 +9,29 @@ has_availability_date: false
 has_observation_date: false
 latest_observation: null
 missingness_summary: []
-notes: No raw artifact supplied. Official-source acquisition requires manual download
-  or source-specific access; this manifest intentionally records pending status and
-  no coverage.
+notes: "[rbi_policy_rate_events] Acquisition from RBI DBIE / RBI website failed: RBI\
+  \ policy rate data requires web navigation through DBIE. Manual download is required\
+  \ to ensure accurate announcement dates are captured (not just effective dates).\n\
+  \nManual download instructions:\n\nRBI Policy Rate Manual Download:\n\nOption A\
+  \ \u2014 RBI DBIE (preferred):\n  1. Visit: https://dbie.rbi.org.in/\n  2. Navigate:\
+  \ Financial Sector \u2192 Monetary Policy \u2192 Key Policy Rates\n  3. Select:\
+  \ Repo Rate (and optionally: Reverse Repo, MSF Rate, CRR, SLR)\n  4. Download as\
+  \ CSV\n  5. Place at: data/raw/india/macro/rbi_policy_rate.csv\n\nOption B \u2014\
+  \ RBI Handbook of Statistics:\n  1. Visit: https://www.rbi.org.in/Scripts/AnnualPublications.aspx?head=Handbook+of+Statistics+on+Indian+Economy\n\
+  \  2. Find the monetary policy table\n  3. Download relevant tables\n\nCRITICAL:\
+  \ Each record must include:\n  - effective_date (when rate took effect)\n  - announcement_date\
+  \ (when RBI published the decision)\n  - rate_type (e.g. REPO, REVERSE_REPO, MSF)\n\
+  \  - rate_pct (rate in percentage, e.g. 6.5)\n  - [optional] stance (accommodative,\
+  \ neutral, withdrawal of accommodation)\n\nIf the source only provides effective\
+  \ dates, record both effective_date and\nannouncement_date as the same value and\
+  \ flag in notes that announcement dates\nwere not separately captured.\n"
 processed_path: null
 processed_sha256: null
 processing_parameters: {}
 processing_version: 1.0.0
 raw_path: null
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T16:40:58.332604+00:00'
+retrieval_timestamp: '2026-09-10T17:20:51.342449+00:00'
 row_count: null
 source_institution: RBI
 source_url: null

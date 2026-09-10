@@ -37,7 +37,7 @@ class DatasetQualityGate:
         temporal_valid: bool = True,
         calendar_valid: bool = True,
         required_fields_valid: bool = True,
-        information_available: bool = True,
+        information_available: Optional[bool] = None,
     ) -> QualityGateResult:
         failures: List[str] = []
         if manifest.acquisition_status != AcquisitionStatus.ACQUIRED:
@@ -54,12 +54,24 @@ class DatasetQualityGate:
             failures.append("CALENDAR_VALID")
         if not required_fields_valid:
             failures.append("REQUIRED_FIELDS_VALID")
-        if not information_available:
+        if information_available is False or (
+            information_available is None
+            and manifest.asset_class in {"macro", "policy"}
+        ):
             failures.append("INFORMATION_AVAILABILITY_VALID")
-        if leakage_report is not None and not leakage_report.is_clean:
+        if leakage_report is None:
+            failures.append("LEAKAGE_AUDIT_EVALUATED")
+        elif not leakage_report.is_clean:
             failures.append("LEAKAGE_AUDIT_CLEAN")
-        return QualityGateResult(
+        result = QualityGateResult(
             dataset_id=manifest.dataset_id,
             eligible=not failures,
             failed_gates=failures,
         )
+        manifest.eligibility_status = (
+            EligibilityStatus.EXPERIMENT_ELIGIBLE
+            if result.eligible
+            else EligibilityStatus.BLOCKED
+        )
+        self.manifest_manager._persist(manifest)
+        return result

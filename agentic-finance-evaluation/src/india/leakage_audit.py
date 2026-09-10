@@ -45,13 +45,20 @@ class LeakageReport:
     potential_leaks: List[LeakageViolation]
     mitigated: List[LeakageViolation]
     unresolved: List[LeakageViolation]
+    validation_status: str = "EVALUATED"
+    datasets_checked: List[str] = field(default_factory=list)
 
     @property
     def is_clean(self) -> bool:
-        return len(self.confirmed_leaks) == 0 and len(self.unresolved) == 0
+        return (
+            self.validation_status == "EVALUATED"
+            and len(self.confirmed_leaks) == 0
+            and len(self.unresolved) == 0
+        )
 
     def summary(self) -> str:
         lines = [
+            f"Leakage validation status: {self.validation_status}",
             f"Confirmed leaks:  {len(self.confirmed_leaks)}",
             f"Potential leaks:  {len(self.potential_leaks)}",
             f"Mitigated issues: {len(self.mitigated)}",
@@ -195,6 +202,43 @@ class LeakageAuditor:
                     for _, row in bad_rows.iterrows()
                 ],
             ))
+        return violations
+
+    def check_policy_event_availability(
+        self,
+        df: pd.DataFrame,
+        announcement_col: str = "announcement_timestamp",
+        effective_col: str = "effective_timestamp",
+        availability_col: str = "availability_date",
+    ) -> List[LeakageViolation]:
+        """Validate RBI event timing without retrospective macro rules."""
+        if availability_col not in df.columns:
+            return [LeakageViolation(
+                "MISSING_POLICY_ANNOUNCEMENT_DATE",
+                "UNRESOLVED",
+                "Policy events lack an availability/announcement date.",
+            )]
+        availability = pd.to_datetime(df[availability_col], errors="coerce")
+        violations: List[LeakageViolation] = []
+        missing = availability.isna()
+        if missing.any():
+            violations.append(LeakageViolation(
+                "MISSING_POLICY_ANNOUNCEMENT_DATE",
+                "UNRESOLVED",
+                "Policy events contain rows without a reliable announcement date.",
+                affected_rows=int(missing.sum()),
+            ))
+        if announcement_col in df.columns and effective_col in df.columns:
+            announcement = pd.to_datetime(df[announcement_col], errors="coerce")
+            effective = pd.to_datetime(df[effective_col], errors="coerce")
+            bad = announcement.notna() & effective.notna() & (announcement > effective)
+            if bad.any():
+                violations.append(LeakageViolation(
+                    "POLICY_ANNOUNCEMENT_AFTER_EFFECTIVE",
+                    "CONFIRMED",
+                    "A policy event is effective before its public announcement.",
+                    affected_rows=int(bad.sum()),
+                ))
         return violations
 
     def check_information_as_of(
@@ -430,16 +474,19 @@ class LeakageAuditor:
         self,
         price_df: Optional[pd.DataFrame] = None,
         macro_df: Optional[pd.DataFrame] = None,
+        policy_df: Optional[pd.DataFrame] = None,
         gold_contracts_df: Optional[pd.DataFrame] = None,
         splits_dict: Optional[Dict[str, Tuple[date, date]]] = None,
         corporate_actions_df: Optional[pd.DataFrame] = None,
         processing_parameters: Optional[Dict[str, Any]] = None,
+        dataset_names: Optional[List[str]] = None,
     ) -> LeakageReport:
         """Run all applicable leakage checks and return a consolidated report."""
         confirmed: List[LeakageViolation] = []
         potential: List[LeakageViolation] = []
         mitigated: List[LeakageViolation] = []
         unresolved: List[LeakageViolation] = []
+        checked: List[str] = list(dataset_names or [])
 
         def _classify(violations: List[LeakageViolation]):
             for v in violations:
@@ -453,23 +500,33 @@ class LeakageAuditor:
                     unresolved.append(v)
 
         if price_df is not None:
+            checked.append("price")
             _classify(self.check_future_price_leakage(price_df))
 
         if macro_df is not None:
+            checked.append("macro")
             _classify(self.check_macro_availability_leakage(macro_df))
 
+        if policy_df is not None:
+            checked.append("policy")
+            _classify(self.check_policy_event_availability(policy_df))
+
         if gold_contracts_df is not None:
+            checked.append("gold")
             _classify(self.check_gold_roll_leakage(gold_contracts_df))
 
         if splits_dict is not None:
+            checked.append("splits")
             _classify(self.check_split_contamination(splits_dict))
 
         if price_df is not None:
+            checked.append("corporate_actions")
             _classify(self.check_corporate_action_leakage(
                 price_df, corporate_actions_df
             ))
 
         if processing_parameters is not None:
+            checked.append("preprocessing")
             _classify(self.check_processing_leakage(processing_parameters))
 
         return LeakageReport(
@@ -477,4 +534,6 @@ class LeakageAuditor:
             potential_leaks=potential,
             mitigated=mitigated,
             unresolved=unresolved,
+            validation_status="EVALUATED" if checked else "NOT_EVALUABLE",
+            datasets_checked=sorted(set(checked)),
         )
