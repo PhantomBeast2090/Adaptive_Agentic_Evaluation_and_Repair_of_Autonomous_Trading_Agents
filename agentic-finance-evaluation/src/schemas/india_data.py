@@ -317,12 +317,10 @@ class RBIPolicyRecord(BaseModel):
     notes: Optional[str] = None
 
     @model_validator(mode="after")
-    def availability_must_not_precede_observation(self):
-        if self.availability_date < self.observation_date:
-            raise ValueError(
-                f"availability_date ({self.availability_date}) must not be before "
-                f"observation_date ({self.observation_date})."
-            )
+    def validate_policy_dates(self):
+        # An MPC announcement can precede the effective date.  Policy data
+        # therefore preserves both dates rather than applying the macro rule
+        # used for retrospective CPI/IIP observations.
         return self
 
 

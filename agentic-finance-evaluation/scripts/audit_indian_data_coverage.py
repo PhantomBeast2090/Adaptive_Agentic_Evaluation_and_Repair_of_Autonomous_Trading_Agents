@@ -24,6 +24,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.india.coverage_audit import CoverageAuditor
+from src.india.calendar import load_calendar
 from src.india.leakage_audit import LeakageAuditor
 
 
@@ -36,6 +37,13 @@ def _read_table(path: Path) -> pd.DataFrame:
     if suffix == ".json":
         with path.open() as handle:
             payload = json.load(handle)
+        if isinstance(payload, dict) and "CBM" in payload:
+            records = [
+                record
+                for record in payload["CBM"]
+                if isinstance(record, dict)
+            ]
+            return pd.DataFrame(records)
         return pd.DataFrame(payload)
     if suffix == ".txt":
         csv_paths = []
@@ -56,6 +64,7 @@ def _date_column(df: pd.DataFrame) -> Optional[str]:
         "observation_date",
         "timestamp",
         "datetime",
+        "tradingDate",
     ):
         if candidate in df.columns:
             return candidate
@@ -116,6 +125,9 @@ def _markdown_result(result: Any) -> list[str]:
 def run_audit(base_dir: Path) -> str:
     manifest_dir = base_dir / "data" / "manifests" / "india"
     auditor = CoverageAuditor()
+    calendar = load_calendar(
+        base_dir / "data" / "raw" / "india" / "indices" / "nse_trading_holidays_2026.json"
+    )
     acquired: list[dict[str, Any]] = []
     pending: list[dict[str, Any]] = []
     errors: list[str] = []
@@ -155,7 +167,7 @@ def run_audit(base_dir: Path) -> str:
         frequency = str(manifest.get("frequency", "")).lower()
         frequency = frequency.rsplit(".", 1)[-1]
         frequency = {"daily": "daily", "monthly": "monthly"}.get(frequency)
-        is_trading = manifest.get("asset_class") not in {"macro", "policy"}
+        is_trading = manifest.get("asset_class") not in {"macro", "policy", "calendar"}
         result = auditor.audit_dataset(
             dataset_id=dataset_id,
             df=df,
@@ -164,10 +176,18 @@ def run_audit(base_dir: Path) -> str:
             expected_frequency=frequency,
             is_trading_day_data=is_trading,
             has_availability_date=bool(manifest.get("has_availability_date")),
+            calendar=calendar,
         )
         acquired.append({"manifest": manifest, "result": result})
 
-    intersection = auditor.compute_common_intersection()
+    mandatory = [
+        item["manifest"]["dataset_id"]
+        for item in acquired
+        if item["manifest"].get("asset_class") != "calendar"
+    ]
+    intersection = auditor.compute_common_intersection(
+        mandatory_datasets=mandatory or None
+    )
     leakage = LeakageAuditor().audit_all()
     lines = [
         "# Indian Data Coverage Audit",
@@ -178,6 +198,8 @@ def run_audit(base_dir: Path) -> str:
         "## 1. Acquisition status",
         "",
         f"- Acquired and auditable datasets: **{len(acquired)}**",
+        f"- Acquired mandatory market/macro datasets: **{sum(item['manifest'].get('asset_class') != 'calendar' for item in acquired)}**",
+        f"- Acquired support/calendar artifacts: **{sum(item['manifest'].get('asset_class') == 'calendar' for item in acquired)}**",
         f"- Pending/unavailable datasets: **{len(pending)}**",
         f"- Artifact read errors: **{len(errors)}**",
     ]
@@ -201,6 +223,11 @@ def run_audit(base_dir: Path) -> str:
     lines.extend(["", "## 2. Dataset-by-dataset coverage", ""])
     if acquired:
         for item in acquired:
+            manifest = item["manifest"]
+            lines.extend([
+                f"- Source: `{manifest.get('source_institution', 'unknown')}`",
+                f"- Raw SHA-256: `{manifest.get('raw_sha256', 'not recorded')}`",
+            ])
             lines.extend(_markdown_result(item["result"]))
             lines.append("")
     else:
@@ -219,8 +246,9 @@ def run_audit(base_dir: Path) -> str:
             "",
             "## 5. Calendar analysis",
             "",
-            "Trading-day checks use a documented lightweight weekday/holiday heuristic. "
-            "They are not a substitute for an official NSE holiday calendar.",
+            "Trading-day checks use the versioned NSE holiday artifact when its "
+            "coverage includes the audited years. Years outside that artifact are "
+            "reported as calendar-unavailable rather than inferred from weekdays.",
             "",
             "## 6. Information-availability analysis",
             "",
@@ -234,6 +262,8 @@ def run_audit(base_dir: Path) -> str:
             f"- Calendar duration: {intersection.total_common_days} days",
             f"- Datasets included: {', '.join(intersection.included_datasets) or 'none'}",
             f"- Datasets excluded: {', '.join(intersection.excluded_datasets) or 'none'}",
+            f"- Jointly usable sessions: {intersection.total_common_days}",
+            f"- Limiting datasets: {', '.join(intersection.limiting_datasets) or 'none'}",
         ]
     )
     if intersection.exclusion_reasons:

@@ -223,6 +223,29 @@ class ManifestManager:
                 errors.append("Acquired dataset must have latest_observation.")
             if manifest.row_count is None:
                 errors.append("Acquired dataset must have row_count.")
+            if manifest.source_institution.strip() == "":
+                errors.append("Acquired dataset must identify its source institution.")
+            if not manifest.source_url and not manifest.notes:
+                errors.append(
+                    "Acquired dataset must provide a source URL or provenance notes."
+                )
+            if manifest.raw_path:
+                raw = self._resolve_path(manifest.raw_path)
+                if not raw.exists():
+                    errors.append(f"Acquired raw artifact does not exist: {raw}")
+                elif manifest.raw_sha256:
+                    actual_hash = self.compute_sha256(str(raw))
+                    if actual_hash != manifest.raw_sha256:
+                        errors.append(
+                            f"Raw SHA-256 mismatch: manifest={manifest.raw_sha256}, "
+                            f"actual={actual_hash}."
+                        )
+            if manifest.processed_path and manifest.processed_sha256:
+                processed = self._resolve_path(manifest.processed_path)
+                if not processed.exists():
+                    errors.append(f"Processed artifact does not exist: {processed}")
+                elif self.compute_sha256(str(processed)) != manifest.processed_sha256:
+                    errors.append("Processed SHA-256 does not match the artifact.")
 
         # Macro / policy data must have availability_date
         if manifest.has_observation_date and not manifest.has_availability_date:

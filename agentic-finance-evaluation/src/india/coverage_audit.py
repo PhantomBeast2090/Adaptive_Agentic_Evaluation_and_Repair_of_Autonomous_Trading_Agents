@@ -22,6 +22,7 @@ from typing import Any, Dict, List, Optional, Set, Tuple
 
 import pandas as pd
 
+from src.india.calendar import NSETradingCalendar
 
 # ---------------------------------------------------------------------------
 # Result dataclasses
@@ -64,6 +65,8 @@ class CalendarConsistencyResult:
     non_trading_day_observations: int         # Obs on days that should be holidays/weekends
     missing_trading_days: int                 # Expected trading days with no observation
     checked_against: str                      # e.g. "NSE_TRADING_CALENDAR", "WEEKDAY_ONLY"
+    missing_dates: List[date] = field(default_factory=list)
+    calendar_available: bool = True
 
 
 @dataclass
@@ -94,42 +97,25 @@ class IntersectionResult:
     earliest_common: Optional[date]
     latest_common: Optional[date]
     total_common_days: int
+    jointly_usable_dates: List[date] = field(default_factory=list)
+    limiting_datasets: List[str] = field(default_factory=list)
     notes: List[str] = field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
-# Indian Trading Calendar (lightweight — no external dependency)
+# Calendar compatibility helpers
 # ---------------------------------------------------------------------------
 
 # NSE is closed on these national holidays (approximate recurring set).
 # For a production system, use pandas_market_calendars or an official NSE
 # holiday list. Here we use a lightweight rule-based approach.
-_KNOWN_NSE_ANNUAL_HOLIDAYS = {
-    # (month, day) tuples for fixed-date holidays
-    (1, 26),   # Republic Day
-    (8, 15),   # Independence Day
-    (10, 2),   # Gandhi Jayanti
-    (11, 1),   # Diwali (approximate — actually lunar, varies)
-    (12, 25),  # Christmas
-}
-
-
 def is_likely_indian_trading_day(d: date) -> bool:
-    """Heuristic: is this likely an NSE trading day?
-
-    Uses weekday rule + known fixed holidays.
-    Does NOT account for state-specific or lunar holidays.
-    For a production system use the official NSE holiday list.
-    """
-    if d.weekday() >= 5:  # Saturday=5, Sunday=6
-        return False
-    if (d.month, d.day) in _KNOWN_NSE_ANNUAL_HOLIDAYS:
-        return False
-    return True
+    """Compatibility weekday-only predicate; not research-grade calendar data."""
+    return d.weekday() < 5
 
 
 def expected_trading_days(start: date, end: date) -> Set[date]:
-    """Return the set of expected NSE trading days in [start, end]."""
+    """Return weekday candidates for backwards compatibility only."""
     days: Set[date] = set()
     current = start
     while current <= end:
@@ -275,6 +261,7 @@ def audit_calendar_consistency(
     df: pd.DataFrame,
     date_col: Optional[str] = None,
     calendar_type: str = "NSE_TRADING",
+    calendar: Optional[NSETradingCalendar] = None,
 ) -> CalendarConsistencyResult:
     """Check alignment with Indian trading calendar.
 
@@ -292,15 +279,33 @@ def audit_calendar_consistency(
 
     start = min(dates)
     end = max(dates)
-    expected = expected_trading_days(start, end)
-
-    non_trading = sum(1 for d in dates if not is_likely_indian_trading_day(d))
-    missing = len(expected - dates)
+    if calendar is None:
+        return CalendarConsistencyResult(
+            non_trading_day_observations=sum(d.weekday() >= 5 for d in dates),
+            missing_trading_days=0,
+            checked_against="UNAVAILABLE",
+            missing_dates=[],
+            calendar_available=False,
+        )
+    try:
+        expected = calendar.trading_days(start, end)
+    except ValueError:
+        return CalendarConsistencyResult(
+            non_trading_day_observations=sum(d.weekday() >= 5 for d in dates),
+            missing_trading_days=0,
+            checked_against=f"UNAVAILABLE:{calendar.coverage.version}",
+            missing_dates=[],
+            calendar_available=False,
+        )
+    non_trading = sum(not calendar.is_trading_day(d) for d in dates)
+    missing_dates = sorted(expected - dates)
 
     return CalendarConsistencyResult(
         non_trading_day_observations=non_trading,
-        missing_trading_days=missing,
-        checked_against=calendar_type,
+        missing_trading_days=len(missing_dates),
+        checked_against=f"{calendar_type}:{calendar.coverage.version}",
+        missing_dates=missing_dates,
+        calendar_available=True,
     )
 
 
@@ -308,8 +313,13 @@ def audit_availability_consistency(
     df: pd.DataFrame,
     observation_col: str = "observation_date",
     availability_col: str = "availability_date",
+    allow_pre_observation: bool = False,
 ) -> AvailabilityConsistencyResult:
-    """Verify that availability_date >= observation_date for all macro records."""
+    """Verify release timing for retrospective macro records.
+
+    Policy events may legitimately be announced before their effective
+    observation date; callers can opt into that semantics explicitly.
+    """
     total = len(df)
     if observation_col not in df.columns or availability_col not in df.columns:
         return AvailabilityConsistencyResult(
@@ -320,7 +330,7 @@ def audit_availability_consistency(
 
     obs = pd.to_datetime(df[observation_col])
     avail = pd.to_datetime(df[availability_col])
-    bad_mask = avail < obs
+    bad_mask = avail < obs if not allow_pre_observation else pd.Series(False, index=df.index)
 
     violations = int(bad_mask.sum())
     examples = []
@@ -361,6 +371,7 @@ class CoverageAuditor:
 
     def __init__(self):
         self._dataset_coverages: Dict[str, Tuple[Optional[date], Optional[date]]] = {}
+        self._usable_dates: Dict[str, Set[date]] = {}
         self._audit_results: Dict[str, DatasetAuditResult] = {}
 
     def audit_dataset(
@@ -376,6 +387,8 @@ class CoverageAuditor:
         has_availability_date: bool = False,
         observation_col: str = "observation_date",
         availability_col: str = "availability_date",
+        calendar: Optional[NSETradingCalendar] = None,
+        session_dates: Optional[Set[date]] = None,
     ) -> DatasetAuditResult:
         """Run the full audit suite for one dataset."""
         temporal = audit_temporal_coverage(df, date_col, identifier_cols)
@@ -386,7 +399,7 @@ class CoverageAuditor:
 
         calendar_result = None
         if is_trading_day_data and temporal.earliest and temporal.latest:
-            calendar_result = audit_calendar_consistency(df, date_col)
+            calendar_result = audit_calendar_consistency(df, date_col, calendar=calendar)
 
         availability_result = None
         if has_availability_date:
@@ -423,6 +436,19 @@ class CoverageAuditor:
 
         self._audit_results[dataset_id] = result
         self._dataset_coverages[dataset_id] = (temporal.earliest, temporal.latest)
+        observed_dates = set(
+            pd.to_datetime(df[date_col] if date_col else df.index)
+            .dropna()
+            .dt.date
+        )
+        usable_dates = observed_dates
+        if has_availability_date and session_dates is not None:
+            usable_dates = set()
+            available = pd.to_datetime(df[availability_col], errors="coerce")
+            for session in session_dates:
+                if (available.dt.date <= session).any():
+                    usable_dates.add(session)
+        self._usable_dates[dataset_id] = usable_dates
         return result
 
     def compute_common_intersection(
@@ -449,9 +475,6 @@ class CoverageAuditor:
         excluded: List[str] = []
         exclusion_reasons: Dict[str, str] = {}
 
-        candidate_starts: List[date] = []
-        candidate_ends: List[date] = []
-
         for ds_id in mandatory_datasets:
             if ds_id not in self._dataset_coverages:
                 excluded.append(ds_id)
@@ -464,18 +487,18 @@ class CoverageAuditor:
                 exclusion_reasons[ds_id] = "Dataset has no valid dates — possibly empty or not acquired."
                 continue
 
+            usable = self._usable_dates.get(ds_id, set())
             days = (latest - earliest).days
-            if days < min_coverage_days:
+            if len(usable) < min_coverage_days:
                 excluded.append(ds_id)
                 exclusion_reasons[ds_id] = (
-                    f"Coverage too short: {days} days < min {min_coverage_days} days "
+                    f"Coverage too short: {len(usable)} usable sessions < min "
+                    f"{min_coverage_days} "
                     f"({earliest} to {latest})."
                 )
                 continue
 
             included.append(ds_id)
-            candidate_starts.append(earliest)
-            candidate_ends.append(latest)
 
         notes: List[str] = []
 
@@ -491,11 +514,12 @@ class CoverageAuditor:
                 notes=notes,
             )
 
-        # Common intersection = latest start → earliest end
-        common_start = max(candidate_starts)
-        common_end = min(candidate_ends)
+        usable_sets = [self._usable_dates[ds_id] for ds_id in included]
+        common_dates = set.intersection(*usable_sets) if usable_sets else set()
+        common_start = min(common_dates) if common_dates else None
+        common_end = max(common_dates) if common_dates else None
 
-        if common_start > common_end:
+        if not common_dates:
             notes.append(
                 "WARNING: No common overlap exists among included datasets. "
                 "The included datasets do not share any date range."
@@ -507,13 +531,22 @@ class CoverageAuditor:
                 earliest_common=None,
                 latest_common=None,
                 total_common_days=0,
+                jointly_usable_dates=[],
+                limiting_datasets=included,
                 notes=notes,
             )
 
-        total_days = (common_end - common_start).days + 1
+        total_days = len(common_dates)
+        limiting = [
+            dataset_id
+            for dataset_id in included
+            if len(self._usable_dates[dataset_id]) == min(
+                len(self._usable_dates[item]) for item in included
+            )
+        ]
         notes.append(
             f"Common intersection: {common_start} → {common_end} "
-            f"({total_days} calendar days, {len(included)} datasets)."
+            f"({total_days} jointly usable sessions, {len(included)} datasets)."
         )
         notes.append(
             "NOTE: Final experiment splits must be chosen based on further "
@@ -528,6 +561,8 @@ class CoverageAuditor:
             earliest_common=common_start,
             latest_common=common_end,
             total_common_days=total_days,
+            jointly_usable_dates=sorted(common_dates),
+            limiting_datasets=limiting,
             notes=notes,
         )
 

@@ -29,3 +29,12 @@ See `docs/PHASE1_AUDIT.md` for the current environment contract, information
 boundary, reproducibility notes, and known limitations.
 See `docs/ENVIRONMENT_CONTRACT.md` for the frozen Phase 1.5 environment
 semantics that Phase 2 should depend on.
+
+## Indian data foundation
+
+The Indian multi-asset foundation is additive and separate from the legacy
+US-market environment. Use `configs/india_data.yaml` and the acquisition
+adapters under `data/acquisition/`. The legacy `configs/env.yaml` is marked
+`legacy_us_only` and its ingestion path is disabled by default. Do not select
+temporal experiment dates until `INDIAN_DATA_COVERAGE_AUDIT.md` contains actual
+acquired-data coverage and a reviewed common usable intersection.

@@ -49,6 +49,12 @@ def main():
     
     env_config = load_config(env_config_path)
     exp_config = load_config(exp_config_path)
+
+    if not env_config.get("allow_legacy_us_ingestion", False):
+        raise RuntimeError(
+            "Legacy US ingestion is disabled. Use the Indian data foundation "
+            "and a reviewed, empirically derived split configuration instead."
+        )
     
     tickers = env_config['market']['tickers']
     start_date = env_config['market']['start_date']

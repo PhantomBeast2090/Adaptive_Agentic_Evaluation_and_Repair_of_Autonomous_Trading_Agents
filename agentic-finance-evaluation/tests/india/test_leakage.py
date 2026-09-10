@@ -39,6 +39,29 @@ def test_gold_contract_data_without_roll_is_mitigated():
     assert any(v.severity == "MITIGATED" for v in result)
 
 
+def test_gold_contract_before_first_trade_is_confirmed():
+    frame = pd.DataFrame(
+        {
+            "trade_date": pd.to_datetime(["2024-01-01"]),
+            "first_trade_date": pd.to_datetime(["2024-01-02"]),
+            "expiry_date": pd.to_datetime(["2024-02-01"]),
+            "contract_symbol": ["GOLDFEB24"],
+        }
+    )
+    result = LeakageAuditor().check_gold_roll_leakage(frame)
+    assert any(v.severity == "CONFIRMED" for v in result)
+
+
+def test_macro_value_is_not_available_before_release():
+    frame = pd.DataFrame(
+        {"availability_date": pd.to_datetime(["2024-02-12"])}
+    )
+    result = LeakageAuditor().check_information_as_of(
+        frame, pd.to_datetime(["2024-02-01"])
+    )
+    assert result[0].severity == "CONFIRMED"
+
+
 def test_macro_before_release_is_confirmed():
     frame = pd.DataFrame(
         {
@@ -47,4 +70,11 @@ def test_macro_before_release_is_confirmed():
         }
     )
     result = LeakageAuditor().check_macro_availability_leakage(frame)
+    assert result[0].severity == "CONFIRMED"
+
+
+def test_processing_fit_on_full_sample_is_confirmed():
+    result = LeakageAuditor().check_processing_leakage(
+        {"normalization": "fit_on_full_dataset"}
+    )
     assert result[0].severity == "CONFIRMED"

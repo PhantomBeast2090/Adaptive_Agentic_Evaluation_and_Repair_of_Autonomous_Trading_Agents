@@ -27,6 +27,7 @@ def test_manifest_round_trip_and_required_fields(tmp_path: Path):
         variable="TEST",
         source_institution="NSE",
         frequency=DataFrequency.DAILY,
+        source_url="https://example.test/data.csv",
         raw_path="raw.csv",
         earliest_observation="2024-01-01",
         latest_observation="2024-01-01",

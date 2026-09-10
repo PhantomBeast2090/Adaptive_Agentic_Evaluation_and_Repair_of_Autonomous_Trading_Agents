@@ -1,4 +1,5 @@
 experiment_id: "exp_001_initial_eval"
+research_status: legacy_us_archived
 agent_version: "v1.0.0"
 phases_to_run: ["Discovery", "Diagnosis", "Intervention", "Re-evaluation", "OOD_Validation"]
 evaluation_budget: 1000

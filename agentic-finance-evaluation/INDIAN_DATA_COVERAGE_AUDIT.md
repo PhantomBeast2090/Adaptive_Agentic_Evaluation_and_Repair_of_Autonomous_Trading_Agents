@@ -5,14 +5,26 @@
 
 ## 1. Acquisition status
 
-- Acquired and auditable datasets: **0**
+- Acquired and auditable datasets: **1**
+- Acquired mandatory market/macro datasets: **0**
+- Acquired support/calendar artifacts: **1**
 - Pending/unavailable datasets: **0**
 - Artifact read errors: **0**
-- No dataset manifests exist yet; inventory entries without manifests are not treated as acquired or assigned coverage.
 
 ## 2. Dataset-by-dataset coverage
 
-No acquired datasets were found; no empirical coverage exists yet.
+- Source: `NSE`
+- Raw SHA-256: `933cf5dc6dd4efe3b8db8ce6ecd6ecb2582929f5e0b4faffdb88e11cf4efdfbe`
+### `nse_trading_holidays_2026`
+- Earliest: `2026-01-15`
+- Latest: `2026-12-25`
+- Observations: 20
+- Unique dates: 20
+- Duplicate timestamps: 0
+- Duplicate identifier pairs: 0
+- Temporal gaps above threshold: 15
+- Note: INFO: 15 gap(s) detected. First: (datetime.date(2026, 1, 15), datetime.date(2026, 1, 26))
+
 ## 3. Missingness
 
 Missingness is reported per required field above. No values were forward-filled by this audit.
@@ -23,7 +35,7 @@ Duplicate timestamps and date/identifier pairs are reported per dataset above.
 
 ## 5. Calendar analysis
 
-Trading-day checks use a documented lightweight weekday/holiday heuristic. They are not a substitute for an official NSE holiday calendar.
+Trading-day checks use the versioned NSE holiday artifact when its coverage includes the audited years. Years outside that artifact are reported as calendar-unavailable rather than inferred from weekdays.
 
 ## 6. Information-availability analysis
 
@@ -35,7 +47,11 @@ Macro and policy datasets must carry observation_date and availability_date. Val
 - Latest common usable date: `not computable`
 - Calendar duration: 0 days
 - Datasets included: none
-- Datasets excluded: none
+- Datasets excluded: nse_trading_holidays_2026
+- Jointly usable sessions: 0
+- Limiting datasets: none
+- Exclusion reasons:
+  - `nse_trading_holidays_2026`: Coverage too short: 20 usable sessions < min 365 (2026-01-15 to 2026-12-25).
 
 ## 8. Data-quality blockers
 

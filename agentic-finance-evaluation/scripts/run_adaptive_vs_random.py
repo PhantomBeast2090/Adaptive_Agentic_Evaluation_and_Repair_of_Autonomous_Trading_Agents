@@ -12,6 +12,7 @@ Usage:
 import argparse
 import sys
 from pathlib import Path
+import yaml
 
 
 def main() -> int:
@@ -25,6 +26,17 @@ def main() -> int:
     base = Path(args.base_dir)
     if str(base) not in sys.path:
         sys.path.insert(0, str(base))
+
+    india_config = base / "configs" / "india_data.yaml"
+    if india_config.exists():
+        with india_config.open() as handle:
+            config = yaml.safe_load(handle) or {}
+        if config.get("active") and config.get("splits", {}).get("freeze_dates") is not True:
+            raise RuntimeError(
+                "Indian data foundation is active but temporal splits are not frozen. "
+                "Run acquisition and coverage/availability/leakage audits before "
+                "starting experiments; legacy US splits cannot be used implicitly."
+            )
 
     from evaluation.adaptive.experiment import run_paired_experiment
 

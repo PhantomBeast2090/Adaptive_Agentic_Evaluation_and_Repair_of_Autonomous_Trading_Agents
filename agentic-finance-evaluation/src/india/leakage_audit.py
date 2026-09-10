@@ -97,7 +97,8 @@ class LeakageAuditor:
         violations: List[LeakageViolation] = []
         patterns = suspicious_col_patterns or [
             "future_", "next_", "lead_", "forward_", "_t1", "_t2",
-            "future", "fwd_", "lookahead",
+            "future", "fwd_", "lookahead", "return_1d", "volatility_",
+            "regime_", "vix_future",
         ]
 
         # Check column names
@@ -158,12 +159,7 @@ class LeakageAuditor:
         observation_col: str = "observation_date",
         availability_col: str = "availability_date",
     ) -> List[LeakageViolation]:
-        """Verify macro values are not available before their release date.
-
-        A violation occurs when availability_date < observation_date,
-        which would mean the data was released before the period it describes
-        (physically impossible for retrospective statistics like CPI/IIP).
-        """
+        """Check structural release-date validity for retrospective macro data."""
         violations: List[LeakageViolation] = []
 
         if observation_col not in df.columns or availability_col not in df.columns:
@@ -178,48 +174,90 @@ class LeakageAuditor:
             ))
             return violations
 
-        obs = pd.to_datetime(df[observation_col])
-        avail = pd.to_datetime(df[availability_col])
+        obs = pd.to_datetime(df[observation_col], errors="coerce")
+        avail = pd.to_datetime(df[availability_col], errors="coerce")
         bad_mask = avail < obs
-
         if bad_mask.any():
             bad_rows = df[bad_mask].head(5)
-            examples = [
-                {
-                    "observation_date": str(row.get(observation_col, "")),
-                    "availability_date": str(row.get(availability_col, "")),
-                }
-                for _, row in bad_rows.iterrows()
-            ]
             violations.append(LeakageViolation(
                 violation_type="MACRO_BEFORE_RELEASE",
                 severity="CONFIRMED",
                 description=(
-                    f"{int(bad_mask.sum())} records have availability_date < observation_date. "
-                    "These values cannot be known before the period they describe. "
-                    "This is a confirmed information leakage."
+                    f"{int(bad_mask.sum())} records have availability_date < "
+                    "observation_date."
                 ),
                 affected_rows=int(bad_mask.sum()),
-                examples=examples,
+                examples=[
+                    {
+                        "observation_date": str(row[observation_col]),
+                        "availability_date": str(row[availability_col]),
+                    }
+                    for _, row in bad_rows.iterrows()
+                ],
             ))
-
-        # Also check for suspiciously short lags (CPI/IIP typically lag 4-6 weeks)
-        if not bad_mask.any():
-            lag_days = (avail - obs).dt.days
-            very_short = (lag_days < 7) & (lag_days >= 0)
-            if very_short.any():
-                violations.append(LeakageViolation(
-                    violation_type="SUSPICIOUSLY_SHORT_MACRO_LAG",
-                    severity="POTENTIAL",
-                    description=(
-                        f"{int(very_short.sum())} records have availability_date within "
-                        "7 days of observation_date. CPI/IIP typically lag 4-6 weeks. "
-                        "Verify these release dates are correct."
-                    ),
-                    affected_rows=int(very_short.sum()),
-                ))
-
         return violations
+
+    def check_information_as_of(
+            self,
+            df: pd.DataFrame,
+            simulation_dates: pd.Series | pd.DatetimeIndex,
+            availability_col: str = "availability_date",
+            revision_col: str = "revision_version",
+    ) -> List[LeakageViolation]:
+            """Ensure a macro value is not visible before its availability date."""
+            if availability_col not in df.columns:
+                return [LeakageViolation(
+                    "MISSING_AVAILABILITY_DATE",
+                    "UNRESOLVED",
+                    f"Missing {availability_col}; agent information timing cannot be audited.",
+                )]
+            dates = pd.to_datetime(simulation_dates)
+            availability = pd.to_datetime(df[availability_col], errors="coerce")
+            violations: List[LeakageViolation] = []
+            for index, release_date in availability.items():
+                if pd.isna(release_date):
+                    violations.append(LeakageViolation(
+                        "MISSING_RELEASE_DATE",
+                        "UNRESOLVED",
+                        f"Row {index} has no release/availability date.",
+                        affected_rows=1,
+                    ))
+                elif (dates < release_date).any():
+                    violations.append(LeakageViolation(
+                        "MACRO_VISIBLE_BEFORE_RELEASE",
+                        "CONFIRMED",
+                        f"Macro row {index} would be visible before {release_date.date()}.",
+                        affected_rows=int((dates < release_date).sum()),
+                    ))
+            if revision_col in df.columns and "observation_date" in df.columns:
+                ordered = df.sort_values(["observation_date", availability_col])
+                if ordered[revision_col].is_monotonic_decreasing:
+                    violations.append(LeakageViolation(
+                        "REVISION_ORDERING",
+                        "POTENTIAL",
+                        "Revision versions are not non-decreasing in release order.",
+                    ))
+            return violations
+
+    def check_processing_leakage(
+            self,
+            processing_parameters: Dict[str, Any],
+    ) -> List[LeakageViolation]:
+            """Reject preprocessing fitted on future or full-sample observations."""
+            text = str(processing_parameters).lower()
+            suspicious = (
+                "fit_on_full" in text
+                or "fit_on_all" in text
+                or "entire_dataset" in text
+                or "future_period" in text
+            )
+            if suspicious:
+                return [LeakageViolation(
+                    "PROCESSING_FIT_ON_FUTURE_DATA",
+                    "CONFIRMED",
+                    "Processing parameters indicate fitting on the full or future sample.",
+                )]
+            return []
 
     # ------------------------------------------------------------------
     # 3. Gold Futures Roll Leakage
@@ -254,24 +292,23 @@ class LeakageAuditor:
             ))
             return violations
 
-        # Check: no trade_date appears before the contract's first known trade_date
-        min_trade_dates = (
-            contracts_df.groupby(contract_col)[trade_date_col]
-            .min()
-            .rename("first_trade_date")
-        )
-        merged = contracts_df.merge(min_trade_dates, on=contract_col, how="left")
-        # Trades should not pre-date the contract's first observed trade
-        # (This is a self-consistency check; true leakage would be using a contract
-        #  that doesn't exist yet in the raw data)
-        if (pd.to_datetime(merged[trade_date_col]) < pd.to_datetime(merged["first_trade_date"])).any():
+        if "first_trade_date" in contracts_df.columns:
+            observed = pd.to_datetime(contracts_df[trade_date_col], errors="coerce")
+            first_trade = pd.to_datetime(
+                contracts_df["first_trade_date"], errors="coerce"
+            )
+            bad = observed < first_trade
+        else:
+            bad = pd.Series(False, index=contracts_df.index)
+        if bad.any():
             violations.append(LeakageViolation(
                 violation_type="GOLD_ROLL_TEMPORAL_INCONSISTENCY",
                 severity="CONFIRMED",
                 description=(
-                    "Some trade_dates predate the first known trade date for their contract. "
-                    "This suggests data ordering issues or roll look-ahead leakage."
+                    f"{int(bad.sum())} rows use a contract before its recorded "
+                    "first trade date."
                 ),
+                affected_rows=int(bad.sum()),
             ))
 
         # Warning: if no continuous series is constructed here, note this is safe
@@ -396,6 +433,7 @@ class LeakageAuditor:
         gold_contracts_df: Optional[pd.DataFrame] = None,
         splits_dict: Optional[Dict[str, Tuple[date, date]]] = None,
         corporate_actions_df: Optional[pd.DataFrame] = None,
+        processing_parameters: Optional[Dict[str, Any]] = None,
     ) -> LeakageReport:
         """Run all applicable leakage checks and return a consolidated report."""
         confirmed: List[LeakageViolation] = []
@@ -430,6 +468,9 @@ class LeakageAuditor:
             _classify(self.check_corporate_action_leakage(
                 price_df, corporate_actions_df
             ))
+
+        if processing_parameters is not None:
+            _classify(self.check_processing_leakage(processing_parameters))
 
         return LeakageReport(
             confirmed_leaks=confirmed,

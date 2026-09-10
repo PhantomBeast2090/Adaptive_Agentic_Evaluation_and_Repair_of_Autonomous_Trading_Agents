@@ -22,14 +22,14 @@ def test_macro_rejects_pre_release_value():
         )
 
 
-def test_policy_rejects_availability_before_observation():
-    with pytest.raises(ValidationError):
-        RBIPolicyRecord(
-            observation_date=date(2024, 6, 7),
-            availability_date=date(2024, 6, 6),
-            rate_type="REPO",
-            rate_pct=6.5,
-        )
+def test_policy_allows_announcement_before_effective_date():
+    record = RBIPolicyRecord(
+        observation_date=date(2024, 6, 7),
+        availability_date=date(2024, 6, 6),
+        rate_type="REPO",
+        rate_pct=6.5,
+    )
+    assert record.availability_date < record.observation_date
 
 
 def test_equity_does_not_invent_adjusted_close():
