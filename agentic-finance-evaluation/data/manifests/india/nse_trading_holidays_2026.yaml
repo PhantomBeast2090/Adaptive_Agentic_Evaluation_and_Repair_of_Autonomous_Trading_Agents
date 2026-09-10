@@ -1,8 +1,9 @@
 acquisition_status: acquired
 asset_class: calendar
 dataset_id: nse_trading_holidays_2026
-duplicate_count: 214
+duplicate_count: 0
 earliest_observation: '2026-01-15'
+eligibility_status: validated
 frequency: event_based
 has_availability_date: false
 has_observation_date: false
@@ -10,10 +11,13 @@ latest_observation: '2026-12-25'
 missingness_summary: []
 notes: Official NSE holiday-master response acquired 2026-09-10. Nested response categories
   are retained as raw evidence.
-processed_path: null
-processed_sha256: null
-processing_parameters: {}
-processing_version: 1.0.0
+processed_path: data/processed/india/market/nse_trading_calendar_2026.csv
+processed_sha256: 3090d9f89784f264f7ee5b210c8f85a9f4851fb2bd71daa3754aedf536e08427
+processing_parameters:
+  normalization: unique(calendar_year, market_segment, trading_date)
+  normalized_rows: 239
+  source_rows: 239
+processing_version: 1.1.0
 raw_path: data/raw/india/indices/nse_trading_holidays_2026.json
 raw_sha256: 933cf5dc6dd4efe3b8db8ce6ecd6ecb2582929f5e0b4faffdb88e11cf4efdfbe
 retrieval_timestamp: '2026-09-10T15:05:39.908811+00:00'

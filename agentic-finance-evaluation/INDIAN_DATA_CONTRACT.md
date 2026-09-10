@@ -27,6 +27,17 @@ Revisions retain a `revision_version`; a revised value must not replace an
 earlier vintage in the agent information set unless its availability date has
 arrived.
 
+For retrospective macro data, point-in-time selection is:
+
+```text
+eligible = availability_date <= simulation_timestamp
+selected = latest eligible vintage per variable and observation period
+```
+
+Estimated release lags are restricted metadata and cannot be used to mark a
+dataset experiment-eligible. RBI policy events use announcement/availability
+date separately from effective date.
+
 An alignment layer may expose a value on a later trading day only when
 `availability_date <= simulated_timestamp`. It must preserve native
 frequency first and must not blindly forward-fill prices, monthly releases,

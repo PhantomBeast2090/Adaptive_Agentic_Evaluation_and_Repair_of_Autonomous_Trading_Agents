@@ -22,6 +22,7 @@ from src.schemas.india_data import (
     DataFrequency,
     DataTier,
     DatasetManifest,
+    EligibilityStatus,
     ValidationStatus,
 )
 
@@ -109,6 +110,7 @@ class ManifestManager:
         processing_version: str = "1.0.0",
         processing_parameters: Optional[Dict[str, Any]] = None,
         notes: Optional[str] = None,
+        eligibility_status: EligibilityStatus = EligibilityStatus.NOT_STARTED,
     ) -> DatasetManifest:
         """Create a DatasetManifest, compute hashes, and persist to YAML."""
         retrieval_timestamp = datetime.now(timezone.utc).isoformat()
@@ -161,6 +163,7 @@ class ManifestManager:
             missingness_summary=missingness,
             validation_status=validation_status,
             acquisition_status=acquisition_status,
+            eligibility_status=eligibility_status,
             notes=notes,
         )
 
@@ -246,6 +249,13 @@ class ManifestManager:
                     errors.append(f"Processed artifact does not exist: {processed}")
                 elif self.compute_sha256(str(processed)) != manifest.processed_sha256:
                     errors.append("Processed SHA-256 does not match the artifact.")
+        if (
+            manifest.eligibility_status == EligibilityStatus.EXPERIMENT_ELIGIBLE
+            and manifest.acquisition_status != AcquisitionStatus.ACQUIRED
+        ):
+            errors.append(
+                "Experiment-eligible datasets must have acquisition_status=acquired."
+            )
 
         # Macro / policy data must have availability_date
         if manifest.has_observation_date and not manifest.has_availability_date:

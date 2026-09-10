@@ -56,6 +56,15 @@ class AcquisitionStatus(str, Enum):
     NOT_STARTED = "not_started"
 
 
+class EligibilityStatus(str, Enum):
+    NOT_STARTED = "not_started"
+    ACQUISITION_PENDING = "acquisition_pending"
+    ACQUIRED = "acquired"
+    VALIDATED = "validated"
+    EXPERIMENT_ELIGIBLE = "experiment_eligible"
+    BLOCKED = "blocked"
+
+
 # ---------------------------------------------------------------------------
 # Tier A — Equity / Index Records
 # ---------------------------------------------------------------------------
@@ -392,6 +401,7 @@ class DatasetManifest(BaseModel):
     missingness_summary: List[MissingSummaryField] = Field(default_factory=list)
     validation_status: ValidationStatus = ValidationStatus.PENDING
     acquisition_status: AcquisitionStatus = AcquisitionStatus.NOT_STARTED
+    eligibility_status: EligibilityStatus = EligibilityStatus.NOT_STARTED
 
     notes: Optional[str] = None
 

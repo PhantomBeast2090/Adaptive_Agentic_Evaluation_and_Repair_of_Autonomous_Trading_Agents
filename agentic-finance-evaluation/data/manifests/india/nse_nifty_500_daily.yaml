@@ -1,0 +1,28 @@
+acquisition_status: pending_manual_download
+asset_class: index
+dataset_id: nse_nifty_500_daily
+duplicate_count: null
+earliest_observation: null
+eligibility_status: acquisition_pending
+frequency: daily
+has_availability_date: false
+has_observation_date: false
+latest_observation: null
+missingness_summary: []
+notes: No raw artifact supplied. Official-source acquisition requires manual download
+  or source-specific access; this manifest intentionally records pending status and
+  no coverage.
+processed_path: null
+processed_sha256: null
+processing_parameters: {}
+processing_version: 1.0.0
+raw_path: null
+raw_sha256: null
+retrieval_timestamp: '2026-09-10T16:40:58.331101+00:00'
+row_count: null
+source_institution: NSE
+source_url: null
+tier: A
+unique_date_count: null
+validation_status: pending
+variable: NIFTY_500_DAILY

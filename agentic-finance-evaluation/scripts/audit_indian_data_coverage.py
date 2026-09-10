@@ -24,7 +24,7 @@ import yaml
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.india.coverage_audit import CoverageAuditor
-from src.india.calendar import load_calendar
+from src.india.calendar import load_calendar_directory
 from src.india.leakage_audit import LeakageAuditor
 
 
@@ -39,8 +39,10 @@ def _read_table(path: Path) -> pd.DataFrame:
             payload = json.load(handle)
         if isinstance(payload, dict) and "CBM" in payload:
             records = [
-                record
-                for record in payload["CBM"]
+                {**record, "market_segment": str(category)}
+                for category, category_records in payload.items()
+                if isinstance(category_records, list)
+                for record in category_records
                 if isinstance(record, dict)
             ]
             return pd.DataFrame(records)
@@ -85,14 +87,19 @@ def _load_manifests(manifest_dir: Path) -> list[dict[str, Any]]:
     return manifests
 
 
-def _markdown_result(result: Any) -> list[str]:
+def _markdown_result(result: Any, *, calendar_membership: bool = False) -> list[str]:
+    duplicate_timestamps = (
+        "not applicable (category membership)"
+        if calendar_membership
+        else str(result.temporal.duplicate_timestamps)
+    )
     lines = [
         f"### `{result.dataset_id}`",
         f"- Earliest: `{result.temporal.earliest or 'n/a'}`",
         f"- Latest: `{result.temporal.latest or 'n/a'}`",
         f"- Observations: {result.temporal.total_observations}",
         f"- Unique dates: {result.temporal.unique_dates}",
-        f"- Duplicate timestamps: {result.temporal.duplicate_timestamps}",
+        f"- Duplicate timestamps: {duplicate_timestamps}",
         f"- Duplicate identifier pairs: {result.temporal.duplicate_identifier_pairs}",
     ]
     if result.missingness:
@@ -118,15 +125,22 @@ def _markdown_result(result: Any) -> list[str]:
             f"{result.availability.total_records}"
         )
     for note in result.notes:
+        if calendar_membership and note.startswith("WARNING: ") and "duplicate timestamps" in note:
+            continue
         lines.append(f"- Note: {note}")
+    if calendar_membership:
+        lines.append(
+            "- Note: Repeated dates are legitimate market-segment membership; "
+            "duplicate records are evaluated by `(market_segment, trading_date)`."
+        )
     return lines
 
 
 def run_audit(base_dir: Path) -> str:
     manifest_dir = base_dir / "data" / "manifests" / "india"
     auditor = CoverageAuditor()
-    calendar = load_calendar(
-        base_dir / "data" / "raw" / "india" / "indices" / "nse_trading_holidays_2026.json"
+    calendar = load_calendar_directory(
+        base_dir / "data" / "raw" / "india" / "indices"
     )
     acquired: list[dict[str, Any]] = []
     pending: list[dict[str, Any]] = []
@@ -177,6 +191,7 @@ def run_audit(base_dir: Path) -> str:
             is_trading_day_data=is_trading,
             has_availability_date=bool(manifest.get("has_availability_date")),
             calendar=calendar,
+            identifier_cols=["market_segment"] if manifest.get("asset_class") == "calendar" else None,
         )
         acquired.append({"manifest": manifest, "result": result})
 
@@ -228,7 +243,12 @@ def run_audit(base_dir: Path) -> str:
                 f"- Source: `{manifest.get('source_institution', 'unknown')}`",
                 f"- Raw SHA-256: `{manifest.get('raw_sha256', 'not recorded')}`",
             ])
-            lines.extend(_markdown_result(item["result"]))
+            lines.extend(
+                _markdown_result(
+                    item["result"],
+                    calendar_membership=manifest.get("asset_class") == "calendar",
+                )
+            )
             lines.append("")
     else:
         lines.append("No acquired datasets were found; no empirical coverage exists yet.")

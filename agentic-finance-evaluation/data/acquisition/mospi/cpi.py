@@ -163,7 +163,7 @@ Expected CPI CSV structure:
 
         return errors
 
-    def load_normalized(self) -> pd.DataFrame:
+    def load_normalized(self, allow_estimated_availability: bool = False) -> pd.DataFrame:
         """Load and normalise CPI CSV with release dates.
 
         Returns DataFrame with columns:
@@ -225,13 +225,16 @@ Expected CPI CSV structure:
             mapping = dict(zip(rel_period, rdf["release_date"]))
             avail_dates = obs_period.map(mapping)
         else:
-            # Estimate: availability = observation + 45 days
+            if not allow_estimated_availability:
+                raise ValueError(
+                    "Actual CPI release dates are required for point-in-time use. "
+                    "Provide data/raw/india/macro/cpi_release_dates.csv; "
+                    "estimated lags cannot become agent-facing data."
+                )
             use_estimated_lag = True
             avail_dates = obs_dates + pd.Timedelta(days=45)
             self.logger.warning(
-                "CPI release dates CSV not found. Using estimated 45-day lag "
-                "for availability_date. This is an approximation. "
-                "Provide data/raw/india/macro/cpi_release_dates.csv for accuracy."
+                "Using estimated CPI availability dates in explicitly restricted mode."
             )
 
         result = pd.DataFrame({

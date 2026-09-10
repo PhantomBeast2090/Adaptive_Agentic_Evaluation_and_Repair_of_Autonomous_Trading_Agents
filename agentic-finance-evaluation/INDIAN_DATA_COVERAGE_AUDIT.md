@@ -8,22 +8,39 @@
 - Acquired and auditable datasets: **1**
 - Acquired mandatory market/macro datasets: **0**
 - Acquired support/calendar artifacts: **1**
-- Pending/unavailable datasets: **0**
+- Pending/unavailable datasets: **13**
 - Artifact read errors: **0**
+- Pending datasets:
+  - `crude_oil_brent_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `mcx_gold_futures_individual_contracts`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `mospi_cpi_combined_monthly`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `mospi_iip_general_monthly`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `nse_equity_bhavcopy_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `nse_india_vix_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `nse_nifty_500_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `nse_nifty_50_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `rbi_gsec_10y_yield`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `rbi_gsec_364d_yield`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `rbi_gsec_91d_yield`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `rbi_policy_rate_events`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
+  - `rbi_usd_inr_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
 
 ## 2. Dataset-by-dataset coverage
 
 - Source: `NSE`
 - Raw SHA-256: `933cf5dc6dd4efe3b8db8ce6ecd6ecb2582929f5e0b4faffdb88e11cf4efdfbe`
 ### `nse_trading_holidays_2026`
-- Earliest: `2026-01-15`
+- Earliest: `2026-01-01`
 - Latest: `2026-12-25`
-- Observations: 20
-- Unique dates: 20
-- Duplicate timestamps: 0
+- Observations: 239
+- Unique dates: 25
+- Duplicate timestamps: not applicable (category membership)
 - Duplicate identifier pairs: 0
-- Temporal gaps above threshold: 15
-- Note: INFO: 15 gap(s) detected. First: (datetime.date(2026, 1, 15), datetime.date(2026, 1, 26))
+- Temporal gaps above threshold: 17
+- Note: Repeated dates are evaluated with identifier columns; date repetition alone is not treated as a duplicate record.
+- Note: WARNING: Timestamps are not monotonically increasing.
+- Note: INFO: 17 gap(s) detected. First: (datetime.date(2026, 1, 1), datetime.date(2026, 1, 15))
+- Note: Repeated dates are legitimate market-segment membership; duplicate records are evaluated by `(market_segment, trading_date)`.
 
 ## 3. Missingness
 
@@ -51,7 +68,7 @@ Macro and policy datasets must carry observation_date and availability_date. Val
 - Jointly usable sessions: 0
 - Limiting datasets: none
 - Exclusion reasons:
-  - `nse_trading_holidays_2026`: Coverage too short: 20 usable sessions < min 365 (2026-01-15 to 2026-12-25).
+  - `nse_trading_holidays_2026`: Coverage too short: 25 usable sessions < min 365 (2026-01-01 to 2026-12-25).
 
 ## 8. Data-quality blockers
 

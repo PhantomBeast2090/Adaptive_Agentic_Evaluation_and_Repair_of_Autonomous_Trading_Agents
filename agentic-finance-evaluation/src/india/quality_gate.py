@@ -8,7 +8,12 @@ from typing import Iterable, List, Optional
 
 from src.india.leakage_audit import LeakageReport
 from src.india.manifest import ManifestManager
-from src.schemas.india_data import AcquisitionStatus, DatasetManifest, ValidationStatus
+from src.schemas.india_data import (
+    AcquisitionStatus,
+    DatasetManifest,
+    EligibilityStatus,
+    ValidationStatus,
+)
 
 
 @dataclass

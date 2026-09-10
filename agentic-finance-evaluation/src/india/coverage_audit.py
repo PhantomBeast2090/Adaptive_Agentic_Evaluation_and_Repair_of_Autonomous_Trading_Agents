@@ -412,6 +412,11 @@ class CoverageAuditor:
             notes.append(
                 f"WARNING: {temporal.duplicate_timestamps} duplicate timestamps detected."
             )
+            if identifier_cols:
+                notes.append(
+                    "Repeated dates are evaluated with identifier columns; "
+                    "date repetition alone is not treated as a duplicate record."
+                )
         if temporal.duplicate_identifier_pairs > 0:
             notes.append(
                 f"WARNING: {temporal.duplicate_identifier_pairs} duplicate (date+id) pairs."
