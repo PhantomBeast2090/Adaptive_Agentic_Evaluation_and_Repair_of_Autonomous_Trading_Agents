@@ -5,10 +5,10 @@
 
 ## 1. Acquisition status
 
-- Acquired and auditable datasets: **2**
-- Acquired mandatory market/macro datasets: **1**
+- Acquired and auditable datasets: **3**
+- Acquired mandatory market/macro datasets: **2**
 - Acquired support/calendar artifacts: **1**
-- Pending/unavailable datasets: **12**
+- Pending/unavailable datasets: **11**
 - Artifact read errors: **0**
 - Pending datasets:
   - `crude_oil_brent_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
@@ -96,23 +96,6 @@ Expected IIP CSV structure:
   Base year: 2011-12=100 (current series)
 
   - `nse_equity_bhavcopy_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
-  - `nse_india_vix_daily`: pending_manual_download — [nse_india_vix_daily] Acquisition from https://www.nseindia.com/market-data/india-vix failed: Automated NSE VIX fetch failed: NSE base page returned 403. NSE website requires session authentication that is not reliably automated. Manual download required.
-
-Manual download instructions:
-
-India VIX Manual Download Instructions:
-1. Visit: https://www.nseindia.com/market-data/india-vix
-2. Click "Historical Data" tab
-3. Select the widest available date range
-4. Download as CSV
-5. Place the file at:
-   data/raw/india/india_vix/india_vix_daily.csv
-
-Expected columns (NSE VIX CSV):
-  Date | Open | High | Low | Close | Previous Close | Change | % Change
-
-Note: India VIX history starts approximately from 2008-11-02.
-
   - `nse_nifty_500_daily`: pending_manual_download — [nse_nifty_500_daily] Acquisition from NSE historical data for NIFTY 500 failed: Automated NSE index download requires session authentication not reliably automatable via HTTP. Manual download required.
 
 Manual download instructions:
@@ -255,6 +238,44 @@ Do NOT use retail/commercial bank rates or Yahoo Finance as primary source.
 ## 2. Dataset-by-dataset coverage
 
 - Source: `NSE`
+- Raw artifacts: `17 annual files`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2009-to-03-11-2010.csv`: `7601fd2bdff590ab7f01fdb0458d3b141747325c8a094339151837e5ea4a32c1`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2010-to-03-11-2011.csv`: `2ad584779d4a6f95d847d2ce078d1db7169d33107ac0ba5a277bb9f47390992c`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2011-to-03-11-2012.csv`: `212310ce97cb7c383c349fdef8b115fd6616282ffc246ad69ae654811033bbcd`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2012-to-03-11-2013.csv`: `624d86e62904c9302d97cfcafffe47a0a82a73c71304b357991b798b684102fe`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2013-to-03-11-2014.csv`: `7862ff9403290e4743feb92af5fa2fce8f80c6b389b251716bcf4ae6abc58d0b`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2014-to-03-11-2015.csv`: `2306cd4fb06a995c4a83e26b7400c5929573870ce09ce2a04bb73d9310a515e5`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2015-to-03-11-2016.csv`: `d02650eafb9946377cbbe808d77c8660737610520c617c1be12d73401d60c890`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2016-to-03-11-2017.csv`: `a7e9a5696edb5f2a70dc63f5d180fe8f32df561dee9d622d283bc0cc02d526e6`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2017-to-03-11-2018.csv`: `19c79dc8f85cf0f49b2c2932e9d4b261d7ceb48e035239a8b9bb910bc387404a`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2018-to-03-11-2019.csv`: `b95e91fa698a49a27abfc227245a2b535e3e93b8a1021e404fdbd21f9901d0ee`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2019-to-03-11-2020.csv`: `ce1053f3f392b2609b2ba38e3675a329815dcf676df2a9678e2768a3d7defd04`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2020-to-03-11-2021.csv`: `c8237ada80a0000534b5695a67e9a90072bef539af4b5b59d952e1f3e0b41d78`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2021-to-03-11-2022.csv`: `5d8bb2305c9df88353553bc0c662f3a2e00542e830451249bf488cbfd344a511`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2022-to-03-11-2023.csv`: `1061957b64faf1694f2056e3ac590bd1a42a072b54e8aec57603a4f0140afea5`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2023-to-03-11-2024.csv`: `ff33dc2072af20f0b48c4bec893cff611d7fbe98d681b51a82204456023c1a3d`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2024-to-03-11-2025.csv`: `05e44ded91171b577f807564760ae40479f79549d79f00fff14f456afdccb52e`
+  - `data/raw/india/india_vix/hist_india_vix_-03-11-2025-to-11-09-2026.csv`: `d5d78a3d3881a16868b4cd61659c7c9e6537a54b17df26dcd9141b9a13e7f039`
+- Processed: `data/processed/india/market/nse_india_vix_daily.csv` SHA-256 `e7a35131fbe948ab7105ee14d86580877083524cd1c17933add387dd2977b5e3`
+### `nse_india_vix_daily`
+- Earliest: `2010-07-19`
+- Latest: `2026-09-11`
+- Observations: 4004
+- Unique dates: 4004
+- Duplicate timestamps: 0
+- Duplicate identifier pairs: 0
+- Missingness:
+  - `date`: 0/4004 (0.00%)
+  - `open`: 0/4004 (0.00%)
+  - `high`: 0/4004 (0.00%)
+  - `low`: 0/4004 (0.00%)
+  - `close`: 0/4004 (0.00%)
+  - `prev_close`: 0/4004 (0.00%)
+  - `change`: 0/4004 (0.00%)
+  - `pct_change`: 0/4004 (0.00%)
+- Calendar: 17 non-trading observations; 0 heuristic trading days absent (UNAVAILABLE:nse_trading_holidays_2026.json)
+
+- Source: `NSE`
 - Raw artifacts: `29 annual files`
   - `data/raw/india/indices/NIFTY 50-03-11-1997-to-03-11-1998.csv`: `366b0bab09ed341c21f4e5affc2e13cbb5c87bc915ef51af8272f99426f66d2f`
   - `data/raw/india/indices/NIFTY 50-03-11-1998-to-03-11-1999.csv`: `3632fed1f09095adce48d472322c7dbfb6a763a41f1ece8b2aec8db77c62b45a`
@@ -348,7 +369,7 @@ Macro and policy datasets must carry observation_date and availability_date. Val
   - `mcx_gold_futures_individual_contracts`: Dataset not audited — no coverage data available.
   - `mospi_cpi_combined_monthly`: Dataset not audited — no coverage data available.
   - `mospi_iip_general_monthly`: Dataset not audited — no coverage data available.
-  - `nse_india_vix_daily`: Dataset not audited — no coverage data available.
+  - `nse_india_vix_daily`: Dataset is not experiment-eligible.
   - `nse_nifty_500_daily`: Dataset not audited — no coverage data available.
   - `nse_nifty_50_daily`: Dataset is not experiment-eligible.
   - `rbi_gsec_10y_yield`: Dataset not audited — no coverage data available.

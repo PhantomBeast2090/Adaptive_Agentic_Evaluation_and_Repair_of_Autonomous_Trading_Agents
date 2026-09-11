@@ -1,34 +1,229 @@
-acquisition_status: pending_manual_download
+acquisition_status: acquired
 asset_class: volatility_index
 dataset_id: nse_india_vix_daily
-duplicate_count: null
-earliest_observation: null
-eligibility_status: acquisition_pending
+duplicate_count: 0
+earliest_observation: '2010-07-19'
+eligibility_status: blocked
 frequency: daily
 has_availability_date: false
 has_observation_date: false
-latest_observation: null
-missingness_summary: []
-notes: "[nse_india_vix_daily] Acquisition from https://www.nseindia.com/market-data/india-vix\
-  \ failed: Automated NSE VIX fetch failed: NSE base page returned 403. NSE website\
-  \ requires session authentication that is not reliably automated. Manual download\
-  \ required.\n\nManual download instructions:\n\nIndia VIX Manual Download Instructions:\n\
-  1. Visit: https://www.nseindia.com/market-data/india-vix\n2. Click \"Historical\
-  \ Data\" tab\n3. Select the widest available date range\n4. Download as CSV\n5.\
-  \ Place the file at:\n   data/raw/india/india_vix/india_vix_daily.csv\n\nExpected\
-  \ columns (NSE VIX CSV):\n  Date | Open | High | Low | Close | Previous Close |\
-  \ Change | % Change\n\nNote: India VIX history starts approximately from 2008-11-02.\n"
-processed_path: null
-processed_sha256: null
-processing_parameters: {}
+latest_observation: '2026-09-11'
+missingness_summary:
+- field_name: date
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 4004
+- field_name: open
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 4004
+- field_name: high
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 4004
+- field_name: low
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 4004
+- field_name: close
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 4004
+- field_name: prev_close
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 4004
+- field_name: change
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 4004
+- field_name: pct_change
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 4004
+notes: '[nse_india_vix_daily] Manually acquired NSE India VIX historical data (17
+  annual CSVs, 2010-07-19 to 2026-09-11) from the official NSE Historical Data - India
+  VIX page. Raw files are immutable evidence under data/raw/india/india_vix/ (UTF-8
+  with BOM, header ''Date,Open,High,Low,Close,Prev. Close,Change,% Change'' with sixth
+  column ''Prev. Close'', ascending date order). Total raw rows=4019 across 17 files;
+  unique valid dates after exclusions=4004; canonical rows=4004 after deduplicating
+  12 proven identical annual-boundary observations (2010-11-03, 2011-11-03, 2013-11-03
+  ... 2025-11-03) and excluding 3 invalid rows: 22-AUG-2013 in hist_india_vix_-03-11-2012-to-03-11-2013.csv
+  (impossible OHLC relationship); 12-FEB-2021 in hist_india_vix_-03-11-2020-to-03-11-2021.csv
+  (non-finite value (inf or NaN)); 30-MAR-2021 in hist_india_vix_-03-11-2020-to-03-11-2021.csv
+  (non-finite value (inf or NaN)). Conflicting overlaps=0; schema validation: 0 malformed/null
+  rows, 0 numeric failures, 0 within-file duplicates, Change/% Change consistent with
+  Close-Prev.Close within rounding (0 failures); 3 rows excluded as documented (22-AUG-2013
+  close<low; 12-FEB-2021 and 30-MAR-2021 zero-filled OHLC with NaN % Change placeholders).
+  First annual file covers 2010-07-19 to 2010-11-03 only (77 rows) despite its 2009-to-2010
+  name: earliest available VIX observation is 2010-07-19, earlier history not supplied.
+  Canonical dataset is ascending by date, duplicate-free, mapped per-observation to
+  raw source file(s) via source_files column. Leakage: price-frame audit clean (0
+  confirmed, 0 unresolved; 1 POTENTIAL CORPORATE_ACTION_UNVERIFIED not applicable
+  to a volatility index); agent-facing simulation must filter observations by date<=t
+  (no availability_date beyond observation date exists; future VIX/returns must remain
+  inaccessible; evaluation labels may use future internally without leaking). Calendar:
+  authoritative NSE holiday artifact covers 2026 only; historical calendar completeness
+  for 2010-2025 cannot be established and must not be inferred; coverage audit reports
+  calendar UNAVAILABLE. Eligibility: VALIDATED_BUT_BLOCKED (manifest eligibility_status=blocked)
+  pending (a) historical NSE calendar coverage and (b) common intersection with the
+  other mandatory datasets. Do not mark experiment-eligible merely because files exist.'
+processed_path: data/processed/india/market/nse_india_vix_daily.csv
+processed_sha256: e7a35131fbe948ab7105ee14d86580877083524cd1c17933add387dd2977b5e3
+processing_parameters:
+  bom_handling: utf-8-sig, header stripped, values unaltered
+  calendar_coverage: 2026-only; 2010-2025 calendar-unavailable
+  canonical_rows: 4004
+  column_mapping:
+    '% Change': pct_change
+    Change: change
+    Close: close
+    Date: date
+    High: high
+    Low: low
+    Open: open
+    Prev. Close: prev_close
+  conflicting_overlaps: 0
+  date_parsing: NSE %d-%b-%Y to ISO YYYY-MM-DD
+  duplicate_extra_rows_before_dedup: 3
+  excluded_invalid_rows:
+  - date: 22-AUG-2013
+    reason: impossible OHLC relationship
+    source_file: hist_india_vix_-03-11-2012-to-03-11-2013.csv
+  - date: 12-FEB-2021
+    reason: non-finite value (inf or NaN)
+    source_file: hist_india_vix_-03-11-2020-to-03-11-2021.csv
+  - date: 30-MAR-2021
+    reason: non-finite value (inf or NaN)
+    source_file: hist_india_vix_-03-11-2020-to-03-11-2021.csv
+  fabricated_missing_days: false
+  first_file_partial_coverage: 2010-07-19 to 2010-11-03 (77 rows); earliest VIX observation
+    2010-07-19
+  forward_fill: false
+  identical_boundary_duplicates_deduped: 12
+  leakage: price-frame clean (0 confirmed/0 unresolved); no availability_date beyond
+    observation date
+  method: concatenate_annual_nse_vix_csvs_sort_ascending_dedup_identical_boundary_dates_exclude_invalid
+  overlap_dates:
+  - '2010-11-03'
+  - '2011-11-03'
+  - '2013-11-03'
+  - '2014-11-03'
+  - '2015-11-03'
+  - '2016-11-03'
+  - '2017-11-03'
+  - '2020-11-03'
+  - '2021-11-03'
+  - '2022-11-03'
+  - '2023-11-03'
+  - '2025-11-03'
+  provenance_column: source_files
+  sort: ascending by date (raw files already ascending)
+  source_files_count: 17
+  total_raw_rows: 4019
+  unique_dates: 4004
+  validation:
+    change_consistency_failures: 0
+    malformed_rows: 0
+    nonpositive_or_nonfinite_excluded: 3
+    numeric_failures: 0
+    ohlc_violations: 3
+    within_file_duplicates: 0
 processing_version: 1.0.0
+raw_artifacts:
+- byte_size: 4063
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2009-to-03-11-2010.csv
+  row_count: 77
+  sha256: 7601fd2bdff590ab7f01fdb0458d3b141747325c8a094339151837e5ea4a32c1
+- byte_size: 13202
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2010-to-03-11-2011.csv
+  row_count: 250
+  sha256: 2ad584779d4a6f95d847d2ce078d1db7169d33107ac0ba5a277bb9f47390992c
+- byte_size: 13276
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2011-to-03-11-2012.csv
+  row_count: 252
+  sha256: 212310ce97cb7c383c349fdef8b115fd6616282ffc246ad69ae654811033bbcd
+- byte_size: 13154
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2012-to-03-11-2013.csv
+  row_count: 249
+  sha256: 624d86e62904c9302d97cfcafffe47a0a82a73c71304b357991b798b684102fe
+- byte_size: 14054
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2013-to-03-11-2014.csv
+  row_count: 245
+  sha256: 7862ff9403290e4743feb92af5fa2fce8f80c6b389b251716bcf4ae6abc58d0b
+- byte_size: 14710
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2014-to-03-11-2015.csv
+  row_count: 249
+  sha256: 2306cd4fb06a995c4a83e26b7400c5929573870ce09ce2a04bb73d9310a515e5
+- byte_size: 14648
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2015-to-03-11-2016.csv
+  row_count: 247
+  sha256: d02650eafb9946377cbbe808d77c8660737610520c617c1be12d73401d60c890
+- byte_size: 14833
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2016-to-03-11-2017.csv
+  row_count: 250
+  sha256: a7e9a5696edb5f2a70dc63f5d180fe8f32df561dee9d622d283bc0cc02d526e6
+- byte_size: 14719
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2017-to-03-11-2018.csv
+  row_count: 248
+  sha256: 19c79dc8f85cf0f49b2c2932e9d4b261d7ceb48e035239a8b9bb910bc387404a
+- byte_size: 14359
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2018-to-03-11-2019.csv
+  row_count: 243
+  sha256: b95e91fa698a49a27abfc227245a2b535e3e93b8a1021e404fdbd21f9901d0ee
+- byte_size: 14998
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2019-to-03-11-2020.csv
+  row_count: 252
+  sha256: ce1053f3f392b2609b2ba38e3675a329815dcf676df2a9678e2768a3d7defd04
+- byte_size: 14745
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2020-to-03-11-2021.csv
+  row_count: 249
+  sha256: c8237ada80a0000534b5695a67e9a90072bef539af4b5b59d952e1f3e0b41d78
+- byte_size: 14810
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2021-to-03-11-2022.csv
+  row_count: 249
+  sha256: 5d8bb2305c9df88353553bc0c662f3a2e00542e830451249bf488cbfd344a511
+- byte_size: 14728
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2022-to-03-11-2023.csv
+  row_count: 249
+  sha256: 1061957b64faf1694f2056e3ac590bd1a42a072b54e8aec57603a4f0140afea5
+- byte_size: 14702
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2023-to-03-11-2024.csv
+  row_count: 248
+  sha256: ff33dc2072af20f0b48c4bec893cff611d7fbe98d681b51a82204456023c1a3d
+- byte_size: 14502
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2024-to-03-11-2025.csv
+  row_count: 248
+  sha256: 05e44ded91171b577f807564760ae40479f79549d79f00fff14f456afdccb52e
+- byte_size: 12354
+  path: data/raw/india/india_vix/hist_india_vix_-03-11-2025-to-11-09-2026.csv
+  row_count: 214
+  sha256: d5d78a3d3881a16868b4cd61659c7c9e6537a54b17df26dcd9141b9a13e7f039
 raw_path: null
+raw_paths:
+- data/raw/india/india_vix/hist_india_vix_-03-11-2009-to-03-11-2010.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2010-to-03-11-2011.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2011-to-03-11-2012.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2012-to-03-11-2013.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2013-to-03-11-2014.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2014-to-03-11-2015.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2015-to-03-11-2016.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2016-to-03-11-2017.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2017-to-03-11-2018.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2018-to-03-11-2019.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2019-to-03-11-2020.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2020-to-03-11-2021.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2021-to-03-11-2022.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2022-to-03-11-2023.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2023-to-03-11-2024.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2024-to-03-11-2025.csv
+- data/raw/india/india_vix/hist_india_vix_-03-11-2025-to-11-09-2026.csv
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T17:20:50.733101+00:00'
-row_count: null
+retrieval_timestamp: '2026-09-11T16:55:24.989737+00:00'
+row_count: 4004
 source_institution: NSE
-source_url: https://www.nseindia.com/market-data/india-vix
+source_url: https://www.nseindia.com/reports-indices-historical-vix
 tier: B
-unique_date_count: null
-validation_status: pending
+unique_date_count: 4004
+validation_status: passed
 variable: INDIA_VIX_DAILY
