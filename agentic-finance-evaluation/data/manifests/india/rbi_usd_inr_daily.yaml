@@ -1,40 +1,97 @@
-acquisition_status: pending_manual_download
+acquisition_status: acquired
 asset_class: currency
 dataset_id: rbi_usd_inr_daily
-duplicate_count: null
-earliest_observation: null
-eligibility_status: acquisition_pending
+duplicate_count: 0
+earliest_observation: '1998-08-25'
+eligibility_status: blocked
 frequency: daily
 has_availability_date: false
 has_observation_date: false
-latest_observation: null
-missingness_summary: []
-notes: "[rbi_usd_inr_daily] Acquisition from RBI Reference Rate Archive / FBIL failed:\
-  \ RBI Reference Rate Archive requires web form interaction not reliably automatable.\
-  \ FBIL may require API key. Manual download required.\n\nManual download instructions:\n\
-  \nUSD/INR Official Rate Manual Download:\n\nOption A \u2014 RBI Reference Rate Archive\
-  \ (preferred):\n  1. Visit: https://www.rbi.org.in/scripts/ReferenceRateArchive.aspx\n\
-  \  2. Select the widest available date range\n  3. Click \"Get Data\" then download/export\n\
-  \  4. Place at: data/raw/india/currency/usd_inr_daily.csv\n\nOption B \u2014 FBIL\
-  \ USD/INR:\n  1. Visit: https://www.fbil.org.in/#/home\n  2. Navigate to Benchmark\
-  \ Rates \u2192 Reference Rates\n  3. Download USD/INR Reference Rate historical\
-  \ data\n  4. Place at: data/raw/india/currency/usd_inr_daily.csv\n\nOption C \u2014\
-  \ RBI DBIE:\n  1. Visit: https://dbie.rbi.org.in/\n  2. Navigate: External Sector\
-  \ \u2192 Exchange Rates \u2192 Spot Rate (USD/INR)\n  3. Download as CSV\n  4. Place\
-  \ at: data/raw/india/currency/usd_inr_daily.csv\n\nExpected minimum columns:\n \
-  \ Date | USD/INR (INR per 1 USD)\n\nNote: This MUST be the official RBI/FBIL reference\
-  \ rate.\nDo NOT use retail/commercial bank rates or Yahoo Finance as primary source.\n"
-processed_path: null
-processed_sha256: null
-processing_parameters: {}
+latest_observation: '2026-09-11'
+missingness_summary:
+- field_name: date
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 5878
+- field_name: rate
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 5878
+notes: "[rbi_usd_inr_daily] Manually acquired official RBI Reference Rate Archive\
+  \ USD/INR history (single export, 1998-08-25 to 2026-09-11) supplied as BankWise.xls.\
+  \ Raw file is immutable evidence under data/raw/india/currency/ (299998 bytes; container\
+  \ is an HTML table exported as .xls, ASP.NET GridView format; single table; header\
+  \ 'Date | USD (INR / 1 USD)'; dates 'DD/MM/YYYY', descending). Field semantics:\
+  \ the sole rate column 'USD (INR / 1 USD)' is INR per 1 USD, i.e. the official RBI\
+  \ USD/INR reference rate \u2014 no separate buying/selling/spot columns exist in\
+  \ this artifact, so no silent field choice was made; canonical rate with is_reference_rate=true,\
+  \ source RBI_REFERENCE_RATE. Total raw rows=5878; canonical rows=5878 (0 excluded,\
+  \ 0 duplicates, single file so no overlaps). Schema validation: 0 malformed/null\
+  \ rows, 0 numeric failures, 0 non-positive rates, 0 within-file duplicates. Coverage\
+  \ limitation (documented, never filled): years 2019/2020/2021 entirely absent plus\
+  \ a 1358-day gap 2018-07-24 to 2022-04-12 and a 15-day gap ending 2018-07-24; 1998\
+  \ partial (80 rows from 25-Aug-1998, not 1995). No interpolation or forward-fill\
+  \ applied. Canonical dataset is ascending by date, duplicate-free, with per-observation\
+  \ source_files provenance. Leakage: price-frame audit clean (0 confirmed, 0 unresolved;\
+  \ 1 POTENTIAL CORPORATE_ACTION_UNVERIFIED not applicable to an FX reference rate);\
+  \ agent-facing simulation must filter observations by date<=t (no availability_date\
+  \ beyond observation date exists for this market series; future rates must remain\
+  \ inaccessible; evaluation labels may use future internally without leaking). Calendar:\
+  \ authoritative NSE holiday artifact covers 2026 only; historical calendar completeness\
+  \ for 1998-2025 cannot be established and must not be inferred from weekdays; coverage\
+  \ audit reports calendar UNAVAILABLE. Eligibility: VALIDATED_BUT_BLOCKED (manifest\
+  \ eligibility_status=blocked) pending (a) historical calendar coverage and (b) common\
+  \ intersection with the other mandatory datasets. Do not mark experiment-eligible\
+  \ merely because files exist."
+processed_path: data/processed/india/market/rbi_usd_inr_daily.csv
+processed_sha256: 878d4e0ecd080e8d4700a7d1e947301db904f9b38f4b8f21149d51da668aff6b
+processing_parameters:
+  calendar_coverage: 2026-only; 1998-2025 calendar-unavailable
+  canonical_rows: 5878
+  conflicting_overlaps: 0
+  container_format: HTML table exported as .xls (ASP.NET GridView)
+  coverage_limitation: 2019/2020/2021 absent; 1358-day gap 2018-07-24 to 2022-04-12;
+    1998 partial from 25-Aug-1998
+  date_parsing: RBI %d/%m/%Y to ISO YYYY-MM-DD
+  date_semantics: native market date field ('date' column) is the observation timestamp
+    per the Indian Data Contract; has_observation_date=false means no separate macro-style
+    observation_date/availability_date pair
+  duplicate_extra_rows_before_dedup: 0
+  excluded_invalid_rows: []
+  fabricated_missing_days: false
+  field_selection: sole column 'USD (INR / 1 USD)' = INR per 1 USD reference rate;
+    no competing fields present
+  forward_fill: false
+  identical_overlaps_deduped: 0
+  leakage: price-frame clean (0 confirmed/0 unresolved); no availability_date beyond
+    observation date
+  method: parse_rbi_html_table_export_sort_ascending
+  parser: standard-library html.parser only; raw bytes unaltered
+  provenance_column: source_files
+  sort: ascending by date (raw file descending)
+  source_files_count: 1
+  total_raw_rows: 5878
+  unique_dates: 5878
+  validation:
+    malformed_rows: 0
+    nonpositive_rates: 0
+    numeric_failures: 0
+    within_file_duplicates: 0
 processing_version: 1.0.0
+raw_artifacts:
+- byte_size: 299998
+  path: data/raw/india/currency/BankWise.xls
+  row_count: 5878
+  sha256: 4b2b6cd815a53357ebdb3d72cc4728a80922fa5f57bafc26495d6dc3600a5068
 raw_path: null
+raw_paths:
+- data/raw/india/currency/BankWise.xls
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T17:20:50.736121+00:00'
-row_count: null
+retrieval_timestamp: '2026-09-11T17:48:24.376184+00:00'
+row_count: 5878
 source_institution: RBI
-source_url: null
+source_url: https://www.rbi.org.in/scripts/ReferenceRateArchive.aspx
 tier: A
-unique_date_count: null
-validation_status: pending
+unique_date_count: 5878
+validation_status: passed
 variable: USD_INR_DAILY

@@ -5,10 +5,10 @@
 
 ## 1. Acquisition status
 
-- Acquired and auditable datasets: **4**
-- Acquired mandatory market/macro datasets: **3**
+- Acquired and auditable datasets: **5**
+- Acquired mandatory market/macro datasets: **4**
 - Acquired support/calendar artifacts: **1**
-- Pending/unavailable datasets: **10**
+- Pending/unavailable datasets: **9**
 - Artifact read errors: **0**
 - Pending datasets:
   - `crude_oil_brent_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
@@ -182,36 +182,6 @@ If the source only provides effective dates, record both effective_date and
 announcement_date as the same value and flag in notes that announcement dates
 were not separately captured.
 
-  - `rbi_usd_inr_daily`: pending_manual_download — [rbi_usd_inr_daily] Acquisition from RBI Reference Rate Archive / FBIL failed: RBI Reference Rate Archive requires web form interaction not reliably automatable. FBIL may require API key. Manual download required.
-
-Manual download instructions:
-
-USD/INR Official Rate Manual Download:
-
-Option A — RBI Reference Rate Archive (preferred):
-  1. Visit: https://www.rbi.org.in/scripts/ReferenceRateArchive.aspx
-  2. Select the widest available date range
-  3. Click "Get Data" then download/export
-  4. Place at: data/raw/india/currency/usd_inr_daily.csv
-
-Option B — FBIL USD/INR:
-  1. Visit: https://www.fbil.org.in/#/home
-  2. Navigate to Benchmark Rates → Reference Rates
-  3. Download USD/INR Reference Rate historical data
-  4. Place at: data/raw/india/currency/usd_inr_daily.csv
-
-Option C — RBI DBIE:
-  1. Visit: https://dbie.rbi.org.in/
-  2. Navigate: External Sector → Exchange Rates → Spot Rate (USD/INR)
-  3. Download as CSV
-  4. Place at: data/raw/india/currency/usd_inr_daily.csv
-
-Expected minimum columns:
-  Date | USD/INR (INR per 1 USD)
-
-Note: This MUST be the official RBI/FBIL reference rate.
-Do NOT use retail/commercial bank rates or Yahoo Finance as primary source.
-
 
 ## 2. Dataset-by-dataset coverage
 
@@ -365,6 +335,24 @@ Do NOT use retail/commercial bank rates or Yahoo Finance as primary source.
 - Note: INFO: 17 gap(s) detected. First: (datetime.date(2026, 1, 1), datetime.date(2026, 1, 15))
 - Note: Repeated dates are legitimate market-segment membership; duplicate records are evaluated by `(market_segment, trading_date)`.
 
+- Source: `RBI`
+- Raw artifacts: `1 annual files`
+  - `data/raw/india/currency/BankWise.xls`: `4b2b6cd815a53357ebdb3d72cc4728a80922fa5f57bafc26495d6dc3600a5068`
+- Processed: `data/processed/india/market/rbi_usd_inr_daily.csv` SHA-256 `878d4e0ecd080e8d4700a7d1e947301db904f9b38f4b8f21149d51da668aff6b`
+### `rbi_usd_inr_daily`
+- Earliest: `1998-08-25`
+- Latest: `2026-09-11`
+- Observations: 5878
+- Unique dates: 5878
+- Duplicate timestamps: 0
+- Duplicate identifier pairs: 0
+- Missingness:
+  - `date`: 0/5878 (0.00%)
+  - `rate`: 0/5878 (0.00%)
+- Temporal gaps above threshold: 2
+- Calendar: 2 non-trading observations; 0 heuristic trading days absent (UNAVAILABLE:nse_trading_holidays_2026.json)
+- Note: INFO: 2 gap(s) detected. First: (datetime.date(2018, 7, 9), datetime.date(2018, 7, 24))
+
 ## 3. Missingness
 
 Missingness is reported per required field above. No values were forward-filled by this audit.
@@ -402,7 +390,7 @@ Macro and policy datasets must carry observation_date and availability_date. Val
   - `rbi_gsec_364d_yield`: Dataset not audited — no coverage data available.
   - `rbi_gsec_91d_yield`: Dataset not audited — no coverage data available.
   - `rbi_policy_rate_events`: Dataset not audited — no coverage data available.
-  - `rbi_usd_inr_daily`: Dataset not audited — no coverage data available.
+  - `rbi_usd_inr_daily`: Dataset is not experiment-eligible.
 
 ## 8. Data-quality blockers
 
