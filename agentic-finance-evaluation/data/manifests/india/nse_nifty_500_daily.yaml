@@ -60,8 +60,10 @@ notes: '[nse_nifty_500_daily] Manually acquired NSE NIFTY 500 historical daily d
   audit reports calendar UNAVAILABLE. This is an index-level series, not a security-level
   constituent universe; no constituent histories are fabricated. Eligibility: VALIDATED_BUT_BLOCKED
   (manifest eligibility_status=blocked) pending (a) historical NSE calendar coverage
-  and (b) common intersection with the other mandatory datasets. Do not mark experiment-eligible
-  merely because files exist.'
+  and (b) common intersection with the other mandatory datasets. Date semantics: the
+  native market date field is the observation timestamp; has_observation_date=false
+  records that no separate macro-style observation_date/availability_date pair exists.
+  Do not mark experiment-eligible merely because files exist.'
 processed_path: data/processed/india/market/nse_nifty_500_daily.csv
 processed_sha256: 217149c2aebdc8c531ff465df15c07138760d783497441eceb8f43da991d35a1
 processing_parameters:
@@ -77,7 +79,10 @@ processing_parameters:
     Open: open
   conflicting_overlaps: 0
   date_parsing: NSE %d %b %Y to ISO YYYY-MM-DD
-  duplicate_extra_rows_before_dedup: 8
+  date_semantics: native market date field ('date' column) is the observation/trade
+    timestamp per the Indian Data Contract; has_observation_date=false means the
+    dataset carries no separate macro-style observation_date/availability_date pair
+  duplicate_extra_rows_before_dedup: 21
   excluded_invalid_rows:
   - date: 30 Dec 2002
     reason: impossible OHLC relationship
@@ -106,6 +111,8 @@ processing_parameters:
   fabricated_missing_days: false
   forward_fill: false
   identical_boundary_duplicates_deduped: 21
+  row_arithmetic: total_raw_rows (7442) - excluded_invalid_rows (8) - duplicate_extra_rows_before_dedup
+    (21) = canonical_rows (7413)
   leakage: price-frame clean (0 confirmed/0 unresolved); no availability_date beyond
     observation date
   method: concatenate_annual_nse_nifty500_csvs_sort_ascending_dedup_identical_boundary_dates_exclude_invalid

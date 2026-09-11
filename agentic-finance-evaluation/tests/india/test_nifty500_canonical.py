@@ -221,6 +221,24 @@ def test_leakage_information_boundary():
     assert pd.to_datetime(hidden["date"]).min() > cutoff
 
 
+# 18. manifest bookkeeping arithmetic: raw - excluded - dupes = canonical
+def test_manifest_bookkeeping_arithmetic():
+    manager = ManifestManager(str(PROJECT_ROOT))
+    manifest = manager.load_manifest(MANIFEST_ID)
+    params = manifest.processing_parameters
+    assert params["total_raw_rows"] == 7442
+    assert len(params["excluded_invalid_rows"]) == 8
+    assert params["duplicate_extra_rows_before_dedup"] == 21
+    assert params["identical_boundary_duplicates_deduped"] == 21
+    assert (
+        params["total_raw_rows"]
+        - len(params["excluded_invalid_rows"])
+        - params["duplicate_extra_rows_before_dedup"]
+        == manifest.row_count
+        == 7413
+    )
+
+
 # 17. blocked eligibility
 def test_blocked_eligibility():
     manager = ManifestManager(str(PROJECT_ROOT))
