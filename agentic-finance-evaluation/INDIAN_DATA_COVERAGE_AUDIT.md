@@ -5,10 +5,10 @@
 
 ## 1. Acquisition status
 
-- Acquired and auditable datasets: **1**
-- Acquired mandatory market/macro datasets: **0**
+- Acquired and auditable datasets: **2**
+- Acquired mandatory market/macro datasets: **1**
 - Acquired support/calendar artifacts: **1**
-- Pending/unavailable datasets: **13**
+- Pending/unavailable datasets: **12**
 - Artifact read errors: **0**
 - Pending datasets:
   - `crude_oil_brent_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
@@ -125,28 +125,6 @@ NSE Index 'NIFTY 500' Manual Download Instructions:
 5. Click "Get Data", then "Download CSV"
 6. Place the downloaded file at:
    data/raw/india/indices/nifty_500_daily.csv
-
-Expected columns (NSE format):
-  Date | Open | High | Low | Close | Shares Traded | Turnover (Rs. Cr)
-
-Note: NSE historical index data typically starts from:
-  NIFTY 50: ~1999-01-04
-  NIFTY 500: ~1995-01-01
-  NIFTY BANK: ~2000-01-04
-  NIFTY IT, PHARMA, etc.: varies
-
-  - `nse_nifty_50_daily`: pending_manual_download — [nse_nifty_50_daily] Acquisition from NSE historical data for NIFTY 50 failed: Automated NSE index download requires session authentication not reliably automatable via HTTP. Manual download required.
-
-Manual download instructions:
-
-NSE Index 'NIFTY 50' Manual Download Instructions:
-1. Visit: https://www.nseindia.com/market-data/historical-index-data
-2. In the "Select Index" dropdown, choose: NIFTY 50
-3. In "From Date" enter the earliest available date
-4. In "To Date" enter today's date
-5. Click "Get Data", then "Download CSV"
-6. Place the downloaded file at:
-   data/raw/india/indices/nifty_50_daily.csv
 
 Expected columns (NSE format):
   Date | Open | High | Low | Close | Shares Traded | Turnover (Rs. Cr)
@@ -277,7 +255,57 @@ Do NOT use retail/commercial bank rates or Yahoo Finance as primary source.
 ## 2. Dataset-by-dataset coverage
 
 - Source: `NSE`
+- Raw artifacts: `29 annual files`
+  - `data/raw/india/indices/NIFTY 50-03-11-1997-to-03-11-1998.csv`: `366b0bab09ed341c21f4e5affc2e13cbb5c87bc915ef51af8272f99426f66d2f`
+  - `data/raw/india/indices/NIFTY 50-03-11-1998-to-03-11-1999.csv`: `3632fed1f09095adce48d472322c7dbfb6a763a41f1ece8b2aec8db77c62b45a`
+  - `data/raw/india/indices/NIFTY 50-03-11-1999-to-03-11-2000.csv`: `eb8d5af29b5a84fb764990d7aac4650db80c368301aea6d87c9eba8eb950cdca`
+  - `data/raw/india/indices/NIFTY 50-03-11-2000-to-03-11-2001.csv`: `48bb8f7249deb5180dd3e3eeceaa3fc9d3191387d8a74a5ee69cfa51249c1f62`
+  - `data/raw/india/indices/NIFTY 50-03-11-2001-to-03-11-2002.csv`: `f6f936cf62c3bd634ba274627d606fd791caa71e303dae19002ade02a97522a2`
+  - `data/raw/india/indices/NIFTY 50-03-11-2002-to-03-11-2003.csv`: `4578bcc632aee42f54a0b4d0dc92442c5b8b0e11dde3291a5e7bdb22d14068b4`
+  - `data/raw/india/indices/NIFTY 50-03-11-2003-to-03-11-2004.csv`: `d937a5d7d2bce8b91edfe261c511d7405ac89257eabe6e93112060f2b323443b`
+  - `data/raw/india/indices/NIFTY 50-03-11-2004-to-03-11-2005.csv`: `eaba1f05f154513b2d06618e398a8e85bd1683966d2fcbd94d2fb8ae560b38ba`
+  - `data/raw/india/indices/NIFTY 50-03-11-2005-to-03-11-2006.csv`: `0b49982170f7e5189fe860c1224dbe23bbd67832221de793ba5a143a715b41ef`
+  - `data/raw/india/indices/NIFTY 50-03-11-2006-to-03-11-2007.csv`: `489e63ff6aea0976faf6a015c1a0addeccb775b0c5c786c126615254690c1ca2`
+  - `data/raw/india/indices/NIFTY 50-03-11-2007-to-03-11-2008.csv`: `a56c480a788667e8b47008a596823113df183096b4e68105b58f47334d8fa04f`
+  - `data/raw/india/indices/NIFTY 50-03-11-2008-to-03-11-2009.csv`: `2605e8eebf0bd123105a40f8a8b23b3202770928e4226e09a17c7c912941bcf3`
+  - `data/raw/india/indices/NIFTY 50-03-11-2009-to-03-11-2010.csv`: `81424991f6d803adb95aa73cb669876b8a366e34d8d04274f09814600921d0ab`
+  - `data/raw/india/indices/NIFTY 50-03-11-2010-to-03-11-2011.csv`: `0b4e62414e080843969f3aa1f1748ddfe20f5d0c13bd0427c3b4d346686296d4`
+  - `data/raw/india/indices/NIFTY 50-03-11-2011-to-03-11-2012.csv`: `76dd025b4936f94b7d18a62c75fa82258c3f0f7e689e0a70a0a72bec1b23ad1d`
+  - `data/raw/india/indices/NIFTY 50-03-11-2012-to-03-11-2013.csv`: `e2a2d361a76b85f87c642d3852c85791dd723a1ffea246a38d4ba63e7f254969`
+  - `data/raw/india/indices/NIFTY 50-03-11-2013-to-03-11-2014.csv`: `b785239e9b250231d1df64529ea629370a755474491c969497c032d2d60fc495`
+  - `data/raw/india/indices/NIFTY 50-03-11-2014-to-03-11-2015.csv`: `41bfc41638bef260830467cf3ba109d0d009849a9f9d33fdb9c7d81fe75f26c7`
+  - `data/raw/india/indices/NIFTY 50-03-11-2015-to-03-11-2016.csv`: `e402cc0c0a7267fe795f5d89251904e5112382c7236b37663ff7781b42205f58`
+  - `data/raw/india/indices/NIFTY 50-03-11-2016-to-03-11-2017.csv`: `eae2df9bdc73d44f490621ce34fe0b6366df3c91b354a47be51b2ab4648a5428`
+  - `data/raw/india/indices/NIFTY 50-03-11-2017-to-03-11-2018.csv`: `494420fa872e1c3c9d38ecf9feb7eb7c3755b5b436ee8545d67f68dce8c18dd5`
+  - `data/raw/india/indices/NIFTY 50-03-11-2018-to-03-11-2019.csv`: `81bf230522f292363200922551870cbc3843a40c76c0da84be10383860c21e8c`
+  - `data/raw/india/indices/NIFTY 50-03-11-2019-to-03-11-2020.csv`: `064c507b2dd5768ff8e7c7254bb3e1f93b9b3e2a24bf615674753d5553788ae4`
+  - `data/raw/india/indices/NIFTY 50-03-11-2020-to-03-11-2021.csv`: `076412647aeef2964cb218fe81be5ad27ec8af492b9cf6e5f90fd3dc8fc1353e`
+  - `data/raw/india/indices/NIFTY 50-03-11-2021-to-03-11-2022.csv`: `f32200975b25f1e62f6da4f4db743d1bf1105e6e305d4a72cd27213540585c58`
+  - `data/raw/india/indices/NIFTY 50-03-11-2022-to-03-11-2023.csv`: `12344a323fd3e5c7d48fb7b42e1e845324337c81b9ec281d5be7c93efc9297c6`
+  - `data/raw/india/indices/NIFTY 50-03-11-2023-to-03-11-2024.csv`: `2e11609e8a0cf28b7563772cab5ad6cadfb5cfe4e91d37c816de22a69c240e63`
+  - `data/raw/india/indices/NIFTY 50-03-11-2024-to-03-11-2025.csv`: `2978462d63df5d84b4f54bfa3aa0da6943c2c9fb44dd02afd54feeca3afa777e`
+  - `data/raw/india/indices/NIFTY 50-03-11-2025-to-11-09-2026.csv`: `352711475a947e060a153cc4a689fb3f34be2f441a05c9773159de5ea62431ea`
+- Processed: `data/processed/india/market/nse_nifty_50_daily.csv` SHA-256 `beff7b005ecf5a2134bc09ad0079af48c29a5071ea63c6657aaff9a2e349c09e`
+### `nse_nifty_50_daily`
+- Earliest: `1997-11-03`
+- Latest: `2026-09-11`
+- Observations: 7183
+- Unique dates: 7183
+- Duplicate timestamps: 0
+- Duplicate identifier pairs: 0
+- Missingness:
+  - `date`: 0/7183 (0.00%)
+  - `open`: 0/7183 (0.00%)
+  - `high`: 0/7183 (0.00%)
+  - `low`: 0/7183 (0.00%)
+  - `close`: 0/7183 (0.00%)
+  - `volume`: 0/7183 (0.00%)
+  - `turnover`: 0/7183 (0.00%)
+- Calendar: 37 non-trading observations; 0 heuristic trading days absent (UNAVAILABLE:nse_trading_holidays_2026.json)
+
+- Source: `NSE`
 - Raw SHA-256: `933cf5dc6dd4efe3b8db8ce6ecd6ecb2582929f5e0b4faffdb88e11cf4efdfbe`
+- Processed: `data/processed/india/market/nse_trading_calendar_2026.csv` SHA-256 `3090d9f89784f264f7ee5b210c8f85a9f4851fb2bd71daa3754aedf536e08427`
 ### `nse_trading_holidays_2026`
 - Earliest: `2026-01-01`
 - Latest: `2026-12-25`
@@ -287,7 +315,6 @@ Do NOT use retail/commercial bank rates or Yahoo Finance as primary source.
 - Duplicate identifier pairs: 0
 - Temporal gaps above threshold: 17
 - Note: Repeated dates are evaluated with identifier columns; date repetition alone is not treated as a duplicate record.
-- Note: WARNING: Timestamps are not monotonically increasing.
 - Note: INFO: 17 gap(s) detected. First: (datetime.date(2026, 1, 1), datetime.date(2026, 1, 15))
 - Note: Repeated dates are legitimate market-segment membership; duplicate records are evaluated by `(market_segment, trading_date)`.
 
@@ -323,7 +350,7 @@ Macro and policy datasets must carry observation_date and availability_date. Val
   - `mospi_iip_general_monthly`: Dataset not audited — no coverage data available.
   - `nse_india_vix_daily`: Dataset not audited — no coverage data available.
   - `nse_nifty_500_daily`: Dataset not audited — no coverage data available.
-  - `nse_nifty_50_daily`: Dataset not audited — no coverage data available.
+  - `nse_nifty_50_daily`: Dataset is not experiment-eligible.
   - `rbi_gsec_10y_yield`: Dataset not audited — no coverage data available.
   - `rbi_gsec_364d_yield`: Dataset not audited — no coverage data available.
   - `rbi_gsec_91d_yield`: Dataset not audited — no coverage data available.
@@ -336,10 +363,10 @@ Macro and policy datasets must carry observation_date and availability_date. Val
 
 ## 9. Leakage findings
 
-- Leakage validation status: **NOT_EVALUABLE**
-- Datasets checked: none
+- Leakage validation status: **EVALUATED**
+- Datasets checked: corporate_actions, preprocessing, price
 - Confirmed leaks: 0
-- Potential leaks: 0
+- Potential leaks: 1
 - Mitigated issues: 0
 - Unresolved issues: 0
 - Gold futures must remain contract-level until a roll method is selected and independently audited.

@@ -1,36 +1,279 @@
-acquisition_status: pending_manual_download
+acquisition_status: acquired
 asset_class: index
 dataset_id: nse_nifty_50_daily
-duplicate_count: null
-earliest_observation: null
-eligibility_status: acquisition_pending
+duplicate_count: 0
+earliest_observation: '1997-11-03'
+eligibility_status: blocked
 frequency: daily
 has_availability_date: false
 has_observation_date: false
-latest_observation: null
-missingness_summary: []
-notes: "[nse_nifty_50_daily] Acquisition from NSE historical data for NIFTY 50 failed:\
-  \ Automated NSE index download requires session authentication not reliably automatable\
-  \ via HTTP. Manual download required.\n\nManual download instructions:\n\nNSE Index\
-  \ 'NIFTY 50' Manual Download Instructions:\n1. Visit: https://www.nseindia.com/market-data/historical-index-data\n\
-  2. In the \"Select Index\" dropdown, choose: NIFTY 50\n3. In \"From Date\" enter\
-  \ the earliest available date\n4. In \"To Date\" enter today's date\n5. Click \"\
-  Get Data\", then \"Download CSV\"\n6. Place the downloaded file at:\n   data/raw/india/indices/nifty_50_daily.csv\n\
-  \nExpected columns (NSE format):\n  Date | Open | High | Low | Close | Shares Traded\
-  \ | Turnover (Rs. Cr)\n\nNote: NSE historical index data typically starts from:\n\
-  \  NIFTY 50: ~1999-01-04\n  NIFTY 500: ~1995-01-01\n  NIFTY BANK: ~2000-01-04\n\
-  \  NIFTY IT, PHARMA, etc.: varies\n"
-processed_path: null
-processed_sha256: null
-processing_parameters: {}
+latest_observation: '2026-09-11'
+missingness_summary:
+- field_name: date
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 7183
+- field_name: open
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 7183
+- field_name: high
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 7183
+- field_name: low
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 7183
+- field_name: close
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 7183
+- field_name: volume
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 7183
+- field_name: turnover
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 7183
+notes: "[nse_nifty_50_daily] Manually acquired NSE NIFTY 50 historical index data\
+  \ (29 annual CSVs, 1997-11-03 to 2026-09-11). Raw files are immutable evidence under\
+  \ data/raw/india/indices/ (UTF-8 with BOM, header 'Date,Open,High,Low,Close,Shares\
+  \ Traded,Turnover (\u20B9 Cr)', descending date order). Total raw rows=7203 across\
+  \ 29 files; unique dates=7183; canonical rows=7183 after deduplicating 20 proven\
+  \ identical annual-boundary observations (1998-11-03, 1999-11-03, 2000-11-03 ...\
+  \ 2025-11-03; 8 of 28 boundaries had no shared date due to weekend gaps). Conflicting\
+  \ overlaps=0; schema validation passed (0 malformed/null rows, 0 numeric failures,\
+  \ 0 OHLC violations, 0 negative prices/volumes/turnovers, 0 within-file duplicate\
+  \ dates); canonical dataset is ascending by date, duplicate-free, mapped per-observation\
+  \ to raw source file(s) via source_files column. Leakage: price-frame audit clean\
+  \ (0 confirmed, 0 unresolved; 1 POTENTIAL CORPORATE_ACTION_UNVERIFIED which is not\
+  \ applicable to an index level and does not mark leakage clean=false); agent-facing\
+  \ simulation must filter observations by date<=t (no availability_date beyond observation\
+  \ date exists; future prices/returns must remain inaccessible; evaluation labels\
+  \ may use future internally without leaking to observations). Calendar: authoritative\
+  \ NSE holiday artifact covers 2026 only (nse_trading_holidays_2026.json); historical\
+  \ calendar completeness for 1997-2025 cannot be established and must not be inferred\
+  \ from modern calendars or weekdays; coverage audit reports calendar UNAVAILABLE\
+  \ for this period. Eligibility: VALIDATED_BUT_BLOCKED (manifest eligibility_status=blocked)\
+  \ \u2014 dataset is acquired and schema-validated but remains blocked for experiments\
+  \ pending (a) historical NSE calendar coverage, and (b) common intersection with\
+  \ the other 10 mandatory datasets (only NIFTY 50 + 2026 calendar are acquired; VIX,\
+  \ NIFTY 500, G-Sec, USD/INR, gold, CPI, IIP, policy remain pending). Do not mark\
+  \ experiment-eligible merely because files exist."
+processed_path: data/processed/india/market/nse_nifty_50_daily.csv
+processed_sha256: beff7b005ecf5a2134bc09ad0079af48c29a5071ea63c6657aaff9a2e349c09e
+processing_parameters:
+  bom_handling: utf-8-sig, header stripped, values unaltered
+  calendar_coverage: 2026-only; 1997-2025 calendar-unavailable
+  canonical_rows: 7183
+  column_mapping:
+    Close: close
+    Date: date
+    High: high
+    Low: low
+    Open: open
+    Shares Traded: volume
+    "Turnover (\u20B9 Cr)": turnover
+  conflicting_overlaps: 0
+  date_parsing: NSE %d-%b-%Y to ISO YYYY-MM-DD
+  duplicate_extra_rows_before_dedup: 20
+  fabricated_missing_days: false
+  forward_fill: false
+  identical_boundary_duplicates_deduped: 20
+  leakage: price-frame clean (0 confirmed/0 unresolved); no availability_date beyond
+    observation date
+  method: concatenate_annual_nse_csvs_sort_ascending_dedup_identical_boundary_dates
+  overlap_dates:
+  - '1998-11-03'
+  - '1999-11-03'
+  - '2000-11-03'
+  - '2003-11-03'
+  - '2004-11-03'
+  - '2006-11-03'
+  - '2008-11-03'
+  - '2009-11-03'
+  - '2010-11-03'
+  - '2011-11-03'
+  - '2013-11-03'
+  - '2014-11-03'
+  - '2015-11-03'
+  - '2016-11-03'
+  - '2017-11-03'
+  - '2020-11-03'
+  - '2021-11-03'
+  - '2022-11-03'
+  - '2023-11-03'
+  - '2025-11-03'
+  provenance_column: source_files
+  sort: ascending by date
+  source_files_count: 29
+  total_raw_rows: 7203
+  unique_dates: 7183
+  validation:
+    malformed_rows: 0
+    negative_price: 0
+    negative_turnover: 0
+    negative_volume: 0
+    numeric_failures: 0
+    ohlc_violations: 0
+    within_file_duplicates: 0
 processing_version: 1.0.0
+raw_artifacts:
+- byte_size: 14003
+  path: data/raw/india/indices/NIFTY 50-03-11-1997-to-03-11-1998.csv
+  row_count: 250
+  sha256: 366b0bab09ed341c21f4e5affc2e13cbb5c87bc915ef51af8272f99426f66d2f
+- byte_size: 14532
+  path: data/raw/india/indices/NIFTY 50-03-11-1998-to-03-11-1999.csv
+  row_count: 256
+  sha256: 3632fed1f09095adce48d472322c7dbfb6a763a41f1ece8b2aec8db77c62b45a
+- byte_size: 14815
+  path: data/raw/india/indices/NIFTY 50-03-11-1999-to-03-11-2000.csv
+  row_count: 252
+  sha256: eb8d5af29b5a84fb764990d7aac4650db80c368301aea6d87c9eba8eb950cdca
+- byte_size: 14545
+  path: data/raw/india/indices/NIFTY 50-03-11-2000-to-03-11-2001.csv
+  row_count: 251
+  sha256: 48bb8f7249deb5180dd3e3eeceaa3fc9d3191387d8a74a5ee69cfa51249c1f62
+- byte_size: 14337
+  path: data/raw/india/indices/NIFTY 50-03-11-2001-to-03-11-2002.csv
+  row_count: 249
+  sha256: f6f936cf62c3bd634ba274627d606fd791caa71e303dae19002ade02a97522a2
+- byte_size: 14655
+  path: data/raw/india/indices/NIFTY 50-03-11-2002-to-03-11-2003.csv
+  row_count: 252
+  sha256: 4578bcc632aee42f54a0b4d0dc92442c5b8b0e11dde3291a5e7bdb22d14068b4
+- byte_size: 15141
+  path: data/raw/india/indices/NIFTY 50-03-11-2003-to-03-11-2004.csv
+  row_count: 256
+  sha256: d937a5d7d2bce8b91edfe261c511d7405ac89257eabe6e93112060f2b323443b
+- byte_size: 14826
+  path: data/raw/india/indices/NIFTY 50-03-11-2004-to-03-11-2005.csv
+  row_count: 252
+  sha256: eaba1f05f154513b2d06618e398a8e85bd1683966d2fcbd94d2fb8ae560b38ba
+- byte_size: 14811
+  path: data/raw/india/indices/NIFTY 50-03-11-2005-to-03-11-2006.csv
+  row_count: 251
+  sha256: 0b49982170f7e5189fe860c1224dbe23bbd67832221de793ba5a143a715b41ef
+- byte_size: 14734
+  path: data/raw/india/indices/NIFTY 50-03-11-2006-to-03-11-2007.csv
+  row_count: 250
+  sha256: 489e63ff6aea0976faf6a015c1a0addeccb775b0c5c786c126615254690c1ca2
+- byte_size: 14671
+  path: data/raw/india/indices/NIFTY 50-03-11-2007-to-03-11-2008.csv
+  row_count: 247
+  sha256: a56c480a788667e8b47008a596823113df183096b4e68105b58f47334d8fa04f
+- byte_size: 14527
+  path: data/raw/india/indices/NIFTY 50-03-11-2008-to-03-11-2009.csv
+  row_count: 242
+  sha256: 2605e8eebf0bd123105a40f8a8b23b3202770928e4226e09a17c7c912941bcf3
+- byte_size: 15133
+  path: data/raw/india/indices/NIFTY 50-03-11-2009-to-03-11-2010.csv
+  row_count: 253
+  sha256: 81424991f6d803adb95aa73cb669876b8a366e34d8d04274f09814600921d0ab
+- byte_size: 14874
+  path: data/raw/india/indices/NIFTY 50-03-11-2010-to-03-11-2011.csv
+  row_count: 250
+  sha256: 0b4e62414e080843969f3aa1f1748ddfe20f5d0c13bd0427c3b4d346686296d4
+- byte_size: 15029
+  path: data/raw/india/indices/NIFTY 50-03-11-2011-to-03-11-2012.csv
+  row_count: 252
+  sha256: 76dd025b4936f94b7d18a62c75fa82258c3f0f7e689e0a70a0a72bec1b23ad1d
+- byte_size: 14826
+  path: data/raw/india/indices/NIFTY 50-03-11-2012-to-03-11-2013.csv
+  row_count: 249
+  sha256: e2a2d361a76b85f87c642d3852c85791dd723a1ffea246a38d4ba63e7f254969
+- byte_size: 14673
+  path: data/raw/india/indices/NIFTY 50-03-11-2013-to-03-11-2014.csv
+  row_count: 245
+  sha256: b785239e9b250231d1df64529ea629370a755474491c969497c032d2d60fc495
+- byte_size: 14901
+  path: data/raw/india/indices/NIFTY 50-03-11-2014-to-03-11-2015.csv
+  row_count: 249
+  sha256: 41bfc41638bef260830467cf3ba109d0d009849a9f9d33fdb9c7d81fe75f26c7
+- byte_size: 14796
+  path: data/raw/india/indices/NIFTY 50-03-11-2015-to-03-11-2016.csv
+  row_count: 247
+  sha256: e402cc0c0a7267fe795f5d89251904e5112382c7236b37663ff7781b42205f58
+- byte_size: 15193
+  path: data/raw/india/indices/NIFTY 50-03-11-2016-to-03-11-2017.csv
+  row_count: 250
+  sha256: eae2df9bdc73d44f490621ce34fe0b6366df3c91b354a47be51b2ab4648a5428
+- byte_size: 16037
+  path: data/raw/india/indices/NIFTY 50-03-11-2017-to-03-11-2018.csv
+  row_count: 248
+  sha256: 494420fa872e1c3c9d38ecf9feb7eb7c3755b5b436ee8545d67f68dce8c18dd5
+- byte_size: 15757
+  path: data/raw/india/indices/NIFTY 50-03-11-2018-to-03-11-2019.csv
+  row_count: 243
+  sha256: 81bf230522f292363200922551870cbc3843a40c76c0da84be10383860c21e8c
+- byte_size: 16102
+  path: data/raw/india/indices/NIFTY 50-03-11-2019-to-03-11-2020.csv
+  row_count: 252
+  sha256: 064c507b2dd5768ff8e7c7254bb3e1f93b9b3e2a24bf615674753d5553788ae4
+- byte_size: 16161
+  path: data/raw/india/indices/NIFTY 50-03-11-2020-to-03-11-2021.csv
+  row_count: 249
+  sha256: 076412647aeef2964cb218fe81be5ad27ec8af492b9cf6e5f90fd3dc8fc1353e
+- byte_size: 16152
+  path: data/raw/india/indices/NIFTY 50-03-11-2021-to-03-11-2022.csv
+  row_count: 249
+  sha256: f32200975b25f1e62f6da4f4db743d1bf1105e6e305d4a72cd27213540585c58
+- byte_size: 16123
+  path: data/raw/india/indices/NIFTY 50-03-11-2022-to-03-11-2023.csv
+  row_count: 249
+  sha256: 12344a323fd3e5c7d48fb7b42e1e845324337c81b9ec281d5be7c93efc9297c6
+- byte_size: 16026
+  path: data/raw/india/indices/NIFTY 50-03-11-2023-to-03-11-2024.csv
+  row_count: 248
+  sha256: 2e11609e8a0cf28b7563772cab5ad6cadfb5cfe4e91d37c816de22a69c240e63
+- byte_size: 16059
+  path: data/raw/india/indices/NIFTY 50-03-11-2024-to-03-11-2025.csv
+  row_count: 248
+  sha256: 2978462d63df5d84b4f54bfa3aa0da6943c2c9fb44dd02afd54feeca3afa777e
+- byte_size: 13839
+  path: data/raw/india/indices/NIFTY 50-03-11-2025-to-11-09-2026.csv
+  row_count: 214
+  sha256: 352711475a947e060a153cc4a689fb3f34be2f441a05c9773159de5ea62431ea
 raw_path: null
+raw_paths:
+- data/raw/india/indices/NIFTY 50-03-11-1997-to-03-11-1998.csv
+- data/raw/india/indices/NIFTY 50-03-11-1998-to-03-11-1999.csv
+- data/raw/india/indices/NIFTY 50-03-11-1999-to-03-11-2000.csv
+- data/raw/india/indices/NIFTY 50-03-11-2000-to-03-11-2001.csv
+- data/raw/india/indices/NIFTY 50-03-11-2001-to-03-11-2002.csv
+- data/raw/india/indices/NIFTY 50-03-11-2002-to-03-11-2003.csv
+- data/raw/india/indices/NIFTY 50-03-11-2003-to-03-11-2004.csv
+- data/raw/india/indices/NIFTY 50-03-11-2004-to-03-11-2005.csv
+- data/raw/india/indices/NIFTY 50-03-11-2005-to-03-11-2006.csv
+- data/raw/india/indices/NIFTY 50-03-11-2006-to-03-11-2007.csv
+- data/raw/india/indices/NIFTY 50-03-11-2007-to-03-11-2008.csv
+- data/raw/india/indices/NIFTY 50-03-11-2008-to-03-11-2009.csv
+- data/raw/india/indices/NIFTY 50-03-11-2009-to-03-11-2010.csv
+- data/raw/india/indices/NIFTY 50-03-11-2010-to-03-11-2011.csv
+- data/raw/india/indices/NIFTY 50-03-11-2011-to-03-11-2012.csv
+- data/raw/india/indices/NIFTY 50-03-11-2012-to-03-11-2013.csv
+- data/raw/india/indices/NIFTY 50-03-11-2013-to-03-11-2014.csv
+- data/raw/india/indices/NIFTY 50-03-11-2014-to-03-11-2015.csv
+- data/raw/india/indices/NIFTY 50-03-11-2015-to-03-11-2016.csv
+- data/raw/india/indices/NIFTY 50-03-11-2016-to-03-11-2017.csv
+- data/raw/india/indices/NIFTY 50-03-11-2017-to-03-11-2018.csv
+- data/raw/india/indices/NIFTY 50-03-11-2018-to-03-11-2019.csv
+- data/raw/india/indices/NIFTY 50-03-11-2019-to-03-11-2020.csv
+- data/raw/india/indices/NIFTY 50-03-11-2020-to-03-11-2021.csv
+- data/raw/india/indices/NIFTY 50-03-11-2021-to-03-11-2022.csv
+- data/raw/india/indices/NIFTY 50-03-11-2022-to-03-11-2023.csv
+- data/raw/india/indices/NIFTY 50-03-11-2023-to-03-11-2024.csv
+- data/raw/india/indices/NIFTY 50-03-11-2024-to-03-11-2025.csv
+- data/raw/india/indices/NIFTY 50-03-11-2025-to-11-09-2026.csv
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T17:20:50.530670+00:00'
-row_count: null
+retrieval_timestamp: '2026-09-11T14:04:33.944763+00:00'
+row_count: 7183
 source_institution: NSE
-source_url: null
+source_url: https://www.nseindia.com/market-data/historical-index-data
 tier: A
-unique_date_count: null
-validation_status: pending
+unique_date_count: 7183
+validation_status: passed
 variable: NIFTY_50_DAILY

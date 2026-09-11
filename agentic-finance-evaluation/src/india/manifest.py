@@ -96,6 +96,8 @@ class ManifestManager:
         frequency: DataFrequency,
         source_url: Optional[str] = None,
         raw_path: Optional[str] = None,
+        raw_paths: Optional[List[str]] = None,
+        raw_artifacts: Optional[List[Dict[str, Any]]] = None,
         processed_path: Optional[str] = None,
         earliest_observation: Optional[str] = None,
         latest_observation: Optional[str] = None,
@@ -122,6 +124,22 @@ class ManifestManager:
             except FileNotFoundError:
                 raw_sha256 = None  # File not yet acquired
 
+        if raw_artifacts is None and raw_paths is not None:
+            computed: List[Dict[str, Any]] = []
+            for candidate in raw_paths:
+                try:
+                    resolved = self._resolve_path(candidate)
+                    computed.append(
+                        {
+                            "path": candidate,
+                            "sha256": self.compute_sha256(candidate),
+                            "byte_size": resolved.stat().st_size,
+                        }
+                    )
+                except (FileNotFoundError, OSError, ValueError):
+                    computed.append({"path": candidate, "sha256": ""})
+            raw_artifacts = computed
+
         processed_sha256 = None
         if processed_path is not None:
             try:
@@ -129,7 +147,7 @@ class ManifestManager:
             except FileNotFoundError:
                 processed_sha256 = None
 
-        from src.schemas.india_data import MissingSummaryField
+        from src.schemas.india_data import MissingSummaryField, RawArtifactProvenance
         missingness = []
         if missingness_summary:
             for item in missingness_summary:
@@ -137,6 +155,14 @@ class ManifestManager:
                     missingness.append(MissingSummaryField(**item))
                 elif isinstance(item, MissingSummaryField):
                     missingness.append(item)
+
+        artifacts = None
+        if raw_artifacts is not None:
+            artifacts = [
+                item if isinstance(item, RawArtifactProvenance)
+                else RawArtifactProvenance(**item)
+                for item in raw_artifacts
+            ]
 
         manifest = DatasetManifest(
             dataset_id=dataset_id,
@@ -148,6 +174,8 @@ class ManifestManager:
             retrieval_timestamp=retrieval_timestamp,
             raw_path=raw_path,
             raw_sha256=raw_sha256,
+            raw_paths=raw_paths,
+            raw_artifacts=artifacts,
             processing_version=processing_version,
             processing_parameters=processing_parameters or {},
             processed_path=processed_path,
@@ -214,12 +242,26 @@ class ManifestManager:
             if val is None or val == "":
                 errors.append(f"Required field '{field}' is missing or empty.")
 
-        # If acquired, raw_path and raw_sha256 must be present
+        # If acquired, raw evidence must be present (single- or multi-file).
         if manifest.acquisition_status == AcquisitionStatus.ACQUIRED:
-            if not manifest.raw_path:
-                errors.append("Acquired dataset must have raw_path.")
-            if not manifest.raw_sha256:
+            has_single_raw = bool(manifest.raw_path)
+            has_multi_raw = bool(manifest.raw_paths)
+            if not has_single_raw and not has_multi_raw:
+                errors.append(
+                    "Acquired dataset must have raw_path or raw_paths."
+                )
+            if has_single_raw and not manifest.raw_sha256:
                 errors.append("Acquired dataset must have raw_sha256.")
+            if has_multi_raw:
+                if not manifest.raw_artifacts:
+                    errors.append(
+                        "Acquired multi-file dataset must record raw_artifacts "
+                        "with SHA-256 per file."
+                    )
+                elif len(manifest.raw_artifacts) != len(manifest.raw_paths or []):
+                    errors.append(
+                        "raw_artifacts length must match raw_paths length."
+                    )
             if not manifest.earliest_observation:
                 errors.append("Acquired dataset must have earliest_observation.")
             if not manifest.latest_observation:
@@ -243,6 +285,26 @@ class ManifestManager:
                             f"Raw SHA-256 mismatch: manifest={manifest.raw_sha256}, "
                             f"actual={actual_hash}."
                         )
+            if manifest.raw_paths and manifest.raw_artifacts:
+                by_path = {item.path: item.sha256 for item in manifest.raw_artifacts}
+                for candidate in manifest.raw_paths:
+                    resolved = self._resolve_path(candidate)
+                    if not resolved.exists():
+                        errors.append(
+                            f"Acquired raw artifact does not exist: {resolved}"
+                        )
+                        continue
+                    expected = by_path.get(candidate)
+                    if not expected:
+                        errors.append(
+                            f"Acquired raw artifact missing SHA-256: {candidate}"
+                        )
+                    elif self.compute_sha256(str(resolved)) != expected:
+                        errors.append(
+                            f"Raw SHA-256 mismatch: {candidate} "
+                            f"manifest={expected}, "
+                            f"actual={self.compute_sha256(str(resolved))}."
+                        )
             if manifest.processed_path and manifest.processed_sha256:
                 processed = self._resolve_path(manifest.processed_path)
                 if not processed.exists():
@@ -265,13 +327,20 @@ class ManifestManager:
                     "and provide availability dates per record."
                 )
 
-        # Processed path must differ from raw path
-        if manifest.raw_path and manifest.processed_path:
-            if Path(manifest.raw_path).resolve() == Path(manifest.processed_path).resolve():
-                errors.append(
-                    "raw_path and processed_path must be different — "
-                    "raw data is immutable and must not be overwritten."
-                )
+        # Processed path must differ from raw path(s)
+        raw_candidates = []
+        if manifest.raw_path:
+            raw_candidates.append(manifest.raw_path)
+        if manifest.raw_paths:
+            raw_candidates.extend(manifest.raw_paths)
+        if manifest.processed_path:
+            for candidate in raw_candidates:
+                if Path(candidate).resolve() == Path(manifest.processed_path).resolve():
+                    errors.append(
+                        "raw_path and processed_path must be different — "
+                        "raw data is immutable and must not be overwritten."
+                    )
+                    break
 
         return errors
 

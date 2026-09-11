@@ -366,6 +366,20 @@ class MissingSummaryField(BaseModel):
     missing_pct: float
 
 
+class RawArtifactProvenance(BaseModel):
+    """Provenance for one raw file in a multi-file acquisition.
+
+    Single-file datasets continue to use ``raw_path``/``raw_sha256``.
+    Multi-file acquisitions (e.g. annual NSE downloads) populate
+    ``raw_paths`` plus one entry per file here, preserving byte size and
+    row counts without rewriting raw evidence.
+    """
+    path: str
+    sha256: str
+    byte_size: Optional[int] = None
+    row_count: Optional[int] = None
+
+
 class DatasetManifest(BaseModel):
     """Machine-readable manifest for one acquired dataset.
 
@@ -383,6 +397,13 @@ class DatasetManifest(BaseModel):
 
     raw_path: Optional[str] = None
     raw_sha256: Optional[str] = None
+
+    # Smallest principled multi-artifact extension: raw acquisition may
+    # consist of several files (e.g. annual NSE downloads). When populated,
+    # raw_paths lists every artifact and raw_artifacts carries per-file
+    # SHA-256 provenance. Single-file manifests are unaffected.
+    raw_paths: Optional[List[str]] = None
+    raw_artifacts: Optional[List[RawArtifactProvenance]] = None
 
     processing_version: str = "1.0.0"
     processing_parameters: Dict[str, Any] = Field(default_factory=dict)

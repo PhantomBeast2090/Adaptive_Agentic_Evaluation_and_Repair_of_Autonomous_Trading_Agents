@@ -7,7 +7,7 @@ contains a deterministic SHA-256 hash.
 
 | Dataset | Tier / asset class | Primary source and official source | Expected fields and native frequency | Availability / revision / calendar considerations | Acquisition mechanism | Raw / processed location | Current status |
 |---|---|---|---|---|---|---|---|
-| NIFTY 50 | A / equity index | NSE, [historical index data](https://www.nseindia.com/market-data/historical-index-data) | date, OHLC, volume, turnover; daily | NSE trading calendar; index history coverage must be measured | Manual NSE CSV; adapter normalizes headers | `data/raw/india/indices/`, `data/processed/india/market/` | Verified source; expected long history; not acquired in this checkout |
+| NIFTY 50 | A / equity index | NSE, [historical index data](https://www.nseindia.com/market-data/historical-index-data) | date, OHLC, volume, turnover; daily | NSE trading calendar; index history coverage must be measured; historical calendar 1997-2025 unavailable (2026 artifact only) | Manual NSE CSV (29 annual files 1997-11-03 to 2026-09-11); canonicalized by `src/india/nifty_canonicalize.py` with identical-boundary dedup | `data/raw/india/indices/NIFTY 50-*.csv` (29 files, immutable), `data/processed/india/market/nse_nifty_50_daily.csv` (7183 rows, 1997-11-03 to 2026-09-11) | **Acquired and validated (20 identical boundary overlaps deduped, 0 conflicts); VALIDATED_BUT_BLOCKED** — blocked for experiments pending historical calendar + 10 mandatory-dataset intersection |
 | NIFTY 500 | A / equity index | NSE historical index data | date, OHLC, volume, turnover; daily | NSE calendar; inception differs from NIFTY 50 | Manual NSE CSV | Same as above | Verified source; coverage pending |
 | NIFTY Bank | B / sector index | NSE historical index data | date, OHLC and available analytics; daily | NSE calendar; sector membership changes | Manual NSE CSV | Same as above | Verified source; coverage pending |
 | NIFTY IT | B / sector index | NSE historical index data | date, OHLC and available analytics; daily | NSE calendar; sector membership changes | Manual NSE CSV | Same as above | Verified source; coverage pending |
@@ -42,7 +42,9 @@ retail APIs, or claiming coverage that has not been observed.
 
 Each acquired artifact must have a manifest under
 `data/manifests/india/`. The manifest records the exact source URL or manual
-source description, retrieval timestamp, raw SHA-256, processing parameters,
+source description, retrieval timestamp, raw SHA-256(s) — `raw_path`/`raw_sha256`
+for single-file acquisitions or `raw_paths`/`raw_artifacts` for multi-file
+acquisitions such as the 29 annual NSE NIFTY 50 CSVs — processing parameters,
 coverage, missingness, and validation status. Raw files are immutable evidence;
 processed files must be separate artifacts with their own hash.
 

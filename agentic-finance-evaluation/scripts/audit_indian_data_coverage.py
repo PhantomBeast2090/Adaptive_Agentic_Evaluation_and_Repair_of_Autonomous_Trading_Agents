@@ -31,7 +31,10 @@ from src.india.leakage_audit import LeakageAuditor
 def _read_table(path: Path) -> pd.DataFrame:
     suffix = path.suffix.lower()
     if suffix == ".csv":
-        return pd.read_csv(path)
+        frame = pd.read_csv(path, encoding="utf-8-sig")
+        # Normalize NSE-style headers ("Date ", BOM) without altering values.
+        frame.columns = [str(col).lstrip("\ufeff").strip() for col in frame.columns]
+        return frame
     if suffix in {".parquet", ".pq"}:
         return pd.read_parquet(path)
     if suffix == ".json":
@@ -55,21 +58,72 @@ def _read_table(path: Path) -> pd.DataFrame:
                 csv_paths.append(candidate)
         if not csv_paths:
             raise ValueError(f"No listed CSV artifacts found in {path}")
-        return pd.concat((pd.read_csv(item) for item in csv_paths), ignore_index=True)
+        frames = []
+        for item in csv_paths:
+            frame = pd.read_csv(item, encoding="utf-8-sig")
+            frame.columns = [str(col).lstrip("\ufeff").strip() for col in frame.columns]
+            frames.append(frame)
+        return pd.concat(frames, ignore_index=True)
     raise ValueError(f"Unsupported tabular artifact: {path.suffix}")
 
 
+def _resolve_raw_evidence(
+    manifest: dict[str, Any], base_dir: Path
+) -> tuple[list[Path], Optional[Path]]:
+    """Return (existing raw files, processed file if present).
+
+    Supports both legacy single-file manifests (``raw_path``) and the
+    multi-file extension (``raw_paths`` + ``raw_artifacts``) without
+    rewriting raw evidence.
+    """
+    raw_files: list[Path] = []
+    raw_value = manifest.get("raw_path")
+    if raw_value:
+        candidate = (
+            Path(raw_value)
+            if Path(raw_value).is_absolute()
+            else base_dir / str(raw_value)
+        )
+        if candidate.exists():
+            raw_files.append(candidate)
+        elif manifest.get("acquisition_status") == "acquired":
+            # Single-file manifest claims acquisition but file is missing.
+            pass
+    for entry in manifest.get("raw_paths") or []:
+        candidate = (
+            Path(entry) if Path(entry).is_absolute() else base_dir / str(entry)
+        )
+        if candidate.exists():
+            raw_files.append(candidate)
+    processed_value = manifest.get("processed_path")
+    processed: Optional[Path] = None
+    if processed_value:
+        candidate = (
+            Path(processed_value)
+            if Path(processed_value).is_absolute()
+            else base_dir / str(processed_value)
+        )
+        if candidate.exists():
+            processed = candidate
+    return raw_files, processed
+
+
 def _date_column(df: pd.DataFrame) -> Optional[str]:
+    normalized = {
+        str(col).lstrip("\ufeff").strip(): col for col in df.columns
+    }
+    lowered = {key.lower(): value for key, value in normalized.items()}
     for candidate in (
         "date",
         "trade_date",
+        "trading_date",
         "observation_date",
         "timestamp",
         "datetime",
-        "tradingDate",
+        "tradingdate",
     ):
-        if candidate in df.columns:
-            return candidate
+        if candidate in lowered:
+            return lowered[candidate]
     return None
 
 
@@ -154,27 +208,34 @@ def run_audit(base_dir: Path) -> str:
 
     for manifest in _load_manifests(manifest_dir):
         status = str(manifest.get("acquisition_status", "not_started")).lower()
-        raw_path_value = manifest.get("raw_path")
-        raw_path = (
-            Path(raw_path_value)
-            if raw_path_value and Path(raw_path_value).is_absolute()
-            else base_dir / raw_path_value
-            if raw_path_value
-            else None
-        )
-        if status != "acquired" or raw_path is None or not raw_path.exists():
+        raw_files, processed_file = _resolve_raw_evidence(manifest, base_dir)
+        dataset_label = str(manifest.get("dataset_id", "unknown"))
+        if status != "acquired" or not raw_files:
             pending.append(manifest)
             continue
+        # Prefer the canonical processed artifact when present (it carries
+        # deduplicated, chronologically sorted observations with a stable
+        # `date` column). Raw annual files remain the immutable evidence and
+        # are hash-verified via the manifest.
+        audit_path: Optional[Path] = processed_file
         try:
-            df = _read_table(raw_path)
+            if audit_path is not None:
+                df = _read_table(audit_path)
+            else:
+                frames = [_read_table(item) for item in raw_files]
+                df = (
+                    pd.concat(frames, ignore_index=True)
+                    if len(frames) > 1
+                    else frames[0]
+                )
         except (OSError, ValueError, pd.errors.ParserError) as exc:
-            errors.append(f"{manifest.get('dataset_id', raw_path.name)}: {exc}")
+            errors.append(f"{dataset_label}: {exc}")
             continue
 
         date_col = _date_column(df)
         if date_col is None:
             errors.append(
-                f"{manifest.get('dataset_id', raw_path.name)}: no supported date column"
+                f"{dataset_label}: no supported date column"
             )
             continue
 
@@ -183,7 +244,12 @@ def run_audit(base_dir: Path) -> str:
             for item in manifest.get("missingness_summary", [])
             if isinstance(item, dict) and item.get("field_name")
         ]
-        dataset_id = str(manifest.get("dataset_id", raw_path.stem))
+        audit_stem = (
+            audit_path.stem
+            if audit_path is not None
+            else (raw_files[0].stem if raw_files else dataset_label)
+        )
+        dataset_id = str(manifest.get("dataset_id", audit_stem))
         frequency = str(manifest.get("frequency", "")).lower()
         frequency = frequency.rsplit(".", 1)[-1]
         frequency = {"daily": "daily", "monthly": "monthly"}.get(frequency)
@@ -325,9 +391,29 @@ def run_audit(base_dir: Path) -> str:
     if acquired:
         for item in acquired:
             manifest = item["manifest"]
+            raw_hash_lines = []
+            if manifest.get("raw_paths") and manifest.get("raw_artifacts"):
+                raw_hash_lines.append(
+                    f"- Raw artifacts: `{len(manifest['raw_paths'])} annual files`"
+                )
+                for artifact in manifest["raw_artifacts"]:
+                    if isinstance(artifact, dict):
+                        raw_hash_lines.append(
+                            f"  - `{artifact.get('path')}`: "
+                            f"`{artifact.get('sha256', 'not recorded')}`"
+                        )
+            else:
+                raw_hash_lines.append(
+                    f"- Raw SHA-256: `{manifest.get('raw_sha256', 'not recorded')}`"
+                )
+            if manifest.get("processed_path"):
+                raw_hash_lines.append(
+                    f"- Processed: `{manifest.get('processed_path')}` "
+                    f"SHA-256 `{manifest.get('processed_sha256', 'not recorded')}`"
+                )
             lines.extend([
                 f"- Source: `{manifest.get('source_institution', 'unknown')}`",
-                f"- Raw SHA-256: `{manifest.get('raw_sha256', 'not recorded')}`",
+                *raw_hash_lines,
             ])
             lines.extend(
                 _markdown_result(
