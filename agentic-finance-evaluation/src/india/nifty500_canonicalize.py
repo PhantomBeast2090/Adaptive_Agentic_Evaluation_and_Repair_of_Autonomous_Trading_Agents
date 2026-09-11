@@ -1,31 +1,34 @@
-"""India VIX multi-file canonicalization.
+"""NIFTY 500 multi-file canonicalization.
 
-Validates manually acquired annual NSE India VIX CSVs in place (raw files
+Validates manually acquired annual NSE NIFTY 500 CSVs in place (raw files
 are never rewritten) and builds a deduplicated canonical dataset under
 ``data/processed/india/market/``.
 
-NSE observed format (UTF-8 with BOM, ascending date order within file):
-    Date ,Open ,High ,Low ,Close ,Prev. Close ,Change ,% Change
+NSE observed format (UTF-8, no BOM, descending date order, RFC-4180
+quoting, date format ``DD Mon YYYY``):
+    "Index Name","Date","Open","High","Low","Close"
 
-Note the sixth column is ``Prev. Close`` (with period), not ``Previous
-Close`` as earlier adapter documentation assumed. The validator checks the
-actual observed header.
+Unlike NIFTY 50, NSE supplies no Shares Traded / Turnover columns for
+these exports; volume/turnover are therefore absent from the canonical
+dataset and are never fabricated. Every row's Index Name was verified to
+be ``NIFTY 500`` during the audit.
 
-Canonical schema follows ``IndianVIXRecord``:
-    date, open, high, low, close, prev_close, change, pct_change,
-    source, source_files
+Canonical schema follows ``IndianIndexRecord`` (volume/turnover omitted):
+    date, index_name, open, high, low, close, source, source_files
 
-Invalid-row policy (documented, never silent): rows that parse but violate
-OHLC consistency, positivity, or finiteness are EXCLUDED from the canonical
-dataset and recorded with reasons. Raw evidence is untouched. Currently
-excluded: 22-AUG-2013 (close < low) and 12-FEB-2021 / 30-MAR-2021
-(zero-filled OHLC with NaN % Change placeholders).
+Invalid-row policy (documented, never silent): rows that fail numeric
+parsing (including NSE ``-`` OHLC placeholders), OHLC consistency, or
+positivity are EXCLUDED from the canonical dataset and recorded with
+reasons. Raw evidence is untouched. Currently excluded: 04-Mar-1997,
+03-Mar-1997, 21-Nov-1998 (``-`` OHLC placeholders); 30-Dec-2002,
+14-May-2004, 27-Apr-2004, 18-May-2009, 29-Apr-2009 (impossible OHLC).
 """
 
 from __future__ import annotations
 
+import csv
 import hashlib
-import math
+import io
 from dataclasses import dataclass, field
 from datetime import date, datetime
 from pathlib import Path
@@ -33,16 +36,15 @@ from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 
-NSE_DATE_FORMAT = "%d-%b-%Y"
+NSE_DATE_FORMAT = "%d %b %Y"
+EXPECTED_INDEX_NAME = "NIFTY 500"
 CANONICAL_COLUMNS = [
     "date",
+    "index_name",
     "open",
     "high",
     "low",
     "close",
-    "prev_close",
-    "change",
-    "pct_change",
     "source",
     "source_files",
 ]
@@ -56,37 +58,27 @@ def compute_sha256(path: Path) -> str:
     return h.hexdigest()
 
 
-def discover_vix_raw_files(raw_dir: Path) -> List[Path]:
-    """Return sorted annual India VIX CSVs. Raw files are never modified."""
-    return sorted(raw_dir.glob("hist_india_vix_*.csv"))
+def discover_nifty500_raw_files(raw_dir: Path) -> List[Path]:
+    """Return sorted annual NIFTY 500 CSVs. Raw files are never modified."""
+    return sorted(raw_dir.glob("NIFTY 500_Historical_PR_*.csv"))
 
 
-def normalize_nse_header(raw_header: str) -> List[str]:
-    """Strip BOM/whitespace from header fields without altering values."""
-    text = raw_header.lstrip("\ufeff")
-    return [part.strip() for part in text.split(",")]
+def normalize_nse_header(raw_header: List[str]) -> List[str]:
+    """Strip whitespace from header fields without altering values."""
+    return [part.strip() for part in raw_header]
 
 
-def expected_vix_header() -> List[str]:
-    return [
-        "Date",
-        "Open",
-        "High",
-        "Low",
-        "Close",
-        "Prev. Close",
-        "Change",
-        "% Change",
-    ]
+def expected_nifty500_header() -> List[str]:
+    return ["Index Name", "Date", "Open", "High", "Low", "Close"]
 
 
-def header_matches_vix_schema(normalized: List[str]) -> bool:
-    """Match the actual observed NSE VIX header exactly after normalization."""
-    return normalized == expected_vix_header()
+def header_matches_nifty500_schema(normalized: List[str]) -> bool:
+    """Match the actual observed NSE NIFTY 500 header exactly."""
+    return normalized == expected_nifty500_header()
 
 
 def parse_nse_date(value: str) -> date:
-    """Parse NSE 'DD-MMM-YYYY' dates (e.g. 03-NOV-2011). Raises on malformed."""
+    """Parse NSE 'DD Mon YYYY' dates (e.g. 01 Nov 2005). Raises on malformed."""
     text = value.strip()
     if not text:
         raise ValueError("empty date")
@@ -94,20 +86,22 @@ def parse_nse_date(value: str) -> date:
 
 
 @dataclass
-class VixExcludedRow:
+class Nifty500ExcludedRow:
     source_file: str
     date_text: str
     reason: str
 
 
 @dataclass
-class VixFileAudit:
+class Nifty500FileAudit:
     filename: str
     rel_path: str
     byte_size: int
     sha256: str
     header: List[str]
     header_valid: bool
+    has_bom: bool
+    index_names_observed: List[str]
     row_count: int
     parsed_date_count: int
     valid_row_count: int
@@ -119,8 +113,6 @@ class VixFileAudit:
     numeric_parsing_failures: int
     ohlc_violations: int
     negative_or_nonpositive_count: int
-    nonfinite_count: int
-    change_consistency_failures: int
     is_descending: bool
     is_ascending: bool
     first_observation: Optional[date]
@@ -128,7 +120,7 @@ class VixFileAudit:
 
 
 @dataclass
-class VixOverlap:
+class Nifty500Overlap:
     overlap_date: date
     files: List[str]
     identical: bool
@@ -136,20 +128,11 @@ class VixOverlap:
 
 
 def _row_is_valid(
-    o_val: float,
-    h_val: float,
-    l_val: float,
-    c_val: float,
-    pc_val: float,
-    ch_val: float,
-    pct_val: float,
+    o_val: float, h_val: float, l_val: float, c_val: float
 ) -> Optional[str]:
     """Return None if valid, else the exclusion reason. Never repairs."""
-    for value in (o_val, h_val, l_val, c_val, pc_val, ch_val, pct_val):
-        if not math.isfinite(value):
-            return "non-finite value (inf or NaN)"
-    if o_val <= 0 or h_val <= 0 or l_val <= 0 or c_val <= 0 or pc_val <= 0:
-        return "non-positive price (OHLC/Prev. Close must be > 0)"
+    if o_val <= 0 or h_val <= 0 or l_val <= 0 or c_val <= 0:
+        return "non-positive price (OHLC must be > 0)"
     if not (
         h_val >= o_val
         and h_val >= c_val
@@ -162,95 +145,87 @@ def _row_is_valid(
     return None
 
 
-def validate_vix_file(
+def validate_nifty500_file(
     path: Path, rel_path: str
-) -> Tuple[VixFileAudit, pd.DataFrame, List[VixExcludedRow]]:
+) -> Tuple[Nifty500FileAudit, pd.DataFrame, List[Nifty500ExcludedRow]]:
     """Validate one annual file in place.
 
     Returns (audit, valid-records frame, excluded rows with reasons).
     """
     raw_bytes = path.read_bytes()
     sha = hashlib.sha256(raw_bytes).hexdigest()
+    has_bom = raw_bytes[:3] == b"\xef\xbb\xbf"
     text = raw_bytes.decode("utf-8-sig")
-    lines = text.splitlines()
-    if not lines:
+    parsed = list(csv.reader(io.StringIO(text)))
+    if not parsed:
         raise ValueError(f"{path.name}: empty file")
-    header = normalize_nse_header(lines[0])
-    header_valid = header_matches_vix_schema(header)
+    header = normalize_nse_header(parsed[0])
+    header_valid = header_matches_nifty500_schema(header)
 
     records: List[Dict[str, Any]] = []
-    excluded: List[VixExcludedRow] = []
+    excluded: List[Nifty500ExcludedRow] = []
+    index_names: List[str] = []
     null_malformed = 0
     numeric_failures = 0
     ohlc_violations = 0
     nonpositive = 0
-    nonfinite = 0
-    change_failures = 0
     parsed_dates: List[date] = []
-    valid_dates: List[date] = []
     seen: Dict[date, int] = {}
 
-    for line in lines[1:]:
-        if not line.strip():
+    for row in parsed[1:]:
+        if len(row) != 6 or any(v.strip() == "" for v in row):
             null_malformed += 1
             continue
-        parts = line.split(",")
-        if len(parts) != 8:
-            null_malformed += 1
-            continue
-        fields = [p.strip() for p in parts]
-        if any(v == "" for v in fields):
-            null_malformed += 1
-            continue
-        date_text = fields[0]
+        name_text, date_text = row[0].strip(), row[1].strip()
+        if name_text not in index_names:
+            index_names.append(name_text)
         try:
             obs = parse_nse_date(date_text)
         except ValueError:
             null_malformed += 1
             continue
+        if any(v.strip() == "-" for v in row[2:6]):
+            numeric_failures += 1
+            parsed_dates.append(obs)
+            seen[obs] = seen.get(obs, 0) + 1
+            excluded.append(
+                Nifty500ExcludedRow(
+                    source_file=path.name,
+                    date_text=date_text,
+                    reason="missing OHLC ('-' placeholder in source)",
+                )
+            )
+            continue
         try:
-            o_val = float(fields[1])
-            h_val = float(fields[2])
-            l_val = float(fields[3])
-            c_val = float(fields[4])
-            pc_val = float(fields[5])
-            ch_val = float(fields[6])
-            pct_val = float(fields[7])
+            o_val = float(row[2].strip())
+            h_val = float(row[3].strip())
+            l_val = float(row[4].strip())
+            c_val = float(row[5].strip())
         except ValueError:
             numeric_failures += 1
             continue
         parsed_dates.append(obs)
         seen[obs] = seen.get(obs, 0) + 1
-        reason = _row_is_valid(o_val, h_val, l_val, c_val, pc_val, ch_val, pct_val)
+        reason = _row_is_valid(o_val, h_val, l_val, c_val)
         if reason is not None:
             if "impossible OHLC" in reason:
                 ohlc_violations += 1
-            elif "non-positive" in reason:
-                nonpositive += 1
             else:
-                nonfinite += 1
+                nonpositive += 1
             excluded.append(
-                VixExcludedRow(
+                Nifty500ExcludedRow(
                     source_file=path.name, date_text=date_text, reason=reason
                 )
             )
             continue
-        # Change / % Change cross-check (tolerance for NSE rounding only).
-        if abs(ch_val - (c_val - pc_val)) > 0.011:
-            change_failures += 1
-        if pc_val != 0 and abs(pct_val - (c_val - pc_val) / pc_val * 100) > 0.011:
-            change_failures += 1
-        valid_dates.append(obs)
         records.append(
             {
                 "date": obs,
+                "index_name": name_text,
                 "open": o_val,
                 "high": h_val,
                 "low": l_val,
                 "close": c_val,
-                "prev_close": pc_val,
-                "change": ch_val,
-                "pct_change": pct_val,
                 "source_file": path.name,
             }
         )
@@ -266,14 +241,16 @@ def validate_vix_file(
         if len(parsed_dates) > 1
         else True
     )
-    audit = VixFileAudit(
+    audit = Nifty500FileAudit(
         filename=path.name,
         rel_path=rel_path,
         byte_size=len(raw_bytes),
         sha256=sha,
         header=header,
         header_valid=header_valid,
-        row_count=len(lines) - 1,
+        has_bom=has_bom,
+        index_names_observed=index_names,
+        row_count=len(parsed) - 1,
         parsed_date_count=len(parsed_dates),
         valid_row_count=len(records),
         excluded_row_count=len(excluded),
@@ -284,8 +261,6 @@ def validate_vix_file(
         numeric_parsing_failures=numeric_failures,
         ohlc_violations=ohlc_violations,
         negative_or_nonpositive_count=nonpositive,
-        nonfinite_count=nonfinite,
-        change_consistency_failures=change_failures,
         is_descending=is_desc,
         is_ascending=is_asc,
         first_observation=parsed_dates[0] if parsed_dates else None,
@@ -297,21 +272,23 @@ def validate_vix_file(
 
 def audit_all_files(
     raw_dir: Path,
-) -> Tuple[List[VixFileAudit], List[pd.DataFrame], List[VixExcludedRow]]:
-    files = discover_vix_raw_files(raw_dir)
-    audits: List[VixFileAudit] = []
+) -> Tuple[List[Nifty500FileAudit], List[pd.DataFrame], List[Nifty500ExcludedRow]]:
+    files = discover_nifty500_raw_files(raw_dir)
+    audits: List[Nifty500FileAudit] = []
     frames: List[pd.DataFrame] = []
-    excluded_all: List[VixExcludedRow] = []
+    excluded_all: List[Nifty500ExcludedRow] = []
     for path in files:
-        rel = f"data/raw/india/india_vix/{path.name}"
-        audit, frame, excluded = validate_vix_file(path, rel)
+        rel = f"data/raw/india/indices/{path.name}"
+        audit, frame, excluded = validate_nifty500_file(path, rel)
         audits.append(audit)
         frames.append(frame)
         excluded_all.extend(excluded)
     return audits, frames, excluded_all
 
 
-def detect_overlaps(frames: List[pd.DataFrame], filenames: List[str]) -> List[VixOverlap]:
+def detect_overlaps(
+    frames: List[pd.DataFrame], filenames: List[str]
+) -> List[Nifty500Overlap]:
     """Group valid records by date across files; flag identical vs conflicting."""
     by_date: Dict[date, List[Tuple[str, Tuple[float, ...]]]] = {}
     for frame, name in zip(frames, filenames):
@@ -322,12 +299,9 @@ def detect_overlaps(frames: List[pd.DataFrame], filenames: List[str]) -> List[Vi
                 float(row["high"]),
                 float(row["low"]),
                 float(row["close"]),
-                float(row["prev_close"]),
-                float(row["change"]),
-                float(row["pct_change"]),
             )
             by_date.setdefault(key, []).append((name, values))
-    overlaps: List[VixOverlap] = []
+    overlaps: List[Nifty500Overlap] = []
     for obs_date in sorted(by_date):
         entries = by_date[obs_date]
         if len(entries) <= 1:
@@ -335,7 +309,7 @@ def detect_overlaps(frames: List[pd.DataFrame], filenames: List[str]) -> List[Vi
         first_values = entries[0][1]
         identical = all(values == first_values for _, values in entries)
         overlaps.append(
-            VixOverlap(
+            Nifty500Overlap(
                 overlap_date=obs_date,
                 files=[name for name, _ in entries],
                 identical=identical,
@@ -351,7 +325,7 @@ def detect_overlaps(frames: List[pd.DataFrame], filenames: List[str]) -> List[Vi
 def build_canonical(
     frames: List[pd.DataFrame],
     filenames: List[str],
-    overlaps: List[VixOverlap],
+    overlaps: List[Nifty500Overlap],
 ) -> pd.DataFrame:
     """Combine validated frames, dedup only proven identical boundary dates.
 

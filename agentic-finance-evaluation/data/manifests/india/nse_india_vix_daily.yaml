@@ -125,9 +125,9 @@ processing_parameters:
   validation:
     change_consistency_failures: 0
     malformed_rows: 0
-    nonpositive_or_nonfinite_excluded: 3
+    nonfinite_excluded: 2
     numeric_failures: 0
-    ohlc_violations: 3
+    ohlc_violations: 1
     within_file_duplicates: 0
 processing_version: 1.0.0
 raw_artifacts:

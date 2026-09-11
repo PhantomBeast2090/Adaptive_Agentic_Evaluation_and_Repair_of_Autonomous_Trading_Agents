@@ -5,10 +5,10 @@
 
 ## 1. Acquisition status
 
-- Acquired and auditable datasets: **3**
-- Acquired mandatory market/macro datasets: **2**
+- Acquired and auditable datasets: **4**
+- Acquired mandatory market/macro datasets: **3**
 - Acquired support/calendar artifacts: **1**
-- Pending/unavailable datasets: **11**
+- Pending/unavailable datasets: **10**
 - Artifact read errors: **0**
 - Pending datasets:
   - `crude_oil_brent_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
@@ -96,28 +96,6 @@ Expected IIP CSV structure:
   Base year: 2011-12=100 (current series)
 
   - `nse_equity_bhavcopy_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
-  - `nse_nifty_500_daily`: pending_manual_download — [nse_nifty_500_daily] Acquisition from NSE historical data for NIFTY 500 failed: Automated NSE index download requires session authentication not reliably automatable via HTTP. Manual download required.
-
-Manual download instructions:
-
-NSE Index 'NIFTY 500' Manual Download Instructions:
-1. Visit: https://www.nseindia.com/market-data/historical-index-data
-2. In the "Select Index" dropdown, choose: NIFTY 500
-3. In "From Date" enter the earliest available date
-4. In "To Date" enter today's date
-5. Click "Get Data", then "Download CSV"
-6. Place the downloaded file at:
-   data/raw/india/indices/nifty_500_daily.csv
-
-Expected columns (NSE format):
-  Date | Open | High | Low | Close | Shares Traded | Turnover (Rs. Cr)
-
-Note: NSE historical index data typically starts from:
-  NIFTY 50: ~1999-01-04
-  NIFTY 500: ~1995-01-01
-  NIFTY BANK: ~2000-01-04
-  NIFTY IT, PHARMA, etc.: varies
-
   - `rbi_gsec_10y_yield`: pending_manual_download — [rbi_gsec_10y_yield] Acquisition from RBI DBIE (10Y yield) failed: DBIE automated fetch failed: HTTPSConnectionPool(host='dbie.rbi.org.in', port=443): Max retries exceeded with url: /DBIE/dbie.rbi?site=export&seriesId=BSR1:BISQ:A:A:4:0:WT.GSEC_10Y&format=CSV (Caused by SSLError(SSLCertVerificationError(1, "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'dbie.rbi.org.in'. (_ssl.c:1081)"))). RBI DBIE requires authenticated session or API key. Manual download required.
 
 Manual download instructions:
@@ -276,6 +254,54 @@ Do NOT use retail/commercial bank rates or Yahoo Finance as primary source.
 - Calendar: 17 non-trading observations; 0 heuristic trading days absent (UNAVAILABLE:nse_trading_holidays_2026.json)
 
 - Source: `NSE`
+- Raw artifacts: `30 annual files`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_01112004to01112005.csv`: `a5efd1ecac5d4a44c927093dbb8472c8991cf6153e1555d1d6aa11ebcab104a0`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_01112005to01112006.csv`: `af99869f988ee03a1fdc8084d1eff082a97a20f130b4ac465658f081a2a4bc07`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_01112006to01112007.csv`: `623ec36698fcf5fc057eac8348f3532d959a084dbbc1877fc99a26e687887cbf`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_01112007to31102008.csv`: `ce629419eebcf1a8edb8bff749b171afd63cd6c82af9c47b4e28b6d48d5bd99e`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_02112000to02112001.csv`: `84f17c90be61055a2563b724c28efc0add38a1de31e27aafaaf24157f6b419f0`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_02112001to02112002.csv`: `072f6953ca3d066ed35f8d1d74f33bcad159c8bf0d2eb34568189894dd17ff7d`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_02112002to02112003.csv`: `8c648ea77a8efc6aa4bd6a65fc4e2d08cc805e7a9e29b5de77c4dc774b63ab30`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_02112003to01112004.csv`: `0c007e00d0be8a35e66dde3530534689b691731efc61b2f657041b3d703b9caf`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_03111996to03111997.csv`: `dc5006508d1d95abd3579fc39bbb4bdbff18a3f859ef8e0d66259b616b49a258`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_03111997to03111998.csv`: `fe1a277751b9f5d389a17d6870eb354bf08f749985e813f3b29c3ad3401401c5`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_03111998to03111999.csv`: `7dd78070612ef1831f1738584de7b225e5b360e28ebb33e17410d92d770e5ae1`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_03111999to02112000.csv`: `c1297a653facf05cfaa3f0c7677d1eed2ba74f813698e6760f767370ba30ed91`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_28102024to28102025.csv`: `b0a7332f12f82530ab15fb3b6c71275f7caa2123b94ade1e1f1f9c9b0cda8791`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_28102025to11092026.csv`: `d9f7bbb9caeff3e84c5e4d5a5c6dd8cb4826add6704afa263f84bb99165c0da7`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_29102020to29102021.csv`: `8a789897d86d27d8034fae256c21da20748d0df56ad1966589a9a7a94a1307c7`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_29102021to29102022.csv`: `1b69544c8a3e41fa9e066f92b8a7f9b2804ad56b4fb7785387f9f96c231c1d8c`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_29102022to29102023.csv`: `dd04db22e49e84da2ac657c824cde5b7005f51191ca8980e4e1ed36fa2521f17`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_29102023to28102024.csv`: `7770ff52216fd1e833f8ad19d6528c7e4f82572947d7c6a1754df608ede0822f`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_30102012to30102013.csv`: `241eb11cd33e2ab9f3df2df2c196e5ce3fefd8bf6b3c353659939cac63f8a34b`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_30102013to30102014.csv`: `efb4f27b89bfc23afa0dd6e8389bef086a0e0d40cc5d7ab1ccf4a3fc8ad65668`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_30102014to30102015.csv`: `dd7d77b8723f1598300e9a536f5075b4121ae9f08fdb95410eb5976d6299c5c4`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_30102015to29102016.csv`: `71a53e6c07bfaea9bee4a4adbb9ad56aa7e4b7f103c691bbc88d818e934eac69`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_30102016to29102017.csv`: `1099a931fac3630f1009ddeed9453874759a5d8bf5772be54501170b236d1ec7`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_30102017to30102018.csv`: `6413e342f8d63c884aa9bfaa4caf15fc92f135593fb4dfb1a6c74d1e86e8f63f`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_30102018to30102019.csv`: `69ce58c6ccdcaf787520c0ee0ff542a2b3e6a49706748f7be40e3e55c9bd83c1`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_30102019to29102020.csv`: `ee3cbdf6efafc09c5781c3709a0d6d11a27b47641c2a2f5481a4a3ae21569314`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_31102008to31102009.csv`: `f4e7574c6952073752ebb2c77e4d2dd5288c67323e8438e580a1770b53c36757`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_31102009to31102010.csv`: `0bcb750cc6fa1a176b0a0da930a252b82ed9fdb63b18bde2fbd40ee212554767`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_31102010to31102011.csv`: `cc1f4487044cd623c56ce70bc950110714e83ad07923723aca79f5ff43ee9705`
+  - `data/raw/india/indices/NIFTY 500_Historical_PR_31102011to30102012.csv`: `d103a71535a23f3f37b087dc50637dd8c347ac2d60ba59359d4e291641f0765a`
+- Processed: `data/processed/india/market/nse_nifty_500_daily.csv` SHA-256 `217149c2aebdc8c531ff465df15c07138760d783497441eceb8f43da991d35a1`
+### `nse_nifty_500_daily`
+- Earliest: `1996-11-04`
+- Latest: `2026-09-11`
+- Observations: 7413
+- Unique dates: 7413
+- Duplicate timestamps: 0
+- Duplicate identifier pairs: 0
+- Missingness:
+  - `date`: 0/7413 (0.00%)
+  - `open`: 0/7413 (0.00%)
+  - `high`: 0/7413 (0.00%)
+  - `low`: 0/7413 (0.00%)
+  - `close`: 0/7413 (0.00%)
+- Calendar: 40 non-trading observations; 0 heuristic trading days absent (UNAVAILABLE:nse_trading_holidays_2026.json)
+
+- Source: `NSE`
 - Raw artifacts: `29 annual files`
   - `data/raw/india/indices/NIFTY 50-03-11-1997-to-03-11-1998.csv`: `366b0bab09ed341c21f4e5affc2e13cbb5c87bc915ef51af8272f99426f66d2f`
   - `data/raw/india/indices/NIFTY 50-03-11-1998-to-03-11-1999.csv`: `3632fed1f09095adce48d472322c7dbfb6a763a41f1ece8b2aec8db77c62b45a`
@@ -370,7 +396,7 @@ Macro and policy datasets must carry observation_date and availability_date. Val
   - `mospi_cpi_combined_monthly`: Dataset not audited — no coverage data available.
   - `mospi_iip_general_monthly`: Dataset not audited — no coverage data available.
   - `nse_india_vix_daily`: Dataset is not experiment-eligible.
-  - `nse_nifty_500_daily`: Dataset not audited — no coverage data available.
+  - `nse_nifty_500_daily`: Dataset is not experiment-eligible.
   - `nse_nifty_50_daily`: Dataset is not experiment-eligible.
   - `rbi_gsec_10y_yield`: Dataset not audited — no coverage data available.
   - `rbi_gsec_364d_yield`: Dataset not audited — no coverage data available.
