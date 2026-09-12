@@ -316,7 +316,7 @@ def run_audit(base_dir: Path) -> str:
         item["df"]
         for item in acquired
         if item["manifest"].get("asset_class")
-        in {"equity", "index", "volatility", "volatility_index", "currency"}
+        in {"equity", "index", "volatility", "volatility_index", "currency", "fixed_income"}
     ]
     macro_frames = [
         item["df"]

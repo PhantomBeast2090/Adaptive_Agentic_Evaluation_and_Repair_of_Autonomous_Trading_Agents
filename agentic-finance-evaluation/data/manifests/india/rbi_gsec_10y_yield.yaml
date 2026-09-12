@@ -1,39 +1,113 @@
-acquisition_status: pending_manual_download
+acquisition_status: acquired
 asset_class: fixed_income
 dataset_id: rbi_gsec_10y_yield
-duplicate_count: null
-earliest_observation: null
-eligibility_status: acquisition_pending
-frequency: daily
+duplicate_count: 0
+earliest_observation: '2017-10-13'
+eligibility_status: blocked
+frequency: weekly
 has_availability_date: false
-has_observation_date: false
-latest_observation: null
-missingness_summary: []
-notes: "[rbi_gsec_10y_yield] Acquisition from RBI DBIE (10Y yield) failed: DBIE automated\
-  \ fetch failed: HTTPSConnectionPool(host='dbie.rbi.org.in', port=443): Max retries\
-  \ exceeded with url: /DBIE/dbie.rbi?site=export&seriesId=BSR1:BISQ:A:A:4:0:WT.GSEC_10Y&format=CSV\
-  \ (Caused by SSLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED]\
-  \ certificate verify failed: Hostname mismatch, certificate is not valid for 'dbie.rbi.org.in'.\
-  \ (_ssl.c:1081)\"))). RBI DBIE requires authenticated session or API key. Manual\
-  \ download required.\n\nManual download instructions:\n\nRBI/DBIE 10Y Yield Manual\
-  \ Download:\n1. Visit: https://dbie.rbi.org.in/DBIE/dbie.rbi?site=statistics\n2.\
-  \ Navigate: Financial Markets \u2192 Government Securities Market (or Money Market\
-  \ for T-Bills)\n3. Find series for 10Y yield/rate\n4. Select maximum date range\n\
-  5. Download as CSV\n6. Place at: data/raw/india/fixed_income/gsec_10y_yield.csv\n\
-  \nAlternative (FBIL):\n  https://www.fbil.org.in/#/home  \u2192 Benchmark Rates\
-  \ \u2192 FBIL T-Bill Rates\n  (For T-Bills only; G-Sec rates remain from RBI/DBIE)\n\
-  \nExpected CSV columns:\n  Date | Yield (%) | [optional: Price, Security ID]\n"
-processed_path: null
-processed_sha256: null
-processing_parameters: {}
+has_observation_date: true
+latest_observation: '2026-09-04'
+missingness_summary:
+- field_name: observation_date
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 465
+- field_name: tenor
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 465
+- field_name: yield_pct
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 465
+notes: "[rbi_gsec_10y_yield] RBI '50 Macroeconomic Indicators' workbook, Weekly sheet,\
+  \ exact series '10-Year G-Sec Yield (FBIL) (%)' (465 Friday-ending weeks, 2017-10-13\
+  \ to 2026-09-04). Raw workbook is immutable evidence under data/raw/india/fixed_income/\
+  \ (103038 bytes; sheets Weekly/Fortnightly/Monthly/Quarterly, only Weekly target\
+  \ series used; Period in column B, series in column M; workbook creator SERVER,\
+  \ created 2026-09-12). Definition: RBI-republished FBIL-derived 10Y G-Sec valuation\
+  \ yield in % p.a. (FBIL cubic-spline G-Sec valuation benchmarks, 10Y an important\
+  \ input tenor) \u2014 a fixed-income market-state variable; not an auction cut-off\
+  \ and not a single-security price. Rejected alternative: Investing.com 'India 10-Year\
+  \ Bond Yield Historical Data.csv' (tertiary aggregator, stale to 2017-03, redistribution\
+  \ prohibited) \u2014 never used. Total raw rows=465; canonical rows=465 (0 excluded,\
+  \ 0 duplicates, single source so no overlaps). Schema validation: header exact,\
+  \ 0 malformed/null rows, 0 numeric failures, 0 non-positive yields (range 5.7268-8.0732),\
+  \ 0 within-file duplicates, all Periods Fridays, perfect 7-day cadence (464 intervals,\
+  \ 0 gaps above threshold). Frequency corrected weekly (manifest previously assumed\
+  \ daily; the RBI weekly table is the authoritative frequency and no daily observation\
+  \ is claimed). Canonical dataset is ascending by observation date, duplicate-free,\
+  \ with per-observation source_files provenance; weekly observations never converted\
+  \ to daily, forward-filled, or interpolated; no pre-2017 splice from any other source.\
+  \ Leakage: price-frame audit clean (0 confirmed, 0 unresolved; 1 POTENTIAL CORPORATE_ACTION_UNVERIFIED\
+  \ not applicable to a sovereign yield); no publication_date supplied in workbook\
+  \ so none recorded \u2014 agent boundary is the observation (week-ending) date;\
+  \ future yields must remain inaccessible; evaluation labels may use future internally\
+  \ without leaking. Calendar: authoritative NSE holiday artifact covers 2026 only;\
+  \ historical calendar completeness cannot be established and must not be inferred\
+  \ from weekdays; coverage audit reports calendar UNAVAILABLE. Redistribution: RBI-published\
+  \ public macro statistics retained with Source RBI attribution; no contractual redistribution\
+  \ prohibition analogous to FBIL-gated or Investing.com ToS was found \u2014 attribution\
+  \ retained in manifest and canonical source field. Eligibility: VALIDATED_BUT_BLOCKED\
+  \ (manifest eligibility_status=blocked) pending (a) historical calendar coverage\
+  \ and (b) common intersection with the other mandatory datasets. Do not mark experiment-eligible\
+  \ merely because files exist."
+processed_path: data/processed/india/market/rbi_gsec_10y_weekly.csv
+processed_sha256: fb5c4845f143b11749df283d07d92b27ab050e207f714e329af38a54e18581a4
+processing_parameters:
+  cadence: perfect 7-day (464 intervals)
+  calendar_coverage: 2026-only; 2017-2025 calendar-unavailable
+  canonical_rows: 465
+  conflicting_overlaps: 0
+  date_parsing: RBI datetime Period to ISO YYYY-MM-DD (all week-ending Fridays)
+  date_semantics: native market observation date ('observation_date' = week-ending
+    Friday) per the Indian Data Contract; has_observation_date=true reflects the fixed-income
+    observation_date field; no availability_date supplied
+  duplicate_extra_rows_before_dedup: 0
+  excluded_invalid_rows: []
+  fabricated_missing_days: false
+  forward_fill: false
+  identical_overlaps_deduped: 0
+  leakage: price-frame clean (0 confirmed/0 unresolved); boundary at observation date
+  method: extract_rbi_weekly_series_sort_ascending
+  pre_2017_splice: false
+  provenance_column: source_files
+  rejected_alternative: "Investing.com India 10Y CSV (tertiary, stale 2017-03, redistribution\
+    \ prohibited) \u2014 provenance-unverified, never used"
+  series: 10-Year G-Sec Yield (FBIL) (%)
+  sheet: Weekly
+  sort: ascending by observation date (raw workbook descending)
+  source_files_count: 1
+  tenor: 10Y
+  total_raw_rows: 465
+  underlying_methodology: FBIL G-Sec valuation benchmarks (cubic spline, Pienaar-Choudhary);
+    10Y important input tenor
+  unique_dates: 465
+  validation:
+    malformed_rows: 0
+    nonpositive_yields: 0
+    numeric_failures: 0
+    within_file_duplicates: 0
+    yield_range:
+    - 5.7268
+    - 8.0732
+  workbook: 50 Macroeconomic Indicators.xlsx
 processing_version: 1.0.0
+raw_artifacts:
+- byte_size: 103038
+  path: data/raw/india/fixed_income/50 Macroeconomic Indicators.xlsx
+  row_count: 465
+  sha256: 1072bfe9347c6c510c495d2d0894dc6e3931b23775a68faab5c74391f52e679d
 raw_path: null
+raw_paths:
+- data/raw/india/fixed_income/50 Macroeconomic Indicators.xlsx
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T17:20:50.966328+00:00'
-row_count: null
+retrieval_timestamp: '2026-09-12T04:49:32.549348+00:00'
+row_count: 465
 source_institution: RBI
-source_url: null
+source_url: https://www.rbi.org.in/
 tier: A
-unique_date_count: null
-validation_status: pending
+unique_date_count: 465
+validation_status: passed
 variable: GSEC_10Y_YIELD
