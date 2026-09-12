@@ -1,0 +1,1532 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Annual Report | Official Website of Reserve Bank of India </title>
+    <meta name="description" content="Annual Report - Reserve Bank of India" />
+    <meta name="keyword" content="RBI Annual Report" />
+    <meta name="author " content="Reserve Bank of India" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="/js/libs/modernizr-2.5.3.min.js"></script>
+</head>
+<body onload="SetTreeStyles()">
+    <form method="post" action="./AnnualReportPublications.aspx?Id=1316" id="Form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJMzY1MDIzMjgyZGTirogjiSKWyp2H7A6jss5xWpxVi6DImZfEwxE9PMK7EA==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="E309B892" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAwK4FgjMZGo32+EsU73+QFSlK+XrsQEVyjeDxQ0A4GYXM3IfYFEMdbtkmb6zzJSc2CLrBfuDtX7nV3nL+5njT0xpTvjNMInTm7jDqH04NfPDGQ6cu1iZ73N7YF2NPAmCyQ/q33cCQLgaFQSElESF1pcG6ARGh77hh0/r4ObuL1TAsg3NivnNEt6QsKSovCCK9t9xf1loRXvygROM/A1O+NHJounKCGGAHd04zzVhBPZz3RgTJ25FWigbeFr84Vgoxd85GmzTs9g56MExTizjelamo8ZO6PQqH+9hU02GyNvAg==" />
+</div>
+        <input type="hidden" name="hdnYear" id="hdnYear" />
+        
+<link href="/JQuery/css/jquery-ui-1.8.18.custom2.css" rel="stylesheet" type="text/css" />
+<link href="/includes/print.css" rel="stylesheet" media="print" type="text/css" />
+
+<link href="/Styles/960.css?v=1.0" rel="stylesheet" type="text/css" />
+<link href="/Includes1/rbi.css?v=5.0" rel="Stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/JQuery/ui/jquery.ui.revampRBI.js"></script>
+<script type="text/javascript" src="/js/ImgSaveDisable.js"></script>
+
+<script type="text/javascript">
+  
+//Redirect to mobile site start
+    function detectmob() {
+        if (screen.width <= 599 || screen.Height <= 975) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if (detectmob()) {
+       window.location.href = "https://m.rbi.org.in" + window.location.pathname;
+		
+       
+    }
+
+	//Redirect to mobile site End
+    $(document).ready(function () {
+        Search();
+	SearchLastUpdateDate(); //Fetch Last Date Page
+    });
+
+
+
+  // Fetch Last Date Page
+
+    function SearchLastUpdateDate() {
+        var strFilterComments = new RegExp("^[a-zA-Z0-9 =_:.&?'%,()-–]+$");
+	var url=window.location.href;
+	if(url.indexOf("WSSViewDetail.aspx")>0 || url.indexOf("PublicationReportDetails.aspx")>0)
+	{
+		url=url.substring(url,url.indexOf("?"));
+	}
+        var param = { keyWord1: url.slice(url.lastIndexOf('/') + 1) };
+	param.keyWord1=param.keyWord1.replaceAll("%20"," ");
+	if(param.keyWord1.indexOf("#")>0)
+	{
+		param.keyWord1=param.keyWord1.substring(param.keyWord1,param.keyWord1.indexOf("#"));
+	}
+        if (!strFilterComments.test(param.keyWord1)) {            
+            return false;
+        }
+        else {
+            $.ajax({
+                url: "/Home.aspx/GetLastUpdateDate_new",
+                data: JSON.stringify(param),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataFilter: function (data) { return data; },
+                success: function (data) {
+                    if (data.d.length > 0) {
+                        $('#lblGetLastUpdateDate').text(data.d);
+                    }
+                    else {
+                        response([{ label: "No results found", value: ""}]);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+
+        }
+    }
+    // Fetch Last Date Page
+
+
+
+    function Search() {
+        highlightTextAutocomplete();
+        $(".autoSuggest").autocomplete({
+
+
+            source: function (request, response) {
+                var param = { keyWord: document.getElementById('txtSearch').value };
+
+                $.ajax({
+                    url: "../Home.aspx/GetKeywords",
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+
+                        if (data.d.length > 0) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: RemoveSpecialChars(item)
+
+                                }
+                            }))
+                        }
+                        else {
+                            response([{ label: "No results found", value: ""}]);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            },
+
+            
+            minLength: 3
+
+        });
+    }
+
+    function highlightTextAutocomplete() {
+
+        var oldFn = $.ui.autocomplete.prototype._renderItem;
+
+        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+
+            var t = String(item.value).replace(
+                new RegExp(this.term, "gi"),
+                "<span class='ui-state-highlight'>$&</span>");
+            if (item.value != "") {
+                return $("<li class='borderAutocomplete'></li>")
+                  .data("item.autocomplete", item)
+                  .append("<a role='link'>" + t + "</a>")
+                  .appendTo(ul);
+            }
+
+            else {
+                return $("<li></li>")
+                  .data("item.autocomplete", item)
+                  .append("")
+                  .appendTo(ul);
+            }
+        };
+    }
+
+
+    function RemoveSpecialChars(inputText) {
+        var filteredString = inputText.replace(/[\*\^\'\!\@\$\.\#\(\)\-\?\<\>\;\"\&\+\{\}\:]/g, '');
+        
+        return filteredString;
+    }
+    
+
+    function LoadSearchData(id, key) {
+        if (id == "txtSearch") {
+            if (key == 13) {
+                validateSearchText();
+                return false;
+            }
+        }
+        else validateSearchText();
+        return true;
+    }
+    function validateSearchText() {
+        if (validation()) {
+            var strloc = new String(document.location.href.toString());
+            if (strloc.indexOf("SearchResults.aspx") == -1) {//             
+                window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+            }
+            else window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+        }
+    }
+    function validation() {
+        strSearch = trim(document.getElementById('txtSearch').value);
+        if (strSearch == "") { alert('Please enter the search text'); return false; }
+        else {
+           
+            var strFilterChars = new RegExp("^[0-9a-zA-Z ]*$");
+            if (!strFilterChars.test(strSearch)) { alert("Please remove special characters from search text"); return false; }
+        }
+        return true;
+    }
+    function trim(value) {
+        value = value.replace(/^\s+/, '');
+        value = value.replace(/\s+$/, '');
+        return value;
+    }
+
+</script>
+
+    <style type="text/css">
+    .blink_msm1 
+{
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 3s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: blinker;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@-moz-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+.blink_NewWebsite {
+        animation:blinker 1.5s linear 3;
+        color:blue;
+        font-size:1.5em;
+        margin-bottom:0px;
+        }
+    @keyframes blinker
+    {
+        50%{
+            opacity:0;
+        }
+    }
+
+.sr-only {
+position: absolute;
+left: -9999px;
+}
+</style>
+<div class="top_setting">
+    <div class="container_12">
+        <div class="grid_5 top_settings">
+            <a href="#mainsection">Skip to main content </a>
+        </div>
+        <div id="UsrFontCntr_tblThemes" style="float: right" class="grid_4 prefix_3 top_settings">
+            <ul style="margin:0px; padding:0px;">
+               <li class="fonts"> 
+                <a id="UsrFontCntr_LinkBtnSpace" role="button" title="Increase Letter Spacing" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnSpace&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/letspace.png" alt="Increase Letter Spacing" />
+                                <span id="UsrFontCntr_spanBtnSpace" class="sr-only">Not Pressed</span></a>                                
+            </li>
+
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontIncrease" role="button" title="Increase Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontIncrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-increase.gif" alt="Increase Font Size" />
+                    <span id="UsrFontCntr_spanFontIncrease" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontRegular" role="button" title="Regular Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontRegular&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-reset.gif" alt="Regular Font Size" />
+                    <span id="UsrFontCntr_spanFontRegular" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontDecrease" role="button" title="Decrease Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontDecrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-decrease.gif" alt="Decrease Font Size" />
+                    <span id="UsrFontCntr_spanFontDecrease" class="sr-only">Not Pressed</span></a>
+            </li></ul>
+		<ul style="margin:0px;padding:0px;">
+            <li class="black">
+                <a id="UsrFontCntr_LinkBtnAccessibilty" role="button" title="Apply Dark Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/dark-theme.gif" alt="Apply Dark Theme" />
+                    <span id="UsrFontCntr_spanAccessibilty" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="white">
+                <a id="UsrFontCntr_LinkBtnUndoAccessibilty" role="button" title="Apply Normal Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnUndoAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/bright-theme.gif" alt="Apply Normal Theme" />
+                     <span id="UsrFontCntr_spanUndoAccessibilty" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="white">
+            <a id="UsrFontCntr_LinkBtnGreyScale" role="button" title="Apply Grey Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnGreyScale&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/graytheme.gif" alt="Apply Grey Theme" />
+                                <span id="UsrFontCntr_spanGreyScale" class="sr-only">Not Pressed</span></a></li>
+
+            </ul>
+		<div>
+		     <a href="#" onclick="javascript:window.print();" id="A1" title="Print This Page" style="text-decoration:none;" >
+                <img src="/images/print-icon.png" alt="Print this page" class="print" />
+		</a></div>
+            <div style="float: right">
+                <label style="margin-right: 6px;">
+                    Change Language</label>
+			
+			<a href="#" onclick="SetLink();" class="link1" title="Website in Hindi">हिंदी</a>
+			</div>
+                   
+        </div>
+        <div class="clearfix">
+        </div>
+    </div>
+   
+</div>
+<div class="container_12">
+    <div class="grid_4" role="banner">
+        <div class="logo">
+            <a href="/home.aspx" title="Official website of Reserve Bank of India">
+                <img src="/images/rbi-company-logo.jpg" alt="Logo of Official website of Reserve Bank of India" title="Official website of Reserve Bank of India" /></a></div>
+    </div>
+    <div class="grid_5" align="right" role="search" style="float: right">
+        <label for="searchbox" class="search_label">
+            Search the Website</label>
+        <input name="UsrFontCntr$txtSearch" type="text" maxlength="103" id="txtSearch" class="search_box autoSuggest" title="Search the Website" aria-label="Search the Website" onkeydown="return LoadSearchData(&#39;txtSearch&#39;,event.keyCode);" placeHolder="Search" />
+        <button id="btnSearch" onclick="return LoadSearchData('btnSearch',event.keyCode);"
+            type="button" class="search_button">
+            Search</button>
+    </div>
+	<div class="grid_2" align="CENTER" role="" style="float: right">
+        <div class="logo" >
+           
+            <img src="../images/BBBP_Logo_4.png" alt="Beti Bachao Beti Padhao Logo" style="width:47%;">
+        </div>
+    	</div>
+    <div class="clearfix">
+    </div>
+</div>
+<!--  NAVIGATION START-->
+<nav role="navigation" aria-label="Main">
+       <div class="menu"><div class="centermenu">
+<ul class="menu">
+  <li><a href="https://rbi.org.in/home.aspx">Home</a></li>
+<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-Sub1">About Us ▼</a>
+ <ul class="submenu1" id="Ab-Sub1" >
+	 <li><a href="/scripts/AboutUsDisplay.aspx">About Us</a></li>
+     <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-org">Organisation & Functions <span aria-hidden="true">▶</span></a>
+		 <ul class="submenu1" id="Ab-org">             
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=OrganizationStructure.htm">Organisation Structure</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=Depts.htm">Departments</a></li>
+            <li><a href="Regionaloffices.aspx">Offices</a></li>
+			<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-tra">Training Establishment <span aria-hidden="true">▶</span></a>                
+				<ul class="submenu1" id="Ab-tra">
+                    <li ><a href="https://cab.rbi.org.in" target="_blank" id="CBOverview">College of Agricultural Banking</a></li>
+                    <li ><a href="/scripts/rbsc.aspx" id="CBNotifications">Reserve Bank Staff College</a></li>
+					<li ><a href="https://cos.rbi.org.in/" id="CBSupervisors">College of Supervisors</a></li>
+                </ul>
+            </li>
+            <li><a href="/scripts/OccasionalPublications.aspx?head=RBI%27s%20Functions%20and%20Working">RBI's Functions and Working</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=PastGovernors.htm">Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=deputygovernors.htm">Deputy Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=ExecutiveDirectors.htm">Executive Directors</a></li>
+        </ul>		
+	 </li>
+	 <li><a href="AboutUsDisplay.aspx?pg=MediaKit.htm">Media Kit</a></li>
+	 <li><a href="CommunicationPolicy.aspx">Communication Policy of RBI</a></li>
+     <li>
+        <a href="#" aria-expanded="false" role="button" aria-controls="Ab-soi">Sources of Information <span aria-hidden="true">▶</span></a>
+        <ul class="submenu1" id="Ab-soi">
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#AP">Annual Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#HP">Half-yearly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#QP">Quarterly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#MP">Monthly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#WP">Weekly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#OP">Occasional Publications</a></li>
+            <li><a href="/scripts/SDDSview.aspx">SDDS</a></li>
+            <li><a href="/scripts/BS_NSDPDisplay.aspx">NSDP</a></li>
+            <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#PS">Publications available on Subscription</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#GI">General Information</a></li>	  
+        </ul>
+     </li>  
+	 <li><a href="/scripts/Project1.aspx">RBI History</a></li>
+	 <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-mus">Museum <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="Ab-mus">
+			<li><a href="https://therbimuseum.rbi.org.in/">The RBI Museum</a></li>
+			<li><a href="/scripts/ic_museum.aspx">RBI Monetary Museum</a></li>
+         </ul>
+	 </li>
+</ul>
+</li>
+  <li>
+    <a href="#" aria-expanded="false" role="button" aria-controls="No-Sub1">Notification ▼</a>
+    <ul class="submenu1" id="No-Sub1">
+      <li><a href="/scripts/NotificationUser.aspx">Notifications </a></li>
+             <li><a href="/scripts/BS_ViewMasterDirections.aspx">Master Directions </a></li>
+             <li><a href="/scripts/BS_ViewMasterCirculardetails.aspx">Master Circulars </a></li> 
+	     <li><a href="/scripts/Fs_AmendmentDirections.aspx">Amendment Directions </a></li> 
+	     <li><a href="#" aria-expanded="false" role="button" aria-controls="No-draft">Draft Notifications/Guidelines <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="No-draft">
+			<li><a href="/scripts/DraftNotificationsGuildelines.aspx">Draft Notifications/Guidelines</a></li>
+			<li><a href="/scripts/BS_ViewREwiseDraftDirections.aspx">Draft Directions (RE-wise)</a></li> 
+         	</ul>
+	     </li>
+
+            
+             <li><a href="/scripts/BS_CircularIndexDisplay.aspx">Index To RBI Circulars </a></li> 
+             <li><a href="/scripts/BS_ViewListofstandalonecirculars.aspx">Standalone Circulars </a></li>
+             <li><a href="/scripts/NotificationUserWithdrawnCircular.aspx">Circulars Withdrawn </a></li>
+
+      
+    </ul>
+  </li>
+
+  <li><a href="/scripts/BS_PressReleaseDisplay.aspx">Press Releases</a></li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Sp-Sub1">Speeches & Media Interactions ▼</a>
+	<ul class="submenu1" id="Sp-Sub1">
+	  <li><a href="/scripts/BS_ViewSpeeches.aspx">Speeches</a></li>
+      <li><a href="/scripts/BS_ViewInterviews.aspx">Media Interactions</a></li>
+      <li><a href="/scripts/Lectures.aspx">Memorial Lectures</a></li>
+      <li><a href="/scripts/BS_ViewPodcast.aspx">Podcasts</a></li>
+	</ul>
+  </li>
+  <li><a href="#"  aria-expanded="false" role="button" aria-controls="Pu-Sub1">Publications ▼</a>
+		<ul class="submenu1" id="Pu-Sub1">
+			<li><a href="/scripts/Publications.aspx?publication=Biennial">Biennial</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Annual">Annual</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=HalfYearly">Half-Yearly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Quarterly">Quarterly</a></li>
+		    <li><a href="/scripts/Publications.aspx?publication=Bimonthly">Bi-monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Monthly">Monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Weekly">Weekly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Occasional">Occasional</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Reports">Reports</a></li>
+		    <li><a href="/scripts/OccasionalPublications.aspx?head=Working Papers">Working Papers</a></li>
+		</ul>
+	</li>				  
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Le-Sub1">Legal Framework ▼</a>
+	<ul class="submenu1" id="Le-Sub1">
+	   <li><a href="/scripts/Act.aspx">Act </a></li>
+       <li><a href="/scripts/Rules.aspx">Rules </a></li>
+       <li><a href="/scripts/Regulations.aspx">Regulations </a></li> 
+       <li class="last"><a href="/scripts/Schemes.aspx">Schemes </a></li>
+	   </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Re-Sub1">Research ▼</a>
+		<ul class="submenu1" id="Re-Sub1">
+			<li><a href="/Scripts/ExternalResearchSchemes.aspx">External Research Schemes</a></li>
+			<li><a href="/Scripts/OccasionalPapers.aspx">RBI Occasional Papers</a></li>
+			<li><a href="/Scripts/OccasionalPublications.aspx?head=Working%20Papers">Working Papers</a></li>
+			<li><a href="/Scripts/BS_ViewBulletin.aspx">RBI Bulletin</a></li>
+			<li><a href="/Scripts/Project1.aspx">History</a></li>
+			<li><a href="/Scripts/Occas_DRG_Studies.aspx">DRG Studies</a></li>
+			<li><a href="/Scripts/KLEMS.aspx">KLEMS</a></li>
+			<li class="last"><a href="/Scripts/StateStatisticsFinances.aspx">State Statistics and Finances</a></li>
+        </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Statistics ▼</a>
+		<ul class="submenu1" id="St-Sub1">
+		  <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+          <li><a href="https://data.rbi.org.in" target="_blank">Database on Indian Economy</a></li>
+          <li><a href="/scripts/FS_PDS.aspx">Public Debt Statistics</a></li>
+		</ul> 
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Regulatory Reporting ▼</a>
+		<ul class="submenu1">
+			<li><a href="/scripts/BS_Listofallreturns.aspx">List of Returns</a></li>
+			<li><a href="/scripts/DataDefinition.aspx">Data Definition</a></li>
+			<li><a href="/scripts/ValidationRules.aspx">Validation rules/ Taxonomy</a></li>
+			<li><a href="/scripts/ReportingPlaform.aspx">List of RBI Reporting Portals</a></li>
+			<li class="last"><a href="/scripts/ReportingFAQ.aspx">FAQs of RBI Reporting Portals</a></li>
+		</ul>
+   </li>
+</ul>
+</div></div>
+</nav>
+<div class="container_12" >
+    <section>
+        <div class="grid_12" >
+            <div id="dialogAlert" title="" tabindex="-1"  style="text-align: center; display: none;">
+                <p id="AM_Message" tabindex="-1" style="color: #444; font-size: 15px; margin: 20px 0; min-height: 40px;"></p>
+            </div>
+        </div>
+    </section>
+</div>
+<!--  NAVIGATION END-->
+<!--HEADER END-->
+<input type="submit" name="UsrFontCntr$btn" value="" id="btn" style="visibility: hidden; height: 0px; width: 0px;" />
+
+<script type="text/javascript">
+    function SetLink() {
+        //a.href = "https://www.rbi.org.in/hindi/Home.aspx";
+        var txt="This will lead you to Hindi (हिन्दी) language website. Are you sure you want to switch to this language?"
+        if(window.confirm(txt)==true){
+            //document.cookie = 'preferLang' + '=;secure; expires=Thu, 01-Jan-70 00:00:01 GMT;path=/;';
+            window.location.replace("https://www.rbi.org.in/hindi/");
+        }
+        else return false;
+        
+    }
+
+
+
+
+	const allMenuItems = document.querySelectorAll("nav ul li");
+	
+	allMenuItems.forEach(item => {
+		item.addEventListener("focusin", (event) => {	
+			const MenuText =event.target.textContent;
+			const allMenuItems1 = document.querySelectorAll(".hasSubmenu");
+			allMenuItems1.forEach(item1 => {
+				if (MenuText === 'Press Releases')
+				{	
+					
+					item1.classList.remove('focused');
+					rollback(item1)
+					item1.classList.remove('open');
+				}
+			});
+			
+		});
+	});
+
+
+const menuItems = document.querySelectorAll(".hasSubmenu");
+menuItems.forEach(item => {
+	item.addEventListener("mouseenter", (event) => {
+		item.className="hasSubmenu open focused"
+		expandThis(item);
+	});
+	item.addEventListener("mouseleave", (event) => {		
+		rollback(item)
+		item.className="hasSubmenu"
+	});
+	item.addEventListener("focusin", (event) => {		
+		const allMenuItems = document.querySelectorAll("nav ul li");
+		allMenuItems.forEach(item1 => {
+			item1.classList.remove('focused');
+			if(item!==item1)
+			rollback(item1)
+			item1.classList.remove('open');	
+		});							
+		item.classList.add('focused');
+	});
+	item.addEventListener("focusout", (event) => {
+		
+		if(!item.className.includes('focused')){
+		
+		rollback(item)
+		item.className="hasSubmenu"
+		}
+		item.classList.remove('focused');
+		item.classList.remove('open');
+	});
+
+    item.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+		if(item.className.includes("hasSubmenu open")){
+			rollback(item)
+			item.className="hasSubmenu"
+		}
+		else{
+          	item.className="hasSubmenu open focused"
+		var ele=item.querySelectorAll("a")[0];
+		
+		expandThis(item);	
+		}
+				
+        }
+	
+    });
+	
+});
+function expandThis(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+				    if ($targetul.queue().length <= 1) 
+				        if (this.istopheader)
+					$targetul.css({ left: $(this).children('a').eq(0).position().left, top: $mainmenu.position().top + this._dimensions.h - 2 })
+				            
+				    if (document.all && !window.XMLHttpRequest) 
+				        $mainmenu.find('ul').css({ overflow: (this.istopheader) ? 'hidden' : 'visible' })
+					
+					
+				    $targetul.dequeue().stop(true, true).slideDown(droplinemenu.animateduration.over)
+}
+const menuItemsf = document.querySelectorAll("nav .midmenu ul li");
+
+menuItemsf.forEach(item => {
+    item.addEventListener("keydown", (event) => {
+	
+	if(item.className.includes("last") ){
+		 if (pressedKeys['shift'] && event.key === "Tab"){}else{
+		var lastItem = document.getElementsByClassName('hasSubmenu open');
+		rollback(lastItem[0])
+		lastItem[0].className="hasSubmenu";
+		}
+	}
+	
+	});
+	
+	});
+	
+
+function rollback(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+$targetul.dequeue().stop(true, true).slideUp(droplinemenu.animateduration.out);
+}
+ 
+
+function setLetterSpace(val) {
+    
+	
+    if (false) {
+                    document.body.setAttribute("style", "letter-spacing:1px; line-height:20px; word-spacing:2px;");
+       
+    }
+    else {
+                    document.body.removeAttribute("style");
+    }
+    return false;
+
+    
+    }
+   
+
+// Toggle submenu
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if (submenu && submenu.classList.contains('submenu1')) {linkMessage();
+                e.preventDefault();
+                e.stopPropagation();
+
+                const parentLi = this.parentElement;
+
+                // Close sibling menus ONLY (not entire menu)
+                closeSiblings(parentLi);   
+ 
+
+               
+ 
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+        }
+        });
+    });
+
+    //  Close only sibling menus (important fix)
+    function closeSiblings(currentLi) {
+        const siblings = currentLi.parentElement.children;
+
+        Array.from(siblings).forEach(li => {
+            if (li !== currentLi) {
+            const submenus = li.querySelectorAll('.submenu1');
+        submenus.forEach(menu => menu.classList.remove('show'));
+    }
+    });
+    }
+
+    //  Click outside → close all
+    document.addEventListener('click', function () {
+		
+        document.querySelectorAll('.menu li > a').forEach(menu => {
+		if(menu.hasAttribute('aria-expanded')){
+            menu.setAttribute('aria-expanded','false');
+	}
+	
+    });
+
+    document.querySelectorAll('.submenu1').forEach(menu => {
+        menu.setAttribute('aria-hidden','true');
+    menu.classList.remove('show');
+	
+
+    });
+    });
+
+    //  Prevent closing when clicking inside menu
+    document.querySelector('.menu').addEventListener('click', function (e) {linkMessage();
+        e.stopPropagation();
+    });
+
+
+    //  Keyboard support
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('keydown', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if ((e.key === 'Enter' || e.key === ' ') && submenu) {
+                e.preventDefault();
+
+                const parentLi = this.parentElement;
+                closeSiblings(parentLi);
+
+
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+
+           
+        }
+
+          if (e.key === 'Escape') {
+        document.querySelectorAll('.submenu').forEach(menu => {
+            menu.classList.remove('show');
+    });
+    this.blur();
+    }
+    });
+    });
+    // When focusing main menu items → close other submenus
+    document.querySelectorAll('.menu > li > a').forEach(item => {
+        item.addEventListener('focus', function() {
+
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                
+                if (menu !== this.nextElementSibling) {
+              
+
+            document.querySelectorAll('.menu li > a').forEach(menu => {
+                if(menu.hasAttribute('aria-expanded'))
+                menu.setAttribute('aria-expanded','false');
+		
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                menu.setAttribute('aria-hidden','true');
+            
+            menu.classList.remove('show');
+            
+
+
+        });
+
+	
+    });
+
+    }
+    });
+
+    });
+    });
+
+    //  Close submenu when focus leaves it (TAB navigation)
+    document.querySelectorAll('.menu li').forEach(li => {
+        li.addEventListener('focusout', function (e) {
+            // Check if focus is still inside this <li>
+            if (!li.contains(e.relatedTarget)) {
+                const submenu = li.querySelector('.submenu1');
+                if (submenu) {
+                    submenu.classList.remove('show');
+                    if(li.querySelector('a').hasAttribute('aria-expanded'))
+                        li.querySelector('a').setAttribute('aria-expanded','false');
+	
+
+                    submenu.setAttribute('aria-hidden','true');
+                }
+            }
+        });
+    });
+</script>
+        <main class="container_12">
+        <a id="mainsection" name="mainsection"></a>
+
+        <nav aria-label="Breadcrumb" class="grid_12 breadcrumbs">
+<ul>
+                <li><a href="../home.aspx">Home</a></li>
+                <li><a href="publications.aspx">Publications</a></li>
+                <li><a href="publications.aspx">Annual</a></li>
+                <li><a href="AnnualReportMainDisplay.aspx">Annual Report Of The RBI</a></li>
+                <span id="lblNav"><li><a href="AnnualReportPublications.aspx?year=2012">III. Monetary Policy Operations</a></li></span>
+            </ul>
+ </nav>
+
+        <div class="clear">
+        </div>
+        <div class="grid_11 omega right_blue_border">
+            <div id="example-one" class="text1">
+                <div class="list-wrap">
+                    <div id="annual">
+
+                        <h1 class="page_title">Annual Report</h1>
+                        <br />
+                        <span id="lblNote" style="text-align: justify"> <font color="RED"><b>Note : </b></font>To read the chapter of your choice, please click on the links below. You can also read past reports by accessing the archives in the right panel.</span>
+                        <div>
+                            <div id="doublescroll">
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                    
+                                    <table class="tablebg" width="100%"> <tr><td class="tableheader" align="left"><a id='APDF_3IIIMONETARYPOLICYOPERATIONS7C1E4420EAE448108D47F999DB5ACC13' target="_blank" href="https://rbidocs.rbi.org.in/rdocs/AnnualReport/PDFs/3IIIMONETARYPOLICYOPERATIONS7C1E4420EAE448108D47F999DB5ACC13.PDF" aria-labelledby='APDF_3IIIMONETARYPOLICYOPERATIONS7C1E4420EAE448108D47F999DB5ACC13 SPDF_3IIIMONETARYPOLICYOPERATIONS7C1E4420EAE448108D47F999DB5ACC13'>
+   <img alt='PDF - III. Monetary Policy Operations' style='padding: 8px;' src="../Images/pdf.gif" border="0" align="absmiddle"></a> (<span id='SPDF_3IIIMONETARYPOLICYOPERATIONS7C1E4420EAE448108D47F999DB5ACC13' aria-hidden="true">475 kb</span>)</td></tr><tr><td class="tableheader" align="right"><b> Date : May 27, 2021</b></td></tr><tr><td align="center" class="tableheader"><b>III. Monetary Policy Operations</b></td></tr><tr><td><table width="100%" border="0" align="center" class="td">  <tr>    <td><p><em>Monetary policy and liquidity operations during 2020-21 were geared towards mitigating the impact of COVID-19 pandemic. The monetary policy committee (MPC) cut the policy repo rate by 115 basis points (bps) during March-May 2020, on top of a cumulative reduction of 135 bps during February 2019 to February 2020. Backed by conventional and unconventional liquidity measures, these actions bolstered financial market sentiments while ensuring orderly market conditions. Interest rates and bond yields declined across market segments and spreads narrowed, with a distinct improvement in monetary transmission.</em></p>      <p>III.1 Monetary policy and liquidity operations during 2020-21 were geared towards mitigating the adverse impact of the unprecedented economic devastation brought by the COVID-19 pandemic on the Indian economy. Supply disruptions imposed persistent upside price pressures, with inflation ruling above the upper tolerance band for six consecutive months during June-November 2020. The monetary policy committee (MPC) maintained status quo on the policy repo rate during June 2020 to February 2021 after a sizeable cut of 115 basis points (bps) during March-May 2020. Given the growth-inflation dynamics, the MPC decided to continue with the accommodative stance as long as necessary to revive growth on a durable basis and mitigate the impact of COVID-19 on the economy, while ensuring that inflation remains within the target going forward. These decisions were in consonance with the objective of achieving the medium-term target for consumer price index (CPI) inflation of 4 per cent within a band of +/- 2 per cent, while supporting growth.</p>      <p>III.2 During 2020-21, the Reserve Bank undertook several conventional and unconventional measures to address liquidity constraints in the face of COVID-19 related dislocations. This unprecedented response eased financial stress, unclogged monetary transmission and credit flows while ensuring financial stability. With fears of liquidity drying up being dispelled, financial market sentiments were bolstered while ensuring orderly market conditions. Interest rates and bond yields declined across market segments and spreads narrowed to pre-COVID levels. Corporate bond issuances benefitted from surplus liquidity conditions which enabled record number of issuances at reasonably low costs. Despite a significant jump in market borrowings, the government could raise funds at the lowest weighted average cost in 17 years along with the highest weighted average maturity of the stock of public debt on record.</p>      <p>III.3 Surplus liquidity conditions, coupled with the external benchmark-based pricing of floating rate loans, led to a considerable improvement in monetary transmission during 2020-21. Interest rates on outstanding loans declined for a majority of the sectors. The external benchmark-linked framework incentivised banks to adjust their term as well as saving deposit rates to protect their net interest margins, thereby improving monetary transmission.</p>      <p>III.4 Against the above backdrop, <a href="#S2" class="links">Section 2</a> presents the implementation status of the agenda set for 2020-21 along with major developments, while <a href="#S3" class="links">Section 3</a> sets out the agenda for 2021-22. Concluding observations are in the <a href="#S4" class="links">last section</a>.</p>      <p class="head"><a id="S2"></a>2. Agenda for 2020-21: Implementation Status</p>      <p class="head">Goals Set for 2020-21</p>      <p>III.5 In last year&rsquo;s Annual Report, the Department had set out the following goals:</p>      <ul>        <li>          <p>Strengthening nowcasting of inflation with wider information systems, including commodity price monitoring (Utkarsh) [Para III.6];</p>        </li>        <li>          <p>Augmenting the external sector block of the quarterly projection model (QPM) by incorporating capital inflows dynamics for an improved analysis of external spillovers and feedback mechanisms, and recalibration of the QPM based on recent empirical estimates (Utkarsh) [Para III.6];</p>        </li>        <li>          <p>Analysis of MPC voting patterns (Utkarsh) [Para III.6];</p>        </li>        <li>          <p>Assessing the efficacy of the conventional [open market operation (OMO)] and unconventional [long-term repo operation (LTRO) and targeted LTRO (TLTRO)] monetary policy instruments (Para III.6); and</p>        </li>        <li>          <p>Understanding the dynamics of banks&rsquo; holdings of government securities and credit growth to assess the relative roles of crowding out and portfolio re-balancing (Para III.6).</p>        </li>      </ul>      <p class="head">Implementation Status of Goals</p>      <p>III.6 A number of studies were undertaken during 2020-21 to strengthen the analytical inputs for the conduct of monetary policy and liquidity management. They included: strengthening nowcasting of inflation with wider information system, including commodity price monitoring; augmenting the external sector block of QPM by incorporating capital inflows dynamics and recalibration of the QPM based on recent empirical estimates; analysis of MPC voting pattern; the impact of LTRO and TLTRO on bond markets; dynamics of banks&rsquo; holdings of government securities and credit growth to assess the relative roles of crowding out and portfolio rebalancing; analysing and forecasting currency demand in India; evaluating the impact of asset quality of banks on credit channel of monetary policy; constructing an economic activity index for India; revisiting the determinants of term premium in India; examining the pass-through of global food prices to domestic prices in emerging market economies (EMEs); and assessing volatility spillover from US monetary policy on select EMEs, including India.</p>      <p class="head">Major Developments </p>      <p>Monetary Policy</p>      <p>III.7 The COVID-19 pandemic triggered extreme risk aversion and elevated volatility in financial markets, necessitating an advancement in the MPC&rsquo;s first two meetings scheduled for March 31, April 1 and 3, 2020 and June 3-5, 2020 to March 24, 26 and 27, 2020 and May 20-22, 2020, respectively. In the March 2020 meeting, the MPC noted that macroeconomic risks brought on by the pandemic, both on the demand and supply sides, could be severe and there was a need to do whatever necessary to shield the domestic economy from the pandemic. The MPC, therefore, voted unanimously for a sizeable reduction in the policy repo rate. With a 4 to 2 majority, the repo rate was cut by 75 bps to 4.40 per cent, while 2 members voted for a reduction of 50 bps. All members voted unanimously to continue with the accommodative stance as long as necessary to revive growth and mitigate the impact of COVID-19 on the economy, while ensuring that inflation remained within the target. In the May 2020 meeting, with the growth outlook remaining sombre, the MPC decided to reduce the policy repo rate by another 40 bps to 4.0 per cent to pre-emptively use available space to ease financial conditions further to mitigate the adverse impact of the pandemic on the economy. Five members voted for a reduction in policy repo rate by 40 bps and one member voted for a reduction of 25 bps. The MPC also voted unanimously to continue with the accommodative stance set out in its March meeting.<sup data-toggle="tooltip" title="For details, see chapter III (Paragraphs III.12 and III.13) of the Annual Report 2019-20, Reserve Bank of India (RBI)."><a href="#FN1" class="links">1</a></sup></p>      <p>III.8 By the time of the August 2020 bi-monthly review, there was greater clarity on the likely recovery of economic activity in Q2, led by the rural economy. However, for the year 2020-21, real GDP growth was expected to be negative. On inflation, though the release of June CPI was still not normalised in terms of data coverage, headline inflation ruled above the upper tolerance threshold of 6 per cent. Issues in data reliability, coupled with high retail mark-ups amidst the pandemic added uncertainty to the inflation outlook. Accordingly, the MPC decided to pause and remain watchful for a durable reduction in inflation to use the available space to support the revival of the economy.</p>      <p>III.9 The October 2020 policy<sup data-toggle="tooltip" title="On October 5, 2020, the Government of India reconstituted the MPC, with the expiry of the term of earlier external members of the MPC, by onboarding Prof. Ashima Goyal, Professor, Indira Gandhi Institute of Development Research, Mumbai; Prof. Jayanth R. Varma, Professor, Indian Institute of Management, Ahmedabad; and Dr. Shashanka Bhide, Senior Adviser, National Council of Applied Economic Research, Delhi. The October 2020 MPC meeting was the first meeting of these external MPC members. Earlier, w.e.f. the August MPC meeting, Dr. Mridul K. Saggar, Executive Director, Reserve Bank, joined the MPC on his nomination by the Central Board."><a href="#FN2" class="links">2</a></sup> was held in a setting in which high frequency indicators suggested recovery of economic activity in Q2:2020-21, after a record contraction in real GDP in Q1:2020-21. Headline CPI inflation continued to remain above the upper tolerance threshold as price pressures accentuated across food, fuel, and core sub-groups due to supply disruptions, high retail margins, high indirect taxes on petroleum products and higher cost of doing business in the post-lockdown period. The rural economy was expected to strengthen further while the recovery in urban demand was seen as lagging due to social distancing norms. Moreover, private investment and exports were likely to remain subdued. Real GDP was projected to contract by 9.5 per cent during 2020-21, with GDP growth moving into the positive zone by Q4:2020-21 and placed at 20.6 per cent in Q1:2021-22. CPI headline inflation was projected to moderate to 5.4-4.5 per cent in H2:2020-21 and further to 4.3 per cent in Q1:2021-22, with risks broadly balanced. The MPC noted that the revival of the economy from the unprecedented COVID-19 pandemic assumed the highest priority in the conduct of monetary policy. On the elevated inflation, the MPC judged that the underlying factors were essentially supply shocks which were likely to dissipate over the ensuing months as the economy unlocked, supply chains were restored, and activity normalised and as such these could be looked through in setting the monetary policy stance. Accordingly, the MPC voted unanimously to keep the policy repo rate unchanged. With a vote of 5 to 1, the MPC also decided to continue with the accommodative monetary policy stance as long as necessary &ndash; at least during the current financial year and into the next financial year &ndash; to revive growth on a durable basis and mitigate the impact of COVID-19 on the economy, while ensuring that inflation remains within the target going forward.</p>      <p>III.10 By the time of the December 2020 meeting, the economic recovery had progressed further, but alongside the intensification of inflationary pressures. The contraction in real GDP in Q2:2020-21 was shallower than anticipated, and high frequency indicators suggested that recovery was gaining traction in Q3:2020-21. With a projected positive growth of (+) 0.1 per cent in Q3:2020-21 and (+) 0.7 per cent in Q4:2020-21, real GDP was expected to contract by 7.5 per cent in 2020-21, lower than the contraction of 9.5 per cent in the October 2020 assessment. In H1:2021-22, the expansion was projected to gather pace at (+) 21.9 per cent to (+) 6.5 per cent, with risks broadly balanced. Inflation pressures, however, turned out to be higher than anticipated, with CPI inflation inching up to 7.6 per cent in October 2020 on a broad-based surge in food and core inflation and outlook remaining adverse with continuing high retail price margins, rising crude oil prices and stickiness imparted on account of cost-push pressures. Reflecting these pressures, the inflation projections were revised upwards to 6.8-5.8 per cent in H2:2020-21 and 5.2-4.6 per cent in H1:2021-22, with risks broadly balanced. However, with the signs of recovery far from being broad-based and dependent on sustained policy support, the MPC voted unanimously to maintain status quo on the policy repo rate and continue with the accommodative stance as set out in its October resolution.</p>      <p>III.11 In the run up to the sixth bi-monthly policy in February 2021, inflation moderated sharply to 4.6 per cent in December 2020. Taking into account the significant correction in food inflation on the one hand and the persisting core inflation pressures on the other, the projection for CPI inflation was revised to 5.2 per cent in Q4:2020-21, 5.2 per cent to 5.0 per cent in H1:2021-22 and 4.3 per cent in Q3:2021-22, with risks broadly balanced. On the growth outlook, the MPC was of the view that rural demand was likely to remain resilient on good prospects of agriculture while urban demand and demand for contact-intensive services were expected to strengthen with the substantial fall in COVID-19 cases and the spread of vaccination. Consumer confidence was reviving and business expectations remained upbeat. Taking into account these considerations and the Union Budget 2021-22 proposals, real GDP growth was projected at 10.5 per cent in 2021-22 &ndash; in the range of 26.2 to 8.3 per cent in H1 and 6.0 per cent in Q3. Given the softening in inflation as also the need for continued policy support to rest the growth recovery on a firmer footing, the MPC unanimously voted for keeping the policy repo rate unchanged at 4 per cent and continue with the accommodative stance till the prospects of a sustained recovery are well secured while closely monitoring the evolving outlook for inflation.</p>      <p>The Operating Framework: Liquidity Management</p>      <p>III.12 The operating framework of monetary policy aims at aligning the operating target &ndash; the weighted average call rate (WACR) &ndash; with the policy repo rate through proactive liquidity management, consistent with the stance of monetary policy. In the face of COVID-19 related stress and the large contraction in output, and in consonance with the monetary policy stance, the Reserve Bank undertook several monetary policy measures, both conventional and unconventional, during 2020-21, driven by the goals of (i) improving monetary transmission; (ii)facilitating and incentivising bank credit flows; (iii)addressing sector-specific liquidity constraints in the face of COVID-19 related dislocations; and (iv) reinvigorating markets by easing financial stress and ensuring financial stability.</p>      <p>Drivers and Management of Liquidity</p>      <p>III.13 The concatenation of heightened financial stress, widening spreads, and seizure of market liquidity exacerbated by highly volatile capital flows on account of the pandemic warranted proactive measures by the Reserve Bank starting Q4:2019-20. Total liquidity augmenting measures announced by the Reserve Bank (up to March 31, 2021) since February 2020 have aggregated to &#8377;13.6 lakh crore (6.9 per cent of nominal GDP for 2020-21). The main drivers of liquidity were the Reserve Bank&rsquo;s forex operations and expansion in currency in circulation (CiC) &ndash; liquidity injection through the former more than offset the leakage from the heightened precautionary currency demand during the pandemic (<a href="#CH1" class="links">Chart III.1a</a>). The conventional and unconventional monetary policy measures augmented system liquidity. The consequent large liquidity surplus was mopped up through overnight fixed rate reverse repos under the liquidity adjustment facility (LAF) (<a href="#CH1" class="links">Chart III.1b</a>).</p>      <p>III.14 In Q1:2020-21, the expansion in CiC drained system liquidity by &#8377;2.13 lakh crore which was more than offset by liquidity injections through (i) targeted long-term repo operations (TLTROs) (&#8377;87,891 crore), (ii) OMO purchases (&#8377;1.2 lakh crore) and (iii) the forex operations (&#8377;1.0 lakh crore). Additionally, the Reserve Bank announced special liquidity facility for mutual funds (SLF-MF) worth &#8377;50,000 crore although its utilisation was confined to only &#8377;2,430 crore. Moreover, the Reserve Bank provided special refinance facilities for a total amount of &#8377;65,000 crore to All India Financial Institutions (AIFIs) comprising (i)&#8377;25,000 crore to National Bank for Agriculture and Rural Development (NABARD) for refinancing regional rural banks (RRBs), cooperative banks and micro finance institutions (MFIs); (ii)&#8377;15,000 crore to Small Industries Development Bank of India (SIDBI) for on-lending/refinancing; (iii) &#8377;10,000 crore to National Housing Bank (NHB) for supporting housing finance companies (HFCs); and (iv) &#8377;15,000 crore to Export Import Bank of India (EXIM Bank) to enable it to avail US dollar swap facility for its foreign exchange requirements.<sup data-toggle="tooltip" title="Subsequently in August 2020, the Reserve Bank provided additional special liquidity facility of &#8377;5,000 crore each to the NHB and NABARD at the policy repo rate, taking the total refinance to AIFIs to &#8377;75,000 crore."><a href="#FN3" class="links">3</a></sup> Overall, the surplus liquidity resulted in average daily net absorption under the LAF amounting to &#8377;4.72 lakh crore during the quarter. During Q1:2020-21, the Reserve Bank also conducted one special OMO involving simultaneous purchase and sale of securities, which were liquidity neutral, to distribute liquidity more evenly across the yield curve and improve transmission.</p>      <a id="CH1"></a><div align="center"><img src="https://www.rbi.org.in/scripts/images/03MPO27052021_CH1.jpg" alt="Chart 1"></div>      <p>III.15 In order to encourage banks to deploy surplus funds in investments and loans in productive sectors of the economy, the fixed rate reverse repo rate under the LAF was reduced by 25 bps (from 4.0 per cent to 3.75 per cent) without concomitant changes in the MSF and the repo rate on April 17, 2020, thereby widening the asymmetric corridor.</p>      <p>III.16 In Q2:2020-21, forex purchase operations augmented system liquidity by &#8377;2.1 lakh crore while the Reserve Bank injected &#8377;27,862 crores through OMOs, even as expansion in CiC remained muted (<a href="#CH2" class="links">Chart III.2</a>). As a result, surplus liquidity persisted, although the average daily net absorption moderated to &#8377;3.9 lakh crore during the quarter. As part of the AatmaNirbhar Bharat package, the Government of India (GoI) approved a scheme of &#8377;30,000 crore to improve liquidity position of NBFCs (including MFIs)/HFCs with a view to avoiding any potential systemic risks to the financial sector. Under the scheme introduced on July 1, 2020, the Reserve Bank provided liquidity by subscribing to government guaranteed special securities issued by a Special Purpose Vehicle (SPV).</p>      <p>III.17 To reduce the cost of funds, banks that had availed of funds under LTROs in February-March 2020 at the then prevailing repo rate (5.15 per cent) were given an option in September 2020 of reversing these transactions before maturity by availing fresh funds at the reduced repo rate of 4.0 per cent. Banks repaid &#8377;1,23,572 crore under this facility &ndash; nearly 98.8 per cent of &#8377;1,25,117 crore availed under the various LTROs. The Reserve Bank also conducted five special OMOs during Q2:2020-21. Furthermore, the Reserve Bank increased the limits under Held-to-Maturity (HTM) category from 19.5 per cent to 22 per cent of net demand and time liabilities (NDTL) in respect of statutory liquidity ratio (SLR) securities acquired on or after September 1, 2020 to engender orderly market conditions.</p>      <a id="CH2"></a><div align="center"><img src="https://www.rbi.org.in/scripts/images/03MPO27052021_CH2.jpg" alt="Chart 2"></div>      <p>III.18 In Q3:2020-21, expansion in currency demand (&#8377;95,181 crore) and the Reserve Bank&rsquo;s forex purchase operations (&#8377;2.0 lakh crore) were the main drivers of liquidity. In addition, durable liquidity amounting to &#8377;89,140 crore was injected through OMOs; the Reserve Bank also conducted six auctions of special OMOs during this period. Consequently, net absorptions under the LAF rose to &#8377;5.33 lakh crore during the quarter. Banks returned TLTRO funds amounting to &#8377;37,348 crore &ndash; about 33.1 per cent of the total amount of &#8377;1,12,900 crore availed &ndash; under a scheme similar to the return of LTRO funds. To nurture the revival of activity in specific sectors that have multiplier effects on growth through both forward and backward linkages, the Reserve Bank announced &lsquo;On tap TLTROs&rsquo; with tenors of up to three years for a total amount of up to &#8377;1,00,000 crore at a floating rate linked to the policy repo rate. Liquidity availed by banks under the scheme is required to be deployed in corporate bonds, commercial papers, and non-convertible debentures issued by entities in specific sectors over and above the outstanding level of their investments in such instruments as on September 30, 2020. The liquidity availed under the scheme can also be used to extend bank loans to these sectors. Furthermore, as a special case, the Reserve Bank conducted three OMOs in State Development Loans (SDLs) to improve their liquidity and facilitate efficient pricing in Q3:2020-21. The Reserve Bank also stressed that financial market stability and the orderly evolution of the yield curve are public goods, the benefits of which accrue to all stakeholders in the economy. </p>      <p>III.19 Following the COVID-19 outbreak, staff and IT resources were severely affected and the thinning out of activity impacted financial market liquidity and increased volatility in the prices of financial products. Accordingly, it was decided to shorten trading hours for various markets regulated by the Reserve Bank effective April 7, 2020. Subsequently, with the phased removal of lockdown and easing of restrictions on movement of people and resumption of normal functioning of offices, it was decided to restore the trading hours in a phased manner beginning November 9, 2020.</p>      <p>III.20 During Q4:2020-21, amidst very large surplus liquidity conditions, the Reserve Bank on January 8, 2021 announced steps to move towards normal liquidity management operations in a phased manner and accordingly it conducted five 14-day variable rate reverse repo (VRRR) auctions of &#8377;2 lakh crore each on January 15, January 29, February 12, February 26 and March 12, 2021. The liquidity absorbed through the fixed rate reverse repo increased from a fortnightly average of &#8377;4.3 lakh crore during January 16-29, 2021 to &#8377;4.9 lakh crore during January 30 - March 31, 2021. The Reserve Bank also reiterated its commitment to provide ample liquidity in the system. With the paramount objective of reviving the economy, the Reserve Bank announced additional measures on February 5, 2021 which included (i) allowing lending by banks to NBFCs under the TLTRO on Tap scheme for incremental lending to specified stressed sectors; (ii) gradual restoration of the CRR in two phases in a non-disruptive manner to 3.5 per cent effective from March 27, 2021 and 4.0 per cent effective from May 22, 2021; (iii) extension of relaxation in availing funds under MSF by dipping into SLR up to 3.0 per cent of NDTL until September 30, 2021; and (iv) exemption from CRR maintenance for credit flow to new micro, small, and medium enterprise (MSME) borrowers, for exposures up to &#8377;25 lakh per borrower for credit extended up to October 1, 2021. To meet any additional/ unforeseen demand for liquidity and to provide flexibility to the banking system in year-end liquidity management, the Reserve Bank decided to conduct two fine-tuning variable rate repo auctions of &#8377; 25,000 crore each on March 26 and March 31, 2021 of 11-day and 5-day tenors, respectively. Furthermore, it was decided not to conduct the 14-day VRRR auction on March 26 to ensure the availability of ample liquidity for managing year-end requirements.</p>      <p>III.21 During 2020-21, nineteen auctions of operation twists (OTs) were conducted. In March, the scale of OTs was increased to &#8377;15,000 crore (on March 4) and subsequently an asymmetric OT having a liquidity impact (purchase &#8377;20,000 crore; sales &#8377;15,000 crore) was conducted on March 10, 2021 which elicited favourable market response. Overall, the liquidity injected through net OMO purchases amounted to &#8377;3.13 lakh crore during 2020-21. The central bank&rsquo;s traditional lender of last resort (LOLR) function has expanded with the growing importance of financial markets and the need to resolve institution specific liquidity problems from turning into wider systemic strains (<a href="#B1" class="links">Box III.1</a>).</p>      <table width="95%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">        <tr>          <td><p align="center" class="head"><a id="B1"></a>Box III.1<br>          The Lender of Last Resort</p>          <p align="justify">Commercial banks undertake maturity transformations when they fund themselves with shorter-term liquid deposits and make loans and advances which are relatively less liquid and of longer duration. This exposes them, inter alia, to asset-liability mismatches. In the aftermath of the 2008 global financial crisis, therefore, regulators have mandated that banks have to hold high-quality liquid assets to deal with such stresses.</p>           <p align="justify">The central bank&rsquo;s regular liquidity operations address system-wide liquidity mismatches. In the case of bank-specific stress events that cannot be mitigated by own liquidity buffers and if in addition, access to system level liquidity is constrained or not available, recourse to the central bank&rsquo;s lender of last resort (LOLR) facility can be made for a solvent but illiquid bank against good collateral at a penal rate in line with the Bagehot (1873) principle. With the growing role of financial markets, the traditional LOLR function has widened to encompass supporting financial markets to prevent asset fire sales; central banks are thus also emerging as market maker of the last resort (MMLR) (Hauser, 2021). In the time of COVID-19, major central banks have expanded eligible counterparties and eased collateral requirements, and provided support at reduced penalty rates (BIS, 2020). </p>           <p align="justify">A survey of major central banks shows that in the US, the Federal Reserve retains the power to extend discount window loans to individual depository institutions facing funding pressures, or to banks more generally to address broader financial stresses (Fischer, 2016). In the euro area, the European Central Bank (ECB) norms for LOLR support require the credit institutions to meet the solvency criteria (minimum capital requirements or a credible prospect of recapitalisation). LOLR support is usually for less than 12 months at a penalty rate (ECB, 2020). The Bank of England has strengthened safeguards for its LOLR support through better supervisory and resolution frameworks, transparent terms for access, pricing and collateral and stronger accountability and governance norms (Hauser, 2016). The Bank of Japan agrees to LOLR support if, inter alia, there is no alternative to the provision of central bank funds, and financial soundness is not impaired (Hiroshi Nakaso, 2014).</p>           <p align="justify">In India, the Reserve Bank of India can provide emergency liquidity assistance to stressed but solvent individual banks to foster macroeconomic and financial stability. The troubled financial institution is expected to first exhaust all the resources it can obtain from the market and from the Reserve Bank&rsquo;s regular liquidity facilities (like LAF and MSF), before requesting for the LOLR support. The Reserve Bank can provide LOLR assistance under the Reserve Bank of India Act, 1934. It typically does so against specified collaterals, preferably the central or state governments&rsquo; securities, and with appropriate haircuts. The LOLR support is typically provided for short periods of up to 90 days at a penalty rate above the repo rate.</p>           <p align="justify">In the case of weak commercial banks, the Reserve Bank&rsquo;s endeavour is to strengthen such banks through appropriate and timely restructuring or mergers and acquisitions, given the paramount objective of financial stability, and then provide LOLR support, as needed, to the restructured/amalgamated entity. Moreover, the Deposit Insurance and Credit Guarantee Corporation (DICGC), a wholly owned subsidiary of the Reserve Bank, insures bank deposits up to &#8377;5 lakh. As a result, 98.1 per cent of the deposit accounts are fully covered as on March 31, 2021, as against the international benchmark of 80 per cent. The combination of regular liquidity operations, the LOLR support, the pre-emptive restructuring/amalgamation of weak banks and a liberal deposit insurance cover has fostered financial stability, avoiding commercial bank failures. </p>           <p align="justify">Following the outbreak of the COVID-19 pandemic, the Reserve Bank of India took a number of conventional and unconventional measures to protect the financial system and support the real economy, guided by the age-old wisdom summarised in the Bagehot&rsquo;s dictum (Das, 2020). In its LOLR role, the Reserve Bank extended emergency support to a couple of commercial banks facing idiosyncratic stress and special liquidity facilities (SLF) to All India Financial Institutions (AIFIs)<sup data-toggle="tooltip" title="AIFIs that received liquidity support were the National Bank for Agriculture and Rural Development (NABARD), the Small Industries Development Bank of India (SIDBI), the National Housing Bank (NHB) and the Export Import Bank of India (EXIM Bank). Such liquidity support was provided to bolster the liquidity position of these institutions under stressed financial market conditions in the wake of pandemic so that they can continue to support credit flow to the real economy."><a href="#FN4" class="links">4</a></sup>, while also providing and maintaining ample surplus systemic liquidity through open market operations, reduction in the cash reserve ratio, long-term repo operations (including targeted at stressed sectors and issuers) and special liquidity facility for mutual funds. </p>           <p align="justify">Overall, the Reserve Bank is empowered with a comprehensive, effective and independent mandate to perform its LOLR responsibilities in the interest of systemic stability, including resolutions in the form of restructuring/reconstruction, amalgamation and liquidation while preserving the strength and soundness of its own balance sheet through a robust economic capital framework.</p>          <p class="head">References:</p>          <p>1. Bagehot, Walter (1873), &lsquo;Lombard Street: A Description of the Money Market&rsquo;, H. S. King, London.</p>          <p>2.Bank for International Settlements (2020), &lsquo;Annual Economic Report&rsquo;, June.</p>          <p>3. Das, Shaktikanta (2020), &lsquo;Indian Economy at a Crossroad: A View from Financial Stability Angle&rsquo;, Speech at the 7th SBI Banking & Economics Conclave organised by the State Bank of India, July.</p>          <p>4. European Central Bank (2020), &lsquo;Agreement on Emergency Liquidity Assistance&rsquo;. November 9. </p>          <p>5.Fischer, Stanley (2016), &lsquo;The Lender of Last Resort Function in the United States&rsquo;, Board of Governors of the Federal Reserve System.</p>          <p>6.Hauser, Andrew (2021), &lsquo;From Lender of Last Resort to Market Maker of Last Resort via the Dash for Cash: Why Central Banks Need New Tools for Dealing with Market Dysfunction&rsquo;, Speech at the Bank of England.</p>          <p>7. Nakaso, Hiroshi (2014), &lsquo;What the Lost Decades Left for the Future&rsquo;, Keynote Speech at the 2014 International Conference held by the International Association of Deposit Insurers, Asia-Pacific Regional Committee. <br>            <br>          </p></td>        </tr>      </table>      <p>III.22 Bearing testimony to the effectiveness of the liquidity operations undertaken and the forward guidance provided during 2020-21, interest rates declined and spreads narrowed across market segments (<a href="#T1" class="links">Table III.1</a>). Abundance of liquidity in the system, coupled with reductions in the policy rate, also induced record issuance of corporate bonds, even from entities with the lowest investment rating (BBB-). Overall, the Indian experience suggests that unconventional monetary policy measures can be effective even before conventional monetary policy has reached the zero lower bound.</p>      <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">        <tr>          <td colspan="7" align="center"><span class="head"><a id="T1"></a>Table III.1: Financial Markets - Rates and Spread </span></td>        </tr>        <tr>          <td width="28%" rowspan="2" align="center"><span class="head">Instrument</span></td>          <td colspan="3" align="center"><span class="head">Interest Rates (per cent)</span></td>          <td colspan="3" align="center"><span class="head">Spread over Policy Rate (bps) </span></td>        </tr>        <tr>          <td width="12%" align="center"><span class="head">As on March 26, 2020 </span></td>          <td width="12%" align="center"><span class="head">As on March 31, 2021 </span></td>          <td width="12%" align="center"><span class="head">Variation (in bps)</span></td>          <td width="12%" align="center"><span class="head">As on March 26, 2020 </span></td>          <td width="12%" align="center"><span class="head">As on March 31, 2021 </span></td>          <td width="12%" align="center"><span class="head">Variation (in bps)</span></td>        </tr>        <tr>          <td align="center"><span class="head">1</span></td>          <td align="center"><span class="head">2</span></td>          <td align="center"><span class="head">3</span></td>          <td align="center"><span class="head">(4 = 3-2)</span></td>          <td align="center"><span class="head">5</span></td>          <td align="center"><span class="head">6</span></td>          <td align="center"><span class="head">(7 = 6-5)</span></td>        </tr>        <tr>          <td>3-month CD</td>          <td align="right">7.95</td>          <td align="right">3.28</td>          <td align="right">-467</td>          <td align="right">280</td>          <td align="right">-72</td>          <td align="right">-352</td>        </tr>        <tr>          <td>3-month T-bill</td>          <td align="right">5.04</td>          <td align="right">3.27</td>          <td align="right">-177</td>          <td align="right">-11</td>          <td align="right">-73</td>          <td align="right">-62</td>        </tr>        <tr>          <td>CP (3-month)</td>          <td align="right">6.74</td>          <td align="right">3.65</td>          <td align="right">-309</td>          <td align="right">159</td>          <td align="right">-35</td>          <td align="right">-194</td>        </tr>        <tr>          <td>Corporate Bonds</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td colspan="3" align="center">Spread over G-sec yield of corresponding maturity (bps)</td>        </tr>        <tr>          <td>(i) AAA (1-yr)</td>          <td align="right">7.76</td>          <td align="right">4.15</td>          <td align="right">-361</td>          <td align="right">246</td>          <td align="right">29</td>          <td align="right">-217</td>        </tr>        <tr>          <td>(ii) AAA (3-yr)</td>          <td align="right">8.47</td>          <td align="right">5.40</td>          <td align="right">-307</td>          <td align="right">276</td>          <td align="right">22</td>          <td align="right">-254</td>        </tr>        <tr>          <td>(iii) AAA (5-yr)</td>          <td align="right">7.84</td>          <td align="right">6.14</td>          <td align="right">-170</td>          <td align="right">141</td>          <td align="right">8</td>          <td align="right">-133</td>        </tr>        <tr>          <td>(iv) AA (3-yr)</td>          <td align="right">9.15</td>          <td align="right">6.17</td>          <td align="right">-298</td>          <td align="right">344</td>          <td align="right">99</td>          <td align="right">-245</td>        </tr>        <tr>          <td>(v) BBB- (3-yr)</td>          <td align="right">12.29</td>          <td align="right">10.05</td>          <td align="right">-224</td>          <td align="right">658</td>          <td align="right">487</td>          <td align="right">-171</td>        </tr>        <tr>          <td>10-yr G-sec</td>          <td align="right">6.22</td>          <td align="right">6.17</td>          <td align="right">-5</td>          <td align="right">-</td>          <td align="right">-</td>          <td align="right">-</td>        </tr>        <tr>          <td colspan="7">Sources: CCIL (F-TRAC), FIMMDA, and Bloomberg.</td>        </tr>      </table>      <p>Operating Target and Policy Rate</p>      <p>III.23 During 2020-21, the WACR &ndash; the operating target &ndash; remained within the corridor on all days with a downward bias up to October 2020. Since then, the WACR and other money market rates traded below the reverse repo rate with the persistence of surplus liquidity engendered by large capital inflows (<a href="#CH3" class="links">Chart III.3</a>).</p>      <a id="CH3"></a><div align="center"><img src="https://www.rbi.org.in/scripts/images/03MPO27052021_CH3.jpg" alt="Chart 3"></div>      <p>Monetary Policy Transmission</p>      <p>III.24 Monetary transmission &ndash; changes in banks&rsquo; deposit and lending rates in response to the changes in the policy repo rate &ndash; improved considerably during 2020-21 aided by persistence of systemic surplus liquidity, sluggish credit demand and the mandated external benchmark-based pricing of floating rate loans to select sectors (<a href="#T2" class="links">Table III.2</a>).<sup data-toggle="tooltip" title="The Reserve Bank mandated all scheduled commercial banks (excluding regional rural banks) to link all new floating rate personal or retail loans and floating rate loans to micro and small enterprises (MSEs) to the policy repo rate or 3-month T-bill rate or 6-month T-bill rate or any other benchmark market interest rate published by Financial Benchmarks India Private Ltd. (FBIL), effective October 1, 2019. It was extended to medium enterprises, effective April 1, 2020."><a href="#FN5" class="links">5</a></sup></p>      <p>III.25 The external benchmark-based pricing of loans effective October 1, 2019 has also imparted more flexibility in setting banks&rsquo; deposit rates and MCLR-based loans. As the change in the lending rates in case of loans linked to an external benchmark is independent of the change in the deposit rate unlike MCLR-based loan pricing, banks need to cut their deposit rates &ndash; both savings and term deposits &ndash; to protect their net interest margins (NIMs). The reduction in term deposit rates applies only to fresh term deposits, while the reduction of rates in the case of saving deposits applies across the board. The saving deposit rates of five major banks, which ranged 3.25-3.50 per cent in September 2019, were placed at 2.70-3.00 per cent in March 2021.<sup data-toggle="tooltip" title="The median saving deposit rate was 3 per cent for domestic banks in March 2021."><a href="#FN6" class="links">6</a></sup> Changes in banks&rsquo; saving deposit rates bring about an instantaneous change in the banks&rsquo; cost of funds, and in turn, in the MCLR and the lending rates on fresh rupee loans (provided the spread over the MCLR remains relatively stable). Thus, the impact of introduction of external benchmark-based pricing of loans on monetary transmission has encompassed even sectors that are not linked to external benchmark loan pricing. Unlike in the previous year when WALR on outstanding loans declined at a slower pace than that on fresh rupee loans, WALRs on both outstanding and fresh loans declined in tandem during 2020-21 as banks are required to reset interest rates on outstanding loans linked to the prevailing MCLR, which is typically of 1-year tenor or to the external benchmark, which has a maximum duration of 3-months.</p>      <table width="90%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">        <tr>          <td colspan="7" align="center" class="head"><a id="T2"></a>Table III.2: Transmission to Deposit and Lending Interest Rates</td>        </tr>        <tr>          <td colspan="7" align="right">(Basis points)</td>        </tr>        <tr>          <td width="40%" rowspan="2" align="center"><span class="head">Period</span></td>          <td width="10%" rowspan="2" align="center"><span class="head">Repo Rate</span></td>          <td colspan="2" align="center"><span class="head">Term Deposit Rates</span></td>          <td colspan="3" align="center"><span class="head">Lending Rates</span></td>        </tr>        <tr>          <td width="10%" align="center"><span class="head">Median Term Deposit Rate</span></td>          <td width="10%" align="center"><span class="head"> WADTDR</span></td>          <td width="10%" align="center"><span class="head">1 - Year Median MCLR</span></td>          <td width="10%" align="center"><span class="head"> WALR -<br>            Outstanding Rupee Loans</span></td>          <td width="10%" align="center"><span class="head">WALR - Fresh Rupee Loans</span></td>        </tr>        <tr>          <td align="center"><span class="head">1</span></td>          <td align="center"><span class="head">2</span></td>          <td align="center"><span class="head">3</span></td>          <td align="center"><span class="head">4</span></td>          <td align="center"><span class="head">5</span></td>          <td align="center"><span class="head">6</span></td>          <td align="center"><span class="head">7</span></td>        </tr>        <tr>          <td>April 2018 to March 2019</td>          <td align="right">25</td>          <td align="right">5</td>          <td align="right">22</td>          <td align="right">45</td>          <td align="right">0</td>          <td align="right">39</td>        </tr>        <tr>          <td>April 2019 to March 2020</td>          <td align="right">-185</td>          <td align="right">-49</td>          <td align="right">-51</td>          <td align="right">-60</td>          <td align="right">-25</td>          <td align="right">-91</td>        </tr>        <tr>          <td>April 2020 to March 2021</td>          <td align="right">-40</td>          <td align="right">-137</td>          <td align="right">-100</td>          <td align="right">-90</td>          <td align="right">-79</td>          <td align="right">-79</td>        </tr>        <tr>          <td colspan="7">Tightening Phase:</td>        </tr>        <tr>          <td>June 2018 to January 2019</td>          <td align="right">50</td>          <td align="right">0</td>          <td align="right">20</td>          <td align="right">35</td>          <td align="right">2</td>          <td align="right">57</td>        </tr>        <tr>          <td colspan="7">Easing Phase:</td>        </tr>        <tr>          <td>February 2019 to September 2019 (Pre-External Benchmark Period)</td>          <td align="right">-110</td>          <td align="right">-9</td>          <td align="right">-7</td>          <td align="right">-30</td>          <td align="right">2</td>          <td align="right">-40</td>        </tr>        <tr>          <td>October 2019 to March 2021 (External Benchmark Period)</td>          <td align="right">-140</td>          <td align="right">-176</td>          <td align="right">-146</td>          <td align="right">-120</td>          <td align="right">-108</td>          <td align="right">-154</td>        </tr>        <tr>          <td>February 2019 to March 2021</td>          <td align="right">-250</td>          <td align="right">-205</td>          <td align="right">-153</td>          <td align="right">-150</td>          <td align="right">-106</td>          <td align="right">-194</td>        </tr>        <tr>          <td align="justify" colspan="7">WADTDR: Weighted Average Domestic Term Deposit Rate. WALR: Weighted Average Lending Rate. <br>          MCLR: Marginal Cost of Funds-based Lending Rate.<br>            Sources: Special Monthly Return VIAB, RBI; and banks&rsquo; websites.</td>        </tr>      </table>      <p>III.26 Across bank groups, the transmission to deposit and lending interest rates has been uneven (<a href="#CH4" class="links">Chart III.4</a>). Foreign banks&rsquo; low cost and lower duration deposits enable them to make quick adjustments in response to policy rate changes. On the other hand, the public sector banks depend more on retail term deposits and face competition from alternative saving instruments like small savings, constraining them from lowering rates in sync with the policy rate. Following foreign banks, private sector banks exhibited greater transmission in terms of WADTDR. However, WALR on fresh rupee loans and outstanding loans declined more for public sector banks than their private counterparts.</p>      <a id="CH4"></a><div align="center"><img src="https://www.rbi.org.in/scripts/images/03MPO27052021_CH4.jpg" alt="Chart 4"></div>      <p>Sectoral Lending Rates</p>      <p>III.27 During 2020-21, interest rates on outstanding loans declined for a majority of the sectors, with sharp declines observed for professional services and other personal loans (<a href="#T3" class="links">Table III.3</a>).</p>      <p>External Benchmark</p>      <p>III.28 Among the available options for external benchmark, majority of banks, i.e., 39 out of 65 banks, have adopted the Reserve Bank&rsquo;s policy repo rate as the external benchmark for floating rate loans to the retail and MSME sectors as at end-March 2021 (<a href="#T4" class="links">Table III.4</a>). Four banks have adopted sector-specific benchmarks.</p>      <table width="95%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">        <tr>          <td colspan="13" align="center" class="head"><a id="T3"></a>Table III.3: Sector-wise WALR of SCBs (Excluding RRBs) - Outstanding Rupee Loans</td>        </tr>        <tr>          <td colspan="13" align="right">(Per cent)</td>        </tr>        <tr>          <td width="15%" rowspan="2" align="center"><span class="head">End-Month </span></td>          <td width="7%" rowspan="2" align="center"><span class="head">Agriculture </span></td>          <td width="7%" rowspan="2" align="center"><span class="head">Industry<br>          (Large) </span></td>          <td width="7%" rowspan="2" align="center"><span class="head">MSMEs </span></td>          <td width="8%" rowspan="2" align="center"><span class="head">Infrastructure </span></td>          <td width="7%" rowspan="2" align="center"><span class="head">Trade </span></td>          <td width="7%" rowspan="2" align="center"><span class="head">Professional Services </span></td>          <td colspan="5" align="center"><span class="head">Personal Loans</span></td>          <td width="7%" rowspan="2" align="center"><span class="head">Rupee Export Credit</span></td>        </tr>        <tr>          <td width="7%" align="center"><span class="head">Housing </span></td>          <td width="7%" align="center"><span class="head">Vehicle </span></td>          <td width="7%" align="center"><span class="head">Education</span></td>          <td width="7%" align="center"><span class="head">Credit Card</span></td>          <td width="7%" align="center"><span class="head">Other$</span></td>        </tr>        <tr>          <td align="center"><span class="head">1</span></td>          <td align="center"><span class="head">2</span></td>          <td align="center"><span class="head">3</span></td>          <td align="center"><span class="head">4</span></td>          <td align="center"><span class="head">5</span></td>          <td align="center"><span class="head">6</span></td>          <td align="center"><span class="head">7</span></td>          <td align="center"><span class="head">8</span></td>          <td align="center"><span class="head">9</span></td>          <td align="center"><span class="head">10</span></td>          <td align="center"><span class="head">11</span></td>          <td align="center"><span class="head">12</span></td>          <td align="center"><span class="head">13</span></td>        </tr>        <tr>          <td>Mar-20</td>          <td align="right">10.06</td>          <td align="right">9.38</td>          <td align="right">10.53</td>          <td align="right">9.73</td>          <td align="right">8.98</td>          <td align="right">9.90</td>          <td align="right">8.71</td>          <td align="right">10.05</td>          <td align="right">10.59</td>          <td align="right">28.90</td>          <td align="right">12.06</td>          <td align="right">7.31</td>        </tr>        <tr>          <td>Jun-20</td>          <td align="right">9.82</td>          <td align="right">9.18</td>          <td align="right">10.27</td>          <td align="right">9.25</td>          <td align="right">8.77</td>          <td align="right">9.67</td>          <td align="right">8.35</td>          <td align="right">10.07</td>          <td align="right">10.35</td>          <td align="right">29.39</td>          <td align="right">11.78</td>          <td align="right">8.07</td>        </tr>        <tr>          <td>Sep-20</td>          <td align="right">9.74</td>          <td align="right">8.99</td>          <td align="right">10.05</td>          <td align="right">9.32</td>          <td align="right">8.77</td>          <td align="right">9.53</td>          <td align="right">8.08</td>          <td align="right">9.99</td>          <td align="right">10.08</td>          <td align="right">29.79</td>          <td align="right">11.56</td>          <td align="right">7.55</td>        </tr>        <tr>          <td>Dec-20</td>          <td align="right">9.70</td>          <td align="right">8.75</td>          <td align="right">9.84</td>          <td align="right">9.15</td>          <td align="right">8.49</td>          <td align="right">8.52</td>          <td align="right">7.84</td>          <td align="right">9.79</td>          <td align="right">9.87</td>          <td align="right">30.38</td>          <td align="right">11.23</td>          <td align="right">7.38</td>        </tr>        <tr>          <td>Mar-21</td>          <td align="right">9.72</td>          <td align="right">8.53</td>          <td align="right">9.77</td>          <td align="right">9.02</td>          <td align="right">8.64</td>          <td align="right">8.45</td>          <td align="right">7.66</td>          <td align="right">9.66</td>          <td align="right">9.59</td>          <td align="right">31.90</td>          <td align="right">10.95</td>          <td align="right">6.76</td>        </tr>        <tr>          <td colspan="13" align="center" class="head">Variation (Percentage Points)</td>        </tr>        <tr>          <td>2020-21</td>          <td align="right">-0.34</td>          <td align="right">-0.85</td>          <td align="right">-0.76</td>          <td align="right">-0.71</td>          <td align="right">-0.34</td>          <td align="right">-1.45</td>          <td align="right">-1.05</td>          <td align="right">-0.39</td>          <td align="right">-1.00</td>          <td align="right">3.00</td>          <td align="right">-1.11</td>          <td align="right">-0.55</td>        </tr>        <tr>          <td colspan="13">$: Other than housing, vehicle, education and credit card loans.<br>            Source: Special Monthly Return VIAB, RBI.</td>        </tr>      </table>      <br>      <table width="85%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">        <tr>          <td colspan="8" align="center"><span class="head"><a id="T4"></a>Table III.4: External Benchmarks of Commercial Banks - March 2021 </span></td>        </tr>        <tr>          <td width="30%" align="center"><span class="head">Bank Group</span></td>          <td width="10%" align="center"><span class="head">Policy Repo Rate</span></td>          <td width="10%" align="center"><span class="head">CD</span></td>          <td width="10%" align="center"><span class="head">OIS</span></td>          <td width="10%" align="center"><span class="head">MIBOR</span></td>          <td width="10%" align="center"><span class="head">3-Month<br>            T Bill</span></td>          <td width="10%" align="center"><span class="head">Sector Specific Benchmark*</span></td>          <td width="10%" align="center"><span class="head">Total</span></td>        </tr>        <tr>          <td align="center"><span class="head">1</span></td>          <td align="center"><span class="head">2</span></td>          <td align="center"><span class="head">3</span></td>          <td align="center"><span class="head">4</span></td>          <td align="center"><span class="head">5</span></td>          <td align="center"><span class="head">6</span></td>          <td align="center"><span class="head">7</span></td>          <td align="center"><span class="head">8</span></td>        </tr>        <tr>          <td>PSB (11)</td>          <td align="right">11</td>          <td align="right">-</td>          <td align="right">-</td>          <td align="right">-</td>          <td align="right">-</td>          <td align="right">-</td>          <td align="right">11</td>        </tr>        <tr>          <td>Private</td>          <td align="right">17</td>          <td align="right">1</td>          <td align="right">-</td>          <td align="right">-</td>          <td align="right">-</td>          <td align="right">2</td>          <td align="right">20</td>        </tr>        <tr>          <td>Banks (21)#</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>        </tr>        <tr>          <td>Foreign</td>          <td align="right">11</td>          <td align="right">1</td>          <td align="right">-</td>          <td align="right">3</td>          <td align="right">6</td>          <td align="right">2</td>          <td align="right">23</td>        </tr>        <tr>          <td>Banks (33)#</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>          <td align="right">&nbsp;</td>        </tr>        <tr>          <td>SCBs (65)#</td>          <td align="right">39</td>          <td align="right">2</td>          <td align="right">-</td>          <td align="right">3</td>          <td align="right">6</td>          <td align="right">4</td>          <td align="right">54</td>        </tr>        <tr>          <td colspan="8">*: Sector specific benchmarks include MIBOR, OIS, 10-year G-sec, and CD rates.<br>            #: One private sector bank and 10 foreign banks reported nil. <br>            Note: Figures in parentheses refer to the number of banks that responded to the survey.<br>            Source: RBI.</td>        </tr>      </table>      <p>III.29 In the case of loans linked to the policy repo rate, the median spread in respect of fresh rupee loans (i.e., median WALR over the repo rate) was the highest for other personal loans, followed by MSME loans (<a href="#T5" class="links">Table III.5</a>). Among the domestic bank-groups, private sector banks typically charged a higher spread vis-&agrave;-vis public sector banks.</p>      <br>      <table width="70%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">        <tr>          <td colspan="6" align="center" class="head"><a id="T5"></a>Table III.5: Loans linked to External Benchmark &ndash; Median Spread over Policy Repo Rate: March 2021</td>        </tr>        <tr>          <td colspan="6" align="right">(Percentage points)</td>        </tr>        <tr>          <td width="25%" rowspan="2" align="center"><span class="head">Bank Group</span></td>          <td width="15%" rowspan="2" align="center"><span class="head">Housing</span></td>          <td colspan="2" align="center" class="head">Personal Loans</td>          <td width="15%" rowspan="2" align="center"><span class="head">Other Personal Loans</span></td>          <td width="15%" rowspan="2" align="center"><span class="head">Loans to MSME</span></td>        </tr>        <tr>          <td width="15%" align="center"><span class="head">Vehicle </span></td>          <td width="15%" align="center"><span class="head">Education</span></td>        </tr>        <tr>          <td align="center"><span class="head">1</span></td>          <td align="center"><span class="head">2</span></td>          <td align="center"><span class="head">3</span></td>          <td align="center"><span class="head">4</span></td>          <td align="center"><span class="head">5</span></td>          <td align="center"><span class="head">6</span></td>        </tr>        <tr>          <td>Public Sector Banks</td>          <td align="right">3.6</td>          <td align="right">4.8</td>          <td align="right">4.5</td>          <td align="right">6.8</td>          <td align="right">6.1</td>        </tr>        <tr>          <td>Private Sector Banks</td>          <td align="right">6.3</td>          <td align="right">7.1</td>          <td align="right">7.4</td>          <td align="right">7.8</td>          <td align="right">7.6</td>        </tr>        <tr>          <td>Domestic Banks</td>          <td align="right">4.4</td>          <td align="right">5.1</td>          <td align="right">4.8</td>          <td align="right">7.0</td>          <td align="right">6.5</td>        </tr>        <tr>          <td colspan="6">Source: RBI.</td>        </tr>      </table>      <p>III.30 A significant improvement has been observed in the transmission to all new loans sanctioned in respect of sectors where new floating rate loans have been linked to the external benchmark. The WALRs on housing, vehicle and other personal loans have declined significantly since the introduction of external benchmarks, i.e., during October 2019-March 2021 (<a href="#CH5" class="links">Chart III.5</a>). The decline was the sharpest in the case of other personal loans (181 bps), followed by MSME loans (179 bps); during the same period, the decline in WALR on fresh rupee loans across all sectors was lower at 154 bps.</p>      <a id="CH5"></a><div align="center"><img src="https://www.rbi.org.in/scripts/images/03MPO27052021_CH5.jpg" alt="Chart 5"></div>      <p class="head"><a id="S3"></a>3. Agenda for 2021-22</p>      <p>III.31 Section 45-ZA of the RBI Act, 1934 requires that the Central Government shall, in consultation with the Reserve Bank, determine the inflation target in terms of CPI once in every five years. The Department would support the operationalisation of the mandated inflation target for the 5-year period (2021-26) with high quality analysis/outlook on inflation and growth, alternative policy scenarios and liquidity assessment. Against this backdrop, the Department would undertake the following:</p>      <ul>        <li>          <p>Strengthen nowcasts of food inflation using customised Agmarknet data sourced from Ministry of Agriculture and Farmers Welfare;</p>        </li>        <li>          <p>Understand the common and idiosyncratic components of inflation for a better grasp of underlying inflation;</p>        </li>        <li>          <p>Upgrade GDP nowcasting and forecasting framework using high-frequency data;</p>        </li>        <li>          <p>Implement the augmented and recalibrated QPM to generate medium-term forecasts and risk assessment (Utkarsh);</p>        </li>        <li>          <p>Refine liquidity forecasting and explore additional tools for liquidity management during 2021-22 and evaluate the Reserve Bank&rsquo;s liquidity measures on financial markets using event study method;</p>        </li>        <li>          <p>Examine the behaviour of credit cycles in India; and</p>        </li>        <li>          <p>Improve data management by a complete migration of submission of returns on sectoral credit, CRR and SLR maintenance by SCBs, interest rates on bank deposits and loans to XBRL reporting format.</p>        </li>      </ul>      <p class="head"><a id="S4"></a>4. Conclusion</p>      <p>III.32 Monetary policy in 2020-21 had to deal with the twin challenge of reviving growth from the ravages of COVID-19 while also ensuring that inflation eased from above the upper tolerance band to align with the target. A range of conventional and unconventional monetary, and liquidity measures ensured adequate surplus systemic liquidity to address COVID-19 related stress in the financial markets and were successful in ensuring a significant softening of interest rates across the spectrum and narrowing of risk spreads to pre-COVID levels and facilitated large flows through the corporate bond market. Transmission to banks&rsquo; deposit and lending rates improved significantly on the back of surplus liquidity conditions and the mandated external benchmark system of the pricing of loans for specified sectors.</p>      <p>III.33 The pace of economic recovery in 2020-21 turned out to be faster than earlier anticipations. Yet the outlook is weighed down by several uncertainties, and would depend upon the evolving trajectory of COVID-19 infections and vaccinations. A durable recovery will be dependent on continued policy support. Inflation remains a key concern and constrains monetary policy from using the space available to act in support of growth. Further efforts are necessary to mitigate supply-side driven inflation pressures. Monetary policy will monitor closely all threats to price stability to anchor broader macroeconomic and financial stability while continuing with the accommodative stance.</p><hr>      <p class="footnote"><a id="FN1"></a><sup>1</sup> For details, see chapter III (Paragraphs III.12 and III.13) of the Annual Report 2019-20, Reserve Bank of India (RBI). </p>      <p class="footnote"><a id="FN2"></a><sup>2</sup> On October 5, 2020, the Government of India reconstituted the MPC, with the expiry of the term of earlier external members of the MPC, by onboarding Prof. Ashima Goyal, Professor, Indira Gandhi Institute of Development Research, Mumbai; Prof. Jayanth R. Varma, Professor, Indian Institute of Management, Ahmedabad; and Dr. Shashanka Bhide, Senior Adviser, National Council of Applied Economic Research, Delhi. The October 2020 MPC meeting was the first meeting of these external MPC members. Earlier, w.e.f. the August MPC meeting, Dr. Mridul K. Saggar, Executive Director, Reserve Bank, joined the MPC on his nomination by the Central Board.</p>      <p class="footnote"><a id="FN3"></a><sup>3</sup> Subsequently in August 2020, the Reserve Bank provided additional special liquidity facility of &#8377;5,000 crore each to the NHB and NABARD at the policy repo rate, taking the total refinance to AIFIs to &#8377;75,000 crore.</p>      <p class="footnote"><a id="FN4"></a><sup>4</sup> AIFIs that received liquidity support were the National Bank for Agriculture and Rural Development (NABARD), the Small Industries Development Bank of India (SIDBI), the National Housing Bank (NHB) and the Export Import Bank of India (EXIM Bank). Such liquidity support was provided to bolster the liquidity position of these institutions under stressed financial market conditions in the wake of pandemic so that they can continue to support credit flow to the real economy. </p>      <p class="footnote"><a id="FN5"></a><sup>5</sup> The Reserve Bank mandated all scheduled commercial banks (excluding regional rural banks) to link all new floating rate personal or retail loans and floating rate loans to micro and small enterprises (MSEs) to the policy repo rate or 3-month T-bill rate or 6-month T-bill rate or any other benchmark market interest rate published by Financial Benchmarks India Private Ltd. (FBIL), effective October 1, 2019. It was extended to medium enterprises, effective April 1, 2020.</p>      <p class="footnote"><a id="FN6"></a><sup>6</sup> The median saving deposit rate was 3 per cent for domestic banks in March 2021.</p></td>  </tr></table></td></tr></table>
+                                </table>
+                            </div>
+                            <input name="btn" type="button" id="btn" style="visibility: hidden;" value="2026" />
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <span id="DateSettree_lbltree"><div class="grid_1 archives alpha" id="treeYear"><ul><li><a class="year" href="#" id="2026" onclick='GetYear("2026")'>2026</a></li><li><a class="year" href="#" id="2025" onclick='GetYear("2025")'>2025</a></li><li><a class="year" href="#" id="2024" onclick='GetYear("2024")'>2024</a></li><li><a class="year" href="#" id="2023" onclick='GetYear("2023")'>2023</a></li><li><a class="year" href="#" id="2022" onclick='GetYear("2022")'>2022</a></li><li><a class="year" href="#" id="2021" onclick='GetYear("2021")'>2021</a></li><li><a class="year" href="#" id="2020" onclick='GetYear("2020")'>2020</a></li><li><a class="year" href="#" id="2019" onclick='GetYear("2019")'>2019</a></li><li><a class="year" href="#" id="2018" onclick='GetYear("2018")'>2018</a></li><li><a class="year" href="#" id="2017" onclick='GetYear("2017")'>2017</a></li><h2 class="year"><a href="javascript:void(0);" id="divArchiveMain"  onclick="hideshow('divArchiveSub');" style="cursor: pointer;">Archives</a></h2><div  id="divArchiveSub" style="display: none;"><div class="grid_tree archives alpha" id="treeYear"><ul><li><a class="year" href="#" id="2016" onclick='GetYear("2016")'>2016</a></li><li><a class="year" href="#" id="2015" onclick='GetYear("2015")'>2015</a></li><li><a class="year" href="#" id="2014" onclick='GetYear("2014")'>2014</a></li><li><a class="year" href="#" id="2013" onclick='GetYear("2013")'>2013</a></li><li><a class="year" href="#" id="2012" onclick='GetYear("2012")'>2012</a></li><li><a class="year" href="#" id="2011" onclick='GetYear("2011")'>2011</a></li><li><a class="year" href="#" id="2010" onclick='GetYear("2010")'>2010</a></li><li><a class="year" href="#" id="2009" onclick='GetYear("2009")'>2009</a></li><li><a class="year" href="#" id="2008" onclick='GetYear("2008")'>2008</a></li><li><a class="year" href="#" id="2007" onclick='GetYear("2007")'>2007</a></li><li><a class="year" href="#" id="2006" onclick='GetYear("2006")'>2006</a></li><li><a class="year" href="#" id="2005" onclick='GetYear("2005")'>2005</a></li><li><a class="year" href="#" id="2004" onclick='GetYear("2004")'>2004</a></li><li><a class="year" href="#" id="2003" onclick='GetYear("2003")'>2003</a></li><li><a class="year" href="#" id="2002" onclick='GetYear("2002")'>2002</a></li><li><a class="year" href="#" id="2001" onclick='GetYear("2001")'>2001</a></li><li><a class="year" href="#" id="2000" onclick='GetYear("2000")'>2000</a></li><li><a class="year" href="#" id="1999" onclick='GetYear("1999")'>1999</a></li><li><a class="year" href="#" id="1998" onclick='GetYear("1998")'>1998</a></li><li><a class="year" href="#" id="1997" onclick='GetYear("1997")'>1997</a></li><li><a class="year" href="#" id="1996" onclick='GetYear("1996")'>1996</a></li><li><a class="year" href="#" id="1995" onclick='GetYear("1995")'>1995</a></li><li><a class="year" href="#" id="1994" onclick='GetYear("1994")'>1994</a></li><li><a class="year" href="#" id="1993" onclick='GetYear("1993")'>1993</a></li><li><a class="year" href="#" id="1992" onclick='GetYear("1992")'>1992</a></li><li><a class="year" href="#" id="1991" onclick='GetYear("1991")'>1991</a></li><li><a class="year" href="#" id="1990" onclick='GetYear("1990")'>1990</a></li></ul></div></div></div></span>
+<style type="text/css"> /*added by ni*/
+.year a
+{
+    text-transform:none;
+    margin:0px;
+    /*color:Black;*/
+    font-size:12px;
+    text-decoration:none;
+    padding: 3px 4px 5px 2px;
+    }
+#DateSettree_lbltree h2
+{
+    margin-top:0px;
+}
+.month ul li a {
+    padding: 3px 4px 7px 2px;
+}
+
+.accordionContent ul.accordionlist li {
+    
+    min-height: 24px;
+}
+</style>
+
+
+
+    </main>
+        <div class="clearfix">
+        </div>
+        <a href="#top" class="scrollToTop" id="backToTop">Top</a>
+<div id="backDiv" style=" text-align:center;" >
+<a href="javascript:history.back()" class="paraheader">Back to previous page</a><br/>
+<span id="lblGetLastUpdateDate" class="paraheader"></span>
+</div>
+<footer class="footer">
+
+<div class="footer">
+  <div class="container_12">    
+      <div class="grid_9" style="width: 833px !important; ">
+          
+          <h2><span class="blue">More</span> Links :</h2>
+          
+		<ul class="footerlist" style="column-count:4">
+                  <li ><a href="/Scripts/HolidayMatrixDisplay.aspx">Bank Holidays</a></li>
+                  <li ><a href="https://shabdavali.rbi.org.in/">Banking Glossary</a></li>
+                  <li ><a href="/Scripts/CitiChart.aspx">Citizen's Charter</a></li>
+                  <li ><a href="/Scripts/Complaints.aspx">Complaints</a></li>
+                  <li ><a href="/Scripts/contactus.aspx">Contact Us</a></li>
+  		<li ><a href="https://www.rbi.org.in/scripts/bs_viewcontent.aspx?Id=3894">COVID-19 Measures</a></li>
+                  <li ><a target="_blank" href="https://ncfe.org.in/e-lms">E-LMS</a></li>
+                  <li ><a href="/Scripts/EventsDisplay.aspx">Events</a></li>
+                  <li ><a href="/Scripts/FAQDisplay.aspx">FAQs</a></li>
+                  <li ><a target="_blank" href="https://www.rbi.org.in/FinancialEducation/">Financial Education</a></li>
+		<li ><a href="/Scripts/BS_ViewForms.aspx">Forms</a></li>
+                  <li ><a href="/Scripts/IFSCMICRDetails.aspx">IFSC/MICR Codes</a></li>
+                  <li><a href="/Scripts/OtherLinks.aspx">Important Websites</a></li>
+                  <li><a target="_blank" href="https://opportunities.rbi.org.in/scripts/index.aspx">Opportunities<span>@</span>RBI</a></li>
+                  <li><a href="/Scripts/rbi_clarification.aspx">RBI Clarifications</a></li>
+ 		<li><a target="_blank" href="https://rbikehtahai.rbi.org.in/">RBI Kehta Hai</a></li>
+                  <li><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Utkarsh202910042026.pdf" target="_blank">RBI’s Vision and Values <img src="../Images/pdf.gif" alt="PDF document" style="padding-bottom: 4px; width:12px; border:0; vertical-align:middle;"> (652 KB)</a></li>
+                  <li><a href="/Scripts/Righttoinfoact.aspx">Right to Information Act</a></li>
+                  <li><a href="/Scripts/BS_ViewTenders.aspx">Tenders</a></li>
+                  
+              </ul>
+      </div>
+
+    <div class="grid_3" style="width:197px !important">
+      
+        <h2><span class="blue">Follow</span> RBI</h2>
+      <ul class="footerlist">
+        
+
+          <li style="float: left;background: url(/images/footer_list_arrow.gif) left 8px no-repeat;"><a href="/Scripts/rss.aspx"><img src="/images/rss-icon.png" alt="RSS Icon" class="rss">RSS</a></li>
+
+        
+          <li>
+              <a href="https://twitter.com/RBI" target="_blank" class="twitter">
+                  <img src="/images/Twitter_New.png" alt="Twitter Icon" class="videos" style="padding-left: 18%; width:14px;">Twitter
+              </a>
+          </li>
+
+        
+
+          <li style="float: left;"><a href="https://www.youtube.com/channel/UCIfCOl43tunZVNYafeC4RQA" class="videos" target="_blank"><img src="/images/youtube.png" alt="YouTube Icon" class="videos">YouTube</a></li>
+
+          <li>
+              <a href="https://instagram.com/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/Instagram.jpg" alt="Instagram Icon" class="videos" style="padding-left: 5%; width:14px;">Instagram
+              </a>
+          </li>
+          <li style="float: left;"><a href="https://www.facebook.com/RBIsays" class="videos" target="_blank"><img src="/images/Facebook.jpg" style="width:14px;" alt="Facebook Icon" class="videos">Facebook</a></li>
+          <li>
+              <a href="https://www.linkedin.com/company/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/LinkedinIcon1.png" alt="LinkedIn Icon" class="" style="padding-left: 4%;width: 17px;background: bottom no-repeat;display: block;float: left;margin: 2px 3px 0 1px;">LinkedIn
+              </a>
+          </li>
+      </ul>
+	<a href="https://www.india.gov.in" class="videos" target="_blank">
+                  <img src="/images/indiaGov.png" alt="National Portal of India logo" class="">
+              </a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="copyright">
+    <div class="container_12">
+     <div class="grid_6 pull_left">&copy; Reserve Bank of India. All Rights Reserved. </div>
+        <div class="grid_5 pull_right"><a href="/Scripts/sitemap.aspx">Sitemap</a> <span aria-hidden="true">|</span> <a href="/Scripts/Disclaimer.aspx">Disclaimer</a></div>
+        <div class="clearfix"></div>
+
+        <div class="grid_6 pull_left">Website owned and managed by Reserve Bank of India. Contact us on helpdoc[at]rbi[dot]org[dot]in</div>
+        <div class="grid_5 pull_right">Website last updated date: Sep 12, 2026</div>
+        <div class="clearfix"></div>
+	<div class="grid_6 pull_left"><a href="https://www.rbi.org.in/scripts/wim.aspx">Web Information Manager</a></div>
+	<div class="grid_5 pull_right"><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Accessibility20012026.pdf" target="_blank">Accessibility Statement
+	<img alt="PDF - Accessibility Statement" style="padding: 1px; width:16px; border:0; vertical-align:middle;" src="../Images/pdf.gif" > (133 KB)
+	</a><span aria-hidden="true"> |</span><a href="/scripts/ScreenReader.aspx" title="Information related to screen reader">Screen Reader and Accessibility Help</a></div>
+	<div class="clearfix"></div>
+        <div class="grid_12 pull_left">Supports: Google Chrome 147+ | Firefox 150+ | Microsoft Edge Version 147+ | Safari 17+</div>
+        
+        <div class="clearfix"></div>
+    </div>
+  </div>
+  
+
+
+
+</div>
+
+</footer>
+
+<script src="/js/ReplaceURL.js" ></script>
+<script >
+
+
+    //this is for floating TOP link
+    
+    $(document).ready(function () {
+
+        var offset = 230;
+        var duration = 500;
+
+
+        jQuery(window).scroll(function () {
+            if (jQuery(this).scrollTop() > offset) {
+                jQuery('.scrollToTop').fadeIn(duration);
+                
+            } else {
+                jQuery('.scrollToTop').fadeOut(duration);
+                
+            }
+        });
+
+        
+	$('.page_title').attr('tabindex','-1');
+        $('.scrollToTop').click(function () {
+            $('html, body').animate({ scrollTop: 0 }, 800);
+		$('.page_title').focus(); 
+            return false;
+        });
+	
+
+
+	if(!window.location.href.includes("Home.aspx") && !window.location.href.includes("home.aspx"))
+{ 
+if( window.location.href.includes(".aspx")){
+var div= document.getElementById('backDiv');
+	div.removeAttribute("hidden");}
+else{
+var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+}
+else{
+
+
+	var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+    });
+
+
+  
+    $(window).scroll(function () {
+
+        if ($('div.banner2').length) {
+
+            if ($(window).scrollTop() >= 265) {
+                $('#menubar').css("position", "fixed");
+                $('#menubar').css("width", "240px");
+                $('#menubar').css("margin-top", "-281px");
+                $('.content_area').css("margin-left", "252px");
+
+                $('.sidebar_nav').css("position", "fixed");
+                $('.sidebar_nav').css("margin-top", "-200px");
+                $('.sidebar_nav').css("width", "236px");
+
+
+             
+
+            }
+
+            else {
+                $('#menubar').css("position", "");
+                $('#menubar').css("width", "");
+                $('#menubar').css("margin-top", "");
+                $('.content_area').css("margin-left", "");
+
+                $('.sidebar_nav').css("position", "");
+                $('.sidebar_nav').css("margin-top", "");
+                $('.sidebar_nav').css("width", "");
+
+
+
+         
+            }
+
+        }
+
+        else if ($(window).scrollTop() >= 185) {
+            $('#menubar').css("position", "fixed");
+            $('#menubar').css("width", "240px");
+            $('#menubar').css("margin-top", "-200px");
+            $('.content_area').css("margin-left", "252px");
+
+            $('.sidebar_nav').css("position", "fixed");
+            $('.sidebar_nav').css("margin-top", "-200px");
+            $('.sidebar_nav').css("width", "236px");
+
+
+          
+		var treeheight=0;
+		if($('#treeYear').height()>0){treeheight=$('#treeYear').height();}
+	    	if($(window).scrollTop() >= $('#example-min').height()-treeheight)
+		{			 
+			$('#menubar').css("position", "absolute");
+            		
+			$('#menubar').css("margin-top", "");
+			$('#menubar').css("top", $('#example-min').height()+100-treeheight +"px");
+		}
+		else{$('#menubar').css("position", "fixed"); $('#menubar').css("top", "");}
+		
+        }
+
+        else {
+            $('#menubar').css("position", "");
+            $('#menubar').css("width", "");
+            $('#menubar').css("margin-top", "");
+            $('.content_area').css("margin-left", "");
+
+            $('.sidebar_nav').css("position", "");
+            $('.sidebar_nav').css("margin-top", "");
+            $('.sidebar_nav').css("width", "");
+
+
+       
+        }
+     
+
+       
+    });
+	
+      
+    $(document).ready(function () {
+	
+	
+		  $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#maskWN').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+		
+		 $('#maskWN').click(function () {
+            $(this).hide();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('.window').hide();
+
+        });
+
+        
+
+        //if close button is clicked
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#mask').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+
+        //if mask is clicked
+        $('#mask').click(function () {
+            $(this).hide();
+            $('.window').hide();
+        });
+        $('#feedbackbtn').click(function () {
+            var id = '#dialog';
+
+            //Get the screen height and width
+            var maskHeight = $(document).height();
+            var maskWidth = $(window).width();
+
+            //Set heigth and width to mask to fill up the whole screen
+            
+            $('#mask').css({ 'width': '100%', 'height': '100%', 'position': 'fixed' });
+
+            //transition effect
+            $('#mask').fadeIn(500);
+            $('#mask').fadeTo("slow", 0.9);
+
+            //Get the window height and width
+            var winH = $(window).height();
+            var winW = $(window).width();
+
+            //Set the popup window to center
+            $(id).css('top', winH / 2 - $(id).height() / 2);
+            $(id).css('left', winW / 2 - $(id).width() / 2);
+
+            //transition effect
+            $(id).fadeIn(2000);
+        });
+
+        $('.submit').click(function () {
+            var Name = $("[id*=txtFeedbackName]").val();
+            var Email = $("[id*=txtFeedbackEmail]").val();
+            var Comments = $("[id*=txtFeedbackComments]").val();
+            if (Name == "") {
+
+                alert("Please enter your name");
+                $("[id*=txtFeedbackName]").focus();
+                return false;
+            }
+            else if (Email == "") {
+                alert("Please enter your email");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+            else if (Email != "" && !ValidateEmail(Email)) {
+                alert("Please enter a valid email address");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+
+            else if (Comments == "") {
+
+                alert("Please enter some comments");
+                $("[id*=txtFeedbackComments]").focus();
+                return false;
+            }
+
+            else {
+                $('[id*=Button1]').attr('disabled', 'disabled');
+
+                var param = { Name: Name, EmailID: Email, Comments: Comments };
+                $.ajax({
+                    type: "POST",
+                    url: "../Home.aspx/SaveFeedback",
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+
+                    success: function (response) {
+
+                        if (response.d == "0") {
+                            alert("Thank you for your feedback");
+                            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+                            $('#mask').hide();
+                            $('.window').hide();
+                            $('[id*=Button1]').removeAttr('disabled');
+                            $("[id*=txtFeedbackName]").val("");
+                            $("[id*=txtFeedbackEmail]").val("");
+                            $("[id*=txtFeedbackComments]").val("");
+                        }
+                        else {
+                            alert("Please try again");
+                            $('[id*=Button1]').removeAttr('disabled');
+
+
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+        function ValidateEmail(email) {
+            var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            return expr.test(email);
+        };
+
+       
+
+        $('a.style1').each(function () {
+
+            var $this = $(this);
+            var aHref = $this.attr('class');
+            $this.attr('class', aHref.replace('style1', 'links'));
+        });
+
+		
+   });
+
+  function isExternal(url) {
+	if(url){url=url.toLowerCase();
+       if(url=='#' || url=='javascript:void(0);' || url.includes('javascript')||url=='' )
+	{ return false;} 
+	else{//return (url.indexOf("rbi.org.in")==-1)
+	
+	if(url.indexOf("www.rbi.org.in")==-1 || url.indexOf("https://rbi.org.in")==-1)
+		{	
+			if(url.indexOf("rbi.org.in")==-1)		
+    				return "external";
+			else if(url.indexOf("www.rbi.org.in")==-1 && url.indexOf(".rbi.org.in")>0 && url.indexOf("rbidocs.rbi.org.in")==-1)
+				{return "subdomain";}
+			else if(url.indexOf("financialeducation")>0 || url.indexOf("commonperson")>0 || url.indexOf("/rekyc/")>0 || url.indexOf("rbi90years")>0 ){
+				return "subsite";}
+			
+		}
+	
+	}}
+    }
+    document.addEventListener("click", function () {
+	linkMessage();
+        
+    });
+function linkMessage(){
+	if (event.target.tagName.toLowerCase() === "a") {
+            if (isExternal(event.target.href)=="external") {
+
+                if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+            }
+	    if (isExternal(event.target.href)=="subdomain") {
+	    	 if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+		if (isExternal(event.target.href)=="subsite") {
+	    	 if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+        }
+	else if (event.target.tagName.toLowerCase() === "img") {
+		$(event.target).preventDefault;		
+		if($(event.target).parent('a').length){
+			 if (isExternal($(event.target).parent('a').prop('href'))==="external") {
+                		if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+                    		return;
+               		 }
+
+                	else {                   
+                    		event.preventDefault();
+                    		return;
+                	}}
+			if (isExternal($(event.target).parent('a').prop('href'))==="subdomain") {
+                		if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    		return;
+               		 	}
+
+                		else {                   
+                    		event.preventDefault();
+                    		return;
+                		}
+			}
+			if (isExternal(event.target.href)=="subsite") {
+	    	 	if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    	return;
+                	}
+                	else {
+                   
+                    		event.preventDefault();
+                    	return;
+                	}
+	    		}
+	}}
+	const link = event.target.closest('a[target="_blank"]');
+	if(link){ 
+		event.preventDefault();
+		if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+			window.open(link.href,"_blank");
+		}
+	}
+		if (event.target.tagName.toLowerCase() === "button") {
+		if($(event.target).parent('a').length>0){
+			const link1 = event.target.closest('a[target="_blank"]');
+		if(link1){
+			event.preventDefault();
+			if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+				window.open(link.href,"_blank");
+			}
+		}
+		}
+	}
+}
+
+</script>
+<script >
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61369961-1', 'auto');
+  ga('send', 'pageview');
+
+document.querySelectorAll('table.tablebg').forEach(table => {
+    const anchors = table.querySelectorAll('a[href^="#"]:not([href="#"])');
+
+    const hasInPageAnchorsInThisTableOnly = Array.from(anchors).some(a => {
+        // Find the closest table ancestor of this anchor
+        const closestTable = a.closest('table');
+    
+        // Only count it if it belongs to the current table (not a nested one)
+        return closestTable === table;
+    });
+
+    if (!hasInPageAnchorsInThisTableOnly) {
+        table.setAttribute('role', 'presentation');
+    } else {
+        table.removeAttribute('role'); 
+    }
+});
+$('.brd-ptable1').attr('role','presentation');
+$('html').attr('lang', 'en');
+document.querySelectorAll('br').forEach(br => {br.setAttribute('aria-hidden','true');});
+$('#doublescroll').children('table').filter(':first').attr("role", "presentation");
+$('.page_title').nextAll('table').first().attr("role", "presentation");
+
+
+
+document.addEventListener('DOMContentLoaded', function(){
+$('.tableheader b').each(function () {
+		var curEle= $(this);
+           $(curEle).replaceWith("<h2 class='dop_header'>"+$(curEle).html()+"</h2>")
+        });
+ });
+
+//  tooltip 
+var TooltipManager = {
+    _tip: null, // Create the tooltip element once 
+init: function() {
+    if (!this._tip) {
+    
+        this._tip = $('<div id="js-custom-tooltip"></div>').css({
+            "position": "absolute", "background": '#ffffca', "color":"#000", "padding": "2px 5px", "border-radius": "0px", "font-size": "11px","font-family":"Sans-serif", "z-index": "10000", "pointer-events": "none","border":"1px solid #767676", "box-shadow":"2px 2px 3px rgba(0,0,0,0.2)","white-space":"nowrap"
+        }).appendTo('body');
+        
+    }
+}, 
+show: function(element, text) {
+    this.init(); 
+var $el = $(element); // Update text and position 
+    
+this._tip.text(text).show();
+var pos = $el.offset(); 
+this._tip.css({
+    top: pos.top + this._tip.outerHeight()  + "px", // Show above 
+    left: pos.left + ($el.outerWidth() / 2) - (this._tip.outerWidth() / 2) + "px"
+});
+    }, hide: function() { if (this._tip) this._tip.hide(); }
+}; // Apply to all elements that have a ToolTip (ToolTip renders as 'title') 
+$(document).ready(function() {
+   
+    $('body').on('focusin', 'input, button, a, select, textarea, img', function() {
+        var title = $(this).attr('title'); if (title) {
+    
+            
+      
+            TooltipManager.show(this, title);
+        }
+    }).on('focusout', 'input, button, a, select, textarea, img', function() { 
+       
+            TooltipManager.hide();
+       
+    }); // Dismiss on Escape key
+    $(document).keyup(function(e) { if (e.key === "Escape") TooltipManager.hide(); });
+});
+
+//breadcrumb current page announce
+$(document).ready(function(){
+
+const breadcrumbList = document.querySelector('.breadcrumbs');
+
+    if (breadcrumbList) {
+        const listItems = breadcrumbList.querySelectorAll('li');
+    
+        if (listItems.length > 0) {
+            
+            const lastItem = $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).last().attr('aria-current', 'page');
+            $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())==="" && $(this).children().length===0;}).attr('role','presentation');
+       		$('.breadcrumbs li').filter(function(){
+			if($(this).children().length!==0)
+			{
+				if($(this).children().text() ===""){}
+			}
+		});
+            const lastLink =lastItem.find('a');
+            if (lastLink) {
+                lastLink.attr('aria-current', 'page');               
+                
+            }
+		if($('.breadcrumbs li').last().find('a').length>0)
+		{			
+			const $a = $('.breadcrumbs li').last().find('a');
+			$('<span>',{class: $a.attr('class'), text: $a.text()}).replaceAll($a).attr('aria-current', 'page');
+		}
+		
+		if($('.breadcrumbs li').last().find('span').length>0)
+		{
+			
+			if($('.breadcrumbs li').last().find('span')[0].innerText==='')
+			{
+				$('.breadcrumbs li').last().find('span').removeAttr('aria-current');				
+			}
+			else{
+				$('.breadcrumbs li').last().find('span').filter(function(){ return $(this).attr('role')!=='presentation';}).last().attr('aria-current', 'page');					
+			}		
+		}
+		$('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).removeAttr('role','presentation');
+        }
+    }
+});
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+setLetterSpace(false);//]]>
+</script>
+</form>
+    <script type="text/javascript" src="/js/plugins.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
+    <script type="text/javascript" src="/js/Scroll.js"></script>
+    <script type="text/javascript" language="javascript">
+
+        DoubleScrollWithTree(document.getElementById('doublescroll'));
+        function GetYear(year) {
+            document.getElementById("hdnYear").value = year;
+            document.getElementById("btn").click();
+        }
+        function hideshow(divArchive) {
+            if (!document.getElementById(divArchive))
+                return
+            if (document.getElementById(divArchive).style.display == "block")
+                document.getElementById(divArchive).style.display = "none"
+            else
+                document.getElementById(divArchive).style.display = "block"
+        }
+        function SetTreeStyles() {
+            var strYear = document.getElementById("hdnYear").value;
+            var ArcYear = parseInt(document.getElementById("btn").value) - 9;
+
+
+            if (strYear != "") {
+                var toDay = new Date();
+                document.getElementById(strYear).setAttribute("class", "year active");
+                document.getElementById(strYear).style.display = "block";
+                if (toDay.getFullYear() - 9 > parseInt(strYear)) { document.getElementById("divArchiveSub").style.display = "block" }
+            }
+        }
+    </script>
+</body>
+</html>
+<script id="f5_cspm">(function(){var f5_cspm={f5_p:'PFPHNDOJCMDJEHOBJCMDOCPDHNHGMAFBJABPMIDJPCEMIPMLMDJKGBAAIAAGJGMIAFOBHEGOAADDIALPHPEANAPBAAGDEBPGLJGPCCBDHKEFPGJKNJIEIJLJNGLJOOAN',setCharAt:function(str,index,chr){if(index>str.length-1)return str;return str.substr(0,index)+chr+str.substr(index+1);},get_byte:function(str,i){var s=(i/16)|0;i=(i&15);s=s*32;return((str.charCodeAt(i+16+s)-65)<<4)|(str.charCodeAt(i+s)-65);},set_byte:function(str,i,b){var s=(i/16)|0;i=(i&15);s=s*32;str=f5_cspm.setCharAt(str,(i+16+s),String.fromCharCode((b>>4)+65));str=f5_cspm.setCharAt(str,(i+s),String.fromCharCode((b&15)+65));return str;},set_latency:function(str,latency){latency=latency&0xffff;str=f5_cspm.set_byte(str,40,(latency>>8));str=f5_cspm.set_byte(str,41,(latency&0xff));str=f5_cspm.set_byte(str,35,2);return str;},wait_perf_data:function(){try{var wp=window.performance.timing;if(wp.loadEventEnd>0){var res=wp.loadEventEnd-wp.navigationStart;if(res<60001){var cookie_val=f5_cspm.set_latency(f5_cspm.f5_p,res);window.document.cookie='f5avr0947018921aaaaaaaaaaaaaaaa_cspm_='+encodeURIComponent(cookie_val)+';path=/;'+'';}
+return;}}
+catch(err){return;}
+setTimeout(f5_cspm.wait_perf_data,100);return;},go:function(){var chunk=window.document.cookie.split(/\s*;\s*/);for(var i=0;i<chunk.length;++i){var pair=chunk[i].split(/\s*=\s*/);if(pair[0]=='f5_cspm'&&pair[1]=='1234')
+{var d=new Date();d.setTime(d.getTime()-1000);window.document.cookie='f5_cspm=;expires='+d.toUTCString()+';path=/;'+';';setTimeout(f5_cspm.wait_perf_data,100);}}}}
+f5_cspm.go();}());</script>

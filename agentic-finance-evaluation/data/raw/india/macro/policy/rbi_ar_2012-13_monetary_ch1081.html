@@ -1,0 +1,2588 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Annual Report | Official Website of Reserve Bank of India </title>
+    <meta name="description" content="Annual Report - Reserve Bank of India" />
+    <meta name="keyword" content="RBI Annual Report" />
+    <meta name="author " content="Reserve Bank of India" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="/js/libs/modernizr-2.5.3.min.js"></script>
+</head>
+<body onload="SetTreeStyles()">
+    <form method="post" action="./AnnualReportPublications.aspx?Id=1081" id="Form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJMzY1MDIzMjgyZGTirogjiSKWyp2H7A6jss5xWpxVi6DImZfEwxE9PMK7EA==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="E309B892" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAwK4FgjMZGo32+EsU73+QFSlK+XrsQEVyjeDxQ0A4GYXM3IfYFEMdbtkmb6zzJSc2CLrBfuDtX7nV3nL+5njT0xpTvjNMInTm7jDqH04NfPDGQ6cu1iZ73N7YF2NPAmCyQ/q33cCQLgaFQSElESF1pcG6ARGh77hh0/r4ObuL1TAsg3NivnNEt6QsKSovCCK9t9xf1loRXvygROM/A1O+NHJounKCGGAHd04zzVhBPZz3RgTJ25FWigbeFr84Vgoxd85GmzTs9g56MExTizjelamo8ZO6PQqH+9hU02GyNvAg==" />
+</div>
+        <input type="hidden" name="hdnYear" id="hdnYear" />
+        
+<link href="/JQuery/css/jquery-ui-1.8.18.custom2.css" rel="stylesheet" type="text/css" />
+<link href="/includes/print.css" rel="stylesheet" media="print" type="text/css" />
+
+<link href="/Styles/960.css?v=1.0" rel="stylesheet" type="text/css" />
+<link href="/Includes1/rbi.css?v=5.0" rel="Stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/JQuery/ui/jquery.ui.revampRBI.js"></script>
+<script type="text/javascript" src="/js/ImgSaveDisable.js"></script>
+
+<script type="text/javascript">
+  
+//Redirect to mobile site start
+    function detectmob() {
+        if (screen.width <= 599 || screen.Height <= 975) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if (detectmob()) {
+       window.location.href = "https://m.rbi.org.in" + window.location.pathname;
+		
+       
+    }
+
+	//Redirect to mobile site End
+    $(document).ready(function () {
+        Search();
+	SearchLastUpdateDate(); //Fetch Last Date Page
+    });
+
+
+
+  // Fetch Last Date Page
+
+    function SearchLastUpdateDate() {
+        var strFilterComments = new RegExp("^[a-zA-Z0-9 =_:.&?'%,()-–]+$");
+	var url=window.location.href;
+	if(url.indexOf("WSSViewDetail.aspx")>0 || url.indexOf("PublicationReportDetails.aspx")>0)
+	{
+		url=url.substring(url,url.indexOf("?"));
+	}
+        var param = { keyWord1: url.slice(url.lastIndexOf('/') + 1) };
+	param.keyWord1=param.keyWord1.replaceAll("%20"," ");
+	if(param.keyWord1.indexOf("#")>0)
+	{
+		param.keyWord1=param.keyWord1.substring(param.keyWord1,param.keyWord1.indexOf("#"));
+	}
+        if (!strFilterComments.test(param.keyWord1)) {            
+            return false;
+        }
+        else {
+            $.ajax({
+                url: "/Home.aspx/GetLastUpdateDate_new",
+                data: JSON.stringify(param),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataFilter: function (data) { return data; },
+                success: function (data) {
+                    if (data.d.length > 0) {
+                        $('#lblGetLastUpdateDate').text(data.d);
+                    }
+                    else {
+                        response([{ label: "No results found", value: ""}]);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+
+        }
+    }
+    // Fetch Last Date Page
+
+
+
+    function Search() {
+        highlightTextAutocomplete();
+        $(".autoSuggest").autocomplete({
+
+
+            source: function (request, response) {
+                var param = { keyWord: document.getElementById('txtSearch').value };
+
+                $.ajax({
+                    url: "/Home.aspx/GetKeywords",
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+
+                        if (data.d.length > 0) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: RemoveSpecialChars(item)
+
+                                }
+                            }))
+                        }
+                        else {
+                            response([{ label: "No results found", value: ""}]);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            },
+
+            
+            minLength: 3
+
+        });
+    }
+
+    function highlightTextAutocomplete() {
+
+        var oldFn = $.ui.autocomplete.prototype._renderItem;
+
+        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+
+            var t = String(item.value).replace(
+                new RegExp(this.term, "gi"),
+                "<span class='ui-state-highlight'>$&</span>");
+            if (item.value != "") {
+                return $("<li class='borderAutocomplete'></li>")
+                  .data("item.autocomplete", item)
+                  .append("<a role='link'>" + t + "</a>")
+                  .appendTo(ul);
+            }
+
+            else {
+                return $("<li></li>")
+                  .data("item.autocomplete", item)
+                  .append("")
+                  .appendTo(ul);
+            }
+        };
+    }
+
+
+    function RemoveSpecialChars(inputText) {
+        var filteredString = inputText.replace(/[\*\^\'\!\@\$\.\#\(\)\-\?\<\>\;\"\&\+\{\}\:]/g, '');
+        
+        return filteredString;
+    }
+    
+
+    function LoadSearchData(id, key) {
+        if (id == "txtSearch") {
+            if (key == 13) {
+                validateSearchText();
+                return false;
+            }
+        }
+        else validateSearchText();
+        return true;
+    }
+    function validateSearchText() {
+        if (validation()) {
+            var strloc = new String(document.location.href.toString());
+            if (strloc.indexOf("SearchResults.aspx") == -1) {//             
+                window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+            }
+            else window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+        }
+    }
+    function validation() {
+        strSearch = trim(document.getElementById('txtSearch').value);
+        if (strSearch == "") { alert('Please enter the search text'); return false; }
+        else {
+           
+            var strFilterChars = new RegExp("^[0-9a-zA-Z ]*$");
+            if (!strFilterChars.test(strSearch)) { alert("Please remove special characters from search text"); return false; }
+        }
+        return true;
+    }
+    function trim(value) {
+        value = value.replace(/^\s+/, '');
+        value = value.replace(/\s+$/, '');
+        return value;
+    }
+
+</script>
+
+    <style type="text/css">
+    .blink_msm1 
+{
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 3s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: blinker;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@-moz-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+.blink_NewWebsite {
+        animation:blinker 1.5s linear 3;
+        color:blue;
+        font-size:1.5em;
+        margin-bottom:0px;
+        }
+    @keyframes blinker
+    {
+        50%{
+            opacity:0;
+        }
+    }
+
+.sr-only {
+position: absolute;
+left: -9999px;
+}
+</style>
+<div class="top_setting">
+    <div class="container_12">
+        <div class="grid_5 top_settings">
+            <a href="#mainsection">Skip to main content </a>
+        </div>
+        <div id="UsrFontCntr_tblThemes" style="float: right" class="grid_4 prefix_3 top_settings">
+            <ul style="margin:0px; padding:0px;">
+               <li class="fonts"> 
+                <a id="UsrFontCntr_LinkBtnSpace" role="button" title="Increase Letter Spacing" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnSpace&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/letspace.png" alt="Increase Letter Spacing" />
+                                <span id="UsrFontCntr_spanBtnSpace" class="sr-only">Not Pressed</span></a>                                
+            </li>
+
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontIncrease" role="button" title="Increase Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontIncrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-increase.gif" alt="Increase Font Size" />
+                    <span id="UsrFontCntr_spanFontIncrease" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontRegular" role="button" title="Regular Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontRegular&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-reset.gif" alt="Regular Font Size" />
+                    <span id="UsrFontCntr_spanFontRegular" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontDecrease" role="button" title="Decrease Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontDecrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-decrease.gif" alt="Decrease Font Size" />
+                    <span id="UsrFontCntr_spanFontDecrease" class="sr-only">Not Pressed</span></a>
+            </li></ul>
+		<ul style="margin:0px;padding:0px;">
+            <li class="black">
+                <a id="UsrFontCntr_LinkBtnAccessibilty" role="button" title="Apply Dark Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/dark-theme.gif" alt="Apply Dark Theme" />
+                    <span id="UsrFontCntr_spanAccessibilty" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="white">
+                <a id="UsrFontCntr_LinkBtnUndoAccessibilty" role="button" title="Apply Normal Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnUndoAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/bright-theme.gif" alt="Apply Normal Theme" />
+                     <span id="UsrFontCntr_spanUndoAccessibilty" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="white">
+            <a id="UsrFontCntr_LinkBtnGreyScale" role="button" title="Apply Grey Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnGreyScale&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/graytheme.gif" alt="Apply Grey Theme" />
+                                <span id="UsrFontCntr_spanGreyScale" class="sr-only">Not Pressed</span></a></li>
+
+            </ul>
+		<div>
+		     <a href="#" onclick="javascript:window.print();" id="A1" title="Print This Page" style="text-decoration:none;" >
+                <img src="/images/print-icon.png" alt="Print this page" class="print" />
+		</a></div>
+            <div style="float: right">
+                <label style="margin-right: 6px;">
+                    Change Language</label>
+			
+			<a href="#" onclick="SetLink();" class="link1" title="Website in Hindi">हिंदी</a>
+			</div>
+                   
+        </div>
+        <div class="clearfix">
+        </div>
+    </div>
+   
+</div>
+<div class="container_12">
+    <div class="grid_4" role="banner">
+        <div class="logo">
+            <a href="/home.aspx" title="Official website of Reserve Bank of India">
+                <img src="/images/rbi-company-logo.jpg" alt="Logo of Official website of Reserve Bank of India" title="Official website of Reserve Bank of India" /></a></div>
+    </div>
+    <div class="grid_5" align="right" role="search" style="float: right">
+        <label for="searchbox" class="search_label">
+            Search the Website</label>
+        <input name="UsrFontCntr$txtSearch" type="text" maxlength="103" id="txtSearch" class="search_box autoSuggest" title="Search the Website" aria-label="Search the Website" onkeydown="return LoadSearchData(&#39;txtSearch&#39;,event.keyCode);" placeHolder="Search" />
+        <button id="btnSearch" onclick="return LoadSearchData('btnSearch',event.keyCode);"
+            type="button" class="search_button">
+            Search</button>
+    </div>
+	<div class="grid_2" align="CENTER" role="" style="float: right">
+        <div class="logo" >
+           
+            <img src="../images/BBBP_Logo_4.png" alt="Beti Bachao Beti Padhao Logo" style="width:47%;">
+        </div>
+    	</div>
+    <div class="clearfix">
+    </div>
+</div>
+<!--  NAVIGATION START-->
+<nav role="navigation" aria-label="Main">
+       <div class="menu"><div class="centermenu">
+<ul class="menu">
+  <li><a href="https://rbi.org.in/home.aspx">Home</a></li>
+<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-Sub1">About Us ▼</a>
+ <ul class="submenu1" id="Ab-Sub1" >
+	 <li><a href="/scripts/AboutUsDisplay.aspx">About Us</a></li>
+     <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-org">Organisation & Functions <span aria-hidden="true">▶</span></a>
+		 <ul class="submenu1" id="Ab-org">             
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=OrganizationStructure.htm">Organisation Structure</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=Depts.htm">Departments</a></li>
+            <li><a href="Regionaloffices.aspx">Offices</a></li>
+			<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-tra">Training Establishment <span aria-hidden="true">▶</span></a>                
+				<ul class="submenu1" id="Ab-tra">
+                    <li ><a href="https://cab.rbi.org.in" target="_blank" id="CBOverview">College of Agricultural Banking</a></li>
+                    <li ><a href="/scripts/rbsc.aspx" id="CBNotifications">Reserve Bank Staff College</a></li>
+					<li ><a href="https://cos.rbi.org.in/" id="CBSupervisors">College of Supervisors</a></li>
+                </ul>
+            </li>
+            <li><a href="/scripts/OccasionalPublications.aspx?head=RBI%27s%20Functions%20and%20Working">RBI's Functions and Working</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=PastGovernors.htm">Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=deputygovernors.htm">Deputy Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=ExecutiveDirectors.htm">Executive Directors</a></li>
+        </ul>		
+	 </li>
+<li><a href="AboutUsDisplay.aspx?pg=MediaKit.htm">Media Kit</a></li>
+	 <li><a href="CommunicationPolicy.aspx">Communication Policy of RBI</a></li>
+	
+     <li>
+        <a href="#" aria-expanded="false" role="button" aria-controls="Ab-soi">Sources of Information <span aria-hidden="true">▶</span></a>
+        <ul class="submenu1" id="Ab-soi">
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#AP">Annual Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#HP">Half-yearly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#QP">Quarterly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#MP">Monthly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#WP">Weekly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#OP">Occasional Publications</a></li>
+            <li><a href="/scripts/SDDSview.aspx">SDDS</a></li>
+            <li><a href="/scripts/BS_NSDPDisplay.aspx">NSDP</a></li>
+            <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#PS">Publications available on Subscription</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#GI">General Information</a></li>	  
+        </ul>
+     </li>  
+	 <li><a href="/scripts/Project1.aspx">RBI History</a></li>
+	 <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-mus">Museum <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="Ab-mus">
+			<li><a href="https://therbimuseum.rbi.org.in/">The RBI Museum</a></li>
+			<li><a href="/scripts/ic_museum.aspx">RBI Monetary Museum</a></li>
+         </ul>
+	 </li>
+</ul>
+</li>
+  <li>
+    <a href="#" aria-expanded="false" role="button" aria-controls="No-Sub1">Notification ▼</a>
+    <ul class="submenu1" id="No-Sub1">
+      <li><a href="/scripts/NotificationUser.aspx">Notifications </a></li>
+             <li><a href="/scripts/BS_ViewMasterDirections.aspx">Master Directions </a></li>
+             <li><a href="/scripts/BS_ViewMasterCirculardetails.aspx">Master Circulars </a></li> 
+	     <li><a href="/scripts/Fs_AmendmentDirections.aspx">Amendment Directions </a></li> 
+	     <li><a href="#" aria-expanded="false" role="button" aria-controls="No-draft">Draft Notifications/Guidelines <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="No-draft">
+			<li><a href="/scripts/DraftNotificationsGuildelines.aspx">Draft Notifications/Guidelines</a></li>
+			<li><a href="/scripts/BS_ViewREwiseDraftDirections.aspx">Draft Directions (RE-wise)</a></li> 
+         	</ul>
+	     </li>
+
+            
+             <li><a href="/scripts/BS_CircularIndexDisplay.aspx">Index To RBI Circulars </a></li> 
+             <li><a href="/scripts/BS_ViewListofstandalonecirculars.aspx">Standalone Circulars </a></li>
+             <li><a href="/scripts/NotificationUserWithdrawnCircular.aspx">Circulars Withdrawn </a></li>
+
+      
+    </ul>
+  </li>
+
+  <li><a href="/scripts/BS_PressReleaseDisplay.aspx">Press Releases</a></li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Sp-Sub1">Speeches & Media Interactions ▼</a>
+	<ul class="submenu1" id="Sp-Sub1">
+	  <li><a href="/scripts/BS_ViewSpeeches.aspx">Speeches</a></li>
+      <li><a href="/scripts/BS_ViewInterviews.aspx">Media Interactions</a></li>
+      <li><a href="/scripts/Lectures.aspx">Memorial Lectures</a></li>
+      <li><a href="/scripts/BS_ViewPodcast.aspx">Podcasts</a></li>
+	</ul>
+  </li>
+  <li><a href="#"  aria-expanded="false" role="button" aria-controls="Pu-Sub1">Publications ▼</a>
+		<ul class="submenu1" id="Pu-Sub1">
+			<li><a href="/scripts/Publications.aspx?publication=Biennial">Biennial</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Annual">Annual</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=HalfYearly">Half-Yearly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Quarterly">Quarterly</a></li>
+		    <li><a href="/scripts/Publications.aspx?publication=Bimonthly">Bi-monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Monthly">Monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Weekly">Weekly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Occasional">Occasional</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Reports">Reports</a></li>
+		    <li><a href="/scripts/OccasionalPublications.aspx?head=Working Papers">Working Papers</a></li>
+		</ul>
+	</li>				  
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Le-Sub1">Legal Framework ▼</a>
+	<ul class="submenu1" id="Le-Sub1">
+	   <li><a href="/scripts/Act.aspx">Act </a></li>
+       <li><a href="/scripts/Rules.aspx">Rules </a></li>
+       <li><a href="/scripts/Regulations.aspx">Regulations </a></li> 
+       <li class="last"><a href="/scripts/Schemes.aspx">Schemes </a></li>
+	   </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Re-Sub1">Research ▼</a>
+		<ul class="submenu1" id="Re-Sub1">
+			<li><a href="/Scripts/ExternalResearchSchemes.aspx">External Research Schemes</a></li>
+			<li><a href="/Scripts/OccasionalPapers.aspx">RBI Occasional Papers</a></li>
+			<li><a href="/Scripts/OccasionalPublications.aspx?head=Working%20Papers">Working Papers</a></li>
+			<li><a href="/Scripts/BS_ViewBulletin.aspx">RBI Bulletin</a></li>
+			<li><a href="/Scripts/Project1.aspx">History</a></li>
+			<li><a href="/Scripts/Occas_DRG_Studies.aspx">DRG Studies</a></li>
+			<li><a href="/Scripts/KLEMS.aspx">KLEMS</a></li>
+			<li class="last"><a href="/Scripts/StateStatisticsFinances.aspx">State Statistics and Finances</a></li>
+        </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Statistics ▼</a>
+		<ul class="submenu1" id="St-Sub1">
+		  <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+          <li><a href="https://data.rbi.org.in" target="_blank">Database on Indian Economy</a></li>
+          <li><a href="/scripts/FS_PDS.aspx">Public Debt Statistics</a></li>
+		</ul> 
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Regulatory Reporting ▼</a>
+		<ul class="submenu1">
+			<li><a href="/scripts/BS_Listofallreturns.aspx">List of Returns</a></li>
+			<li><a href="/scripts/DataDefinition.aspx">Data Definition</a></li>
+			<li><a href="/scripts/ValidationRules.aspx">Validation rules/ Taxonomy</a></li>
+			<li><a href="/scripts/ReportingPlaform.aspx">List of RBI Reporting Portals</a></li>
+			<li class="last"><a href="/scripts/ReportingFAQ.aspx">FAQs of RBI Reporting Portals</a></li>
+		</ul>
+   </li>
+</ul>
+</div></div>
+</nav>
+<div class="container_12" >
+    <section>
+        <div class="grid_12" >
+            <div id="dialogAlert" title="" tabindex="-1"  style="text-align: center; display: none;">
+                <p id="AM_Message" tabindex="-1" style="color: #444; font-size: 15px; margin: 20px 0; min-height: 40px;"></p>
+            </div>
+        </div>
+    </section>
+</div>
+<!--  NAVIGATION END-->
+<!--HEADER END-->
+<input type="submit" name="UsrFontCntr$btn" value="" id="btn" style="visibility: hidden; height: 0px; width: 0px;" />
+
+<script type="text/javascript">
+    function SetLink() {
+        //a.href = "https://www.rbi.org.in/hindi/Home.aspx";
+        var txt="This will lead you to Hindi (हिन्दी) language website. Are you sure you want to switch to this language?"
+        if(window.confirm(txt)==true){
+            //document.cookie = 'preferLang' + '=;secure; expires=Thu, 01-Jan-70 00:00:01 GMT;path=/;';
+            window.location.replace("https://www.rbi.org.in/hindi/");
+        }
+        else return false;
+        
+    }
+
+
+
+
+	const allMenuItems = document.querySelectorAll("nav ul li");
+	
+	allMenuItems.forEach(item => {
+		item.addEventListener("focusin", (event) => {	
+			const MenuText =event.target.textContent;
+			const allMenuItems1 = document.querySelectorAll(".hasSubmenu");
+			allMenuItems1.forEach(item1 => {
+				if (MenuText === 'Press Releases')
+				{	
+					
+					item1.classList.remove('focused');
+					rollback(item1)
+					item1.classList.remove('open');
+				}
+			});
+			
+		});
+	});
+
+
+const menuItems = document.querySelectorAll(".hasSubmenu");
+menuItems.forEach(item => {
+	item.addEventListener("mouseenter", (event) => {
+		item.className="hasSubmenu open focused"
+		expandThis(item);
+	});
+	item.addEventListener("mouseleave", (event) => {		
+		rollback(item)
+		item.className="hasSubmenu"
+	});
+	item.addEventListener("focusin", (event) => {		
+		const allMenuItems = document.querySelectorAll("nav ul li");
+		allMenuItems.forEach(item1 => {
+			item1.classList.remove('focused');
+			if(item!==item1)
+			rollback(item1)
+			item1.classList.remove('open');	
+		});							
+		item.classList.add('focused');
+	});
+	item.addEventListener("focusout", (event) => {
+		
+		if(!item.className.includes('focused')){
+		
+		rollback(item)
+		item.className="hasSubmenu"
+		}
+		item.classList.remove('focused');
+		item.classList.remove('open');
+	});
+
+    item.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+		if(item.className.includes("hasSubmenu open")){
+			rollback(item)
+			item.className="hasSubmenu"
+		}
+		else{
+          	item.className="hasSubmenu open focused"
+		var ele=item.querySelectorAll("a")[0];
+		
+		expandThis(item);	
+		}
+				
+        }
+	
+    });
+	
+});
+function expandThis(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+				    if ($targetul.queue().length <= 1) 
+				        if (this.istopheader)
+					$targetul.css({ left: $(this).children('a').eq(0).position().left, top: $mainmenu.position().top + this._dimensions.h - 2 })
+				            
+				    if (document.all && !window.XMLHttpRequest) 
+				        $mainmenu.find('ul').css({ overflow: (this.istopheader) ? 'hidden' : 'visible' })
+					
+					
+				    $targetul.dequeue().stop(true, true).slideDown(droplinemenu.animateduration.over)
+}
+const menuItemsf = document.querySelectorAll("nav .midmenu ul li");
+
+menuItemsf.forEach(item => {
+    item.addEventListener("keydown", (event) => {
+	
+	if(item.className.includes("last") ){
+		 if (pressedKeys['shift'] && event.key === "Tab"){}else{
+		var lastItem = document.getElementsByClassName('hasSubmenu open');
+		rollback(lastItem[0])
+		lastItem[0].className="hasSubmenu";
+		}
+	}
+	
+	});
+	
+	});
+	
+
+function rollback(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+$targetul.dequeue().stop(true, true).slideUp(droplinemenu.animateduration.out);
+}
+ 
+
+function setLetterSpace(val) {
+    
+	
+    if (false) {
+                    document.body.setAttribute("style", "letter-spacing:1px; line-height:20px; word-spacing:2px;");
+       
+    }
+    else {
+                    document.body.removeAttribute("style");
+    }
+    return false;
+
+    
+    }
+   
+
+// Toggle submenu
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if (submenu && submenu.classList.contains('submenu1')) {linkMessage();
+                e.preventDefault();
+                e.stopPropagation();
+
+                const parentLi = this.parentElement;
+
+                // Close sibling menus ONLY (not entire menu)
+                closeSiblings(parentLi);   
+ 
+
+               
+ 
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+        }
+        });
+    });
+
+    //  Close only sibling menus (important fix)
+    function closeSiblings(currentLi) {
+        const siblings = currentLi.parentElement.children;
+
+        Array.from(siblings).forEach(li => {
+            if (li !== currentLi) {
+            const submenus = li.querySelectorAll('.submenu1');
+        submenus.forEach(menu => menu.classList.remove('show'));
+    }
+    });
+    }
+
+    //  Click outside → close all
+    document.addEventListener('click', function () {
+		
+        document.querySelectorAll('.menu li > a').forEach(menu => {
+		if(menu.hasAttribute('aria-expanded')){
+            menu.setAttribute('aria-expanded','false');
+	}
+	
+    });
+
+    document.querySelectorAll('.submenu1').forEach(menu => {
+        menu.setAttribute('aria-hidden','true');
+    menu.classList.remove('show');
+	
+
+    });
+    });
+
+    //  Prevent closing when clicking inside menu
+    document.querySelector('.menu').addEventListener('click', function (e) {linkMessage();
+        e.stopPropagation();
+    });
+
+
+    //  Keyboard support
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('keydown', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if ((e.key === 'Enter' || e.key === ' ') && submenu) {
+                e.preventDefault();
+
+                const parentLi = this.parentElement;
+                closeSiblings(parentLi);
+
+
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+
+           
+        }
+
+          if (e.key === 'Escape') {
+        document.querySelectorAll('.submenu').forEach(menu => {
+            menu.classList.remove('show');
+    });
+    this.blur();
+    }
+    });
+    });
+    // When focusing main menu items → close other submenus
+    document.querySelectorAll('.menu > li > a').forEach(item => {
+        item.addEventListener('focus', function() {
+
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                
+                if (menu !== this.nextElementSibling) {
+              
+
+            document.querySelectorAll('.menu li > a').forEach(menu => {
+                if(menu.hasAttribute('aria-expanded'))
+                menu.setAttribute('aria-expanded','false');
+		
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                menu.setAttribute('aria-hidden','true');
+            
+            menu.classList.remove('show');
+            
+
+
+        });
+
+	
+    });
+
+    }
+    });
+
+    });
+    });
+
+    //  Close submenu when focus leaves it (TAB navigation)
+    document.querySelectorAll('.menu li').forEach(li => {
+        li.addEventListener('focusout', function (e) {
+            // Check if focus is still inside this <li>
+            if (!li.contains(e.relatedTarget)) {
+                const submenu = li.querySelector('.submenu1');
+                if (submenu) {
+                    submenu.classList.remove('show');
+                    if(li.querySelector('a').hasAttribute('aria-expanded'))
+                        li.querySelector('a').setAttribute('aria-expanded','false');
+	
+
+                    submenu.setAttribute('aria-hidden','true');
+                }
+            }
+        });
+    });
+</script>
+        <main class="container_12">
+        <a id="mainsection" name="mainsection"></a>
+
+        <nav aria-label="Breadcrumb" class="grid_12 breadcrumbs">
+<ul>
+                <li><a href="../home.aspx">Home</a></li>
+                <li><a href="publications.aspx">Publications</a></li>
+                <li><a href="publications.aspx">Annual</a></li>
+                <li><a href="AnnualReportMainDisplay.aspx">Annual Report Of The RBI</a></li>
+                <span id="lblNav"><li><a href="AnnualReportPublications.aspx?year=2012">III. Monetary Policy Operations</a></li></span>
+            </ul>
+ </nav>
+
+        <div class="clear">
+        </div>
+        <div class="grid_11 omega right_blue_border">
+            <div id="example-one" class="text1">
+                <div class="list-wrap">
+                    <div id="annual">
+
+                        <h1 class="page_title">Annual Report</h1>
+                        <br />
+                        <span id="lblNote" style="text-align: justify"> <font color="RED"><b>Note : </b></font>To read the chapter of your choice, please click on the links below. You can also read past reports by accessing the archives in the right panel.</span>
+                        <div>
+                            <div id="doublescroll">
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                    
+                                    <table class="tablebg" width="100%"> <tr><td class="tableheader" align="left"><a id='APDF_P2_03MPO220813' target="_blank" href="https://rbidocs.rbi.org.in/rdocs/AnnualReport/PDFs/P2_03MPO220813.pdf" aria-labelledby='APDF_P2_03MPO220813 SPDF_P2_03MPO220813'>
+   <img alt='PDF - III. Monetary Policy Operations' style='padding: 8px;' src="../Images/pdf.gif" border="0" align="absmiddle"></a> (<span id='SPDF_P2_03MPO220813' aria-hidden="true">200 kb</span>)</td></tr><tr><td class="tableheader" align="right"><b> Date : Aug 22, 2013</b></td></tr><tr><td align="center" class="tableheader"><b>III. Monetary Policy Operations</b></td></tr><tr><td><table width="750" border="0" align="center" class="td">
+      <tr>
+        <td><p align="justify">Monetary policy in 2012-13 had to continue to address the risk to growth while guarding against the risks of
+            inflation pressures re-emerging and adversely impacting inflation expectations. With the liquidity deficit remaining
+            above the comfort level for most of the year due to a mix of structural and frictional factors, the Reserve Bank had
+            to undertake active liquidity management to inject durable primary liquidity through OMOs, and reduction in
+            the CRR and the SLR to ensure adequate credit flow to productive sectors of the economy. After a frontloaded
+            reduction in the policy rate at the beginning of the year and active liquidity management during the year, with the
+            ebb in inflation, the Reserve Bank reduced policy rate further since January 2013 in a calibrated manner taking
+            into account the evolving growth-inflation dynamics. During 2013-14, the Reserve Bank eased monetary policy
+            further in early May, but undertook liquidity tightening measures subsequently to address macro-financial risks
+          from exchange rate volatility.</p>
+          <p align="justify">III.1 The monetary policy stance during 2012-13
+            sought to balance the evolving growth-inflation
+            dynamics through calibrated easing in the face of
+            a significant growth slowdown, persistent inflationary
+            pressures and rising macro-economic and financial
+            vulnerabilities in the economy. Even as the year
+            started off with a front-loading of the policy rate
+            reduction in April amid concerns of a slowdown in
+            growth, persistent and broad-based inflationary
+            pressures constrained the Reserve Bank in
+            continuing with further monetary easing. The
+            tightening of liquidity conditions due to frictional as
+            well as structural factors during the second half of
+            the year warranted active liquidity management in
+            the form of reductions in the cash reserve ratio
+            (CRR) and statutory liquidity ratio (SLR), and
+            liquidity injections through open market operations
+            (OMOs). By Q4 of 2012-13, with signs of softening
+            of inflationary pressures opening up space for
+            monetary policy, the stance shifted towards
+          addressing the growth risks.</p>
+          <p align="justify" class="head">MONETARY POLICY OPERATIONS:
+          CONTEXT AND RATIONALE</p>
+          <p align="justify">III.2 At the start of the financial year, monetary
+            policy had to address a macro-economy where
+            growth had fallen below its pre-crisis trend and
+            inflation, though moderating, was well above the
+            tolerance level of the Reserve Bank. Considering
+            the need to support the growth impulses, the key
+            policy (repo) rate was reduced by 50 basis points
+            to 8 per cent on April 17, 2012. To provide a greater
+            liquidity cushion the borrowing limit of scheduled
+            commercial banks under the marginal standing
+            facility (MSF) was raised from 1 per cent to 2 per
+          cent of their net demand and time liabilities (NDTL).</p>
+          <p align="justify">III.3 By June 2012, it was becoming increasingly
+            clear that inflation would continue to remain sticky
+            and broad-based. Moreover, even as growth
+            continued to decelerate there was growing evidence
+            that the post-crisis trend rate of growth had fallen
+            and that the difference between the actual and trend
+          rate of growth, was relatively small. In such a scenario, there were significant risks of a resurgence
+          of inflationary pressures if a quick upturn in demand
+          materialised. Further, concerns about macroeconomic
+          stability that emanated from the risks of
+          rising fiscal and current account deficits took centre
+          stage in policy analysis. With concerns that lowering
+          of policy rates, without first addressing supply-side
+          gaps and the risks emanating from the twin deficits,
+          would only aggravate inflationary impulses without
+          necessarily stimulating growth, the Reserve Bank
+          paused in its policy rate reductions from June to
+          December 2012.</p>
+          <p align="justify">III.4 Keeping in view that liquidity conditions play
+            an important role in transmission of monetary
+            policy signals, managing liquidity within the comfort
+            zone remained a primary objective of monetary
+            policy through much of 2012-13. In August 2012,
+            the SLR was reduced by 100 bps to ease credit
+            and liquidity conditions followed by a cumulative
+            reduction in the CRR by 75 bps during September
+            2012 &ndash; February 2013 as liquidity conditions
+            became increasingly tight. Further, liquidity support
+            through outright OMOs of <span class="Rupee">`</span>1.5 trillion was carried
+          out during 2012-13.</p>
+          <p align="justify">III.5 In Q3 of 2012-13 inflation moderated with
+            indications of further easing in Q4. Further, the low
+            pricing power of corporates, excess capacity in
+            some sectors and indications of softening of
+            international commodity prices suggested that
+            inflationary pressures had peaked. Space for
+            monetary policy to address growth risks was further
+            opened up by fiscal measures to rationalise
+            administered fuel prices as well as by the renewed
+            commitment to adhere to fiscal consolidation
+            roadmap. Hence, key repo rates were lowered in a
+            calibrated manner, by 25 bps each in January and
+            March 2013. However, in March, the Reserve Bank
+            also noted that headroom for further monetary
+            easing was quite limited considering the slow-paced
+            reduction in inflation that could remain range-bound
+            in 2013-14 and the risks emanating from a widening
+          of current account deficit (CAD).</p>
+          <p align="justify">III.6 The Annual Policy Statement for 2013-14
+          was presented on May 3, 2013 against the backdrop of sharp deceleration of growth in 2012-13 which
+          was much worse than anticipated and the prospects
+          of slow recovery through 2013-14. Headline WPI
+          inflation registered significant moderation by March
+          2013 and came close to the Reserve Bank&rsquo;s
+          tolerance threshold of 5.0 per cent, although retail
+          inflation as measured by the CPI continued to
+          remain elevated. Keeping in view the accentuated
+          risks to growth along with the gradual softening of
+          inflationary pressures, the key policy rate was
+          reduced by 25 basis points to 7.25 per cent.
+          However, the Reserve Bank also noted that, going
+          forward, the balance of risks coming from an
+          assessment of the growth-inflation dynamics
+          showed little space for further monetary easing
+          considering the significant upside risk to inflation
+          in the near term as also the risks emanating from
+          the CAD and its financing.</p>
+          <p align="justify">III.7 Beginning late May, apprehensions of likely
+            tapering of QE following the comments of the US
+            Fed triggered outflows of portfolio investment,
+            particularly from the debt segment. Several
+            measures were instituted to contain the ensuing
+            exchange market volatility and to reverse
+            unidirectional expectations. First, to curb import
+            demand, import of gold on consignment basis was
+            restricted on June 4 and customs duty was raised
+            on June 5. Second, this was followed up on July 8
+            with further measures, including restricting banks
+            to trade only on behalf of their clients in currency
+            futures/options markets, tightening of exposure
+            norms, and raising margins on currency derivatives
+          to check speculative activities.</p>
+          <p align="justify">III.8 On July 15, the Reserve Bank put in place
+            additional measures to restore stability to the
+            foreign exchange market. They included raising the
+            MSF rate by 200 bps to 10.25 per cent, restricting
+            the overall access by way of repos under the LAF
+            to <span class="Rupee">`</span>750 billion and undertaking open market sales
+            of government securities of <span class="Rupee">`</span>25 billion on July 18,
+            2013. As a contingency measure and in anticipation
+            of redemption pressures on mutual funds, the
+            Reserve Bank opened a dedicated Special Repo
+          window for a notified amount of <span class="Rupee">`</span>250 billion for liquidity support to mutual funds.</p>
+          <p align="justify">III.9 On July 22, the Reserve Bank rationalised
+            import of gold by making it incumbent on all
+            nominated banks/entities to ensure that at least
+            one fifth of imported gold is exclusively made
+            available for the purpose of exports. Any import of
+            gold under any type of scheme will have to follow
+            this 20/80 formula. Consequent to this, the earlier
+            instructions banning the import of gold on
+          consignment basis were withdrawn.</p>
+          <p align="justify">III.10 On July 23, the Reserve Bank modified the
+            liquidity tightening measures by regulating access
+            to LAF by way of repos at each individual bank level
+            and restricting it to 0.5 per cent of the bank&rsquo;s own
+            NDTL. This measure came into effect from July 24,
+            2013. The cash reserve ratio (CRR), which banks
+            have to maintain on a fortnightly average basis
+            subject to a daily minimum requirement of 70 per
+            cent, was modified to require banks to maintain a
+          daily minimum of 99 per cent of the requirement.</p>
+          <p align="justify">III.11 Considering the need to be ready to proactively
+            respond to risks to the economy from
+            external developments as well as taking into
+            account the evolving growth inflation dynamics the
+            Reserve Bank in its First Quarter Review of July
+            30, 2013 kept its key policy rates unchanged. The
+            continuing weakness in economic activity,
+            particularly in industry and services, made Reserve
+            Bank to revise downwards the growth projections
+            for 2013-14 from 5.7 per cent to 5.5 per cent.
+            Reflecting on the monetary policy stance the
+            Statement indicated the intent of the Reserve Bank
+            to roll back the liquidity tightening measures in a
+            calibrated manner conditional on signs of stability
+            in the foreign exchange market, enabling monetary
+            policy to revert to supporting growth with continuing
+          vigil on inflation.</p>
+          <p align="justify">III.12 The Statement also reiterated that its
+            objective was to contain inflation to a level of 5.0
+            per cent by March 2014 and to 3.0 per cent over
+          the medium-term</p>
+          <p align="justify">III.13 On August 8, the Reserve Bank augmented
+          its measures to curb foreign exchange market volatility by announcing the decision to auction
+          Government of India Cash Management Bills for a
+          notified amount of <span class="Rupee">`</span> 220 billion once every week.</p>
+          <p align="justify" class="head">Liquidity Management</p>
+          <p align="justify">III.14 Liquidity conditions remained in deficit mode
+            throughout 2012-13. Liquidity conditions eased
+            gradually during the first half of 2012-13 and came
+            under stress since mid-November 2012. The
+            average daily net borrowing under the liquidity
+            adjustment facility (LAF), which was 2.2 per cent
+            of average net demand and time liabilities (NDTL)
+            in Q4 of 2011-12, declined sharply to 1.3 per cent
+            in Q1 of 2012-13 and further to 0.7 per cent in Q2
+            but increased to 1.4 per cent in Q3 and subsequently
+            to 1.5 per cent in Q4. The deficit liquidity conditions
+            were mainly on account of persistent rise in
+            government balances, strong currency demand,
+            the widening gap between deposit and credit growth
+            and advance tax outflow from the banking system.
+            In order to ease the tight liquidity condition, the
+            Reserve Bank initiated several timely and preemptive
+            policy measures, such as reducing the
+            CRR and SLR, making purchases under OMO,
+            increasing the limit on the Export Credit Refinance
+            (ECR) facility for scheduled banks (excluding
+            RRBs) and introducing a special export credit
+          refinance facility.</p>
+          <p align="justify">III.15 With the significant reduction in the
+            Government balances with the Reserve Bank and
+            narrowing wedge between credit growth and
+            deposit growth, liquidity conditions improved
+            gradually in Q1 of 2013-14. The Reserve Bank
+            conducted two OMO purchase auctions during Q1
+            of 2013-14 injecting primary liquidity of <span class="Rupee">`</span>165 billion
+            into the banking system. Liquidity conditions eased
+            significantly in June 2013 with the average net
+            borrowings under LAF falling to less than <span class="Rupee">`</span>0.7
+          trillion.</p>
+          <p align="justify">III.16 However, since mid-May, pressure in foreign
+            exchange market began to increase. In order to
+            curb the excess volatility in forex market, the
+            Reserve Bank instituted various liquidity tightening
+            measures on July 15, 2013 and further on July 23,
+          2013. As a result of these measures, as also the Government resorting to WMA, LAF deficit declined
+          significantly in July 2013 to less than <span class="Rupee">`</span>0.6 trillion.
+          As part of these measures, the Reserve Bank sold
+          <span class="Rupee">`</span>25 billion of government securities in open market
+          sales on July 18, 2013.</p>
+          <p align="justify" class="head">Monetary Policy Transmission</p>
+          <p align="justify">Call Money Rates and Deposit/Lending Rates of
+          Banks</p>
+          <p align="justify">III.17 During 2012-13, the Reserve Bank reduced
+            the repo rate by 100 bps, the SLR by 100 bps and
+            the CRR by 75 bps. The repo rate was further
+            reduced by 25 bps on May 3, 2013. The impact of
+            these policy measures got transmitted across
+            financial market segments and maturities. As
+            expected, the transmission was faster at the shorter
+            end of the maturity spectrum but slower in the credit
+            market, the latter reflecting the presence of
+            structural imperfections in the market for loanable
+            funds (<a href="#T31" class="links">Table III.1</a>). Also, consistent with the past
+            experience, the speed of transmission was less
+            during the easing phase of monetary policy than
+            during the tightening phase across the various
+            segments of the financial market barring the
+          government securities market; in case of the latter, fiscal consolidation initiatives taken by the
+          Government reducing market apprehension of an
+          excess supply of government securities had the
+          desired impact on G-sec yields during the second
+          half of 2012-13.</p>
+          <p align="justify">III.18 While the Reserve Bank persisted with the
+            easing of monetary conditions through 2012-13,
+            and banks responded by lowering their deposit
+            rates during the first half, the transmission remained
+            weak during Q4, as the number of banks increasing
+            deposit rates across maturities dominated over
+            those that lowered rates during Q4. The government
+            initiatives towards fiscal consolidation resulted in a
+            significant tightening of liquidity conditions during
+            the second half of 2012-13, which pushed up the
+            overnight liquidity deficit under LAF beyond the
+            comfort zone of the Reserve Bank. Banks stepped
+            up efforts to mobilise deposits by raising deposit
+            rates, particularly for shorter term maturity. Real
+            deposit rates, which remained persistently negative
+            since March 2012, turned marginally positive during
+            Q4, reflecting the moderation in inflation. Going
+            forward, a more favourable risk-return ratio in favour
+            of term deposits in the household savings portfolio
+          could improve deposit mobilisation by banks.</p>
+          <table width="700" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+            <tr>
+              <td colspan="11" class="table"><p align="center" class="head"><a name="T31" id="T31"></a>Table III.1: Movement in Money Market Rates and    Deposit/Lending Rates of Banks</p></td>
+            </tr>
+            <tr>
+              <td colspan="11" class="table"><p align="right">(Per cent)</p></td>
+            </tr>
+            <tr class="table">
+              <td width="169" rowspan="2" class="head"><p align="center">Items</p></td>
+              <td width="47" rowspan="2" class="head"><p align="center">Mar-10</p></td>
+              <td width="49" rowspan="2" class="head"><p align="center">Mar-11</p></td>
+              <td width="44" rowspan="2" class="head"><p align="center">Mar-12</p></td>
+              <td width="46" rowspan="2" class="head"><p align="center">Jun-12</p></td>
+              <td width="53" rowspan="2" class="head"><p align="center">Sept-12</p></td>
+              <td width="43" rowspan="2" class="head"><p align="center">Dec-12</p></td>
+              <td width="48" rowspan="2" class="head"><p align="center">Mar-13</p></td>
+              <td width="46" rowspan="2" class="head"><p align="center">Jun-13</p></td>
+              <td colspan="2" class="head"><p align="center">Variation (percentage points)</p></td>
+            </tr>
+            <tr class="table">
+              <td width="81" class="head"><p align="center">Tightening Phase</p></td>
+              <td width="62" class="head"><p align="center">Easing Phase</p></td>
+            </tr>
+            <tr class="table">
+              <td class="head"><p align="center">1</p></td>
+              <td width="47" class="head"><p align="center">2</p></td>
+              <td width="49" class="head"><p align="center">3</p></td>
+              <td width="44" class="head"><p align="center">4</p></td>
+              <td width="46" class="head"><p align="center">5</p></td>
+              <td width="53" class="head"><p align="center">6</p></td>
+              <td width="43" class="head"><p align="center">7</p></td>
+              <td width="48" class="head"><p align="center">8</p></td>
+              <td width="46" class="head"><p align="center">9</p></td>
+              <td width="81" class="head"><p align="center">10</p></td>
+              <td width="62" class="head"><p align="center">11</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>I. Policy Rate    (Repo Rate)</p></td>
+              <td width="47" class="table"><p align="right">5.00</p></td>
+              <td width="49" class="table"><p align="right">6.75</p></td>
+              <td width="44" class="table"><p align="right">8.50</p></td>
+              <td width="46" class="table"><p align="right">8.00</p></td>
+              <td width="53" class="table"><p align="right">8.00</p></td>
+              <td width="43" class="table"><p align="right">8.00</p></td>
+              <td width="48" class="table"><p align="right">7.50</p></td>
+              <td width="46" class="table"><p align="right">7.25</p></td>
+              <td width="81" class="table"><p align="right">3.75</p></td>
+              <td width="62" class="table"><p align="right">-1.25</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>II. Call Rate</p>                </td>
+              <td width="47" class="table"><p align="right">3.51</p></td>
+              <td width="49" class="table"><p align="right">7.15</p></td>
+              <td width="44" class="table"><p align="right">9.17</p></td>
+              <td width="46" class="table"><p align="right">8.14</p></td>
+              <td width="53" class="table"><p align="right">7.92</p></td>
+              <td width="43" class="table"><p align="right">8.05</p></td>
+              <td width="48" class="table"><p align="right">7.90</p></td>
+              <td width="46" class="table"><p align="right">7.24</p></td>
+              <td width="81" class="table"><p align="right">5.66</p></td>
+              <td width="62" class="table"><p align="right">-1.93</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>III. CBLO Rate</p></td>
+              <td width="47" class="table"><p align="right">3.15</p></td>
+              <td width="49" class="table"><p align="right">6.46</p></td>
+              <td width="44" class="table"><p align="right">8.44</p></td>
+              <td width="46" class="table"><p align="right">7.89</p></td>
+              <td width="53" class="table"><p align="right">7.83</p></td>
+              <td width="43" class="table"><p align="right">8.00</p></td>
+              <td width="48" class="table"><p align="right">7.68</p></td>
+              <td width="46" class="table"><p align="right">7.10</p></td>
+              <td width="81" class="table"><p align="right">5.29</p></td>
+              <td width="62" class="table"><p align="right">-1.34</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>IV. Market Repo    Rate</p></td>
+              <td width="47" class="table"><p align="right">3.32</p></td>
+              <td width="49" class="table"><p align="right">6.56</p></td>
+              <td width="44" class="table"><p align="right">8.69</p></td>
+              <td width="46" class="table"><p align="right">8.03</p></td>
+              <td width="53" class="table"><p align="right">7.89</p></td>
+              <td width="43" class="table"><p align="right">8.09</p></td>
+              <td width="48" class="table"><p align="right">7.82</p></td>
+              <td width="46" class="table"><p align="right">7.17</p></td>
+              <td width="81" class="table"><p align="right">5.37</p></td>
+              <td width="62" class="table"><p align="right">-1.52</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>V. 3-Month CP Rate</p></td>
+              <td width="47" class="table"><p align="right">6.10</p></td>
+              <td width="49" class="table"><p align="right">10.56</p></td>
+              <td width="44" class="table"><p align="right">11.61</p></td>
+              <td width="46" class="table"><p align="right">9.73</p></td>
+              <td width="53" class="table"><p align="right">8.73</p></td>
+              <td width="43" class="table"><p align="right">9.03</p></td>
+              <td width="48" class="table"><p align="right">9.61</p></td>
+              <td width="46" class="table"><p align="right">8.50</p></td>
+              <td width="81" class="table"><p align="right">5.51</p></td>
+              <td width="62" class="table"><p align="right">-3.11</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>VI. 3-Month CD Rate</p></td>
+              <td width="47" class="table"><p align="right">5.48</p></td>
+              <td width="49" class="table"><p align="right">9.92</p></td>
+              <td width="44" class="table"><p align="right">11.06</p></td>
+              <td width="46" class="table"><p align="right">9.24</p></td>
+              <td width="53" class="table"><p align="right">8.38</p></td>
+              <td width="43" class="table"><p align="right">8.49</p></td>
+              <td width="48" class="table"><p align="right">9.14</p></td>
+              <td width="46" class="table"><p align="right">8.11</p></td>
+              <td width="81" class="table"><p align="right">5.58</p></td>
+              <td width="62" class="table"><p align="right">-2.95</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>VII. 5-year Corporate Debt Yield</p></td>
+              <td width="47" class="table"><p align="right">8.61</p></td>
+              <td width="49" class="table"><p align="right">9.22</p></td>
+              <td width="44" class="table"><p align="right">9.47</p></td>
+              <td width="46" class="table"><p align="right">9.39</p></td>
+              <td width="53" class="table"><p align="right">9.36</p></td>
+              <td width="43" class="table"><p align="right">9.08</p></td>
+              <td width="48" class="table"><p align="right">8.96</p></td>
+              <td width="46" class="table"><p align="right">8.55</p></td>
+              <td width="81" class="table"><p align="right">0.86</p></td>
+              <td width="62" class="table"><p align="right">-0.92</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>VIII.10-year Corporate Debt Yield</p></td>
+              <td width="47" class="table"><p align="right">6.61</p></td>
+              <td width="49" class="table"><p align="right">9.64</p></td>
+              <td width="44" class="table"><p align="right">9.77</p></td>
+              <td width="46" class="table"><p align="right">9.65</p></td>
+              <td width="53" class="table"><p align="right">9.30</p></td>
+              <td width="43" class="table"><p align="right">8.92</p></td>
+              <td width="48" class="table"><p align="right">9.01</p></td>
+              <td width="46" class="table"><p align="right">8.66</p></td>
+              <td width="81" class="table"><p align="right">3.16</p></td>
+              <td width="62" class="table"><p align="right">-1.11</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>IX. 5-year G-Sec Yield</p></td>
+              <td width="47" class="table"><p align="right">7.54</p></td>
+              <td width="49" class="table"><p align="right">7.88</p></td>
+              <td width="44" class="table"><p align="right">8.46</p></td>
+              <td width="46" class="table"><p align="right">8.22</p></td>
+              <td width="53" class="table"><p align="right">8.19</p></td>
+              <td width="43" class="table"><p align="right">8.10</p></td>
+              <td width="48" class="table"><p align="right">7.94</p></td>
+              <td width="46" class="table"><p align="right">7.52</p></td>
+              <td width="81" class="table"><p align="right">0.92</p></td>
+              <td width="62" class="table"><p align="right">-0.94</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>X. 10-year G-Sec Yield</p></td>
+              <td width="47" class="table"><p align="right">7.92</p></td>
+              <td width="49" class="table"><p align="right">7.98</p></td>
+              <td width="44" class="table"><p align="right">8.36</p></td>
+              <td width="46" class="table"><p align="right">8.19</p></td>
+              <td width="53" class="table"><p align="right">8.18</p></td>
+              <td width="43" class="table"><p align="right">8.15</p></td>
+              <td width="48" class="table"><p align="right">7.91</p></td>
+              <td width="46" class="table"><p align="right">7.34</p></td>
+              <td width="81" class="table"><p align="right">0.44</p></td>
+              <td width="62" class="table"><p align="right">-1.02</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>XI. Modal Deposit Rate</p></td>
+              <td width="47" class="table"><p align="right">5.00</p></td>
+              <td width="49" class="table"><p align="right">6.65</p></td>
+              <td width="44" class="table"><p align="right">7.42</p></td>
+              <td width="46" class="table"><p align="right">7.40</p></td>
+              <td width="53" class="table"><p align="right">7.29</p></td>
+              <td width="43" class="table"><p align="right">7.33</p></td>
+              <td width="48" class="table"><p align="right">7.31</p></td>
+              <td width="46" class="table"><p align="right">7.26</p></td>
+              <td width="81" class="table"><p align="right">2.42</p></td>
+              <td width="62" class="table"><p align="right">-0.16</p></td>
+            </tr>
+            <tr>
+              <td class="table"><p>XII. Modal Base Rate</p></td>
+              <td width="47" class="table"><p align="right">8.00*</p></td>
+              <td width="49" class="table"><p align="right">9.50</p></td>
+              <td width="44" class="table"><p align="right">10.75</p></td>
+              <td width="46" class="table"><p align="right">10.50</p></td>
+              <td width="53" class="table"><p align="right">10.50</p></td>
+              <td width="43" class="table"><p align="right">10.50</p></td>
+              <td width="48" class="table"><p align="right">10.25</p></td>
+              <td width="46" class="table"><p align="right">10.25</p></td>
+              <td width="81" class="table"><p align="right">2.75</p></td>
+              <td width="62" class="table"><p align="right">-0.50</p></td>
+            </tr>
+            <tr>
+              <td colspan="11" class="table"><p align="justify">*: Data relate to July 2010 as Base Rate was introduced since then.
+                  <br />
+                Note: Policy rate, deposit and base rates are at end-month while money and bond market rates are monthly average. Tightening phase in Table is from March 19, 2010 to April 16, 2012 and easing phase from April 17, 2012.
+                <br />
+                Source: Bloomberg for CP, CD and bond market rates, and the Reserve Bank for other rates.</p></td>
+            </tr>
+          </table>
+          <p>III.19 As far as lending rates were concerned, the
+            transmission appeared to be somewhat faster than
+            deposit rates. The modal base rate of banks
+            declined by 25 bps in Q4 on top of a similar
+            reduction in Q1. The weighted average lending rate
+            (WALR) of banks too declined at a faster pace as
+            compared with deposit rates largely reflecting the
+            lower demand for credit owing to deceleration in
+          economic activity (Table III.2).</p>
+          <p>III.20 During Q1 of 2013-14, the modal term
+            deposit rate of SCBs declined marginally by 5 bps,
+            following reduction in the repo rate by 25 bps on
+            May 3, 2013 and easing of liquidity conditions.
+            Although the modal base rate remained unchanged
+            at 10.25 per cent in Q1, WALR on the outstanding
+            rupee loans of SCBs declined by 6 bps to 12.07
+          per cent during Q1 (<a href="#T32" class="links">Table III.2</a>)</p>
+          <p class="head">Sectoral Lending Rates</p>
+          <p>III.21 The pass-through of monetary policy
+            actions was not uniform across sectors in terms of
+            lending rates during 2012-13. The lending rates
+            declined in the range of 1-63 bps for some of the
+            select sectors, with sharpest decline in education
+            loan (63 bps) and home loan (62 bps). Lending
+            rates in other sectors such as vehicle, SMEs and
+            credit card witnessed only marginal decline
+            (<a href="#T3" class="links">Table III.3</a>). During Q1 of 2013-14, the lending rates
+            declined by 40 bps in credit cards, 32 bps in housing
+            loan and 4 bps in SME loans while it increased for
+            vehicle loan, agricultural loan and educational loan
+          during the same period.</p>
+          <table width="428" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+            <tr>
+              <td colspan="4" class="table"><p align="center" class="head"><a name="T32" id="T32"></a>Table III.2: Modal Deposit Rates and WALRs of SCBs
+              (Excluding RRBs)</p></td>
+            </tr>
+            <tr>
+              <td colspan="4" class="table"><p align="right">(per cent)</p></td>
+            </tr>
+            <tr class="table">
+              <td width="144" class="head"><p align="center">Month-end</p></td>
+              <td width="84" class="head"><p align="center">Repo Rate</p></td>
+              <td width="133" class="head"><p align="center">Modal Deposit Rate</p></td>
+              <td width="62" class="head"><p align="center">WALR</p></td>
+            </tr>
+            <tr class="table">
+              <td width="144" class="head"><p align="center">1</p></td>
+              <td width="84" class="head"><p align="center">2</p></td>
+              <td width="133" class="head"><p align="center">3</p></td>
+              <td width="62" class="head"><p align="center">4</p></td>
+            </tr>
+            <tr>
+              <td width="144" class="table"><p>Mar-12</p></td>
+              <td width="84" class="table"><p align="right">8.50</p></td>
+              <td width="133" class="table"><p align="center">7.42</p></td>
+              <td width="62" class="table"><p align="right">12.60</p></td>
+            </tr>
+            <tr>
+              <td width="144" class="table"><p>Jun-12</p></td>
+              <td width="84" class="table"><p align="right">8.00</p></td>
+              <td width="133" class="table"><p align="center">7.40</p></td>
+              <td width="62" class="table"><p align="right">12.35</p></td>
+            </tr>
+            <tr>
+              <td width="144" class="table"><p>Sep-12</p></td>
+              <td width="84" class="table"><p align="right">8.00</p></td>
+              <td width="133" class="table"><p align="center">7.29</p></td>
+              <td width="62" class="table"><p align="right">12.26</p></td>
+            </tr>
+            <tr>
+              <td width="144" class="table"><p>Dec-12</p></td>
+              <td width="84" class="table"><p align="right">8.00</p></td>
+              <td width="133" class="table"><p align="center">7.33</p></td>
+              <td width="62" class="table"><p align="right">12.14</p></td>
+            </tr>
+            <tr>
+              <td width="144" class="table"><p>Mar-13</p></td>
+              <td width="84" class="table"><p align="right">7.50</p></td>
+              <td width="133" class="table"><p align="center">7.31</p></td>
+              <td width="62" class="table"><p align="right">12.13</p></td>
+            </tr>
+            <tr>
+              <td width="144" class="table"><p>Jun-13</p></td>
+              <td width="84" class="table"><p align="right">7.25</p></td>
+              <td width="133" class="table"><p align="center">7.26</p></td>
+              <td width="62" class="table"><p align="right">12.07</p></td>
+            </tr>
+            <tr>
+              <td colspan="4" class="table"><p>WALR: Weighted average lending rate.</p></td>
+            </tr>
+          </table>
+          <br />
+<table width="462" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">            
+  <tr>
+              <td colspan="7" class="table"><p align="center" class="head"><a name="T3" id="T3"></a>Table    III.3: Sectoral Median Lending Rates of Scheduled    Commercial Banks (at    which 60 per cent business is contracted)</p></td>
+        </tr>
+
+            <tr>
+              <td colspan="7" class="table"><p align="right">(Per cent)</p></td>
+            </tr>
+            <tr class="table">
+              <td width="179" class="head"><p align="center">Month end</p></td>
+              <td width="37" class="head"><p align="center">Home</p></td>
+              <td width="48" class="head"><p align="center">Vehicle</p></td>
+              <td width="44" class="head"><p align="center">Agri-culture</p></td>
+              <td width="37" class="head"><p align="center">SME</p></td>
+              <td width="42" class="head"><p align="center">Credit Card</p></td>
+              <td width="67" class="head"><p align="center">Education</p></td>
+            </tr>
+            <tr class="table">
+              <td width="179" class="head"><p align="center">1</p></td>
+              <td width="37" class="head"><p align="center">2</p></td>
+              <td width="48" class="head"><p align="center">3</p></td>
+              <td width="44" class="head"><p align="center">4</p></td>
+              <td width="37" class="head"><p align="center">5</p></td>
+              <td width="42" class="head"><p align="center">6</p></td>
+              <td width="67" class="head"><p align="center">7</p></td>
+            </tr>
+            <tr>
+              <td width="179" class="table"><p>Mar-12</p></td>
+              <td width="37" class="table"><p align="right">11.87</p></td>
+              <td width="48" class="table"><p align="right">12.75</p></td>
+              <td width="44" class="table"><p align="right">11.74</p></td>
+              <td width="37" class="table"><p align="right">13.00</p></td>
+              <td width="42" class="table"><p align="right">27.09</p></td>
+              <td width="67" class="table"><p align="right">13.63</p></td>
+            </tr>
+            <tr>
+              <td width="179" class="table"><p>Jun-12</p></td>
+              <td width="37" class="table"><p align="right">11.63</p></td>
+              <td width="48" class="table"><p align="right">12.78</p></td>
+              <td width="44" class="table"><p align="right">11.38</p></td>
+              <td width="37" class="table"><p align="right">12.88</p></td>
+              <td width="42" class="table"><p align="right">28.39</p></td>
+              <td width="67" class="table"><p align="right">13.30</p></td>
+            </tr>
+            <tr>
+              <td width="179" class="table"><p>Sep-12</p></td>
+              <td width="37" class="table"><p align="right">11.63</p></td>
+              <td width="48" class="table"><p align="right">12.75</p></td>
+              <td width="44" class="table"><p align="right">11.63</p></td>
+              <td width="37" class="table"><p align="right">12.84</p></td>
+              <td width="42" class="table"><p align="right">26.42</p></td>
+              <td width="67" class="table"><p align="right">13.23</p></td>
+            </tr>
+            <tr>
+              <td width="179" class="table"><p>Dec-12</p></td>
+              <td width="37" class="table"><p align="right">11.43</p></td>
+              <td width="48" class="table"><p align="right">12.68</p></td>
+              <td width="44" class="table"><p align="right">11.43</p></td>
+              <td width="37" class="table"><p align="right">12.99</p></td>
+              <td width="42" class="table"><p align="right">27.89</p></td>
+              <td width="67" class="table"><p align="right">13.10</p></td>
+            </tr>
+            <tr>
+              <td width="179" class="table"><p>Mar-13</p></td>
+              <td width="37" class="table"><p align="right">11.25</p></td>
+              <td width="48" class="table"><p align="right">12.71</p></td>
+              <td width="44" class="table"><p align="right">11.63</p></td>
+              <td width="37" class="table"><p align="right">12.99</p></td>
+              <td width="42" class="table"><p align="right">27.07</p></td>
+              <td width="67" class="table"><p align="right">13.00</p></td>
+            </tr>
+            <tr>
+              <td width="179" class="table"><p>Jun-13 (P)</p></td>
+              <td width="37" class="table"><p align="right">10.93</p></td>
+              <td width="48" class="table"><p align="right">12.85</p></td>
+              <td width="44" class="table"><p align="right">11.67</p></td>
+              <td width="37" class="table"><p align="right">12.95</p></td>
+              <td width="42" class="table"><p align="right">26.67</p></td>
+              <td width="67" class="table"><p align="right">13.12</p></td>
+            </tr>
+            <tr>
+              <td width="179" class="table"><p>Variation (March-13    over March-12)</p></td>
+              <td width="37" class="table"><p align="right">-0.62</p></td>
+              <td width="48" class="table"><p align="right">-0.04</p></td>
+              <td width="44" class="table"><p align="right">-0.11</p></td>
+              <td width="37" class="table"><p align="right">-0.01</p></td>
+              <td width="42" class="table"><p align="right">-0.02</p></td>
+              <td width="67" class="table"><p align="right">-0.63</p></td>
+            </tr>
+            <tr>
+              <td colspan="7" valign="bottom" class="table"><p align="left">P: Provisional.</p></td>
+            </tr>
+          </table>
+          <p class="head">Asymmetry in Monetary Policy Transmission</p>
+          <p>III.22 A liberalised financial system - where banks
+            have freedom in fixing their deposit and lending
+            rates - poses challenge to the monetary authority
+            to ensure effective transmission of its policy signals
+            to the real economy. Such challenge could be in
+            terms of addressing the structural constraints &ndash; in
+            addition to the frictional factors - impeding the credit
+            channel. Factors inhibiting transmission, inter alia,
+            include interest cost on outstanding deposits, size
+            of government borrowing, level of NPAs and
+            inflation. The administered interest rates on small
+            savings which, though linked to G-sec yields, are
+            reset only at an annual frequency and thus imparts
+          rigidity to the rate fixation by banks.</p>
+          <p>III.23 During 2012-13, the pace of transmission
+            of monetary policy signals slowed down
+            considerably, particularly during Q4, partly
+            reflecting the asymmetric response of banks to the
+            hardening and the easing phases of policy cycles
+            against the backdrop of tightening of liquidity
+            conditions (Table III.1). Usually, during the upward phase of the interest rate cycle, banks are quick in raising their lending rates while in the downward phase of the interest rate cycle, banks are quick in reducing their deposit rates to protect their NIMs. This is particularly so, as loans, being mostly flexi-price, are re-priced at a quicker pace than the fixed rate bank deposits. However, in the presence of tight liquidity conditions and structural rigidities, deposit and lending rates did not decline on the expected line unlike other segments of the financial market.</p>
+          <p>III.24 On the supply side, the change in depositors&rsquo;
+            preference from financial savings of banking system
+            to gold in search of higher returns, may also be one
+            of the inhibiting factors in the transmission channel
+          of deposit and lending rates.</p>
+          <p class="head">Real Interest Rate in India</p>
+          <p>III.25 Reflecting the anti-inflationary stance of
+            monetary policy in 2011 and 2012, the weighted
+            average nominal lending rates increased, with usual
+            transmission lags. Real lending rates (derived
+            alternatively by using two year moving average
+            inflation and one quarter lagged inflation), were
+            lower than the real rates prevailing during the high
+            growth phase of 2003-08 (<a href="#C1" class="links">Chart III.1</a>). This trend in
+            real interest rates brought to the fore the issue of
+            causal relationship between real interest rate,
+            investment and economic growth. Empirical
+            estimates for India suggest that for 100 bps decline
+            in real lending rates (or cost of finance for
+          corporates), investment could be stimulated by about 50 bps, and non-agricultural GDP growth
+          could improve by about 20 bps (<a href="#B1" class="links">Box III.1</a>). Since
+          the second half of 2012-13, with softening of
+          inflation, the ex-post real interest rates have started
+          edging up. If inflation remains range bound around
+          5.5 per cent in 2013-14, only with stronger
+          transmission of the 125 bps cut in repo rate since
+          April 2012, that the real lending rates may decline
+          to support growth.</p>
+          <div align="center"><a name="C1" id="C1"></a><img src="http://www.rbi.org.in/scripts/images/P2_03MPO220813_I.gif" alt="C1" width="323" height="318" border="1" /></div>
+          <p align="center" class="head"><a name="B1" id="B1"></a>Box III.1</p>
+          <p align="center" class="head">Sensitivity of Investment and Growth to Change in Real Interest Rate</p>
+          <p>The real interest rate is an unobservable variable, and firm
+            level investment decisions are generally driven by nominal
+            variables, i.e. assessment of nominal cash flows on a new
+            investment project and the nominal hurdle rate relative to the
+            internal rate of return (IRR). IRR is the rate of discount which
+            equates discounted cash flows with the initial investment value
+            of a project, or in other words, it is the rate of discount at
+            which net present value (NPV) of the project is zero. Only if
+            the firm is able to borrow at an interest rate that ensures that
+            the hurdle rate remains less than the IRR, the NPV of the
+            project will be positive and it would make sense to undertake
+            the project. Depending on the assumed inflation expectations
+            implicit in the cash flows and the hurdle rate, there would
+            invariably be a real interest rate, which may not be explicitly
+            recognised. At the level of the overall economy, however, real
+            variables like investment and growth are generally believed
+            to be influenced by the real interest rate. Nominal variables
+          like the policy interest rate can influence the real interest rate in the short-run, and at times the impact may persist if the
+          Fisher effect does not hold. According to the Fisher effect,
+          changes in nominal interest rate reflect only revised inflation
+          expectations, and if the nominal rates do not adjust one for
+          one to changing inflation conditions, real interest rates may
+          vary. For the purposes of policy analysis, thus, two important
+          issues could be: (a) whether the nominal interest rate implicit
+          in the hurdle rate is lower than the IRR in a phase of slowdown
+          in economic activities, rather than whether nominal interest
+          rate is lower relative to the levels prevailing during the high
+          growth phase, and (b) whether the manner in which monetary
+          policy responds to changing inflation situation is a key factor
+          behind time varying real interest rates.</p>
+          <p>The related empirical issue then is if the real interest rate can
+            be influenced by monetary policy, how sensitive the investment
+          and growth may be to changes in real interest rates. OLS estimates suggest that for 100 bps reduction in real lending
+          rate (WALR1QLAG), non-agricultural GDP growth (NAG)
+          could improve by about 9 bps in the short-run and by about
+          20 bps in the long run (<a href="#T1" class="links">Table 1</a>). The higher value of the
+          coefficient for inflation exceeding a threshold level of 6 per
+          cent (INFLTR) offers a key policy inference, i.e. any monetary
+          policy stance of tolerating high inflation to lower real interest
+          rates may fail to stimulate growth, since the positive impact
+          of lower real interest rate on growth would be more than offset
+          by the adverse impact of high inflation on growth.</p>
+          <p>The OLS results indicate that for 100 bps decline in real
+            lending rate, investment to GDP ratio (IGDP) may get
+            stimulated by 9 bps in the short-run and 51 bps in the long-run
+          (<a href="#T2" class="links">Table 2</a>).</p>
+          <p>Empirical estimates for India point to the scope for improving
+            growth and investment by lowering real interest rates. Lower
+            real interest rates could result from aggressive easing of
+            monetary policy (which may be constrained by inflation
+            persistence), or faster transmission of the repo rate cuts
+          already effected since April 2012 to lending rates, or higher inflation tolerance (i.e. allowing higher inflation to lower real
+          rates). Of these three possibilities, the first and last ones,
+          which are effectively similar, entail the risk of not improving
+          growth despite delivering lower real interest rates. A low and
+          stable inflation environment, therefore, is more conducive to
+          growth than a lower real interest rate that is attained through
+          higher inflation tolerance.</p>
+          <table width="416" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+            <tr class="table">
+              <td colspan="3" class="head"><p align="center"><a name="T1" id="T1"></a>Table 1 : OLS Estimates of Non-agricultural GDP Growth (NAG)</p></td>
+            </tr>
+            <tr class="table">
+              <td width="185" class="head"><p align="center">&nbsp;</p></td>
+              <td width="122" class="head"><p align="center">Coefficient</p></td>
+              <td width="105" class="head"><p align="center">t-Statistic</p></td>
+            </tr>
+            <tr class="table">
+              <td width="185" class="head"><p align="center">1</p></td>
+              <td width="122" class="head"><p align="center">2</p></td>
+              <td width="105" class="head"><p align="center">3</p></td>
+            </tr>
+            <tr>
+              <td width="185" class="table"><p>C</p></td>
+              <td width="122" class="table"><p align="right">3.77</p></td>
+              <td width="105" class="table"><p align="right">2.14*</p></td>
+            </tr>
+            <tr>
+              <td width="185" class="table"><p>NAG(-1)</p></td>
+              <td width="122" class="table"><p align="right">0.54</p></td>
+              <td width="105" class="table"><p align="right">3.27*</p></td>
+            </tr>
+            <tr>
+              <td width="185" class="table"><p>WGDP</p></td>
+              <td width="122" class="table"><p align="right">0.18</p></td>
+              <td width="105" class="table"><p align="right">4.40*</p></td>
+            </tr>
+            <tr>
+              <td width="185" class="table"><p>WALR1QLAG(-1)</p></td>
+              <td width="122" class="table"><p align="right">-0.09</p></td>
+              <td width="105" class="table"><p align="right">-2.35*</p></td>
+            </tr>
+            <tr>
+              <td width="185" class="table"><p>INFLTR(-1)</p></td>
+              <td width="122" class="table"><p align="right">-0.12</p></td>
+              <td width="105" class="table"><p align="right">-2.26*</p></td>
+            </tr>
+            <tr>
+              <td width="185" class="table"><p>D(NFCGDP_SA(-4))</p></td>
+              <td width="122" class="table"><p align="right">0.09</p></td>
+              <td width="105" class="table"><p align="right">3.80*</p></td>
+            </tr>
+            <tr>
+              <td width="185" class="table"><p>D2009Q3</p></td>
+              <td width="122" class="table"><p align="right">2.45</p></td>
+              <td width="105" class="table"><p align="right">18.50*</p></td>
+            </tr>
+            <tr>
+              <td width="185" class="table"><p>R&macr;<sup>2</sup></p></td>
+              <td width="122" class="table"><p align="right">0.61</p></td>
+              <td width="105" class="table"><p align="right">&nbsp;</p></td>
+            </tr>
+            <tr>
+              <td width="185" class="table"><p>Durbin&rsquo;s m</p></td>
+              <td width="122" class="table"><p align="right">0.30</p></td>
+              <td width="105" class="table"><p align="right">&nbsp;</p></td>
+            </tr>
+            <tr>
+              <td width="185" class="table"><p>SE of regression</p></td>
+              <td width="122" class="table"><p align="right">0.93</p></td>
+              <td width="105" class="table"><p align="right">&nbsp;</p></td>
+            </tr>
+            <tr>
+              <td width="185" class="table"><p>No. of Observations</p></td>
+              <td width="122" class="table"><p align="right">40</p></td>
+              <td width="105" class="table"><p align="right">&nbsp;</p></td>
+            </tr>
+            <tr>
+            <td colspan="3" class="table"><p align="justify">Note: t-statistics are based on HAC standard errors corrected with
+			  Newey-West/Bartlett window and 3 lags.<br />
+              * : Significant at 5% level.</p></td>
+            </tr>
+          </table>
+          
+          <br />
+          <table width="416" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+            <tr>
+              <td colspan="3" class="table"><p align="center" class="head"><a name="T2" id="T2"></a>Table 2 : OLS Estimates of Investment Rate<br />
+                (Dependent Variable: IGDP)</p></td>
+            </tr>
+            <tr class="table">
+              <td width="190" class="head"><p align="center">&nbsp;</p></td>
+              <td width="117" class="head"><p align="center">Coefficient</p></td>
+              <td width="105" class="head"><p align="center">t-Statistic</p></td>
+            </tr>
+            <tr class="table">
+              <td width="190" class="head"><p align="center">1</p></td>
+              <td width="117" class="head"><p align="center">2</p></td>
+              <td width="105" class="head"><p align="center">3</p></td>
+            </tr>
+            <tr>
+              <td width="190" class="table"><p>C</p></td>
+              <td width="117" class="table"><p align="right">4.40</p></td>
+              <td width="105" class="table"><p align="right">4.97*</p></td>
+            </tr>
+            <tr>
+              <td width="190" class="table"><p>GDPG(-1)</p></td>
+              <td width="117" class="table"><p align="right">0.15</p></td>
+              <td width="105" class="table"><p align="right">2.85*</p></td>
+            </tr>
+            <tr>
+              <td width="190" class="table"><p>WALR1QLAG(-1)</p></td>
+              <td width="117" class="table"><p align="right">-0.09</p></td>
+              <td width="105" class="table"><p align="right">-3.46*</p></td>
+            </tr>
+            <tr>
+              <td width="190" class="table"><p>INFLTR</p></td>
+              <td width="117" class="table"><p align="right">-0.04</p></td>
+              <td width="105" class="table"><p align="right">-1.88**</p></td>
+            </tr>
+            <tr>
+              <td width="190" class="table"><p>IGDP(-1)</p></td>
+              <td width="117" class="table"><p align="right">0.83</p></td>
+              <td width="105" class="table"><p align="right">25.93*</p></td>
+            </tr>
+            <tr>
+              <td width="190" class="table"><p>DCRISIS</p></td>
+              <td width="117" class="table"><p align="right">-1.95</p></td>
+              <td width="105" class="table"><p align="right">-7.18*</p></td>
+            </tr>
+            <tr>
+              <td width="190" class="table"><p>&#8710;NFCGDP(-4)</p></td>
+              <td width="117" class="table"><p align="right">0.09</p></td>
+              <td width="105" class="table"><p align="right">4.33*</p></td>
+            </tr>
+            <tr>
+              <td width="190" class="table"><p>R<sup>&ndash;2</sup></p></td>
+              <td width="117" class="table"><p align="right">0.94</p></td>
+              <td width="105" class="table"><p align="right">&nbsp;</p></td>
+            </tr>
+            <tr>
+              <td width="190" class="table"><p>Durbin&rsquo;s h</p></td>
+              <td width="117" class="table"><p align="right">-0.87</p></td>
+              <td width="105" class="table"><p align="right">&nbsp;</p></td>
+            </tr>
+            <tr>
+              <td width="190" class="table"><p>SE of regression</p></td>
+              <td width="117" class="table"><p align="right">0.73</p></td>
+              <td width="105" class="table"><p align="right">&nbsp;</p></td>
+            </tr>
+            <tr>
+              <td width="190" class="table"><p>No. of Observations</p></td>
+              <td width="117" class="table"><p align="right">40</p></td>
+              <td width="105" class="table"><p align="right">&nbsp;</p></td>
+            </tr>
+            <tr>
+              <td colspan="3" class="table"><p align="justify">Note: t-statistics are based on HAC standard errors corrected with
+                Newey-West/Bartlett window and 3 lags.<br />
+              *, **: Significant at 5% and 10% level, respectively.</p></td>
+            </tr>
+          </table>
+          <p class="head">References</p>
+          <p>Mohanty, D., Chakraborty A.B. and Gangadharan S. (2012),
+            &ldquo;Measures of nominal and real effective lending rates of banks
+          in India&rdquo;, RBI Working Paper (DEPR): 7/2012, May.</p>
+          <p>RBI (2013), &ldquo;Real Interest Rate Impact on Investment and
+            Growth &ndash; What the Empirical Evidence for India Suggests?&rdquo;
+            <a href="http://rbidocs.rbi.org.in/rdocs/Publications/PDFs/IDGSR08082013.pdf" target="_blank" class="links">http://rbidocs.rbi.org.in/rdocs/Publications/PDFs/IDGSR08082013.pdf</a></p>
+          <p>Tokuoka, Kiichi (2012), &ldquo;Does the Business Environment
+            Affect Corporate Investment in India?&rdquo;, IMF Working Paper,
+          WP/12/70.</p>
+          <p class="head">Inflation Expectations</p>
+          <p>III.26 Inflation expectations or perceptions about
+            inflation in the future affect the current behaviour
+            of economic agents. If inflation expectations are
+            unanchored or there is growing uncertainty
+            regarding future price level, individuals may be
+            typically reluctant to spend while corporates may
+          withhold investments. This is detrimental to economic growth in the long run. A central premise
+          of monetary policy is that low and stable inflation
+          and well-anchored inflation expectations contribute
+          to a conducive investment climate and consumer
+          confidence, which is key to sustained growth on a
+          higher trajectory in the medium-term. Hence,
+          measurement of inflation expectations becomes
+          crucial from the monetary policy perspective
+          (<a href="#B2" class="links">Box III.2</a>).</p>
+          <p align="center" class="head"><a name="B2" id="B2"></a>Box III.2</p>
+          <p align="center" class="head">Measurement of Inflation Expectations</p>
+          <p align="justify">Inflation expectations are difficult to measure as they cannot
+            be observed in time. Hence most central banks have in their
+            armoury a range of approaches for gauging inflation
+            expectations, ranging from survey-based methods to
+          extracting them from financial, markets-based indicators.</p>
+          <p align="justify">Among the widely used market-based measures of inflation
+            expectations are &lsquo;break-even&rsquo; expectations based on inflationindexed
+            bonds or &lsquo;links&rsquo; as they are popularly called. The basic
+            premise is that these bonds provide protection to investors
+            against inflation. Unlike traditional bonds which pay coupon
+            on a fixed principal, inflation-indexed bonds pay coupons and/
+            or principal that is adjusted for inflation. The difference in the
+         Yields on inflation-indexed bonds and those on conventional
+          bonds of same maturity is an indicator of inflation expectations.</p>
+          <p align="justify">In India, capital-indexed bonds of five years maturity were
+            issued in December 1997. However, these bonds provided
+            inflation protection only to the principal by indexing the
+            principal repayments at the time of redemption to inflation.
+            As interest payments were not protected against inflation,
+            there was tepid response to them and no subsequent
+          issuances were made.</p>
+          <p align="justify">The Reserve Bank once again issued inflation-indexed bonds
+            in June 2013. These bonds provide protection to both principal
+            and interest against wholesale price inflation. Inflation
+            protection is offered on the principal by adjusting it by the ratio
+            of the price index on the settlement date to price index on the
+            issue date. Since a real coupon will be paid on the inflationadjusted
+            principal, interest receipt will also be protected
+            against inflation. Further, the bond will also offer capital
+            protection as on redemption, the higher of the inflationadjusted
+          principal or face value will be paid to the investor.</p>
+          <p align="justify">The initial tranche of issuances will be for bonds of ten years
+            maturity. The investors have to bid for real yields as against
+            nominal yield in the case of conventional government
+            securities. Based on two issuances, back-of-the envelope
+            calculations suggest that 10-year inflation expectations are
+            close to 5.5 per cent. As and when more issuances take place
+          for various maturities, the bonds will provide more benchmarks.</p>
+          <p align="justify">Another way is to have survey-based measures of inflation
+            expectations of households, corporates and professional
+            forecasters. The survey-based measures of inflation
+            expectations in India are summarised below. All these surveys
+            have a quarterly frequency and form inputs for the quarterly
+          reviews of the monetary policy.</p>
+          <p align="justify">Currently, the survey-based methods have proved useful in
+            guiding the conduct of monetary policy in India. These surveys
+            are being constantly refined in order to boost their usefulness
+            as measures of inflation expectations thereby gleaning vital
+            inputs for monetary policy formulation. Inflation-indexed bonds
+            are just testing the waters, in due course they should emerge
+            as an important toolkit in the measurement of inflation
+          expectations.</p>
+          <p align="justify" class="head">References</p>
+          <p align="justify">Mohanty, D. (2012), &ldquo;The Importance of Inflation Expectations&rdquo;,
+          speech delivered in Mumbai on November 9.</p>
+          <p align="justify">Bank of England (2002), &ldquo;On Market-based Measures of
+          Inflation Expectations&rdquo;, Quarterly Bulletin, Spring.</p>
+          <p align="justify">European Central Bank (2011), &ldquo;Inflation Expectations in the
+            Euro Area: A Review of Recent Developments&rdquo;, Monthly
+          Bulletin, February.</p>
+          <table width="711" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">
+            <tr>
+              <td colspan="4" class="table"><p align="center" class="head">Survey-based Measures of Inflation Expectations in India</p></td>
+            </tr>
+            <tr class="table">
+              <td width="201" class="head"><p align="center">Name of the Survey</p></td>
+              <td width="84" class="head"><p align="center">Commenced in</p></td>
+              <td width="266" class="head"><p align="center">Coverage</p></td>
+              <td width="155" class="head"><p align="center">Period for which Expectations Assessed</p></td>
+            </tr>
+            <tr class="table">
+              <td width="201" class="head"><p align="center">1</p></td>
+              <td width="84" class="head"><p align="center">2</p></td>
+              <td width="266" class="head"><p align="center">3</p></td>
+              <td width="155" class="head"><p align="center">4</p></td>
+            </tr>
+            <tr>
+              <td width="201" class="table"><p>Industrial Outlook Survey</p></td>
+              <td width="84" class="table"><p align="center">1998</p></td>
+              <td width="266" class="table"><p align="justify">2,000 manufacturing companies approached in each round (response rate is around 70 per cent)</p></td>
+              <td width="155" class="table"><p align="justify">3-month ahead</p></td>
+            </tr>
+            <tr>
+              <td width="201" class="table"><p>Inflation Expectations Survey of Households</p></td>
+              <td width="84" class="table"><p align="center">2005</p></td>
+              <td width="266" class="table"><p align="justify">4,000 urban households across 12 cities (recently increased to 5,000 households across 16 cities)</p></td>
+              <td width="155" class="table"><p align="justify">3-month ahead and 1-year ahead</p></td>
+            </tr>
+            <tr>
+              <td width="201" class="table"><p>Survey of Professional Forecasters</p></td>
+              <td width="84" class="table"><p align="center">2007</p></td>
+              <td width="266" class="table"><p align="justify">About 30 professional forecasters</p></td>
+              <td width="155" class="table"><p align="justify">Quarterly for next 4 quarters; next 5 Years and next 10 years</p></td>
+            </tr>
+            <tr>
+              <td width="201" class="table"><p>Consumer Confidence Survey</p></td>
+              <td width="84" class="table"><p align="center">2010</p></td>
+              <td width="266" class="table"><p align="justify">5,400 households across 6 metro cities</p></td>
+              <td width="155" class="table"><p align="justify">1-year ahead</p></td>
+            </tr>
+          </table>
+          <p class="head">Overall Assessment</p>
+          <p>III.27 Monetary policy during 2012-13 and
+            2013-14 so far has sought to maintain a balance
+            between addressing growth risks while not losing sight of the primary objective of managing inflation and anchoring inflation expectations. Low and stable inflation is needed for securing a high and sustainable medium term growth path. Monetary policy tried to use the available space to front-load policy rate reductions and calibrate the easing cycle, being mindful of the macro-economic risks emanating from the twin deficits. With the aim of ensuring efficient transmission of policy actions consistent with the growth-inflation balance, active liquidity management through multiple instruments was also undertaken in 2012-13.</p>        </td>
+      </tr>
+    </table></td></tr></table>
+                                </table>
+                            </div>
+                            <input name="btn" type="button" id="btn" style="visibility: hidden;" value="2026" />
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <span id="DateSettree_lbltree"><div class="grid_1 archives alpha" id="treeYear"><ul><li><a class="year" href="#" id="2026" onclick='GetYear("2026")'>2026</a></li><li><a class="year" href="#" id="2025" onclick='GetYear("2025")'>2025</a></li><li><a class="year" href="#" id="2024" onclick='GetYear("2024")'>2024</a></li><li><a class="year" href="#" id="2023" onclick='GetYear("2023")'>2023</a></li><li><a class="year" href="#" id="2022" onclick='GetYear("2022")'>2022</a></li><li><a class="year" href="#" id="2021" onclick='GetYear("2021")'>2021</a></li><li><a class="year" href="#" id="2020" onclick='GetYear("2020")'>2020</a></li><li><a class="year" href="#" id="2019" onclick='GetYear("2019")'>2019</a></li><li><a class="year" href="#" id="2018" onclick='GetYear("2018")'>2018</a></li><li><a class="year" href="#" id="2017" onclick='GetYear("2017")'>2017</a></li><h2 class="year"><a href="javascript:void(0);" id="divArchiveMain"  onclick="hideshow('divArchiveSub');" style="cursor: pointer;">Archives</a></h2><div  id="divArchiveSub" style="display: none;"><div class="grid_tree archives alpha" id="treeYear"><ul><li><a class="year" href="#" id="2016" onclick='GetYear("2016")'>2016</a></li><li><a class="year" href="#" id="2015" onclick='GetYear("2015")'>2015</a></li><li><a class="year" href="#" id="2014" onclick='GetYear("2014")'>2014</a></li><li><a class="year" href="#" id="2013" onclick='GetYear("2013")'>2013</a></li><li><a class="year" href="#" id="2012" onclick='GetYear("2012")'>2012</a></li><li><a class="year" href="#" id="2011" onclick='GetYear("2011")'>2011</a></li><li><a class="year" href="#" id="2010" onclick='GetYear("2010")'>2010</a></li><li><a class="year" href="#" id="2009" onclick='GetYear("2009")'>2009</a></li><li><a class="year" href="#" id="2008" onclick='GetYear("2008")'>2008</a></li><li><a class="year" href="#" id="2007" onclick='GetYear("2007")'>2007</a></li><li><a class="year" href="#" id="2006" onclick='GetYear("2006")'>2006</a></li><li><a class="year" href="#" id="2005" onclick='GetYear("2005")'>2005</a></li><li><a class="year" href="#" id="2004" onclick='GetYear("2004")'>2004</a></li><li><a class="year" href="#" id="2003" onclick='GetYear("2003")'>2003</a></li><li><a class="year" href="#" id="2002" onclick='GetYear("2002")'>2002</a></li><li><a class="year" href="#" id="2001" onclick='GetYear("2001")'>2001</a></li><li><a class="year" href="#" id="2000" onclick='GetYear("2000")'>2000</a></li><li><a class="year" href="#" id="1999" onclick='GetYear("1999")'>1999</a></li><li><a class="year" href="#" id="1998" onclick='GetYear("1998")'>1998</a></li><li><a class="year" href="#" id="1997" onclick='GetYear("1997")'>1997</a></li><li><a class="year" href="#" id="1996" onclick='GetYear("1996")'>1996</a></li><li><a class="year" href="#" id="1995" onclick='GetYear("1995")'>1995</a></li><li><a class="year" href="#" id="1994" onclick='GetYear("1994")'>1994</a></li><li><a class="year" href="#" id="1993" onclick='GetYear("1993")'>1993</a></li><li><a class="year" href="#" id="1992" onclick='GetYear("1992")'>1992</a></li><li><a class="year" href="#" id="1991" onclick='GetYear("1991")'>1991</a></li><li><a class="year" href="#" id="1990" onclick='GetYear("1990")'>1990</a></li></ul></div></div></div></span>
+<style type="text/css"> /*added by ni*/
+.year a
+{
+    text-transform:none;
+    margin:0px;
+    /*color:Black;*/
+    font-size:12px;
+    text-decoration:none;
+    padding: 3px 4px 5px 2px;
+    }
+#DateSettree_lbltree h2
+{
+    margin-top:0px;
+}
+.month ul li a {
+    padding: 3px 4px 7px 2px;
+}
+
+.accordionContent ul.accordionlist li {
+    
+    min-height: 24px;
+}
+</style>
+
+
+
+    </main>
+        <div class="clearfix">
+        </div>
+        <a href="#top" class="scrollToTop" id="backToTop">Top</a>
+<div id="backDiv" style=" text-align:center;" >
+<a href="javascript:history.back()" class="paraheader">Back to previous page</a><br/>
+<span id="lblGetLastUpdateDate" class="paraheader"></span>
+</div>
+<footer class="footer">
+
+<div class="footer">
+  <div class="container_12">    
+      <div class="grid_9" style="width: 833px !important; ">
+          
+          <h2><span class="blue">More</span> Links</h2>
+          
+		<ul class="footerlist" style="column-count:4">
+                  <li ><a href="/Scripts/HolidayMatrixDisplay.aspx">Bank Holidays</a></li>
+                  <li ><a href="https://shabdavali.rbi.org.in/">Banking Glossary</a></li>
+                  <li ><a href="/Scripts/CitiChart.aspx">Citizen's Charter</a></li>
+                  <li ><a href="/Scripts/Complaints.aspx">Complaints</a></li>
+                  <li ><a href="/Scripts/contactus.aspx">Contact Us</a></li>
+  		<li ><a href="https://www.rbi.org.in/scripts/bs_viewcontent.aspx?Id=3894">COVID-19 Measures</a></li>
+                  <li ><a target="_blank" href="https://ncfe.org.in/e-lms">E-LMS</a></li>
+                  <li ><a href="/Scripts/EventsDisplay.aspx">Events</a></li>
+                  <li ><a href="/Scripts/FAQDisplay.aspx">FAQs</a></li>
+                  <li ><a target="_blank" href="https://www.rbi.org.in/FinancialEducation/">Financial Education</a></li>
+		<li ><a href="/Scripts/BS_ViewForms.aspx">Forms</a></li>
+                  <li ><a href="/Scripts/IFSCMICRDetails.aspx">IFSC/MICR Codes</a></li>
+                  <li><a href="/Scripts/OtherLinks.aspx">Important Websites</a></li>
+                  <li><a target="_blank" href="https://opportunities.rbi.org.in/scripts/index.aspx">Opportunities<span>@</span>RBI</a></li>
+                  <li><a href="/Scripts/rbi_clarification.aspx">RBI Clarifications</a></li>
+ 		<li><a target="_blank" href="https://rbikehtahai.rbi.org.in/">RBI Kehta Hai</a></li>
+                  <li><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Utkarsh202910042026.pdf" target="_blank">RBI’s Vision and Values <img src="../Images/pdf.gif" alt="PDF document" style="padding-bottom: 4px; width:12px; border:0; vertical-align:middle;"> (652 KB)</a></li>
+                  <li><a href="/Scripts/Righttoinfoact.aspx">Right to Information Act</a></li>
+                  <li><a href="/Scripts/BS_ViewTenders.aspx">Tenders</a></li>
+                  
+              </ul>
+      </div>
+
+    <div class="grid_3" style="width:197px !important">
+      
+        <h2><span class="blue">Follow</span> RBI</h2>
+      <ul class="footerlist">
+        
+
+          <li style="float: left;background: url(/images/footer_list_arrow.gif) left 8px no-repeat;"><a href="/Scripts/rss.aspx"><img src="/images/rss-icon.png" alt="RSS Icon" class="rss">RSS</a></li>
+
+        
+          <li>
+              <a href="https://twitter.com/RBI" target="_blank" class="twitter">
+                  <img src="/images/Twitter_New.png" alt="Twitter Icon" class="videos" style="padding-left: 18%; width:14px;">Twitter
+              </a>
+          </li>
+
+        
+
+          <li style="float: left;"><a href="https://www.youtube.com/channel/UCIfCOl43tunZVNYafeC4RQA" class="videos" target="_blank"><img src="/images/youtube.png" alt="YouTube Icon" class="videos">YouTube</a></li>
+
+          <li>
+              <a href="https://instagram.com/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/Instagram.jpg" alt="Instagram Icon" class="videos" style="padding-left: 5%; width:14px;">Instagram
+              </a>
+          </li>
+          <li style="float: left;"><a href="https://www.facebook.com/RBIsays" class="videos" target="_blank"><img src="/images/Facebook.jpg" style="width:14px;" alt="Facebook Icon" class="videos">Facebook</a></li>
+          <li>
+              <a href="https://www.linkedin.com/company/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/LinkedinIcon1.png" alt="LinkedIn Icon" class="" style="padding-left: 4%;width: 17px;background: bottom no-repeat;display: block;float: left;margin: 2px 3px 0 1px;">LinkedIn
+              </a>
+          </li>
+      </ul>
+	<a href="https://www.india.gov.in" class="videos" target="_blank">
+                  <img src="/images/indiaGov.png" alt="National Portal of India logo" class="">
+              </a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="copyright">
+    <div class="container_12">
+     <div class="grid_6 pull_left">&copy; Reserve Bank of India. All Rights Reserved. </div>
+        <div class="grid_5 pull_right"><a href="/Scripts/sitemap.aspx">Sitemap</a> <span aria-hidden="true">|</span> <a href="/Scripts/Disclaimer.aspx">Disclaimer</a></div>
+        <div class="clearfix"></div>
+
+        <div class="grid_6 pull_left">Website owned and managed by Reserve Bank of India. Contact us on helpdoc[at]rbi[dot]org[dot]in</div>
+        <div class="grid_5 pull_right">Website last updated date: Sep 12, 2026</div>
+        <div class="clearfix"></div>
+	<div class="grid_6 pull_left"><a href="https://www.rbi.org.in/scripts/wim.aspx">Web Information Manager</a></div>
+	<div class="grid_5 pull_right"><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Accessibility20012026.pdf" target="_blank">Accessibility Statement
+	<img alt="PDF - Accessibility Statement" style="padding: 1px; width:16px; border:0; vertical-align:middle;" src="../Images/pdf.gif" > (133 KB)
+	</a><span aria-hidden="true"> |</span><a href="/scripts/ScreenReader.aspx" title="Information related to screen reader">Screen Reader and Accessibility Help</a></div>
+	<div class="clearfix"></div>
+        <div class="grid_12 pull_left">Supports: Google Chrome 147+ | Firefox 150+ | Microsoft Edge Version 147+ | Safari 17+</div>
+        
+        <div class="clearfix"></div>
+    </div>
+  </div>
+  
+
+
+
+</div>
+
+</footer>
+
+<script src="/js/ReplaceURL.js" ></script>
+<script >
+
+
+    //this is for floating TOP link
+    
+    $(document).ready(function () {
+
+        var offset = 230;
+        var duration = 500;
+
+
+        jQuery(window).scroll(function () {
+            if (jQuery(this).scrollTop() > offset) {
+                jQuery('.scrollToTop').fadeIn(duration);
+                
+            } else {
+                jQuery('.scrollToTop').fadeOut(duration);
+                
+            }
+        });
+
+        
+	$('.page_title').attr('tabindex','-1');
+        $('.scrollToTop').click(function () {
+            $('html, body').animate({ scrollTop: 0 }, 800);
+		$('.page_title').focus(); 
+            return false;
+        });
+	
+
+
+	if(!window.location.href.includes("Home.aspx") && !window.location.href.includes("home.aspx"))
+{ 
+if( window.location.href.includes(".aspx")){
+var div= document.getElementById('backDiv');
+	div.removeAttribute("hidden");}
+else{
+var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+}
+else{
+
+
+	var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+    });
+
+
+  
+    $(window).scroll(function () {
+
+        if ($('div.banner2').length) {
+
+            if ($(window).scrollTop() >= 265) {
+                $('#menubar').css("position", "fixed");
+                $('#menubar').css("width", "240px");
+                $('#menubar').css("margin-top", "-281px");
+                $('.content_area').css("margin-left", "252px");
+
+                $('.sidebar_nav').css("position", "fixed");
+                $('.sidebar_nav').css("margin-top", "-200px");
+                $('.sidebar_nav').css("width", "236px");
+
+
+             
+
+            }
+
+            else {
+                $('#menubar').css("position", "");
+                $('#menubar').css("width", "");
+                $('#menubar').css("margin-top", "");
+                $('.content_area').css("margin-left", "");
+
+                $('.sidebar_nav').css("position", "");
+                $('.sidebar_nav').css("margin-top", "");
+                $('.sidebar_nav').css("width", "");
+
+
+
+         
+            }
+
+        }
+
+        else if ($(window).scrollTop() >= 185) {
+            $('#menubar').css("position", "fixed");
+            $('#menubar').css("width", "240px");
+            $('#menubar').css("margin-top", "-200px");
+            $('.content_area').css("margin-left", "252px");
+
+            $('.sidebar_nav').css("position", "fixed");
+            $('.sidebar_nav').css("margin-top", "-200px");
+            $('.sidebar_nav').css("width", "236px");
+
+
+          
+		var treeheight=0;
+		if($('#treeYear').height()>0){treeheight=$('#treeYear').height();}
+	    	if($(window).scrollTop() >= $('#example-min').height()-treeheight)
+		{			 
+			$('#menubar').css("position", "absolute");
+            		
+			$('#menubar').css("margin-top", "");
+			$('#menubar').css("top", $('#example-min').height()+100-treeheight +"px");
+		}
+		else{$('#menubar').css("position", "fixed"); $('#menubar').css("top", "");}
+		
+        }
+
+        else {
+            $('#menubar').css("position", "");
+            $('#menubar').css("width", "");
+            $('#menubar').css("margin-top", "");
+            $('.content_area').css("margin-left", "");
+
+            $('.sidebar_nav').css("position", "");
+            $('.sidebar_nav').css("margin-top", "");
+            $('.sidebar_nav').css("width", "");
+
+
+       
+        }
+     
+
+       
+    });
+	
+      
+    $(document).ready(function () {
+	
+	
+		  $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#maskWN').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+		
+		 $('#maskWN').click(function () {
+            $(this).hide();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('.window').hide();
+
+        });
+
+        
+
+        //if close button is clicked
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#mask').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+
+        //if mask is clicked
+        $('#mask').click(function () {
+            $(this).hide();
+            $('.window').hide();
+        });
+        $('#feedbackbtn').click(function () {
+            var id = '#dialog';
+
+            //Get the screen height and width
+            var maskHeight = $(document).height();
+            var maskWidth = $(window).width();
+
+            //Set heigth and width to mask to fill up the whole screen
+            
+            $('#mask').css({ 'width': '100%', 'height': '100%', 'position': 'fixed' });
+
+            //transition effect
+            $('#mask').fadeIn(500);
+            $('#mask').fadeTo("slow", 0.9);
+
+            //Get the window height and width
+            var winH = $(window).height();
+            var winW = $(window).width();
+
+            //Set the popup window to center
+            $(id).css('top', winH / 2 - $(id).height() / 2);
+            $(id).css('left', winW / 2 - $(id).width() / 2);
+
+            //transition effect
+            $(id).fadeIn(2000);
+        });
+
+        $('.submit').click(function () {
+            var Name = $("[id*=txtFeedbackName]").val();
+            var Email = $("[id*=txtFeedbackEmail]").val();
+            var Comments = $("[id*=txtFeedbackComments]").val();
+            if (Name == "") {
+
+                alert("Please enter your name");
+                $("[id*=txtFeedbackName]").focus();
+                return false;
+            }
+            else if (Email == "") {
+                alert("Please enter your email");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+            else if (Email != "" && !ValidateEmail(Email)) {
+                alert("Please enter a valid email address");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+
+            else if (Comments == "") {
+
+                alert("Please enter some comments");
+                $("[id*=txtFeedbackComments]").focus();
+                return false;
+            }
+
+            else {
+                $('[id*=Button1]').attr('disabled', 'disabled');
+
+                var param = { Name: Name, EmailID: Email, Comments: Comments };
+                $.ajax({
+                    type: "POST",
+                    url: "../Home.aspx/SaveFeedback",
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+
+                    success: function (response) {
+
+                        if (response.d == "0") {
+                            alert("Thank you for your feedback");
+                            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+                            $('#mask').hide();
+                            $('.window').hide();
+                            $('[id*=Button1]').removeAttr('disabled');
+                            $("[id*=txtFeedbackName]").val("");
+                            $("[id*=txtFeedbackEmail]").val("");
+                            $("[id*=txtFeedbackComments]").val("");
+                        }
+                        else {
+                            alert("Please try again");
+                            $('[id*=Button1]').removeAttr('disabled');
+
+
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+        function ValidateEmail(email) {
+            var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            return expr.test(email);
+        };
+
+       
+
+        $('a.style1').each(function () {
+
+            var $this = $(this);
+            var aHref = $this.attr('class');
+            $this.attr('class', aHref.replace('style1', 'links'));
+        });
+
+		
+   });
+
+  function isExternal(url) {
+	if(url){url=url.toLowerCase();
+       if(url=='#' || url=='javascript:void(0);' || url.includes('javascript')||url=='' )
+	{ return false;} 
+	else{//return (url.indexOf("rbi.org.in")==-1)
+	
+	if(url.indexOf("www.rbi.org.in")==-1 || url.indexOf("https://rbi.org.in")==-1)
+		{	
+			if(url.indexOf("rbi.org.in")==-1)		
+    				return "external";
+			else if(url.indexOf("www.rbi.org.in")==-1 && url.indexOf(".rbi.org.in")>0 && url.indexOf("rbidocs.rbi.org.in")==-1)
+				{return "subdomain";}
+			else if(url.indexOf("financialeducation")>0 || url.indexOf("commonperson")>0 || url.indexOf("/rekyc/")>0 || url.indexOf("rbi90years")>0 ){
+				return "subsite";}
+			
+		}
+	
+	}}
+    }
+    document.addEventListener("click", function () {
+	linkMessage();
+        
+    });
+function linkMessage(){
+	if (event.target.tagName.toLowerCase() === "a") {
+            if (isExternal(event.target.href)=="external") {
+
+                if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+            }
+	    if (isExternal(event.target.href)=="subdomain") {
+	    	 if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+		if (isExternal(event.target.href)=="subsite") {
+	    	 if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+        }
+	else if (event.target.tagName.toLowerCase() === "img") {
+		$(event.target).preventDefault;		
+		if($(event.target).parent('a').length){
+			 if (isExternal($(event.target).parent('a').prop('href'))==="external") {
+                		if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+                    		return;
+               		 }
+
+                	else {                   
+                    		event.preventDefault();
+                    		return;
+                	}}
+			if (isExternal($(event.target).parent('a').prop('href'))==="subdomain") {
+                		if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    		return;
+               		 	}
+
+                		else {                   
+                    		event.preventDefault();
+                    		return;
+                		}
+			}
+			if (isExternal(event.target.href)=="subsite") {
+	    	 	if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    	return;
+                	}
+                	else {
+                   
+                    		event.preventDefault();
+                    	return;
+                	}
+	    		}
+	}}
+	const link = event.target.closest('a[target="_blank"]');
+	if(link){ 
+		event.preventDefault();
+		if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+			window.open(link.href,"_blank");
+		}
+	}
+		if (event.target.tagName.toLowerCase() === "button") {
+		if($(event.target).parent('a').length>0){
+			const link1 = event.target.closest('a[target="_blank"]');
+		if(link1){
+			event.preventDefault();
+			if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+				window.open(link.href,"_blank");
+			}
+		}
+		}
+	}
+}
+
+</script>
+<script >
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61369961-1', 'auto');
+  ga('send', 'pageview');
+
+document.querySelectorAll('table.tablebg').forEach(table => {
+    const anchors = table.querySelectorAll('a[href^="#"]:not([href="#"])');
+
+    const hasInPageAnchorsInThisTableOnly = Array.from(anchors).some(a => {
+        // Find the closest table ancestor of this anchor
+        const closestTable = a.closest('table');
+    
+        // Only count it if it belongs to the current table (not a nested one)
+        return closestTable === table;
+    });
+
+    if (!hasInPageAnchorsInThisTableOnly) {
+        table.setAttribute('role', 'presentation');
+    } else {
+        table.removeAttribute('role'); 
+    }
+});
+$('.brd-ptable1').attr('role','presentation');
+$('html').attr('lang', 'en');
+document.querySelectorAll('br').forEach(br => {br.setAttribute('aria-hidden','true');});
+$('#doublescroll').children('table').filter(':first').attr("role", "presentation");
+$('.page_title').nextAll('table').first().attr("role", "presentation");
+
+
+
+document.addEventListener('DOMContentLoaded', function(){
+$('.tableheader b').each(function () {
+		var curEle= $(this);
+           $(curEle).replaceWith("<h2 class='dop_header'>"+$(curEle).html()+"</h2>")
+        });
+ });
+
+//  tooltip 
+var TooltipManager = {
+    _tip: null, // Create the tooltip element once 
+init: function() {
+    if (!this._tip) {
+    
+        this._tip = $('<div id="js-custom-tooltip"></div>').css({
+            "position": "absolute", "background": '#ffffca', "color":"#000", "padding": "2px 5px", "border-radius": "0px", "font-size": "11px","font-family":"Sans-serif", "z-index": "10000", "pointer-events": "none","border":"1px solid #767676", "box-shadow":"2px 2px 3px rgba(0,0,0,0.2)","white-space":"nowrap"
+        }).appendTo('body');
+        
+    }
+}, 
+show: function(element, text) {
+    this.init(); 
+var $el = $(element); // Update text and position 
+    
+this._tip.text(text).show();
+var pos = $el.offset(); 
+this._tip.css({
+    top: pos.top + this._tip.outerHeight()  + "px", // Show above 
+    left: pos.left + ($el.outerWidth() / 2) - (this._tip.outerWidth() / 2) + "px"
+});
+    }, hide: function() { if (this._tip) this._tip.hide(); }
+}; // Apply to all elements that have a ToolTip (ToolTip renders as 'title') 
+$(document).ready(function() {
+   
+    $('body').on('focusin', 'input, button, a, select, textarea, img', function() {
+        var title = $(this).attr('title'); if (title) {
+    
+            
+      
+            TooltipManager.show(this, title);
+        }
+    }).on('focusout', 'input, button, a, select, textarea, img', function() { 
+       
+            TooltipManager.hide();
+       
+    }); // Dismiss on Escape key
+    $(document).keyup(function(e) { if (e.key === "Escape") TooltipManager.hide(); });
+});
+
+//breadcrumb current page announce
+$(document).ready(function(){
+
+const breadcrumbList = document.querySelector('.breadcrumbs');
+
+    if (breadcrumbList) {
+        const listItems = breadcrumbList.querySelectorAll('li');
+    
+        if (listItems.length > 0) {
+            
+            const lastItem = $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).last().attr('aria-current', 'page');
+            $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())==="" && $(this).children().length===0;}).attr('role','presentation');
+       		$('.breadcrumbs li').filter(function(){
+			if($(this).children().length!==0)
+			{
+				if($(this).children().text() ===""){}
+			}
+		});
+            const lastLink =lastItem.find('a');
+            if (lastLink) {
+                lastLink.attr('aria-current', 'page');               
+                
+            }
+		if($('.breadcrumbs li').last().find('a').length>0)
+		{			
+			const $a = $('.breadcrumbs li').last().find('a');
+			$('<span>',{class: $a.attr('class'), text: $a.text()}).replaceAll($a).attr('aria-current', 'page');
+		}
+		
+		if($('.breadcrumbs li').last().find('span').length>0)
+		{
+			
+			if($('.breadcrumbs li').last().find('span')[0].innerText==='')
+			{
+				$('.breadcrumbs li').last().find('span').removeAttr('aria-current');				
+			}
+			else{
+				$('.breadcrumbs li').last().find('span').filter(function(){ return $(this).attr('role')!=='presentation';}).last().attr('aria-current', 'page');					
+			}		
+		}
+		$('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).removeAttr('role','presentation');
+        }
+    }
+});
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+setLetterSpace(false);//]]>
+</script>
+</form>
+    <script type="text/javascript" src="/js/plugins.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
+    <script type="text/javascript" src="/js/Scroll.js"></script>
+    <script type="text/javascript" language="javascript">
+
+        DoubleScrollWithTree(document.getElementById('doublescroll'));
+        function GetYear(year) {
+            document.getElementById("hdnYear").value = year;
+            document.getElementById("btn").click();
+        }
+        function hideshow(divArchive) {
+            if (!document.getElementById(divArchive))
+                return
+            if (document.getElementById(divArchive).style.display == "block")
+                document.getElementById(divArchive).style.display = "none"
+            else
+                document.getElementById(divArchive).style.display = "block"
+        }
+        function SetTreeStyles() {
+            var strYear = document.getElementById("hdnYear").value;
+            var ArcYear = parseInt(document.getElementById("btn").value) - 9;
+
+
+            if (strYear != "") {
+                var toDay = new Date();
+                document.getElementById(strYear).setAttribute("class", "year active");
+                document.getElementById(strYear).style.display = "block";
+                if (toDay.getFullYear() - 9 > parseInt(strYear)) { document.getElementById("divArchiveSub").style.display = "block" }
+            }
+        }
+    </script>
+</body>
+</html>
+<script id="f5_cspm">(function(){var f5_cspm={f5_p:'PDDILDOLBDHLHNEJNHKKNGBNFIGPKHGCGABJICAHKACPMOJENCMOOOMPNJJHMDCJLOEBFILPAAGCFFDAMHEAHCEGAAAFAIECAFLBEPDILAKDDFOMLGDCKHGMJHEPNPFO',setCharAt:function(str,index,chr){if(index>str.length-1)return str;return str.substr(0,index)+chr+str.substr(index+1);},get_byte:function(str,i){var s=(i/16)|0;i=(i&15);s=s*32;return((str.charCodeAt(i+16+s)-65)<<4)|(str.charCodeAt(i+s)-65);},set_byte:function(str,i,b){var s=(i/16)|0;i=(i&15);s=s*32;str=f5_cspm.setCharAt(str,(i+16+s),String.fromCharCode((b>>4)+65));str=f5_cspm.setCharAt(str,(i+s),String.fromCharCode((b&15)+65));return str;},set_latency:function(str,latency){latency=latency&0xffff;str=f5_cspm.set_byte(str,40,(latency>>8));str=f5_cspm.set_byte(str,41,(latency&0xff));str=f5_cspm.set_byte(str,35,2);return str;},wait_perf_data:function(){try{var wp=window.performance.timing;if(wp.loadEventEnd>0){var res=wp.loadEventEnd-wp.navigationStart;if(res<60001){var cookie_val=f5_cspm.set_latency(f5_cspm.f5_p,res);window.document.cookie='f5avr0947018921aaaaaaaaaaaaaaaa_cspm_='+encodeURIComponent(cookie_val)+';path=/;'+'';}
+return;}}
+catch(err){return;}
+setTimeout(f5_cspm.wait_perf_data,100);return;},go:function(){var chunk=window.document.cookie.split(/\s*;\s*/);for(var i=0;i<chunk.length;++i){var pair=chunk[i].split(/\s*=\s*/);if(pair[0]=='f5_cspm'&&pair[1]=='1234')
+{var d=new Date();d.setTime(d.getTime()-1000);window.document.cookie='f5_cspm=;expires='+d.toUTCString()+';path=/;'+';';setTimeout(f5_cspm.wait_perf_data,100);}}}}
+f5_cspm.go();}());</script>

@@ -1,0 +1,1566 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Press Releases | Official Website of Reserve Bank of India </title>
+    <meta name="description" content="Press Releases - Reserve Bank of India" />
+    <meta name="keyword" content="RBI Press Releases" />
+
+    <meta name="author " content="Reserve Bank of India" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="/js/libs/modernizr-2.5.3.min.js"></script>
+    <style type="text/css">
+        table.tablebg > tbody > tr > td > table.td > tbody > tr > td > table > tbody > tr > td.td {
+            border: 1px solid #efd1aa;
+        }
+
+        tr .tablecontent1 th {
+            border: 1px solid #fff !important;
+            background-color: #fcf5ec !important;
+        }
+
+        .rowhead {
+            font-weight: normal;
+            text-align: left;
+            padding: 0px 3px !important;
+        }
+
+        .mmo_header {
+            background-color: #f7e8d5 !important;
+            padding: 3px;
+        }
+
+        .mmo .tablecontent1 td {
+            font-weight: normal;
+        }
+
+        .sr-only {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .MMO .tablecontent1 tr {
+            background-color: #fcf5ec !important;
+        }
+    </style>
+
+</head>
+<body onload="SetTreeStyles()">
+    <form method="post" action="./BS_PressReleaseDisplay.aspx?prid=47941" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE1NzAzMjAzMTFkZD6DosFs6Yh1nO7LMz02kKL7K24r7Db+MiUAFP3iD7wT" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="380F4D6F" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAxnG/WiCQkNXh6dv5lOwjaqlK+XrsQEVyjeDxQ0A4GYXFBwzdjZXczwplb2HKGyLlrNyH2BRDHW7ZJm+s8yUnNgi6wX7g7V+51d5y/uZ409MaU74zTCJ05u4w6h9ODXzwxkOnLtYme9ze2BdjTwJgskP6t93AkC4GhUEhJREhdaXBugERoe+4YdP6+Dm7i9UwLINzYr5zRLekLCkqLwgivbfcX9ZaEV78oETjPwNTvjRyaLpyghhgB3dOM81YQT2c+LNomxBtsTE+ee7PJ4NnikgPIe622CCh+8cdY4hmyvlQ==" />
+</div>
+        <input type="hidden" name="hdnYear" id="hdnYear" />
+        <input type="hidden" name="hdnMonth" id="hdnMonth" value="0" />
+        
+<link href="/JQuery/css/jquery-ui-1.8.18.custom2.css" rel="stylesheet" type="text/css" />
+<link href="/includes/print.css" rel="stylesheet" media="print" type="text/css" />
+
+<link href="/Styles/960.css?v=1.0" rel="stylesheet" type="text/css" />
+<link href="/Includes1/rbi.css?v=5.0" rel="Stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/JQuery/ui/jquery.ui.revampRBI.js"></script>
+<script type="text/javascript" src="/js/ImgSaveDisable.js"></script>
+
+<script type="text/javascript">
+  
+//Redirect to mobile site start
+    function detectmob() {
+        if (screen.width <= 599 || screen.Height <= 975) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if (detectmob()) {
+       window.location.href = "https://m.rbi.org.in" + window.location.pathname;
+		
+       
+    }
+
+	//Redirect to mobile site End
+    $(document).ready(function () {
+        Search();
+	SearchLastUpdateDate(); //Fetch Last Date Page
+    });
+
+
+
+  // Fetch Last Date Page
+
+    function SearchLastUpdateDate() {
+        var strFilterComments = new RegExp("^[a-zA-Z0-9 =_:.&?'%,()-–]+$");
+	var url=window.location.href;
+	if(url.indexOf("WSSViewDetail.aspx")>0 || url.indexOf("PublicationReportDetails.aspx")>0)
+	{
+		url=url.substring(url,url.indexOf("?"));
+	}
+        var param = { keyWord1: url.slice(url.lastIndexOf('/') + 1) };
+	param.keyWord1=param.keyWord1.replaceAll("%20"," ");
+	if(param.keyWord1.indexOf("#")>0)
+	{
+		param.keyWord1=param.keyWord1.substring(param.keyWord1,param.keyWord1.indexOf("#"));
+	}
+        if (!strFilterComments.test(param.keyWord1)) {            
+            return false;
+        }
+        else {
+            $.ajax({
+                url: "/Home.aspx/GetLastUpdateDate_new",
+                data: JSON.stringify(param),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataFilter: function (data) { return data; },
+                success: function (data) {
+                    if (data.d.length > 0) {
+                        $('#lblGetLastUpdateDate').text(data.d);
+                    }
+                    else {
+                        response([{ label: "No results found", value: ""}]);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+
+        }
+    }
+    // Fetch Last Date Page
+
+
+
+    function Search() {
+        highlightTextAutocomplete();
+        $(".autoSuggest").autocomplete({
+
+
+            source: function (request, response) {
+                var param = { keyWord: document.getElementById('txtSearch').value };
+
+                $.ajax({
+                    url: "../Home.aspx/GetKeywords",
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+
+                        if (data.d.length > 0) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: RemoveSpecialChars(item)
+
+                                }
+                            }))
+                        }
+                        else {
+                            response([{ label: "No results found", value: ""}]);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            },
+
+            
+            minLength: 3
+
+        });
+    }
+
+    function highlightTextAutocomplete() {
+
+        var oldFn = $.ui.autocomplete.prototype._renderItem;
+
+        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+
+            var t = String(item.value).replace(
+                new RegExp(this.term, "gi"),
+                "<span class='ui-state-highlight'>$&</span>");
+            if (item.value != "") {
+                return $("<li class='borderAutocomplete'></li>")
+                  .data("item.autocomplete", item)
+                  .append("<a role='link'>" + t + "</a>")
+                  .appendTo(ul);
+            }
+
+            else {
+                return $("<li></li>")
+                  .data("item.autocomplete", item)
+                  .append("")
+                  .appendTo(ul);
+            }
+        };
+    }
+
+
+    function RemoveSpecialChars(inputText) {
+        var filteredString = inputText.replace(/[\*\^\'\!\@\$\.\#\(\)\-\?\<\>\;\"\&\+\{\}\:]/g, '');
+        
+        return filteredString;
+    }
+    
+
+    function LoadSearchData(id, key) {
+        if (id == "txtSearch") {
+            if (key == 13) {
+                validateSearchText();
+                return false;
+            }
+        }
+        else validateSearchText();
+        return true;
+    }
+    function validateSearchText() {
+        if (validation()) {
+            var strloc = new String(document.location.href.toString());
+            if (strloc.indexOf("SearchResults.aspx") == -1) {//             
+                window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+            }
+            else window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+        }
+    }
+    function validation() {
+        strSearch = trim(document.getElementById('txtSearch').value);
+        if (strSearch == "") { alert('Please enter the search text'); return false; }
+        else {
+           
+            var strFilterChars = new RegExp("^[0-9a-zA-Z ]*$");
+            if (!strFilterChars.test(strSearch)) { alert("Please remove special characters from search text"); return false; }
+        }
+        return true;
+    }
+    function trim(value) {
+        value = value.replace(/^\s+/, '');
+        value = value.replace(/\s+$/, '');
+        return value;
+    }
+
+</script>
+
+    <style type="text/css">
+    .blink_msm1 
+{
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 3s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: blinker;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@-moz-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+.blink_NewWebsite {
+        animation:blinker 1.5s linear 3;
+        color:blue;
+        font-size:1.5em;
+        margin-bottom:0px;
+        }
+    @keyframes blinker
+    {
+        50%{
+            opacity:0;
+        }
+    }
+
+.sr-only {
+position: absolute;
+left: -9999px;
+}
+</style>
+<div class="top_setting">
+    <div class="container_12">
+        <div class="grid_5 top_settings">
+            <a href="#mainsection">Skip to main content </a>
+        </div>
+        <div id="UsrFontCntr_tblThemes" style="float: right" class="grid_4 prefix_3 top_settings">
+            <ul style="margin:0px; padding:0px;">
+               <li class="fonts"> 
+                <a id="UsrFontCntr_LinkBtnSpace" role="button" title="Increase Letter Spacing" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnSpace&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/letspace.png" alt="Increase Letter Spacing" />
+                                <span id="UsrFontCntr_spanBtnSpace" class="sr-only">Not Pressed</span></a>                                
+            </li>
+
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontIncrease" role="button" title="Increase Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontIncrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-increase.gif" alt="Increase Font Size" />
+                    <span id="UsrFontCntr_spanFontIncrease" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontRegular" role="button" title="Regular Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontRegular&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-reset.gif" alt="Regular Font Size" />
+                    <span id="UsrFontCntr_spanFontRegular" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontDecrease" role="button" title="Decrease Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontDecrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-decrease.gif" alt="Decrease Font Size" />
+                    <span id="UsrFontCntr_spanFontDecrease" class="sr-only">Not Pressed</span></a>
+            </li></ul>
+		<ul style="margin:0px;padding:0px;">
+            <li class="black">
+                <a id="UsrFontCntr_LinkBtnAccessibilty" role="button" title="Apply Dark Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/dark-theme.gif" alt="Apply Dark Theme" />
+                    <span id="UsrFontCntr_spanAccessibilty" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="white">
+                <a id="UsrFontCntr_LinkBtnUndoAccessibilty" role="button" title="Apply Normal Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnUndoAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/bright-theme.gif" alt="Apply Normal Theme" />
+                     <span id="UsrFontCntr_spanUndoAccessibilty" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="white">
+            <a id="UsrFontCntr_LinkBtnGreyScale" role="button" title="Apply Grey Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnGreyScale&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/graytheme.gif" alt="Apply Grey Theme" />
+                                <span id="UsrFontCntr_spanGreyScale" class="sr-only">Not Pressed</span></a></li>
+
+            </ul>
+		<div>
+		     <a href="#" onclick="javascript:window.print();" id="A1" title="Print This Page" style="text-decoration:none;" >
+                <img src="/images/print-icon.png" alt="Print this page" class="print" />
+		</a></div>
+            <div style="float: right">
+                <label style="margin-right: 6px;">
+                    Change Language</label>
+			
+			<a href="#" onclick="SetLink();" class="link1" title="Website in Hindi">हिंदी</a>
+			</div>
+                   
+        </div>
+        <div class="clearfix">
+        </div>
+    </div>
+   
+</div>
+<div class="container_12">
+    <div class="grid_4" role="banner">
+        <div class="logo">
+            <a href="/home.aspx" title="Official website of Reserve Bank of India">
+                <img src="/images/rbi-company-logo.jpg" alt="Logo of Official website of Reserve Bank of India" title="Official website of Reserve Bank of India" /></a></div>
+    </div>
+    <div class="grid_5" align="right" role="search" style="float: right">
+        <label for="searchbox" class="search_label">
+            Search the Website</label>
+        <input name="UsrFontCntr$txtSearch" type="text" maxlength="103" id="txtSearch" class="search_box autoSuggest" title="Search the Website" aria-label="Search the Website" onkeydown="return LoadSearchData(&#39;txtSearch&#39;,event.keyCode);" placeHolder="Search" />
+        <button id="btnSearch" onclick="return LoadSearchData('btnSearch',event.keyCode);"
+            type="button" class="search_button">
+            Search</button>
+    </div>
+	<div class="grid_2" align="CENTER" role="" style="float: right">
+        <div class="logo" >
+           
+            <img src="../images/BBBP_Logo_4.png" alt="Beti Bachao Beti Padhao Logo" style="width:47%;">
+        </div>
+    	</div>
+    <div class="clearfix">
+    </div>
+</div>
+<!--  NAVIGATION START-->
+<nav role="navigation" aria-label="Main">
+       <div class="menu"><div class="centermenu">
+<ul class="menu">
+  <li><a href="https://rbi.org.in/home.aspx">Home</a></li>
+<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-Sub1">About Us ▼</a>
+ <ul class="submenu1" id="Ab-Sub1" >
+	 <li><a href="/scripts/AboutUsDisplay.aspx">About Us</a></li>
+     <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-org">Organisation & Functions <span aria-hidden="true">▶</span></a>
+		 <ul class="submenu1" id="Ab-org">             
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=OrganizationStructure.htm">Organisation Structure</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=Depts.htm">Departments</a></li>
+            <li><a href="Regionaloffices.aspx">Offices</a></li>
+			<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-tra">Training Establishment <span aria-hidden="true">▶</span></a>                
+				<ul class="submenu1" id="Ab-tra">
+                    <li ><a href="https://cab.rbi.org.in" target="_blank" id="CBOverview">College of Agricultural Banking</a></li>
+                    <li ><a href="/scripts/rbsc.aspx" id="CBNotifications">Reserve Bank Staff College</a></li>
+					<li ><a href="https://cos.rbi.org.in/" id="CBSupervisors">College of Supervisors</a></li>
+                </ul>
+            </li>
+            <li><a href="/scripts/OccasionalPublications.aspx?head=RBI%27s%20Functions%20and%20Working">RBI's Functions and Working</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=PastGovernors.htm">Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=deputygovernors.htm">Deputy Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=ExecutiveDirectors.htm">Executive Directors</a></li>
+        </ul>		
+	 </li>
+	 <li><a href="AboutUsDisplay.aspx?pg=MediaKit.htm">Media Kit</a></li>
+	 <li><a href="CommunicationPolicy.aspx">Communication Policy of RBI</a></li>
+     <li>
+        <a href="#" aria-expanded="false" role="button" aria-controls="Ab-soi">Sources of Information <span aria-hidden="true">▶</span></a>
+        <ul class="submenu1" id="Ab-soi">
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#AP">Annual Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#HP">Half-yearly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#QP">Quarterly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#MP">Monthly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#WP">Weekly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#OP">Occasional Publications</a></li>
+            <li><a href="/scripts/SDDSview.aspx">SDDS</a></li>
+            <li><a href="/scripts/BS_NSDPDisplay.aspx">NSDP</a></li>
+            <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#PS">Publications available on Subscription</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#GI">General Information</a></li>	  
+        </ul>
+     </li>  
+	 <li><a href="/scripts/Project1.aspx">RBI History</a></li>
+	 <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-mus">Museum <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="Ab-mus">
+			<li><a href="https://therbimuseum.rbi.org.in/">The RBI Museum</a></li>
+			<li><a href="/scripts/ic_museum.aspx">RBI Monetary Museum</a></li>
+         </ul>
+	 </li>
+</ul>
+</li>
+  <li>
+    <a href="#" aria-expanded="false" role="button" aria-controls="No-Sub1">Notification ▼</a>
+    <ul class="submenu1" id="No-Sub1">
+      <li><a href="/scripts/NotificationUser.aspx">Notifications </a></li>
+             <li><a href="/scripts/BS_ViewMasterDirections.aspx">Master Directions </a></li>
+             <li><a href="/scripts/BS_ViewMasterCirculardetails.aspx">Master Circulars </a></li> 
+	     <li><a href="/scripts/Fs_AmendmentDirections.aspx">Amendment Directions </a></li> 
+	     <li><a href="#" aria-expanded="false" role="button" aria-controls="No-draft">Draft Notifications/Guidelines <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="No-draft">
+			<li><a href="/scripts/DraftNotificationsGuildelines.aspx">Draft Notifications/Guidelines</a></li>
+			<li><a href="/scripts/BS_ViewREwiseDraftDirections.aspx">Draft Directions (RE-wise)</a></li> 
+         	</ul>
+	     </li>
+
+            
+             <li><a href="/scripts/BS_CircularIndexDisplay.aspx">Index To RBI Circulars </a></li> 
+             <li><a href="/scripts/BS_ViewListofstandalonecirculars.aspx">Standalone Circulars </a></li>
+             <li><a href="/scripts/NotificationUserWithdrawnCircular.aspx">Circulars Withdrawn </a></li>
+
+      
+    </ul>
+  </li>
+
+  <li><a href="/scripts/BS_PressReleaseDisplay.aspx">Press Releases</a></li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Sp-Sub1">Speeches & Media Interactions ▼</a>
+	<ul class="submenu1" id="Sp-Sub1">
+	  <li><a href="/scripts/BS_ViewSpeeches.aspx">Speeches</a></li>
+      <li><a href="/scripts/BS_ViewInterviews.aspx">Media Interactions</a></li>
+      <li><a href="/scripts/Lectures.aspx">Memorial Lectures</a></li>
+      <li><a href="/scripts/BS_ViewPodcast.aspx">Podcasts</a></li>
+	</ul>
+  </li>
+  <li><a href="#"  aria-expanded="false" role="button" aria-controls="Pu-Sub1">Publications ▼</a>
+		<ul class="submenu1" id="Pu-Sub1">
+			<li><a href="/scripts/Publications.aspx?publication=Biennial">Biennial</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Annual">Annual</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=HalfYearly">Half-Yearly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Quarterly">Quarterly</a></li>
+		    <li><a href="/scripts/Publications.aspx?publication=Bimonthly">Bi-monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Monthly">Monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Weekly">Weekly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Occasional">Occasional</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Reports">Reports</a></li>
+		    <li><a href="/scripts/OccasionalPublications.aspx?head=Working Papers">Working Papers</a></li>
+		</ul>
+	</li>				  
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Le-Sub1">Legal Framework ▼</a>
+	<ul class="submenu1" id="Le-Sub1">
+	   <li><a href="/scripts/Act.aspx">Act </a></li>
+       <li><a href="/scripts/Rules.aspx">Rules </a></li>
+       <li><a href="/scripts/Regulations.aspx">Regulations </a></li> 
+       <li class="last"><a href="/scripts/Schemes.aspx">Schemes </a></li>
+	   </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Re-Sub1">Research ▼</a>
+		<ul class="submenu1" id="Re-Sub1">
+			<li><a href="/Scripts/ExternalResearchSchemes.aspx">External Research Schemes</a></li>
+			<li><a href="/Scripts/OccasionalPapers.aspx">RBI Occasional Papers</a></li>
+			<li><a href="/Scripts/OccasionalPublications.aspx?head=Working%20Papers">Working Papers</a></li>
+			<li><a href="/Scripts/BS_ViewBulletin.aspx">RBI Bulletin</a></li>
+			<li><a href="/Scripts/Project1.aspx">History</a></li>
+			<li><a href="/Scripts/Occas_DRG_Studies.aspx">DRG Studies</a></li>
+			<li><a href="/Scripts/KLEMS.aspx">KLEMS</a></li>
+			<li class="last"><a href="/Scripts/StateStatisticsFinances.aspx">State Statistics and Finances</a></li>
+        </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Statistics ▼</a>
+		<ul class="submenu1" id="St-Sub1">
+		  <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+          <li><a href="https://data.rbi.org.in" target="_blank">Database on Indian Economy</a></li>
+          <li><a href="/scripts/FS_PDS.aspx">Public Debt Statistics</a></li>
+		</ul> 
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Regulatory Reporting ▼</a>
+		<ul class="submenu1">
+			<li><a href="/scripts/BS_Listofallreturns.aspx">List of Returns</a></li>
+			<li><a href="/scripts/DataDefinition.aspx">Data Definition</a></li>
+			<li><a href="/scripts/ValidationRules.aspx">Validation rules/ Taxonomy</a></li>
+			<li><a href="/scripts/ReportingPlaform.aspx">List of RBI Reporting Portals</a></li>
+			<li class="last"><a href="/scripts/ReportingFAQ.aspx">FAQs of RBI Reporting Portals</a></li>
+		</ul>
+   </li>
+</ul>
+</div></div>
+</nav>
+<div class="container_12" >
+    <section>
+        <div class="grid_12" >
+            <div id="dialogAlert" title="" tabindex="-1"  style="text-align: center; display: none;">
+                <p id="AM_Message" tabindex="-1" style="color: #444; font-size: 15px; margin: 20px 0; min-height: 40px;"></p>
+            </div>
+        </div>
+    </section>
+</div>
+<!--  NAVIGATION END-->
+<!--HEADER END-->
+<input type="submit" name="UsrFontCntr$btn" value="" id="btn" style="visibility: hidden; height: 0px; width: 0px;" />
+
+<script type="text/javascript">
+    function SetLink() {
+        //a.href = "https://www.rbi.org.in/hindi/Home.aspx";
+        var txt="This will lead you to Hindi (हिन्दी) language website. Are you sure you want to switch to this language?"
+        if(window.confirm(txt)==true){
+            //document.cookie = 'preferLang' + '=;secure; expires=Thu, 01-Jan-70 00:00:01 GMT;path=/;';
+            window.location.replace("https://www.rbi.org.in/hindi/");
+        }
+        else return false;
+        
+    }
+
+
+
+
+	const allMenuItems = document.querySelectorAll("nav ul li");
+	
+	allMenuItems.forEach(item => {
+		item.addEventListener("focusin", (event) => {	
+			const MenuText =event.target.textContent;
+			const allMenuItems1 = document.querySelectorAll(".hasSubmenu");
+			allMenuItems1.forEach(item1 => {
+				if (MenuText === 'Press Releases')
+				{	
+					
+					item1.classList.remove('focused');
+					rollback(item1)
+					item1.classList.remove('open');
+				}
+			});
+			
+		});
+	});
+
+
+const menuItems = document.querySelectorAll(".hasSubmenu");
+menuItems.forEach(item => {
+	item.addEventListener("mouseenter", (event) => {
+		item.className="hasSubmenu open focused"
+		expandThis(item);
+	});
+	item.addEventListener("mouseleave", (event) => {		
+		rollback(item)
+		item.className="hasSubmenu"
+	});
+	item.addEventListener("focusin", (event) => {		
+		const allMenuItems = document.querySelectorAll("nav ul li");
+		allMenuItems.forEach(item1 => {
+			item1.classList.remove('focused');
+			if(item!==item1)
+			rollback(item1)
+			item1.classList.remove('open');	
+		});							
+		item.classList.add('focused');
+	});
+	item.addEventListener("focusout", (event) => {
+		
+		if(!item.className.includes('focused')){
+		
+		rollback(item)
+		item.className="hasSubmenu"
+		}
+		item.classList.remove('focused');
+		item.classList.remove('open');
+	});
+
+    item.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+		if(item.className.includes("hasSubmenu open")){
+			rollback(item)
+			item.className="hasSubmenu"
+		}
+		else{
+          	item.className="hasSubmenu open focused"
+		var ele=item.querySelectorAll("a")[0];
+		
+		expandThis(item);	
+		}
+				
+        }
+	
+    });
+	
+});
+function expandThis(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+				    if ($targetul.queue().length <= 1) 
+				        if (this.istopheader)
+					$targetul.css({ left: $(this).children('a').eq(0).position().left, top: $mainmenu.position().top + this._dimensions.h - 2 })
+				            
+				    if (document.all && !window.XMLHttpRequest) 
+				        $mainmenu.find('ul').css({ overflow: (this.istopheader) ? 'hidden' : 'visible' })
+					
+					
+				    $targetul.dequeue().stop(true, true).slideDown(droplinemenu.animateduration.over)
+}
+const menuItemsf = document.querySelectorAll("nav .midmenu ul li");
+
+menuItemsf.forEach(item => {
+    item.addEventListener("keydown", (event) => {
+	
+	if(item.className.includes("last") ){
+		 if (pressedKeys['shift'] && event.key === "Tab"){}else{
+		var lastItem = document.getElementsByClassName('hasSubmenu open');
+		rollback(lastItem[0])
+		lastItem[0].className="hasSubmenu";
+		}
+	}
+	
+	});
+	
+	});
+	
+
+function rollback(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+$targetul.dequeue().stop(true, true).slideUp(droplinemenu.animateduration.out);
+}
+ 
+
+function setLetterSpace(val) {
+    
+	
+    if (false) {
+                    document.body.setAttribute("style", "letter-spacing:1px; line-height:20px; word-spacing:2px;");
+       
+    }
+    else {
+                    document.body.removeAttribute("style");
+    }
+    return false;
+
+    
+    }
+   
+
+// Toggle submenu
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if (submenu && submenu.classList.contains('submenu1')) {linkMessage();
+                e.preventDefault();
+                e.stopPropagation();
+
+                const parentLi = this.parentElement;
+
+                // Close sibling menus ONLY (not entire menu)
+                closeSiblings(parentLi);   
+ 
+
+               
+ 
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+        }
+        });
+    });
+
+    //  Close only sibling menus (important fix)
+    function closeSiblings(currentLi) {
+        const siblings = currentLi.parentElement.children;
+
+        Array.from(siblings).forEach(li => {
+            if (li !== currentLi) {
+            const submenus = li.querySelectorAll('.submenu1');
+        submenus.forEach(menu => menu.classList.remove('show'));
+    }
+    });
+    }
+
+    //  Click outside → close all
+    document.addEventListener('click', function () {
+		
+        document.querySelectorAll('.menu li > a').forEach(menu => {
+		if(menu.hasAttribute('aria-expanded')){
+            menu.setAttribute('aria-expanded','false');
+	}
+	
+    });
+
+    document.querySelectorAll('.submenu1').forEach(menu => {
+        menu.setAttribute('aria-hidden','true');
+    menu.classList.remove('show');
+	
+
+    });
+    });
+
+    //  Prevent closing when clicking inside menu
+    document.querySelector('.menu').addEventListener('click', function (e) {linkMessage();
+        e.stopPropagation();
+    });
+
+
+    //  Keyboard support
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('keydown', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if ((e.key === 'Enter' || e.key === ' ') && submenu) {
+                e.preventDefault();
+
+                const parentLi = this.parentElement;
+                closeSiblings(parentLi);
+
+
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+
+           
+        }
+
+          if (e.key === 'Escape') {
+        document.querySelectorAll('.submenu').forEach(menu => {
+            menu.classList.remove('show');
+    });
+    this.blur();
+    }
+    });
+    });
+    // When focusing main menu items → close other submenus
+    document.querySelectorAll('.menu > li > a').forEach(item => {
+        item.addEventListener('focus', function() {
+
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                
+                if (menu !== this.nextElementSibling) {
+              
+
+            document.querySelectorAll('.menu li > a').forEach(menu => {
+                if(menu.hasAttribute('aria-expanded'))
+                menu.setAttribute('aria-expanded','false');
+		
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                menu.setAttribute('aria-hidden','true');
+            
+            menu.classList.remove('show');
+            
+
+
+        });
+
+	
+    });
+
+    }
+    });
+
+    });
+    });
+
+    //  Close submenu when focus leaves it (TAB navigation)
+    document.querySelectorAll('.menu li').forEach(li => {
+        li.addEventListener('focusout', function (e) {
+            // Check if focus is still inside this <li>
+            if (!li.contains(e.relatedTarget)) {
+                const submenu = li.querySelector('.submenu1');
+                if (submenu) {
+                    submenu.classList.remove('show');
+                    if(li.querySelector('a').hasAttribute('aria-expanded'))
+                        li.querySelector('a').setAttribute('aria-expanded','false');
+	
+
+                    submenu.setAttribute('aria-hidden','true');
+                }
+            }
+        });
+    });
+</script>
+        <div>
+            <div role="main" class="container_12">
+                <a id="mainsection" name="mainsection"></a>
+
+                <nav aria-label="Breadcrumb" class="grid_12 breadcrumbs">
+                    <ul>
+                        <li><a href="../Home.aspx">Home</a></li>
+                        <li><a href="BS_PressReleaseDisplay.aspx">Press Releases</a></li>
+                        <span id="lblNav"></span>
+                    </ul>
+                </nav>
+                <div class="clear">
+                </div>
+                <div class="grid_11 omega right_blue_border">
+                    <div class="text1">
+
+                        <h1 class="page_title">Press Releases </h1>
+                        <div>
+                            <div id="doublescroll">
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" role="presentation">
+                                    
+                                    <table class="tablebg" cellpadding="0" cellspacing="0" width="100%"><tr><td class="tableheader"><a id='APDF_PR4890722D5DB96CB4BDB949DFFB63225A877' target='_blank' href='https://rbidocs.rbi.org.in/rdocs/PressRelease/PDFs/PR4890722D5DB96CB4BDB949DFFB63225A877.PDF' aria-labelledby='APDF_PR4890722D5DB96CB4BDB949DFFB63225A877 SPDF_PR4890722D5DB96CB4BDB949DFFB63225A877'>
+			<img alt='PDF - Minutes of the Monetary Policy Committee Meeting August 5-7, 2019'  style='padding: 8px;' src='../Images/pdf.gif' width='16' height='16' alt='PDF document' border=0 align='absmiddle'></a> (<span id='SPDF_PR4890722D5DB96CB4BDB949DFFB63225A877' aria-hidden="true">624 kb</span>)</td></tr><tr><td align="right" class="tableheader"><b> Date : Aug 21, 2019</b></td></tr><tr><td align="center" class="tableheader"><b>Minutes of the Monetary Policy Committee Meeting August 5-7, 2019</b></td></tr><tr class="tablecontent1"><td><table width="100%" border="0" align="center" class="td">  <tr>    <td>      <p align="center" class="head">[Under Section 45ZL of the Reserve Bank of India Act, 1934]</p>        <p>The eighteenth meeting of the Monetary Policy Committee (MPC), constituted under section 45ZB of the Reserve Bank of India Act, 1934, was held during August 5-7, 2019 at the Reserve Bank of India, Mumbai.</p>    <p>2. The meeting was attended by all the members – Dr. Chetan Ghate, Professor, Indian Statistical Institute; Dr. Pami Dua, Director, Delhi School of Economics; Dr. Ravindra H. Dholakia, former Professor, Indian Institute of Management, Ahmedabad; Dr. Michael Debabrata Patra, Executive Director (the officer of the Reserve Bank nominated by the Central Board under Section 45ZB(2)(c) of the Reserve Bank of India Act, 1934); Shri Bibhu Prasad Kanungo, Deputy Governor in charge of monetary policy – and was chaired by Shri Shaktikanta Das, Governor.</p>    <p>3. According to Section 45ZL of the Reserve Bank of India Act, 1934, the Reserve Bank shall publish, on the fourteenth day after every meeting of the Monetary Policy Committee, the minutes of the proceedings of the meeting which shall include the following, namely:</p>    <ol type="a">      <li>        <p>the resolution adopted at the meeting of the Monetary Policy Committee;</p>      </li>      <li>        <p>the vote of each member of the Monetary Policy Committee, ascribed to such member, on the resolution adopted in the said meeting; and</p>      </li>      <li>        <p>the statement of each member of the Monetary Policy Committee under sub-section (11) of section 45ZI on the resolution adopted in the said meeting.</p>      </li>    </ol>    <p>4. The MPC reviewed the surveys conducted by the Reserve Bank to gauge consumer confidence, households’ inflation expectations, corporate sector performance, credit conditions, the outlook for the industrial, services and infrastructure sectors, and the projections of professional forecasters. The MPC also reviewed in detail staff’s macroeconomic projections, and alternative scenarios around various risks to the outlook. Drawing on the above and after extensive discussions on the stance of monetary policy, the MPC adopted the resolution that is set out below.</p>    <p class="head">Resolution</p>    <p>5. On the basis of an assessment of the current and evolving macroeconomic situation, the Monetary Policy Committee (MPC) at its meeting today decided to:</p>    <ul>      <li>reduce the policy repo rate under the liquidity adjustment facility (LAF) by 35 basis points (bps) from 5.75 per cent to 5.40 per cent with immediate effect.</li>    </ul>    <p>Consequently, the reverse repo rate under the LAF stands revised to 5.15 per cent, and the marginal standing facility (MSF) rate and the Bank Rate to 5.65 per cent.</p>    <ul>      <li>The MPC also decided to maintain the accommodative stance of monetary policy.</li>    </ul>    <p>These decisions are in consonance with the objective of achieving the medium-term target for consumer price index (CPI) inflation of 4 per cent within a band of +/- 2 per cent, while supporting growth.</p>    <p>The main considerations underlying the decision are set out in the statement below.</p>    <p class="head">Assessment</p>    <p>Global Economy</p>    <p>6. Global economic activity has slowed down since the meeting of the MPC in June 2019, amidst elevated trade tensions and geo-political uncertainty. Among advanced economies (AEs), GDP growth in the US decelerated in Q2:2019 on weak business fixed investment. In the Euro area too, GDP growth moderated in Q2 on worsening external conditions. Economic activity in the UK was subdued in Q2 with waning consumer confidence on account of Brexit related uncertainty and weak industrial production. In Japan, available data on industrial production and consumer confidence suggest that growth is likely to be muted in Q2.</p>    <p>7. Economic activity remained weak in major emerging market economies (EMEs), pulled down mainly by slowing external demand. The Chinese economy decelerated to a multi-year low in Q2, while in Russia subdued economic activity in Q1 continued into Q2 on slowing exports and retail sales. In Brazil, the economy is struggling to gain momentum after contracting in Q1 on weak service sector activity and declining industrial production. Economic activity in South Africa appears to be losing pace in Q2 as the manufacturing purchasing managers’ index (PMI) contracted for the sixth month in succession in June and business confidence remained weak.</p>    <p>8. Crude oil prices fell sharply in mid-May on excess supplies from an increase in non-OPEC production, combined with a further weakening of demand. Consequently, extension of OPEC production cuts in early July did not have much impact on prices. Gold prices have risen sharply since the last week of May, propelled by increased safe haven demand amidst rising downside risks to growth and a worsening geo-political situation. Inflation remained benign in major advanced and emerging market economies.</p>    <p>9. Financial markets were driven by the monetary policy stances of major central banks and intensifying geo-political tensions. In the US, the equity market recovered most of the losses suffered in May, boosted by dovish guidance by the US Fed and some transient respite in trade tensions with China. EM stocks lagged behind their developed market counterparts, mainly reflecting the weak performance of Chinese and South Korean stocks. Bond yields in the US, which were already trading with a softening bias on increased probability of policy rate cuts, fell markedly in early August on escalation of trade tensions. Bond yields in some more member countries in the Euro area moved into negative territory as expectations of more accommodative monetary policy by the European Central Bank gained traction. In EMEs, bond yields edged lower on more accommodative guidance by systemic central banks. In currency markets, the US dollar weakened against major currencies in June on dovish guidance by the US Fed but appreciated in July. EME currencies, which traded with an appreciating bias in July, depreciated in early August on escalation of trade tensions.</p>    <p>Domestic Economy</p>    <p>10. On the domestic front, the south-west monsoon gained intensity and spread with the cumulative rainfall 6 per cent below the long-period average (LPA) up to August 6, 2019. In terms of its spatial distribution, 25 of the 36 sub-divisions received normal or excess rainfall as against 28 sub-divisions last year. The total area sown under kharif crops was 6.6 per cent lower as on August 2 than a year ago. The live storage in major reservoirs on August 1 was at 33 per cent of the full reservoir level as compared with 45 per cent a year ago. Rainfall during the second half of the season (August-September) has been forecast to be normal by the India Meteorological Department (IMD).</p>    <p>11. Industrial growth, measured by the index of industrial production (IIP), moderated in May 2019, pulled down by manufacturing and mining even as electricity generation picked up on strong demand. In terms of the use-based classification, the production of capital goods and consumer durables decelerated. However, consumer non-durables accelerated for the third consecutive month in May. The growth in the index of eight core industries decelerated in June, dragged down by a contraction in petroleum refinery products, crude oil, natural gas and cement. Capacity utilisation (CU) in the manufacturing sector, measured by the order books, inventory and capacity utilisation survey (OBICUS) of the Reserve Bank rose marginally to 76.1 per cent in Q4:2018-19 from 75.9 per cent in Q3; seasonally adjusted CU, however, fell to 74.5 per cent in Q4 from 75.6 per cent in Q3. The Reserve Bank’s business assessment index (BAI) for Q1:2019-20 improved marginally, supported by a modest recovery in profit margins of the surveyed firms even as production and order books slowed. The manufacturing PMI rose to 52.5 in July from 52.1 in June, underpinned by a pick-up in production, higher new orders and optimism on demand conditions in the year ahead.</p>    <p>12. High frequency indicators of services sector activity for May-June present a mixed picture. Tractor and motorcycle sales – indicators of rural demand – continued to contract. Amongst indicators of urban demand, passenger vehicle sales contracted for the eighth consecutive month in June; however, domestic air passenger traffic growth turned positive in June after three consecutive months of contraction. Commercial vehicle sales slowed down even after adjusting for base effects. Construction activity indicators slackened, with contraction in cement production and slower growth in finished steel consumption in June. Import of capital goods – a key indicator of investment activity – contracted in June. The services PMI expanded to 53.8 in July from 49.6 in June on increase in new business activity, new export orders and employment.</p>    <p>13. Retail inflation, measured by y-o-y change in the CPI, edged up to 3.2 per cent in June from 3.0 per cent in April-May, driven by food inflation, even as fuel inflation and CPI inflation excluding food and fuel moderated.</p>    <p>14. Inflation in the food group rose to 2.4 per cent in June from 2.0 per cent in May and 1.4 per cent in April, caused by a sharp pick up in prices of meat and fish, pulses and vegetables. Inflation also edged up in cereals, milk, spices and prepared meals. However, inflation in eggs and non-alcoholic beverages softened. Prices of fruits, and sugar and confectionery remained in deflation in June.</p>    <p>15. Inflation in the fuel and light group moderated in June, with electricity moving into deflation. Fuels such as firewood and chips, and dung cake have been in deflation from April. Inflation in liquified petroleum gas (LPG) and subsidised kerosene prices, however, remained elevated.</p>    <p>16. CPI inflation excluding food and fuel fell by 50 basis points to 4.1 per cent in May from 4.6 per cent in April, and remained unchanged in June. The softness in inflation in this category was broad-based across clothing and footwear; household goods and services; transport and communication; and recreation and amusement. Housing inflation remained unchanged over the last three months. Despite some moderation, inflation in the health sub-group remained elevated. Inflation in personal care and effects edged up in June due to a resurgence in gold prices.</p>    <p>17. Inflation expectations of households remained unchanged in the July 2019 round of the Reserve Bank’s survey for the three months ahead horizon as compared with the previous round, but they moderated by 20 basis points for the one year ahead horizon. Input cost pressures from prices of agricultural and industrial raw materials continued to ease in May and June. Nominal growth in rural wages was muted, while growth in staff costs in the manufacturing sector eased in Q1. Manufacturing firms participating in the Reserve Bank’s industrial outlook survey expect input cost pressures to soften on account of lower raw material costs in Q2.</p>    <p>18. Liquidity in the system was in large surplus in June-July 2019 due to (i) return of currency to the banking system; (ii) drawdown of excess cash reserve ratio (CRR) balances by banks; (iii) open market operation (OMO) purchase auctions; and (iv) the Reserve Bank’s foreign exchange market operations. The Reserve Bank absorbed liquidity of ₹51,710 crore in June, ₹1,30,931 crore in July and ₹2,04,921 crore in August (up to August 6, 2019) on a daily net average basis under the LAF. Two OMO purchase auctions amounting to ₹27,500 crore were conducted in June, thereby injecting durable liquidity into the system. The weighted average call money rate (WACR) – the operating target of monetary policy – was aligned with the policy repo rate in June, but it traded below the policy repo rate on a daily average basis by 14 bps in July and 17 bps in August (up to August 6, 2019).</p>    <p>19. The transmission of policy repo rate cuts to the weighted average lending rates (WALRs) on fresh rupee loans of banks has improved marginally since the last meeting of the MPC. Overall, banks reduced their WALR on fresh rupee loans by 29 bps during the current easing phase so far (February-June 2019).</p>    <p>20. Merchandise exports contracted in June 2019, weighed down by the subdued performance of gems and jewellery, petroleum products, rice, engineering goods and cotton. After a modest increase in May, imports also contracted in June, impacted by falling prices of petroleum products and reduced imports of pearls and precious stones, transport equipment, machinery, metalliferous ores, chemicals and fertilisers. As the fall in imports was larger than that of exports, the trade deficit declined modestly during May-June on a y-o-y basis. Provisional data suggest a sequential decline in net services exports in May 2019. On the financing side, net foreign direct investment flows moderated to US$ 6.8 billion in April-May 2019 from US$ 7.9 billion a year ago. Net foreign portfolio investment (FPI) flows in the domestic capital market amounted to US$ 2.3 billion during the current financial year so far (up to August 5, 2019) as against net outflows of US$ 8.5 billion in the same period last year. India’s foreign exchange reserves were at US$ 429.0 billion on August 2, 2019 – an increase of US$ 16.1 billion over end-March 2019.</p>    <p class="head">Outlook</p>    <p>21. In the second bi-monthly monetary policy resolution of June 2019, CPI inflation was projected at 3.0-3.1 per cent for H1:2019-20 and 3.4-3.7 per cent for H2:2019-20, with risks broadly balanced. The actual headline inflation outcome for Q1:2019-20 at 3.1 per cent was in alignment with these projections.</p>    <p>22. The baseline inflation trajectory for the next four quarters will be shaped by several factors. First, the uptick in food inflation may be sustained by price pressures in vegetables and pulses as more recent data suggest. Uneven spatial and temporal distribution of monsoon could exert some upward pressure on food items, though this risk is likely to be mitigated by the recent catch up in rainfall. Second, despite excess supply conditions, crude oil prices may likely remain volatile due to geo-political tensions in the Middle-East. Third, the outlook for CPI inflation excluding food and fuel remains soft. Manufacturing firms participating in the industrial outlook survey expect output prices to ease in Q2. Fourth, one year ahead inflation expectations of households polled by the Reserve Bank have moderated. Taking into consideration these factors and the impact of recent policy rate cuts, the path of CPI inflation is projected at 3.1 per cent for Q2:2019-20 and 3.5-3.7 per cent for H2:2019-20, with risks evenly balanced. CPI inflation for Q1:2020-21 is projected at 3.6 per cent (<a href="#CH1" class="links">Chart 1</a>).</p>    <p>23. In the MPC’s June resolution, real GDP growth for 2019-20 was projected at 7.0 per cent – in the range of 6.4-6.7 per cent for H1:2019-20 and 7.2-7.5 per cent for H2 – with risks evenly balanced. Various high frequency indicators suggest weakening of both domestic and external demand conditions. The Business Expectations Index of the Reserve Bank’s industrial outlook survey shows muted expansion in demand conditions in Q2, although a decline in input costs augurs well for growth. The impact of monetary policy easing since February 2019 is also expected to support economic activity, going forward. Moreover, base effects will turn favourable in H2:2019-20. Taking into consideration the above factors, real GDP growth for 2019-20 is revised downwards from 7.0 per cent in the June policy to 6.9 per cent – in the range of 5.8-6.6 per cent for H1:2019-20 and 7.3-7.5 per cent for H2 – with risks somewhat tilted to the downside; GDP growth for Q1:2020-21 is projected at 7.4 per cent (<a href="#CH2" class="links">Chart 2</a>).</p>    <a id="CH1"></a><div align="center"><img src="https://www.rbi.org.in/scripts/images/PR489MPC210819_CH1.jpg" alt="CHART 1"></div><br>    <a id="CH2"></a><div align="center"><img src="https://www.rbi.org.in/scripts/images/PR489MPC210819_CH2.jpg" alt="CHART 2"></div>    <p>24. The MPC notes that inflation is currently projected to remain within the target over a 12-month ahead horizon. Since the last policy, domestic economic activity continues to be weak, with the global slowdown and escalating trade tensions posing downside risks. Private consumption, the mainstay of aggregate demand, and investment activity remain sluggish. Even as past rate cuts are being gradually transmitted to the real economy, the benign inflation outlook provides headroom for policy action to close the negative output gap. Addressing growth concerns by boosting aggregate demand, especially private investment, assumes the highest priority at this juncture while remaining consistent with the inflation mandate.</p>    <p>25. All members of the MPC unanimously voted to reduce the policy repo rate and to maintain the accommodative stance of monetary policy.</p>    <p>Four members (Dr. Ravindra H. Dholakia, Dr. Michael Debabrata Patra, Shri Bibhu Prasad Kanungo and Shri Shaktikanta Das) voted to reduce the policy repo rate by 35 basis points, while two members (Dr. Chetan Ghate and Dr. Pami Dua) voted to reduce the policy repo rate by 25 basis points.</p>    <p>26. The minutes of the MPC’s meeting will be published by August 21, 2019.</p>    <p>27. The next meeting of the MPC is scheduled during October 1, 3 and 4, 2019.</p>    <table width="70%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">      <tr>        <td colspan="3" align="center" class="head">Voting on the Resolution to reduce the policy repo rate</td>        </tr>      <tr class="head">        <td width="37%" align="center">Member</td>        <td width="19%" align="center">Vote</td>        <td width="44%" align="center">Magnitude of policy repo rate reduction (basis points)</td>      </tr>      <tr>        <td>Dr. Chetan Ghate</td>        <td align="center">Yes</td>        <td align="center">25</td>      </tr>      <tr>        <td>Dr. Pami Dua</td>        <td align="center">Yes</td>        <td align="center">25</td>      </tr>      <tr>        <td>Dr. Ravindra H. Dholakia</td>        <td align="center">Yes</td>        <td align="center">35</td>      </tr>      <tr>        <td>Dr. Michael Debabrata Patra</td>        <td align="center">Yes</td>        <td align="center">35</td>      </tr>      <tr>        <td>Shri Bibhu Prasad Kanungo</td>        <td align="center">Yes</td>        <td align="center">35</td>      </tr>      <tr>        <td>Shri Shaktikanta Das</td>        <td align="center">Yes</td>        <td align="center">35</td>      </tr>    </table>    <p class="head">Statement by Dr. Chetan Ghate</p>    <p>28. Since the last review, while there has been no change in the three month ahead inflation expectations of households (7.6%), there has been a decline of 20 bps in the level of one year ahead inflationary expectations (to 7.9%). Households’ current perception of inflation also shows no change at (6.6%). What is noteworthy is that the proportion of respondents (both in the three month and one year buckets) expecting inflation to be less than 6% remains high. The moderation in the one year ahead level of inflationary expectations has happened in spite of rising food inflation in the past couple of months suggesting better anchoring of inflationary expectations.</p>    <p>29. Benign inflation conditions continue to be manifested in CPI-headline (3.2% in June) although it edged up marginally from 3.0% in May. Average inflation in Q1 FY 19-20 (3.1%) is more or less in line with RBI projections made in June (3 percent).</p>    <p>30. Food inflation however has inched up for the seventh consecutive month in June, and food momentum has picked up in April-June. As mentioned in the last Statement, I will remain watchful of how strong the spillovers are from a cyclical seasonal movement (in certain food sub-groups such as vegetables). The realization of such risks could eliminate the “inflation shortfall” currently being projected relative to the medium run target of 4%.</p>    <p>31. In contrast to food inflation, there has been a moderation in inflation ex food and fuel, which continues to be flat at 4.1% in June. The sequential momentum in inflation excluding food and fuel also remains weak. I expect the pick up in economic growth however to put a “floor” on inflation ex food and fuel.</p>    <p>32. Reflecting benign current and one year ahead inflation conditions in the last several months, the MPC has cut the policy rate by 75 bps (between February 2019 – June 2019) to close the output gap. I will call this our level policy. Because of previous downward revisions in our inflation and growth projections, our change in stance (in June to accommodative from neutral), and the tone of our resolution and minutes, there has also been a substantial flattening and shifting down of the yield curve. I will call this our slope policy. For instance, the 10 year government bond yield on July 22, 2019 was 6.42 per cent compared to 7.29 per cent on May 20, 2019. Likewise, the 91-day T-Bill rate on July 22 was 5.72% per cent compared to 6.33% per cent on May 20, 2019. Yield spreads on 5 year AAA rated corporate bonds over the 5 year G-Sec yield however increased during mid June and have remained high since then reflecting liquidity problems faced by a few players in the NBFC sector. Taken in unison, our level policy and slope policy already reflect substantial financial accommodation to address the sharp decline in economic growth (from 8.0% in Q1 to 5.8% in Q4) witnessed through FY 2019.</p>    <p>33. I should add that the MPC has enacted both “insurance-cuts” (to address current and future downside risks to growth) and “data-dependent” cuts (reflecting the evolving growth-inflation risk picture) in the February-June window.</p>    <p>34. The question then is: what incremental information since the last review warrants a need for further accommodation?</p>    <p>35. There are a few considerations here.</p>    <p>36. On the external front, growth in the global economy remains tepid. Trade tensions have worsened leading to some loss in our net export growth.</p>    <p>37. Domestically, a variety of growth indicators have weakened further.</p>    <p>38. Based on a sample of 843 manufacturing companies, the seasonally adjusted capacity utilization has weakened to 74.5%, which is marginally lower than the long term average and the last few readings. Demand conditions in the manufacturing sector – based on the Reserve Bank’s analysis of early corporate results of listed companies – weakened in nominal terms in Q1: 2019-2020 relative to Q4: 2018-2019. Consumer driven industries also exhibit sluggish demand, with a piling up of inventories.</p>    <p>39. After the March 2019 surge in consumer confidence, this index has declined thereafter with the current situation index back in pessimistic territory. The Reserve Bank’s Business Expectation Index (BEI) expects to lose traction in Q2 2019:2020. IIP growth moderated to 3.1% in May compared to 4.3%. On a positive side though, consumer durable growth moved into positive territory (0.1%); capital goods also moved into positive territory (2.3%); while non durables increased by 7.7%. The output gap has also opened further up since the last review.</p>    <p>40. What is telling is that large swings in the Indian business cycle are still not a thing of the past, despite the adoption of inflation targeting in India.</p>    <p>41. I continue to worry that fiscal imbalances embodied in our large public sector borrowing requirement (roughly 8-9% of GDP) will lead to detrimental outcomes for the economy. While a fiscal glide path should be seen as a limit, once in place, it becomes a target. Convergence to the limit happens, and a form of “creative accounting” kicks in. Going forward, policy coordination between monetary and fiscal policy will be crucial for a healthier and more durable growth-inflation mix in the economy. For instance, if agents in the economy expect that the government will disregard the level of debt but the central bank follows the Taylor principle (i.e., insists that inflation is not allowed to rise), then the economy can go through a spiral of lower output, higher inflation, and higher debt.</p>    <p>42. I will carefully watch the evolving growth-inflation risk picture. Estimates of economic growth in India have unfortunately been subject to a fair degree of <a name="_Hlk16852921">floccinaucinihilipilification</a>. Notwithstanding this, growth is likely to pick up from Q2-Q3: 2019-2020.</p>    <p>43. It should also be highlighted that there has been inadequate monetary transmission given the quantum of past rate cuts: the WALR on fresh rupee loans in the banking system has come down by only 29 bps despite the MPC cutting rates by 75 bps in the February-June window. By a large cut (35 bps) I feel we will be burning through monetary policy space without much to show for it. While the real economy needs some support, we should wait for more transmission to happen.</p>    <p>44. Given the evolving growth-inflation risk picture, monetary policy should be used judiciously.</p>    <p>45. I vote to reduce the policy rate by 25 bps. I also vote to retain the stance as accommodative.</p>    <p class="head">Statement by Dr. Pami Dua</p>    <p>46. Headline inflation, measured by CPI inflation, rose to 3.2% in June 2019 from 3% in May. Food inflation also increased to 2.4% in June from 2% in the previous month, while CPI inflation excluding food and fuel moderated to 4.1%. Results from surveys provide mixed signals. Inflation expectations of households, as captured through RBI’s Inflation Expectations Survey of Households, remained unchanged from the last round in May for the three-month-ahead horizon but fell by 20 basis points for the one-year-ahead horizon. At the same time, the Industrial Outlook Survey (IOS) showed an expectation of easing of input cost pressures for Q2:2019-20. Upside risks to inflation include continuation of the uptick in food price inflation, uncertainties relating to monsoon, and volatility in international oil prices.</p>    <p>47. Industrial growth, as measured by the index of industrial production, moderated in May to 3.1%, down from 4.3% in the previous month, with manufacturing dropping to 2.5% from 4% and mining slowing to 3.2% from 5.1%. Electricity production, however, grew by 7.4%, up from 6% in April. On the basis of the use-based classification, growth in capital goods, intermediate and primary goods, and infrastructure/construction slowed in the month of May. Consumer durables also decelerated while consumer non-durables accelerated for the third consecutive month. High frequency indicators of rural demand – tractor and motorcycle sales – and of urban demand – passenger vehicle sales – continued to contract. Growth in the index of eight core industries fell to 0.2% in June due to a contraction in crude oil, cement, natural gas and petroleum refinery products.</p>    <p>48. Meanwhile, the manufacturing Purchasing Managers’ Index increased marginally in July due to an expansion in output, new orders and optimism on demand conditions. The services PMI also grew in July. RBI’s Business Expectations Index of the Industrial Outlook Survey for manufacturing showed modest softening in Q2:2019-20. The Order Books, Inventory and Capacity Utilisation Survey (OBICUS) conducted by RBI suggests a rise in capacity utilisation to 76.1% in Q4:2018-19, but a fall in the seasonally adjusted capacity utilisation to 74.5% in Q4 from 75.6% in Q3. RBI’s Consumer Confidence Indices – Current Situation Index and Future Expectations Index – reflect a drop in the July round compared to the previous May round, implying lower current activity and a less optimistic outlook. On the trade front, there was a broad based fall in exports (-9.7%) and imports (-9.1%) in June 2019, with import of capital goods dropping by 7.7%.</p>    <p>49. Looking forward, Indian exports growth prospects are fading, according to the Indian Leading Exports Index of the Economic Cycle Research Institute (ECRI). This is consistent with the worsening global industrial outlook underscored by ECRI’s Global Leading Manufacturing Index. Further, growth in ECRI’s U.S. Leading Manufacturing Index has dropped back to December’s seven year low. Growth prospects for U.S. consumer spending are also weakening. Further, ECRI’s U.S. Future Inflation Gauge remains in a cyclical downswing, indicating that the inflation cycle downturn that began in mid-2018 is poised to persist.</p>    <p>50. Further, concerns regarding the global slowdown and the trade tensions between U.S. and China still persist. The monetary policy stance of major central banks has recently been more dovish, tending towards easing of rates. On the domestic front, economic activity has softened due to muted consumption and investment activity, and inflation is benign. While considerable liquidity easing has already occurred and cumulative rate cuts of 75 basis points have been undertaken in the last three MPC meetings (between February and June 2019), along with a change in stance in June from neutral to accommodative, there is still policy space for a further cut in the policy rate, given the weak global and domestic economic scenario and a benign inflation outlook.</p>    <p>51. The weighted average call money rate (WACR) has remained broadly aligned with the policy rate, indicating transmission of the reduction in the policy rate. Policy rate reductions of 75 basis points to other money market rates and G-sec yield have also transmitted fully.</p>    <p>52. At the same time, though the transmission of the policy rate cuts to the weighted average lending rate (WALR) on fresh loans of banks has improved from 21 basis points in February and March to 29 basis points during February to June, it was partial, possibly due to transmission lags associated with monetary policy. Nevertheless, the significant monetary policy easing since February 2019, along with surplus liquidity, are likely to enable more transmission to lending rates, and eventually to the real economy. Further, in view of the shadow banking stress, the importance of surplus liquidity has increased. In this regard, measures taken by the government and the RBI to encourage flow of credit to shadow banks are important confidence building steps.</p>    <p>53. It is also important to recognize that, while monetary policy can impact cyclical factors, it has its limitations with respect to significantly impacting structural factors. Therefore, investment-focused fiscal policy and active continuation of structural reforms are imperative at this juncture to complement the already substantial easing that has been delivered since February 2019. In this context, the directional shift in the Budget towards a lower fiscal deficit target may also contribute towards lowering the cost of capital and boosting investment driven growth.</p>    <p>54. Overall, given that the headline inflation is projected to remain below target in 2019-20, I vote for a pre-emptive rate cut of 25 basis points to enhance consumer confidence and improve investor sentiment. On a cumulative basis, this denotes a policy rate cut of 100 basis points since February 2019, which is sufficient at this point in time. I also vote to keep the stance as accommodative.</p>    <p class="head">Statement by Dr. Ravindra H. Dholakia</p>    <p>55. After the last meeting of MPC in June 2019, several important events have occurred. Inflation readings for May and June 2019 were almost as per the RBI projections. While the Economic Survey 2018-19 provided a growth assessment very similar to the one by RBI, the Union Budget 2019-20 assumed a substantially higher growth rate for the current fiscal year. Monsoon is likely to be normal. Tariff war tensions have further escalated. Oil prices have continued fluctuating within the range I had mentioned in my earlier statements. Growth impulses are, however, weak on the whole and not significantly picking up for substantial revival. It is well recognized in the literature and reiterated by the Economic Survey 2018-19 that investment is a primary driver for economic growth and employment creation. In order to boost investment activities, positive sentiments and business-conducive environment need to be enhanced. It requires carrying out several economic reform measures in the land and labour markets, tariffs of electricity and other resources, and taxation of income and goods and services, besides urgently correcting prevailing high real interest rates in India. While most of these measures are not within the purview of the monetary policy, correction of high real interest rates to a certain extent is. Since I do not see any major threat to inflation in the foreseeable future, I would like to vote for a 35 bps cut in the policy repo rate to correct high real interest rates in order to enhance investment sentiments and revive growth impulses. More specific reasons for my vote are as follows:</p>    <ol type="i">      <li>        <p>RBI surveys have found that the corporates are now investing more in the financial assets than in the physical assets. Thus, they are turning savers rather than investors. This provides indirect evidence of the adverse impact of high real interest rates prevailing in the economy. Economic reform measures would be more effective if the necessary incentives in terms of costs are there.</p>      </li>      <li>        <p>Fiscal slippage is not a matter of serious concern for the rest of the year, because the Union Budget has maintained the target given in the fiscal consolidation path and the state budgets put together are also not likely to show any serious divergence from the path.</p>      </li>      <li>        <p>The fiscal policy as indicated by the Union Budget 2019-20 on the contrary is on a tighter side rather than expansionary side. The budgeted fiscal deficit this year and projected for the next two years in the medium term strategy paper are very much on the fiscal consolidation path notwithstanding current slowdown and emergence of substantial negative output gap. As I had argued in my statement in the previous MPC meeting, adhering to the fiscal deficit target during a downturn of the business cycle amounts to a tight fiscal policy. It is also corroborated by the increased taxation and maintaining expenditure relative to GDP in the budget. The monetary policy has to, therefore, do its bit to provide the boost to the economy however short-lived it may be, because currently inflation does not appear to be a concern in the next 3-4 quarters at least.</p>      </li>      <li>        <p>Globally, central banks have not only been dovish in their stance but have also cut their policy rates.</p>      </li>      <li>        <p>Inflationary expectations one year ahead by households have been declining and the latest round shows about a 20 bps fall over the previous round. If one outlier city is excluded, the fall is much larger. Similarly the business expectations about headline CPI inflation one year ahead by the IIMA survey shows the expectation of about 3.7 percent, which is very close to the RBI prediction as well.</p>      </li>      <li>        <p>Thus, there is enough policy space to cut the policy repo rate to correct the high real interest rate in the economy. The transmission of the policy rate cuts in the current cycle is likely to take some time because of the lags involved on account of the nature of the banking business. However, under prevailing circumstances, the immediate transmission should be considered not so much in terms of the bank deposit and lending rates but more specific rates influencing new investments such as housing loans, vehicle loans and long term bonds. </p>      </li>    </ol>    <p>56. Given that there is a significant policy space to correct the real rate of interest and thereby helping the economic activities to recover, it is prudent in my opinion to cut the policy rate somewhat aggressively but cautiously keeping some space for future exigencies. As far as the general practice of taking 25 bps as a unit for cutting or raising the policy rate is concerned, there is no logic or scientific basis for it, particularly when we measure inflation rate, GDP growth rate, fiscal deficit percentage, etc. in single decimal. Ideally, there is a case for considering the unit to be 10 bps for cutting or raising the policy rate. I would, therefore, like to cut the policy rate by 40 bps, but I do not mind going with majority opinion of cutting the rate by 35 bps this time, and maintaining the accommodative stance.</p>    <p class="head">Statement by Dr. Michael Debabrata Patra</p>    <p>57. Since the MPC met in June, the macroeconomic outlook appears to have darkened, denting business and consumer confidence. This deterioration is getting reflected in inflation outcomes:</p>    <ol type="a">      <li>        <p>a pre-monsoon food price build-up was anticipated and it is tracking the seven-year average i.e., the history of the index, in spite of unfavourable base effects – this suggests that food prices are actually stabilising;</p>      </li>      <li>        <p>pressure points have opened up – pulses; dairy products; proteins; oils and fats – but there have been no unruly spikes; moreover, they fall in the remit of supply management policies, since they either reflect sectoral imbalances or cost push factors and nimble steps assume priority in order to prevent price pressures from accumulating;</p>      </li>      <li>        <p>the dynamics of inflation excluding food and fuel warrant concern, especially its broad-based and persisting softness because it seems to be mirroring the weakening of domestic demand. </p>      </li>    </ol>    <p>58. In terms of the technology of monetary policy, the intrinsic link between underlying inflation and the output gap is stark – the Phillips curve is alive and well in India, notwithstanding some recent loss of faith. This validates the policy actions and a shift in the stance since February 2019.</p>    <p>59. Turning to the state of the economy, virtually every indicator of activity is turning down. Global growth flattered in Q1 of 2019 only to deceive in Q2. Global trade is in contraction. In India, high frequency indicators have focused the narrative on the slowdown in investment, the silence of the animal spirits embodied in the flattening of capital goods production, the absolute decline in capital goods imports and the deceleration in construction activity. What is worrisome though is that other components of aggregate demand could be joining investment in the loss of speed. Private consumption, the bedrock of domestic demand (57 per cent of GDP), is losing momentum in both urban and rural areas. Meanwhile, the deceleration in external demand on account of trade and geopolitical tensions has muted exports and sunk imports into contraction. The fiscal stimulus from the 7th Pay Commission award and one rank one pension (OROP) is fading (0.9 per cent of GDP in 2017-18 and 0.3 per cent in 2018-19); this was expected as the stimulus was in the form of revenue expenditure and the revenue multiplier in India is less than unity.</p>    <p>60. The key issue is: what is the extent of the downturn? This is hard to decipher at this stage – indicators of global economic activity are flashing amber or red, but there is no recession. Yet, projections of growth are being repeatedly marked down. The number of central banks that have either eased monetary policy or are getting ready to do so has increased, and ‘insurance’ cuts are becoming visible.</p>    <p>61. In India, negative gaps have opened up in respect of both output and inflation, warranting an appropriate policy response. The issue is: how is the policy headroom to be used? Monetary policy has been proactive and front-loaded as the first line of defence. From here on, the space for monetary policy action has to be calibrated to the evolving situation, especially as the nature and depth of the slowdown is still unravelling and elbow room may be needed if it deepens. A more broad-sided response involving all levers of policy acquires the highest priority now. The overarching goal is to reinvigorate domestic demand and the time to do it is now.</p>    <p>62. On these considerations, I vote for a 35 basis points reduction in the policy rate while persevering with the accommodative stance of monetary policy.</p>    <p class="head">Statement by Shri Bibhu Prasad Kanungo</p>    <p>63. The inflation trajectory has evolved since the June 2019 policy on the expected lines. Among the components, food inflation has turned up, while inflation excluding food and fuel has shown distinct moderation. Reflecting the weak demand conditions as well as lower input costs, the CPI inflation, excluding food and fuel, has seen a moderation of around 100 bps since March 2019. This moderation is broad based. Food inflation on the other hand registered a sharp increase to 2.4 per cent in June from 0.7 per cent in March largely due to a pick-up in prices of vegetables and pulses. Significant inflation pressures continued in meat and fish. Headline CPI inflation in Q1:2019-20 averaged 3.1 per cent, which was close to RBI’s projection of 3.0 per cent made in the June 2019 policy. The three-month ahead inflation expectations of households based on the Reserve Bank’s survey have remained unchanged vis-à-vis the previous round, while one-year ahead inflation expectations have moderated by 20 bps.</p>    <p>64. Global growth has weakened, and several central banks have adopted more accommodative stance of monetary policy. Domestic growth is also slowing down. A worrisome aspect of the recent growth slowdown is the moderation in private consumption which constitutes the largest segment of aggregate demand. Rural demand indicators like tractor and motorcycle sales continued to contract in May-June. Urban demand indicators, like passenger vehicle sales, contracted for the eighth consecutive month in June. Commercial vehicle sales also contracted during June. Construction activity indicators weakened with contraction in cement production and slower growth in finished steel consumption in June. Import of capital goods – a key indicator of investment activity – contracted in June. Q1 growth has been projected to slow down to 5.8 per cent – the second consecutive quarter of less than six per cent growth. The Business Expectations Index of the Reserve Bank’s industrial outlook survey, however, shows some moderation in demand conditions in Q2.</p>    <p>65. Cumulative repo rate reduction of 75 bps effected since February 2019 has so far resulted in 29 bps reduction in weighted average lending rate (WALR) of banks on fresh rupee loans. This is considered inadequate even though the transmission is expected to improve, going forward.</p>    <p>66. The projected inflation path suggests that headline inflation is expected to remain below 4 per cent for the next four quarters up to Q1:2020-21. GDP growth projection for 2019-20 has been successively revised down from 7.4 per cent (in February 2019) to 7.2 per cent (in April 2019), 7.0 per cent (in June 2019) and to 6.9 per cent in the 3rd bi-monthly policy of August 2019.</p>    <p>67. Given the benign inflation outlook that is expected to continue for the rest of the year and up to Q1:2020-21, I am of the view that there is a need for monetary policy action to support economic activity and close the output gap. I, therefore, vote for a reduction in the policy repo rate by 35 bps and also keep the stance of monetary policy as accommodative.</p>    <p class="head">Statement by Shri Shaktikanta Das</p>    <p>68. Economic activity has shown signs of further weakening since the last MPC meeting in June 2019. Several high frequency indicators have either slowed down or contracted in recent months. Headline CPI inflation has evolved broadly along the projected lines; CPI inflation excluding food and fuel continued to soften, while food inflation has edged up. Global economic activity has been losing pace, weighed down by intensifying trade tensions and geo-political uncertainty. GDP numbers for Q2:2019 in respect of some major advanced and emerging market economies have been subdued. Central banks in both advanced and emerging market economies have been increasingly resorting to more accommodative stances of monetary policy.</p>    <p>69. Headline CPI inflation rose to 3.2 per cent in June 2019 from 3.0 per cent in April-May. Food inflation rose by 100 bps in May-June, driven mainly by a pick-up in prices of meat & fish, pulses and vegetables. On the other hand, CPI inflation excluding food and fuel moderated for the fourth consecutive month to 4.1 per cent in June, caused by a broad-based softening across groups, particularly clothing and footwear; household goods and services; and transport and communication. This reflects subdued input cost pressures relating to both agriculture and industrial raw materials and further weakening of domestic demand conditions. Inflation in the fuel and light group also decelerated in May-June, despite the uptick in liquified petroleum gas (LPG) prices. Inflation expectations of households in the July 2019 round of the Reserve Bank’s survey moderated further by 20 basis points for the 1-year ahead horizon, though they remained unchanged for the 3-month ahead horizon. Cumulatively, inflation expectations of households have declined significantly by 180 basis points for the 3-month horizon and 190 basis points for the 1-year horizon in last five survey rounds. This suggests that inflation expectations of households are gradually getting better anchored. Overall, the inflation situation remains benign. CPI inflation has been projected at 3.1 per cent for Q2:2019-20 and 3.5-3.7 per cent for H2:2019-20, with risks evenly balanced. CPI inflation for Q1:2020-21 has been projected at 3.6 per cent.</p>    <p>70. Turning to economic activity, total area sown under kharif crops was 6.6 per cent lower as on August 2 than a year ago, with significant catching up taking place in recent weeks. Industrial activity continued to be weak in May 2019, impacted mainly by manufacturing and mining. In terms of use-based classification, growth of capital goods and consumer durables decelerated. However, growth of non-durables accelerated in May. The index of eight core industries decelerated in June. Merchandise exports and imports contracted in June. Seasonally adjusted capacity utilisation moderated to 74.5 per cent in Q4:2018-19 from 75.6 per cent in Q3. Based on early results of listed companies, demand conditions in the manufacturing sector remained weak in Q1:2019-20, with sales of manufacturing companies contracting by 2.4 per cent (y-o-y), caused mainly by petroleum, automobile and iron and steel companies. On the positive side, the Reserve Bank’s business assessment index (BAI) for Q1:2019-20 improved marginally. The manufacturing PMI rose in July, supported by a pick-up in production, higher new orders and optimism on demand conditions in the year ahead.</p>    <p>71. Several high frequency indicators for May-June also suggest weakening of services sector activity. Two key indicators of rural demand, viz., tractor and motorcycle sales, continued to contract. Among indicators of urban demand, while passenger vehicle sales contracted in June, domestic air passenger traffic growth turned positive in June after three consecutive months of contraction. Two key indicators of construction activity, viz., cement production and steel consumption, also contracted/slowed down. Import of capital goods contracted in June, suggesting weakening of investment activity. The services PMI moved into expansion zone in July on increase in new business activity, new export orders and employment.</p>    <p>72. GDP growth for 2019-20 has been revised downwards from 7.0 per cent in the June policy to 6.9 per cent – in the range of 5.8-6.6 per cent for H1:2019-20 and 7.3-7.5 per cent for H2 – with some downside risks. GDP growth for Q1:2020-21 is projected at 7.4 per cent. The impact of monetary policy easing since February 2019 and favourable base effects are expected to support GDP growth, especially in the second half of the year.</p>    <p>73. Liquidity in the system has been in surplus since June 2019 with the surplus absorbed under the reverse repo window of the Reserve Bank being almost `2.0 lakh crore on August 6, 2019. The past policy rate cuts have been fully transmitted to financial markets. The weighted average lending rate (WALR) on fresh rupee loans of banks has declined by 29 bps during the current easing phase so far (February-June 2019). The transmission to bank lending rates has been inadequate, though it is expected to improve in the coming weeks and months. Credit growth has slowed down somewhat in the recent period; credit to micro, small and medium enterprises, in particular, remains anaemic.</p>    <p>74. Overall, there is clear evidence of domestic demand slowing down further. Investment activity has been losing traction. The weakening of the global economy in the face of intensifying trade and geo-political tensions has severely impacted India’s exports, which may further impact investment activity, going forward. Private consumption, which has been the mainstay of domestic demand, has also decelerated. The slowing down of domestic demand is also reflected in significant moderation in CPI inflation excluding food and fuel; and contraction in merchandise imports.</p>    <p>75. In view of weakening of domestic growth impulses and unsettled global macroeconomic environment, there is a need to bolster dwindling domestic demand and support investment activity, even as the impact of past three rate cuts is gradually working its way to the real economy. With headline inflation projected to remain within the target over the next one-year horizon, supporting domestic growth by further reducing interest rates needs to be given the utmost priority. Given the current and evolving inflation and growth scenario at this juncture, it can no longer be a business as usual approach. The economy needs a larger push. I am, therefore, of the view that a reduction in the policy repo rate by conventional 25 bps will be inadequate. On the other hand, a 50 bps rate cut might be excessive and indicate a knee jerk reaction. A policy rate adjustment of 25 bps or multiples thereof may not always be consistent with the evolving macroeconomic situation. Hence, at times it is apposite to calibrate the size of the conventional rate adjustment. Considering these aspects, I vote for reducing the policy repo rate by 35 basis points and for continuing with the accommodative stance of monetary policy. The calibration of the size of the rate cut is expected to reinforce and quicken the impact of (i) the past cumulative rate reduction of 75 basis points; (ii) change in the stance from neutral to accommodative; and (iii) injection of large surplus liquidity in the system.</p>    <p align="right"><span class="head">Yogesh Dayal</span><br>      Chief General Manager</p>    <p class="head">Press Release : 2019-2020/489</p></td>  </tr></table></font></td> </tr></table>
+                                </table>
+                            </div>
+                            <br />
+                            <div align="right">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid_1 archives alpha">
+                    <span id="DateSettree_lbltree"><div class="grid_subtree archives alpha" id="treeYearMonth_PR"><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2026">2026</a></h2><div class="accordionContent month" id="2026"><ul class="accordionlist"><li><a href="#" id="20260" onclick='GetYearMonth("2026","0")'>All Months</a></li><li><a href="#" id="20261" onclick='GetYearMonth("2026","1")'>January</a></li><li><a href="#" id="20262" onclick='GetYearMonth("2026","2")'>February</a></li><li><a href="#" id="20263" onclick='GetYearMonth("2026","3")'>March</a></li><li><a href="#" id="20264" onclick='GetYearMonth("2026","4")'>April</a></li><li><a href="#" id="20265" onclick='GetYearMonth("2026","5")'>May</a></li><li><a href="#" id="20266" onclick='GetYearMonth("2026","6")'>June</a></li><li><a href="#" id="20267" onclick='GetYearMonth("2026","7")'>July</a></li><li><a href="#" id="20268" onclick='GetYearMonth("2026","8")'>August</a></li><li><a href="#" id="20269" onclick='GetYearMonth("2026","9")'>September</a></li><li><a href="#" id="202610" onclick='GetYearMonth("2026","10")'>October</a></li><li><a href="#" id="202611" onclick='GetYearMonth("2026","11")'>November</a></li><li><a href="#" id="202612" onclick='GetYearMonth("2026","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2025">2025</a></h2><div class="accordionContent month" id="2025"><ul class="accordionlist"><li><a href="#" id="20250" onclick='GetYearMonth("2025","0")'>All Months</a></li><li><a href="#" id="20251" onclick='GetYearMonth("2025","1")'>January</a></li><li><a href="#" id="20252" onclick='GetYearMonth("2025","2")'>February</a></li><li><a href="#" id="20253" onclick='GetYearMonth("2025","3")'>March</a></li><li><a href="#" id="20254" onclick='GetYearMonth("2025","4")'>April</a></li><li><a href="#" id="20255" onclick='GetYearMonth("2025","5")'>May</a></li><li><a href="#" id="20256" onclick='GetYearMonth("2025","6")'>June</a></li><li><a href="#" id="20257" onclick='GetYearMonth("2025","7")'>July</a></li><li><a href="#" id="20258" onclick='GetYearMonth("2025","8")'>August</a></li><li><a href="#" id="20259" onclick='GetYearMonth("2025","9")'>September</a></li><li><a href="#" id="202510" onclick='GetYearMonth("2025","10")'>October</a></li><li><a href="#" id="202511" onclick='GetYearMonth("2025","11")'>November</a></li><li><a href="#" id="202512" onclick='GetYearMonth("2025","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2024">2024</a></h2><div class="accordionContent month" id="2024"><ul class="accordionlist"><li><a href="#" id="20240" onclick='GetYearMonth("2024","0")'>All Months</a></li><li><a href="#" id="20241" onclick='GetYearMonth("2024","1")'>January</a></li><li><a href="#" id="20242" onclick='GetYearMonth("2024","2")'>February</a></li><li><a href="#" id="20243" onclick='GetYearMonth("2024","3")'>March</a></li><li><a href="#" id="20244" onclick='GetYearMonth("2024","4")'>April</a></li><li><a href="#" id="20245" onclick='GetYearMonth("2024","5")'>May</a></li><li><a href="#" id="20246" onclick='GetYearMonth("2024","6")'>June</a></li><li><a href="#" id="20247" onclick='GetYearMonth("2024","7")'>July</a></li><li><a href="#" id="20248" onclick='GetYearMonth("2024","8")'>August</a></li><li><a href="#" id="20249" onclick='GetYearMonth("2024","9")'>September</a></li><li><a href="#" id="202410" onclick='GetYearMonth("2024","10")'>October</a></li><li><a href="#" id="202411" onclick='GetYearMonth("2024","11")'>November</a></li><li><a href="#" id="202412" onclick='GetYearMonth("2024","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2023">2023</a></h2><div class="accordionContent month" id="2023"><ul class="accordionlist"><li><a href="#" id="20230" onclick='GetYearMonth("2023","0")'>All Months</a></li><li><a href="#" id="20231" onclick='GetYearMonth("2023","1")'>January</a></li><li><a href="#" id="20232" onclick='GetYearMonth("2023","2")'>February</a></li><li><a href="#" id="20233" onclick='GetYearMonth("2023","3")'>March</a></li><li><a href="#" id="20234" onclick='GetYearMonth("2023","4")'>April</a></li><li><a href="#" id="20235" onclick='GetYearMonth("2023","5")'>May</a></li><li><a href="#" id="20236" onclick='GetYearMonth("2023","6")'>June</a></li><li><a href="#" id="20237" onclick='GetYearMonth("2023","7")'>July</a></li><li><a href="#" id="20238" onclick='GetYearMonth("2023","8")'>August</a></li><li><a href="#" id="20239" onclick='GetYearMonth("2023","9")'>September</a></li><li><a href="#" id="202310" onclick='GetYearMonth("2023","10")'>October</a></li><li><a href="#" id="202311" onclick='GetYearMonth("2023","11")'>November</a></li><li><a href="#" id="202312" onclick='GetYearMonth("2023","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2022">2022</a></h2><div class="accordionContent month" id="2022"><ul class="accordionlist"><li><a href="#" id="20220" onclick='GetYearMonth("2022","0")'>All Months</a></li><li><a href="#" id="20221" onclick='GetYearMonth("2022","1")'>January</a></li><li><a href="#" id="20222" onclick='GetYearMonth("2022","2")'>February</a></li><li><a href="#" id="20223" onclick='GetYearMonth("2022","3")'>March</a></li><li><a href="#" id="20224" onclick='GetYearMonth("2022","4")'>April</a></li><li><a href="#" id="20225" onclick='GetYearMonth("2022","5")'>May</a></li><li><a href="#" id="20226" onclick='GetYearMonth("2022","6")'>June</a></li><li><a href="#" id="20227" onclick='GetYearMonth("2022","7")'>July</a></li><li><a href="#" id="20228" onclick='GetYearMonth("2022","8")'>August</a></li><li><a href="#" id="20229" onclick='GetYearMonth("2022","9")'>September</a></li><li><a href="#" id="202210" onclick='GetYearMonth("2022","10")'>October</a></li><li><a href="#" id="202211" onclick='GetYearMonth("2022","11")'>November</a></li><li><a href="#" id="202212" onclick='GetYearMonth("2022","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2021">2021</a></h2><div class="accordionContent month" id="2021"><ul class="accordionlist"><li><a href="#" id="20210" onclick='GetYearMonth("2021","0")'>All Months</a></li><li><a href="#" id="20211" onclick='GetYearMonth("2021","1")'>January</a></li><li><a href="#" id="20212" onclick='GetYearMonth("2021","2")'>February</a></li><li><a href="#" id="20213" onclick='GetYearMonth("2021","3")'>March</a></li><li><a href="#" id="20214" onclick='GetYearMonth("2021","4")'>April</a></li><li><a href="#" id="20215" onclick='GetYearMonth("2021","5")'>May</a></li><li><a href="#" id="20216" onclick='GetYearMonth("2021","6")'>June</a></li><li><a href="#" id="20217" onclick='GetYearMonth("2021","7")'>July</a></li><li><a href="#" id="20218" onclick='GetYearMonth("2021","8")'>August</a></li><li><a href="#" id="20219" onclick='GetYearMonth("2021","9")'>September</a></li><li><a href="#" id="202110" onclick='GetYearMonth("2021","10")'>October</a></li><li><a href="#" id="202111" onclick='GetYearMonth("2021","11")'>November</a></li><li><a href="#" id="202112" onclick='GetYearMonth("2021","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2020">2020</a></h2><div class="accordionContent month" id="2020"><ul class="accordionlist"><li><a href="#" id="20200" onclick='GetYearMonth("2020","0")'>All Months</a></li><li><a href="#" id="20201" onclick='GetYearMonth("2020","1")'>January</a></li><li><a href="#" id="20202" onclick='GetYearMonth("2020","2")'>February</a></li><li><a href="#" id="20203" onclick='GetYearMonth("2020","3")'>March</a></li><li><a href="#" id="20204" onclick='GetYearMonth("2020","4")'>April</a></li><li><a href="#" id="20205" onclick='GetYearMonth("2020","5")'>May</a></li><li><a href="#" id="20206" onclick='GetYearMonth("2020","6")'>June</a></li><li><a href="#" id="20207" onclick='GetYearMonth("2020","7")'>July</a></li><li><a href="#" id="20208" onclick='GetYearMonth("2020","8")'>August</a></li><li><a href="#" id="20209" onclick='GetYearMonth("2020","9")'>September</a></li><li><a href="#" id="202010" onclick='GetYearMonth("2020","10")'>October</a></li><li><a href="#" id="202011" onclick='GetYearMonth("2020","11")'>November</a></li><li><a href="#" id="202012" onclick='GetYearMonth("2020","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2019">2019</a></h2><div class="accordionContent month" id="2019"><ul class="accordionlist"><li><a href="#" id="20190" onclick='GetYearMonth("2019","0")'>All Months</a></li><li><a href="#" id="20191" onclick='GetYearMonth("2019","1")'>January</a></li><li><a href="#" id="20192" onclick='GetYearMonth("2019","2")'>February</a></li><li><a href="#" id="20193" onclick='GetYearMonth("2019","3")'>March</a></li><li><a href="#" id="20194" onclick='GetYearMonth("2019","4")'>April</a></li><li><a href="#" id="20195" onclick='GetYearMonth("2019","5")'>May</a></li><li><a href="#" id="20196" onclick='GetYearMonth("2019","6")'>June</a></li><li><a href="#" id="20197" onclick='GetYearMonth("2019","7")'>July</a></li><li><a href="#" id="20198" onclick='GetYearMonth("2019","8")'>August</a></li><li><a href="#" id="20199" onclick='GetYearMonth("2019","9")'>September</a></li><li><a href="#" id="201910" onclick='GetYearMonth("2019","10")'>October</a></li><li><a href="#" id="201911" onclick='GetYearMonth("2019","11")'>November</a></li><li><a href="#" id="201912" onclick='GetYearMonth("2019","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2018">2018</a></h2><div class="accordionContent month" id="2018"><ul class="accordionlist"><li><a href="#" id="20180" onclick='GetYearMonth("2018","0")'>All Months</a></li><li><a href="#" id="20181" onclick='GetYearMonth("2018","1")'>January</a></li><li><a href="#" id="20182" onclick='GetYearMonth("2018","2")'>February</a></li><li><a href="#" id="20183" onclick='GetYearMonth("2018","3")'>March</a></li><li><a href="#" id="20184" onclick='GetYearMonth("2018","4")'>April</a></li><li><a href="#" id="20185" onclick='GetYearMonth("2018","5")'>May</a></li><li><a href="#" id="20186" onclick='GetYearMonth("2018","6")'>June</a></li><li><a href="#" id="20187" onclick='GetYearMonth("2018","7")'>July</a></li><li><a href="#" id="20188" onclick='GetYearMonth("2018","8")'>August</a></li><li><a href="#" id="20189" onclick='GetYearMonth("2018","9")'>September</a></li><li><a href="#" id="201810" onclick='GetYearMonth("2018","10")'>October</a></li><li><a href="#" id="201811" onclick='GetYearMonth("2018","11")'>November</a></li><li><a href="#" id="201812" onclick='GetYearMonth("2018","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2017">2017</a></h2><div class="accordionContent month" id="2017"><ul class="accordionlist"><li><a href="#" id="20170" onclick='GetYearMonth("2017","0")'>All Months</a></li><li><a href="#" id="20171" onclick='GetYearMonth("2017","1")'>January</a></li><li><a href="#" id="20172" onclick='GetYearMonth("2017","2")'>February</a></li><li><a href="#" id="20173" onclick='GetYearMonth("2017","3")'>March</a></li><li><a href="#" id="20174" onclick='GetYearMonth("2017","4")'>April</a></li><li><a href="#" id="20175" onclick='GetYearMonth("2017","5")'>May</a></li><li><a href="#" id="20176" onclick='GetYearMonth("2017","6")'>June</a></li><li><a href="#" id="20177" onclick='GetYearMonth("2017","7")'>July</a></li><li><a href="#" id="20178" onclick='GetYearMonth("2017","8")'>August</a></li><li><a href="#" id="20179" onclick='GetYearMonth("2017","9")'>September</a></li><li><a href="#" id="201710" onclick='GetYearMonth("2017","10")'>October</a></li><li><a href="#" id="201711" onclick='GetYearMonth("2017","11")'>November</a></li><li><a href="#" id="201712" onclick='GetYearMonth("2017","12")'>December</a></li></ul></div><h2 class="year"><a href="javascript:void(0);" style="text-decoration:none;" id="divArchiveMain"  onclick="hideshow('divArchiveSub');" style="cursor: pointer;">Archives</a></h2><div  id="divArchiveSub" style="display: none;"><div class="grid_subtree archives alpha" id="treeYearMonth_PR"><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2016">2016</a></h2><div class="accordionContent month" id="2016"><ul class="accordionlist"><li><a href="#" id="20160" onclick='GetYearMonth("2016","0")'>All Months</a></li><li><a href="#" id="20161" onclick='GetYearMonth("2016","1")'>January</a></li><li><a href="#" id="20162" onclick='GetYearMonth("2016","2")'>February</a></li><li><a href="#" id="20163" onclick='GetYearMonth("2016","3")'>March</a></li><li><a href="#" id="20164" onclick='GetYearMonth("2016","4")'>April</a></li><li><a href="#" id="20165" onclick='GetYearMonth("2016","5")'>May</a></li><li><a href="#" id="20166" onclick='GetYearMonth("2016","6")'>June</a></li><li><a href="#" id="20167" onclick='GetYearMonth("2016","7")'>July</a></li><li><a href="#" id="20168" onclick='GetYearMonth("2016","8")'>August</a></li><li><a href="#" id="20169" onclick='GetYearMonth("2016","9")'>September</a></li><li><a href="#" id="201610" onclick='GetYearMonth("2016","10")'>October</a></li><li><a href="#" id="201611" onclick='GetYearMonth("2016","11")'>November</a></li><li><a href="#" id="201612" onclick='GetYearMonth("2016","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2015">2015</a></h2><div class="accordionContent month" id="2015"><ul class="accordionlist"><li><a href="#" id="20150" onclick='GetYearMonth("2015","0")'>All Months</a></li><li><a href="#" id="20151" onclick='GetYearMonth("2015","1")'>January</a></li><li><a href="#" id="20152" onclick='GetYearMonth("2015","2")'>February</a></li><li><a href="#" id="20153" onclick='GetYearMonth("2015","3")'>March</a></li><li><a href="#" id="20154" onclick='GetYearMonth("2015","4")'>April</a></li><li><a href="#" id="20155" onclick='GetYearMonth("2015","5")'>May</a></li><li><a href="#" id="20156" onclick='GetYearMonth("2015","6")'>June</a></li><li><a href="#" id="20157" onclick='GetYearMonth("2015","7")'>July</a></li><li><a href="#" id="20158" onclick='GetYearMonth("2015","8")'>August</a></li><li><a href="#" id="20159" onclick='GetYearMonth("2015","9")'>September</a></li><li><a href="#" id="201510" onclick='GetYearMonth("2015","10")'>October</a></li><li><a href="#" id="201511" onclick='GetYearMonth("2015","11")'>November</a></li><li><a href="#" id="201512" onclick='GetYearMonth("2015","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2014">2014</a></h2><div class="accordionContent month" id="2014"><ul class="accordionlist"><li><a href="#" id="20140" onclick='GetYearMonth("2014","0")'>All Months</a></li><li><a href="#" id="20141" onclick='GetYearMonth("2014","1")'>January</a></li><li><a href="#" id="20142" onclick='GetYearMonth("2014","2")'>February</a></li><li><a href="#" id="20143" onclick='GetYearMonth("2014","3")'>March</a></li><li><a href="#" id="20144" onclick='GetYearMonth("2014","4")'>April</a></li><li><a href="#" id="20145" onclick='GetYearMonth("2014","5")'>May</a></li><li><a href="#" id="20146" onclick='GetYearMonth("2014","6")'>June</a></li><li><a href="#" id="20147" onclick='GetYearMonth("2014","7")'>July</a></li><li><a href="#" id="20148" onclick='GetYearMonth("2014","8")'>August</a></li><li><a href="#" id="20149" onclick='GetYearMonth("2014","9")'>September</a></li><li><a href="#" id="201410" onclick='GetYearMonth("2014","10")'>October</a></li><li><a href="#" id="201411" onclick='GetYearMonth("2014","11")'>November</a></li><li><a href="#" id="201412" onclick='GetYearMonth("2014","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2013">2013</a></h2><div class="accordionContent month" id="2013"><ul class="accordionlist"><li><a href="#" id="20130" onclick='GetYearMonth("2013","0")'>All Months</a></li><li><a href="#" id="20131" onclick='GetYearMonth("2013","1")'>January</a></li><li><a href="#" id="20132" onclick='GetYearMonth("2013","2")'>February</a></li><li><a href="#" id="20133" onclick='GetYearMonth("2013","3")'>March</a></li><li><a href="#" id="20134" onclick='GetYearMonth("2013","4")'>April</a></li><li><a href="#" id="20135" onclick='GetYearMonth("2013","5")'>May</a></li><li><a href="#" id="20136" onclick='GetYearMonth("2013","6")'>June</a></li><li><a href="#" id="20137" onclick='GetYearMonth("2013","7")'>July</a></li><li><a href="#" id="20138" onclick='GetYearMonth("2013","8")'>August</a></li><li><a href="#" id="20139" onclick='GetYearMonth("2013","9")'>September</a></li><li><a href="#" id="201310" onclick='GetYearMonth("2013","10")'>October</a></li><li><a href="#" id="201311" onclick='GetYearMonth("2013","11")'>November</a></li><li><a href="#" id="201312" onclick='GetYearMonth("2013","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2012">2012</a></h2><div class="accordionContent month" id="2012"><ul class="accordionlist"><li><a href="#" id="20120" onclick='GetYearMonth("2012","0")'>All Months</a></li><li><a href="#" id="20121" onclick='GetYearMonth("2012","1")'>January</a></li><li><a href="#" id="20122" onclick='GetYearMonth("2012","2")'>February</a></li><li><a href="#" id="20123" onclick='GetYearMonth("2012","3")'>March</a></li><li><a href="#" id="20124" onclick='GetYearMonth("2012","4")'>April</a></li><li><a href="#" id="20125" onclick='GetYearMonth("2012","5")'>May</a></li><li><a href="#" id="20126" onclick='GetYearMonth("2012","6")'>June</a></li><li><a href="#" id="20127" onclick='GetYearMonth("2012","7")'>July</a></li><li><a href="#" id="20128" onclick='GetYearMonth("2012","8")'>August</a></li><li><a href="#" id="20129" onclick='GetYearMonth("2012","9")'>September</a></li><li><a href="#" id="201210" onclick='GetYearMonth("2012","10")'>October</a></li><li><a href="#" id="201211" onclick='GetYearMonth("2012","11")'>November</a></li><li><a href="#" id="201212" onclick='GetYearMonth("2012","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2011">2011</a></h2><div class="accordionContent month" id="2011"><ul class="accordionlist"><li><a href="#" id="20110" onclick='GetYearMonth("2011","0")'>All Months</a></li><li><a href="#" id="20111" onclick='GetYearMonth("2011","1")'>January</a></li><li><a href="#" id="20112" onclick='GetYearMonth("2011","2")'>February</a></li><li><a href="#" id="20113" onclick='GetYearMonth("2011","3")'>March</a></li><li><a href="#" id="20114" onclick='GetYearMonth("2011","4")'>April</a></li><li><a href="#" id="20115" onclick='GetYearMonth("2011","5")'>May</a></li><li><a href="#" id="20116" onclick='GetYearMonth("2011","6")'>June</a></li><li><a href="#" id="20117" onclick='GetYearMonth("2011","7")'>July</a></li><li><a href="#" id="20118" onclick='GetYearMonth("2011","8")'>August</a></li><li><a href="#" id="20119" onclick='GetYearMonth("2011","9")'>September</a></li><li><a href="#" id="201110" onclick='GetYearMonth("2011","10")'>October</a></li><li><a href="#" id="201111" onclick='GetYearMonth("2011","11")'>November</a></li><li><a href="#" id="201112" onclick='GetYearMonth("2011","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2010">2010</a></h2><div class="accordionContent month" id="2010"><ul class="accordionlist"><li><a href="#" id="20100" onclick='GetYearMonth("2010","0")'>All Months</a></li><li><a href="#" id="20101" onclick='GetYearMonth("2010","1")'>January</a></li><li><a href="#" id="20102" onclick='GetYearMonth("2010","2")'>February</a></li><li><a href="#" id="20103" onclick='GetYearMonth("2010","3")'>March</a></li><li><a href="#" id="20104" onclick='GetYearMonth("2010","4")'>April</a></li><li><a href="#" id="20105" onclick='GetYearMonth("2010","5")'>May</a></li><li><a href="#" id="20106" onclick='GetYearMonth("2010","6")'>June</a></li><li><a href="#" id="20107" onclick='GetYearMonth("2010","7")'>July</a></li><li><a href="#" id="20108" onclick='GetYearMonth("2010","8")'>August</a></li><li><a href="#" id="20109" onclick='GetYearMonth("2010","9")'>September</a></li><li><a href="#" id="201010" onclick='GetYearMonth("2010","10")'>October</a></li><li><a href="#" id="201011" onclick='GetYearMonth("2010","11")'>November</a></li><li><a href="#" id="201012" onclick='GetYearMonth("2010","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2009">2009</a></h2><div class="accordionContent month" id="2009"><ul class="accordionlist"><li><a href="#" id="20090" onclick='GetYearMonth("2009","0")'>All Months</a></li><li><a href="#" id="20091" onclick='GetYearMonth("2009","1")'>January</a></li><li><a href="#" id="20092" onclick='GetYearMonth("2009","2")'>February</a></li><li><a href="#" id="20093" onclick='GetYearMonth("2009","3")'>March</a></li><li><a href="#" id="20094" onclick='GetYearMonth("2009","4")'>April</a></li><li><a href="#" id="20095" onclick='GetYearMonth("2009","5")'>May</a></li><li><a href="#" id="20096" onclick='GetYearMonth("2009","6")'>June</a></li><li><a href="#" id="20097" onclick='GetYearMonth("2009","7")'>July</a></li><li><a href="#" id="20098" onclick='GetYearMonth("2009","8")'>August</a></li><li><a href="#" id="20099" onclick='GetYearMonth("2009","9")'>September</a></li><li><a href="#" id="200910" onclick='GetYearMonth("2009","10")'>October</a></li><li><a href="#" id="200911" onclick='GetYearMonth("2009","11")'>November</a></li><li><a href="#" id="200912" onclick='GetYearMonth("2009","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2008">2008</a></h2><div class="accordionContent month" id="2008"><ul class="accordionlist"><li><a href="#" id="20080" onclick='GetYearMonth("2008","0")'>All Months</a></li><li><a href="#" id="20081" onclick='GetYearMonth("2008","1")'>January</a></li><li><a href="#" id="20082" onclick='GetYearMonth("2008","2")'>February</a></li><li><a href="#" id="20083" onclick='GetYearMonth("2008","3")'>March</a></li><li><a href="#" id="20084" onclick='GetYearMonth("2008","4")'>April</a></li><li><a href="#" id="20085" onclick='GetYearMonth("2008","5")'>May</a></li><li><a href="#" id="20086" onclick='GetYearMonth("2008","6")'>June</a></li><li><a href="#" id="20087" onclick='GetYearMonth("2008","7")'>July</a></li><li><a href="#" id="20088" onclick='GetYearMonth("2008","8")'>August</a></li><li><a href="#" id="20089" onclick='GetYearMonth("2008","9")'>September</a></li><li><a href="#" id="200810" onclick='GetYearMonth("2008","10")'>October</a></li><li><a href="#" id="200811" onclick='GetYearMonth("2008","11")'>November</a></li><li><a href="#" id="200812" onclick='GetYearMonth("2008","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2007">2007</a></h2><div class="accordionContent month" id="2007"><ul class="accordionlist"><li><a href="#" id="20070" onclick='GetYearMonth("2007","0")'>All Months</a></li><li><a href="#" id="20071" onclick='GetYearMonth("2007","1")'>January</a></li><li><a href="#" id="20072" onclick='GetYearMonth("2007","2")'>February</a></li><li><a href="#" id="20073" onclick='GetYearMonth("2007","3")'>March</a></li><li><a href="#" id="20074" onclick='GetYearMonth("2007","4")'>April</a></li><li><a href="#" id="20075" onclick='GetYearMonth("2007","5")'>May</a></li><li><a href="#" id="20076" onclick='GetYearMonth("2007","6")'>June</a></li><li><a href="#" id="20077" onclick='GetYearMonth("2007","7")'>July</a></li><li><a href="#" id="20078" onclick='GetYearMonth("2007","8")'>August</a></li><li><a href="#" id="20079" onclick='GetYearMonth("2007","9")'>September</a></li><li><a href="#" id="200710" onclick='GetYearMonth("2007","10")'>October</a></li><li><a href="#" id="200711" onclick='GetYearMonth("2007","11")'>November</a></li><li><a href="#" id="200712" onclick='GetYearMonth("2007","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2006">2006</a></h2><div class="accordionContent month" id="2006"><ul class="accordionlist"><li><a href="#" id="20060" onclick='GetYearMonth("2006","0")'>All Months</a></li><li><a href="#" id="20061" onclick='GetYearMonth("2006","1")'>January</a></li><li><a href="#" id="20062" onclick='GetYearMonth("2006","2")'>February</a></li><li><a href="#" id="20063" onclick='GetYearMonth("2006","3")'>March</a></li><li><a href="#" id="20064" onclick='GetYearMonth("2006","4")'>April</a></li><li><a href="#" id="20065" onclick='GetYearMonth("2006","5")'>May</a></li><li><a href="#" id="20066" onclick='GetYearMonth("2006","6")'>June</a></li><li><a href="#" id="20067" onclick='GetYearMonth("2006","7")'>July</a></li><li><a href="#" id="20068" onclick='GetYearMonth("2006","8")'>August</a></li><li><a href="#" id="20069" onclick='GetYearMonth("2006","9")'>September</a></li><li><a href="#" id="200610" onclick='GetYearMonth("2006","10")'>October</a></li><li><a href="#" id="200611" onclick='GetYearMonth("2006","11")'>November</a></li><li><a href="#" id="200612" onclick='GetYearMonth("2006","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2005">2005</a></h2><div class="accordionContent month" id="2005"><ul class="accordionlist"><li><a href="#" id="20050" onclick='GetYearMonth("2005","0")'>All Months</a></li><li><a href="#" id="20051" onclick='GetYearMonth("2005","1")'>January</a></li><li><a href="#" id="20052" onclick='GetYearMonth("2005","2")'>February</a></li><li><a href="#" id="20053" onclick='GetYearMonth("2005","3")'>March</a></li><li><a href="#" id="20054" onclick='GetYearMonth("2005","4")'>April</a></li><li><a href="#" id="20055" onclick='GetYearMonth("2005","5")'>May</a></li><li><a href="#" id="20056" onclick='GetYearMonth("2005","6")'>June</a></li><li><a href="#" id="20057" onclick='GetYearMonth("2005","7")'>July</a></li><li><a href="#" id="20058" onclick='GetYearMonth("2005","8")'>August</a></li><li><a href="#" id="20059" onclick='GetYearMonth("2005","9")'>September</a></li><li><a href="#" id="200510" onclick='GetYearMonth("2005","10")'>October</a></li><li><a href="#" id="200511" onclick='GetYearMonth("2005","11")'>November</a></li><li><a href="#" id="200512" onclick='GetYearMonth("2005","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2004">2004</a></h2><div class="accordionContent month" id="2004"><ul class="accordionlist"><li><a href="#" id="20040" onclick='GetYearMonth("2004","0")'>All Months</a></li><li><a href="#" id="20041" onclick='GetYearMonth("2004","1")'>January</a></li><li><a href="#" id="20042" onclick='GetYearMonth("2004","2")'>February</a></li><li><a href="#" id="20043" onclick='GetYearMonth("2004","3")'>March</a></li><li><a href="#" id="20044" onclick='GetYearMonth("2004","4")'>April</a></li><li><a href="#" id="20045" onclick='GetYearMonth("2004","5")'>May</a></li><li><a href="#" id="20046" onclick='GetYearMonth("2004","6")'>June</a></li><li><a href="#" id="20047" onclick='GetYearMonth("2004","7")'>July</a></li><li><a href="#" id="20048" onclick='GetYearMonth("2004","8")'>August</a></li><li><a href="#" id="20049" onclick='GetYearMonth("2004","9")'>September</a></li><li><a href="#" id="200410" onclick='GetYearMonth("2004","10")'>October</a></li><li><a href="#" id="200411" onclick='GetYearMonth("2004","11")'>November</a></li><li><a href="#" id="200412" onclick='GetYearMonth("2004","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2003">2003</a></h2><div class="accordionContent month" id="2003"><ul class="accordionlist"><li><a href="#" id="20030" onclick='GetYearMonth("2003","0")'>All Months</a></li><li><a href="#" id="20031" onclick='GetYearMonth("2003","1")'>January</a></li><li><a href="#" id="20032" onclick='GetYearMonth("2003","2")'>February</a></li><li><a href="#" id="20033" onclick='GetYearMonth("2003","3")'>March</a></li><li><a href="#" id="20034" onclick='GetYearMonth("2003","4")'>April</a></li><li><a href="#" id="20035" onclick='GetYearMonth("2003","5")'>May</a></li><li><a href="#" id="20036" onclick='GetYearMonth("2003","6")'>June</a></li><li><a href="#" id="20037" onclick='GetYearMonth("2003","7")'>July</a></li><li><a href="#" id="20038" onclick='GetYearMonth("2003","8")'>August</a></li><li><a href="#" id="20039" onclick='GetYearMonth("2003","9")'>September</a></li><li><a href="#" id="200310" onclick='GetYearMonth("2003","10")'>October</a></li><li><a href="#" id="200311" onclick='GetYearMonth("2003","11")'>November</a></li><li><a href="#" id="200312" onclick='GetYearMonth("2003","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2002">2002</a></h2><div class="accordionContent month" id="2002"><ul class="accordionlist"><li><a href="#" id="20020" onclick='GetYearMonth("2002","0")'>All Months</a></li><li><a href="#" id="20021" onclick='GetYearMonth("2002","1")'>January</a></li><li><a href="#" id="20022" onclick='GetYearMonth("2002","2")'>February</a></li><li><a href="#" id="20023" onclick='GetYearMonth("2002","3")'>March</a></li><li><a href="#" id="20024" onclick='GetYearMonth("2002","4")'>April</a></li><li><a href="#" id="20025" onclick='GetYearMonth("2002","5")'>May</a></li><li><a href="#" id="20026" onclick='GetYearMonth("2002","6")'>June</a></li><li><a href="#" id="20027" onclick='GetYearMonth("2002","7")'>July</a></li><li><a href="#" id="20028" onclick='GetYearMonth("2002","8")'>August</a></li><li><a href="#" id="20029" onclick='GetYearMonth("2002","9")'>September</a></li><li><a href="#" id="200210" onclick='GetYearMonth("2002","10")'>October</a></li><li><a href="#" id="200211" onclick='GetYearMonth("2002","11")'>November</a></li><li><a href="#" id="200212" onclick='GetYearMonth("2002","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2001">2001</a></h2><div class="accordionContent month" id="2001"><ul class="accordionlist"><li><a href="#" id="20010" onclick='GetYearMonth("2001","0")'>All Months</a></li><li><a href="#" id="20011" onclick='GetYearMonth("2001","1")'>January</a></li><li><a href="#" id="20012" onclick='GetYearMonth("2001","2")'>February</a></li><li><a href="#" id="20013" onclick='GetYearMonth("2001","3")'>March</a></li><li><a href="#" id="20014" onclick='GetYearMonth("2001","4")'>April</a></li><li><a href="#" id="20015" onclick='GetYearMonth("2001","5")'>May</a></li><li><a href="#" id="20016" onclick='GetYearMonth("2001","6")'>June</a></li><li><a href="#" id="20017" onclick='GetYearMonth("2001","7")'>July</a></li><li><a href="#" id="20018" onclick='GetYearMonth("2001","8")'>August</a></li><li><a href="#" id="20019" onclick='GetYearMonth("2001","9")'>September</a></li><li><a href="#" id="200110" onclick='GetYearMonth("2001","10")'>October</a></li><li><a href="#" id="200111" onclick='GetYearMonth("2001","11")'>November</a></li><li><a href="#" id="200112" onclick='GetYearMonth("2001","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn2000">2000</a></h2><div class="accordionContent month" id="2000"><ul class="accordionlist"><li><a href="#" id="20000" onclick='GetYearMonth("2000","0")'>All Months</a></li><li><a href="#" id="20001" onclick='GetYearMonth("2000","1")'>January</a></li><li><a href="#" id="20002" onclick='GetYearMonth("2000","2")'>February</a></li><li><a href="#" id="20003" onclick='GetYearMonth("2000","3")'>March</a></li><li><a href="#" id="20004" onclick='GetYearMonth("2000","4")'>April</a></li><li><a href="#" id="20005" onclick='GetYearMonth("2000","5")'>May</a></li><li><a href="#" id="20006" onclick='GetYearMonth("2000","6")'>June</a></li><li><a href="#" id="20007" onclick='GetYearMonth("2000","7")'>July</a></li><li><a href="#" id="20008" onclick='GetYearMonth("2000","8")'>August</a></li><li><a href="#" id="20009" onclick='GetYearMonth("2000","9")'>September</a></li><li><a href="#" id="200010" onclick='GetYearMonth("2000","10")'>October</a></li><li><a href="#" id="200011" onclick='GetYearMonth("2000","11")'>November</a></li><li><a href="#" id="200012" onclick='GetYearMonth("2000","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn1999">1999</a></h2><div class="accordionContent month" id="1999"><ul class="accordionlist"><li><a href="#" id="19990" onclick='GetYearMonth("1999","0")'>All Months</a></li><li><a href="#" id="19991" onclick='GetYearMonth("1999","1")'>January</a></li><li><a href="#" id="19992" onclick='GetYearMonth("1999","2")'>February</a></li><li><a href="#" id="19993" onclick='GetYearMonth("1999","3")'>March</a></li><li><a href="#" id="19994" onclick='GetYearMonth("1999","4")'>April</a></li><li><a href="#" id="19995" onclick='GetYearMonth("1999","5")'>May</a></li><li><a href="#" id="19996" onclick='GetYearMonth("1999","6")'>June</a></li><li><a href="#" id="19997" onclick='GetYearMonth("1999","7")'>July</a></li><li><a href="#" id="19998" onclick='GetYearMonth("1999","8")'>August</a></li><li><a href="#" id="19999" onclick='GetYearMonth("1999","9")'>September</a></li><li><a href="#" id="199910" onclick='GetYearMonth("1999","10")'>October</a></li><li><a href="#" id="199911" onclick='GetYearMonth("1999","11")'>November</a></li><li><a href="#" id="199912" onclick='GetYearMonth("1999","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn1998">1998</a></h2><div class="accordionContent month" id="1998"><ul class="accordionlist"><li><a href="#" id="19980" onclick='GetYearMonth("1998","0")'>All Months</a></li><li><a href="#" id="19981" onclick='GetYearMonth("1998","1")'>January</a></li><li><a href="#" id="19982" onclick='GetYearMonth("1998","2")'>February</a></li><li><a href="#" id="19983" onclick='GetYearMonth("1998","3")'>March</a></li><li><a href="#" id="19984" onclick='GetYearMonth("1998","4")'>April</a></li><li><a href="#" id="19985" onclick='GetYearMonth("1998","5")'>May</a></li><li><a href="#" id="19986" onclick='GetYearMonth("1998","6")'>June</a></li><li><a href="#" id="19987" onclick='GetYearMonth("1998","7")'>July</a></li><li><a href="#" id="19988" onclick='GetYearMonth("1998","8")'>August</a></li><li><a href="#" id="19989" onclick='GetYearMonth("1998","9")'>September</a></li><li><a href="#" id="199810" onclick='GetYearMonth("1998","10")'>October</a></li><li><a href="#" id="199811" onclick='GetYearMonth("1998","11")'>November</a></li><li><a href="#" id="199812" onclick='GetYearMonth("1998","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn1997">1997</a></h2><div class="accordionContent month" id="1997"><ul class="accordionlist"><li><a href="#" id="19970" onclick='GetYearMonth("1997","0")'>All Months</a></li><li><a href="#" id="19971" onclick='GetYearMonth("1997","1")'>January</a></li><li><a href="#" id="19972" onclick='GetYearMonth("1997","2")'>February</a></li><li><a href="#" id="19973" onclick='GetYearMonth("1997","3")'>March</a></li><li><a href="#" id="19974" onclick='GetYearMonth("1997","4")'>April</a></li><li><a href="#" id="19975" onclick='GetYearMonth("1997","5")'>May</a></li><li><a href="#" id="19976" onclick='GetYearMonth("1997","6")'>June</a></li><li><a href="#" id="19977" onclick='GetYearMonth("1997","7")'>July</a></li><li><a href="#" id="19978" onclick='GetYearMonth("1997","8")'>August</a></li><li><a href="#" id="19979" onclick='GetYearMonth("1997","9")'>September</a></li><li><a href="#" id="199710" onclick='GetYearMonth("1997","10")'>October</a></li><li><a href="#" id="199711" onclick='GetYearMonth("1997","11")'>November</a></li><li><a href="#" id="199712" onclick='GetYearMonth("1997","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn1996">1996</a></h2><div class="accordionContent month" id="1996"><ul class="accordionlist"><li><a href="#" id="19960" onclick='GetYearMonth("1996","0")'>All Months</a></li><li><a href="#" id="19961" onclick='GetYearMonth("1996","1")'>January</a></li><li><a href="#" id="19962" onclick='GetYearMonth("1996","2")'>February</a></li><li><a href="#" id="19963" onclick='GetYearMonth("1996","3")'>March</a></li><li><a href="#" id="19964" onclick='GetYearMonth("1996","4")'>April</a></li><li><a href="#" id="19965" onclick='GetYearMonth("1996","5")'>May</a></li><li><a href="#" id="19966" onclick='GetYearMonth("1996","6")'>June</a></li><li><a href="#" id="19967" onclick='GetYearMonth("1996","7")'>July</a></li><li><a href="#" id="19968" onclick='GetYearMonth("1996","8")'>August</a></li><li><a href="#" id="19969" onclick='GetYearMonth("1996","9")'>September</a></li><li><a href="#" id="199610" onclick='GetYearMonth("1996","10")'>October</a></li><li><a href="#" id="199611" onclick='GetYearMonth("1996","11")'>November</a></li><li><a href="#" id="199612" onclick='GetYearMonth("1996","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn1995">1995</a></h2><div class="accordionContent month" id="1995"><ul class="accordionlist"><li><a href="#" id="19950" onclick='GetYearMonth("1995","0")'>All Months</a></li><li><a href="#" id="19951" onclick='GetYearMonth("1995","1")'>January</a></li><li><a href="#" id="19952" onclick='GetYearMonth("1995","2")'>February</a></li><li><a href="#" id="19953" onclick='GetYearMonth("1995","3")'>March</a></li><li><a href="#" id="19954" onclick='GetYearMonth("1995","4")'>April</a></li><li><a href="#" id="19955" onclick='GetYearMonth("1995","5")'>May</a></li><li><a href="#" id="19956" onclick='GetYearMonth("1995","6")'>June</a></li><li><a href="#" id="19957" onclick='GetYearMonth("1995","7")'>July</a></li><li><a href="#" id="19958" onclick='GetYearMonth("1995","8")'>August</a></li><li><a href="#" id="19959" onclick='GetYearMonth("1995","9")'>September</a></li><li><a href="#" id="199510" onclick='GetYearMonth("1995","10")'>October</a></li><li><a href="#" id="199511" onclick='GetYearMonth("1995","11")'>November</a></li><li><a href="#" id="199512" onclick='GetYearMonth("1995","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn1994">1994</a></h2><div class="accordionContent month" id="1994"><ul class="accordionlist"><li><a href="#" id="19940" onclick='GetYearMonth("1994","0")'>All Months</a></li><li><a href="#" id="19941" onclick='GetYearMonth("1994","1")'>January</a></li><li><a href="#" id="19942" onclick='GetYearMonth("1994","2")'>February</a></li><li><a href="#" id="19943" onclick='GetYearMonth("1994","3")'>March</a></li><li><a href="#" id="19944" onclick='GetYearMonth("1994","4")'>April</a></li><li><a href="#" id="19945" onclick='GetYearMonth("1994","5")'>May</a></li><li><a href="#" id="19946" onclick='GetYearMonth("1994","6")'>June</a></li><li><a href="#" id="19947" onclick='GetYearMonth("1994","7")'>July</a></li><li><a href="#" id="19948" onclick='GetYearMonth("1994","8")'>August</a></li><li><a href="#" id="19949" onclick='GetYearMonth("1994","9")'>September</a></li><li><a href="#" id="199410" onclick='GetYearMonth("1994","10")'>October</a></li><li><a href="#" id="199411" onclick='GetYearMonth("1994","11")'>November</a></li><li><a href="#" id="199412" onclick='GetYearMonth("1994","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn1993">1993</a></h2><div class="accordionContent month" id="1993"><ul class="accordionlist"><li><a href="#" id="19930" onclick='GetYearMonth("1993","0")'>All Months</a></li><li><a href="#" id="19931" onclick='GetYearMonth("1993","1")'>January</a></li><li><a href="#" id="19932" onclick='GetYearMonth("1993","2")'>February</a></li><li><a href="#" id="19933" onclick='GetYearMonth("1993","3")'>March</a></li><li><a href="#" id="19934" onclick='GetYearMonth("1993","4")'>April</a></li><li><a href="#" id="19935" onclick='GetYearMonth("1993","5")'>May</a></li><li><a href="#" id="19936" onclick='GetYearMonth("1993","6")'>June</a></li><li><a href="#" id="19937" onclick='GetYearMonth("1993","7")'>July</a></li><li><a href="#" id="19938" onclick='GetYearMonth("1993","8")'>August</a></li><li><a href="#" id="19939" onclick='GetYearMonth("1993","9")'>September</a></li><li><a href="#" id="199310" onclick='GetYearMonth("1993","10")'>October</a></li><li><a href="#" id="199311" onclick='GetYearMonth("1993","11")'>November</a></li><li><a href="#" id="199312" onclick='GetYearMonth("1993","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn1992">1992</a></h2><div class="accordionContent month" id="1992"><ul class="accordionlist"><li><a href="#" id="19920" onclick='GetYearMonth("1992","0")'>All Months</a></li><li><a href="#" id="19921" onclick='GetYearMonth("1992","1")'>January</a></li><li><a href="#" id="19922" onclick='GetYearMonth("1992","2")'>February</a></li><li><a href="#" id="19923" onclick='GetYearMonth("1992","3")'>March</a></li><li><a href="#" id="19924" onclick='GetYearMonth("1992","4")'>April</a></li><li><a href="#" id="19925" onclick='GetYearMonth("1992","5")'>May</a></li><li><a href="#" id="19926" onclick='GetYearMonth("1992","6")'>June</a></li><li><a href="#" id="19927" onclick='GetYearMonth("1992","7")'>July</a></li><li><a href="#" id="19928" onclick='GetYearMonth("1992","8")'>August</a></li><li><a href="#" id="19929" onclick='GetYearMonth("1992","9")'>September</a></li><li><a href="#" id="199210" onclick='GetYearMonth("1992","10")'>October</a></li><li><a href="#" id="199211" onclick='GetYearMonth("1992","11")'>November</a></li><li><a href="#" id="199212" onclick='GetYearMonth("1992","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn1991">1991</a></h2><div class="accordionContent month" id="1991"><ul class="accordionlist"><li><a href="#" id="19910" onclick='GetYearMonth("1991","0")'>All Months</a></li><li><a href="#" id="19911" onclick='GetYearMonth("1991","1")'>January</a></li><li><a href="#" id="19912" onclick='GetYearMonth("1991","2")'>February</a></li><li><a href="#" id="19913" onclick='GetYearMonth("1991","3")'>March</a></li><li><a href="#" id="19914" onclick='GetYearMonth("1991","4")'>April</a></li><li><a href="#" id="19915" onclick='GetYearMonth("1991","5")'>May</a></li><li><a href="#" id="19916" onclick='GetYearMonth("1991","6")'>June</a></li><li><a href="#" id="19917" onclick='GetYearMonth("1991","7")'>July</a></li><li><a href="#" id="19918" onclick='GetYearMonth("1991","8")'>August</a></li><li><a href="#" id="19919" onclick='GetYearMonth("1991","9")'>September</a></li><li><a href="#" id="199110" onclick='GetYearMonth("1991","10")'>October</a></li><li><a href="#" id="199111" onclick='GetYearMonth("1991","11")'>November</a></li><li><a href="#" id="199112" onclick='GetYearMonth("1991","12")'>December</a></li></ul></div><h2 class="accordionButton year" ><a href="#" onclick="event.preventDefault()" style="text-decoration:none;" aria-expanded="false"  id="btn1990">1990</a></h2><div class="accordionContent month" id="1990"><ul class="accordionlist"><li><a href="#" id="19900" onclick='GetYearMonth("1990","0")'>All Months</a></li><li><a href="#" id="19901" onclick='GetYearMonth("1990","1")'>January</a></li><li><a href="#" id="19902" onclick='GetYearMonth("1990","2")'>February</a></li><li><a href="#" id="19903" onclick='GetYearMonth("1990","3")'>March</a></li><li><a href="#" id="19904" onclick='GetYearMonth("1990","4")'>April</a></li><li><a href="#" id="19905" onclick='GetYearMonth("1990","5")'>May</a></li><li><a href="#" id="19906" onclick='GetYearMonth("1990","6")'>June</a></li><li><a href="#" id="19907" onclick='GetYearMonth("1990","7")'>July</a></li><li><a href="#" id="19908" onclick='GetYearMonth("1990","8")'>August</a></li><li><a href="#" id="19909" onclick='GetYearMonth("1990","9")'>September</a></li><li><a href="#" id="199010" onclick='GetYearMonth("1990","10")'>October</a></li><li><a href="#" id="199011" onclick='GetYearMonth("1990","11")'>November</a></li><li><a href="#" id="199012" onclick='GetYearMonth("1990","12")'>December</a></li></ul></div></div></div></span>
+<style type="text/css"> /*added by ni*/
+.year a
+{
+    text-transform:none;
+    margin:0px;
+    /*color:Black;*/
+    font-size:12px;
+    text-decoration:none;
+    padding: 3px 4px 5px 2px;
+    }
+#DateSettree_lbltree h2
+{
+    margin-top:0px;
+}
+.month ul li a {
+    padding: 3px 4px 7px 2px;
+}
+
+.accordionContent ul.accordionlist li {
+    
+    min-height: 24px;
+}
+</style>
+
+
+
+                </div>
+            </div>
+        </div>
+        <div class="clearfix">
+        </div>
+        <a href="#top" class="scrollToTop" id="backToTop">Top</a>
+<div id="backDiv" style=" text-align:center;" >
+<a href="javascript:history.back()" class="paraheader">Back to previous page</a><br/>
+<span id="lblGetLastUpdateDate" class="paraheader"></span>
+</div>
+<footer class="footer">
+
+<div class="footer">
+  <div class="container_12">    
+      <div class="grid_9" style="width: 833px !important; ">
+          
+          <h2><span class="blue">More</span> Links :</h2>
+          
+		<ul class="footerlist" style="column-count:4">
+                  <li ><a href="/Scripts/HolidayMatrixDisplay.aspx">Bank Holidays</a></li>
+                  <li ><a href="https://shabdavali.rbi.org.in/">Banking Glossary</a></li>
+                  <li ><a href="/Scripts/CitiChart.aspx">Citizen's Charter</a></li>
+                  <li ><a href="/Scripts/Complaints.aspx">Complaints</a></li>
+                  <li ><a href="/Scripts/contactus.aspx">Contact Us</a></li>
+  		<li ><a href="https://www.rbi.org.in/scripts/bs_viewcontent.aspx?Id=3894">COVID-19 Measures</a></li>
+                  <li ><a target="_blank" href="https://ncfe.org.in/e-lms">E-LMS</a></li>
+                  <li ><a href="/Scripts/EventsDisplay.aspx">Events</a></li>
+                  <li ><a href="/Scripts/FAQDisplay.aspx">FAQs</a></li>
+                  <li ><a target="_blank" href="https://www.rbi.org.in/FinancialEducation/">Financial Education</a></li>
+		<li ><a href="/Scripts/BS_ViewForms.aspx">Forms</a></li>
+                  <li ><a href="/Scripts/IFSCMICRDetails.aspx">IFSC/MICR Codes</a></li>
+                  <li><a href="/Scripts/OtherLinks.aspx">Important Websites</a></li>
+                  <li><a target="_blank" href="https://opportunities.rbi.org.in/scripts/index.aspx">Opportunities<span>@</span>RBI</a></li>
+                  <li><a href="/Scripts/rbi_clarification.aspx">RBI Clarifications</a></li>
+ 		<li><a target="_blank" href="https://rbikehtahai.rbi.org.in/">RBI Kehta Hai</a></li>
+                  <li><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Utkarsh202910042026.pdf" target="_blank">RBI’s Vision and Values <img src="../Images/pdf.gif" alt="PDF document" style="padding-bottom: 4px; width:12px; border:0; vertical-align:middle;"> (652 KB)</a></li>
+                  <li><a href="/Scripts/Righttoinfoact.aspx">Right to Information Act</a></li>
+                  <li><a href="/Scripts/BS_ViewTenders.aspx">Tenders</a></li>
+                  
+              </ul>
+      </div>
+
+    <div class="grid_3" style="width:197px !important">
+      
+        <h2><span class="blue">Follow</span> RBI</h2>
+      <ul class="footerlist">
+        
+
+          <li style="float: left;background: url(/images/footer_list_arrow.gif) left 8px no-repeat;"><a href="/Scripts/rss.aspx"><img src="/images/rss-icon.png" alt="RSS Icon" class="rss">RSS</a></li>
+
+        
+          <li>
+              <a href="https://twitter.com/RBI" target="_blank" class="twitter">
+                  <img src="/images/Twitter_New.png" alt="Twitter Icon" class="videos" style="padding-left: 18%; width:14px;">Twitter
+              </a>
+          </li>
+
+        
+
+          <li style="float: left;"><a href="https://www.youtube.com/channel/UCIfCOl43tunZVNYafeC4RQA" class="videos" target="_blank"><img src="/images/youtube.png" alt="YouTube Icon" class="videos">YouTube</a></li>
+
+          <li>
+              <a href="https://instagram.com/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/Instagram.jpg" alt="Instagram Icon" class="videos" style="padding-left: 5%; width:14px;">Instagram
+              </a>
+          </li>
+          <li style="float: left;"><a href="https://www.facebook.com/RBIsays" class="videos" target="_blank"><img src="/images/Facebook.jpg" style="width:14px;" alt="Facebook Icon" class="videos">Facebook</a></li>
+          <li>
+              <a href="https://www.linkedin.com/company/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/LinkedinIcon1.png" alt="LinkedIn Icon" class="" style="padding-left: 4%;width: 17px;background: bottom no-repeat;display: block;float: left;margin: 2px 3px 0 1px;">LinkedIn
+              </a>
+          </li>
+      </ul>
+	<a href="https://www.india.gov.in" class="videos" target="_blank">
+                  <img src="/images/indiaGov.png" alt="National Portal of India logo" class="">
+              </a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="copyright">
+    <div class="container_12">
+     <div class="grid_6 pull_left">&copy; Reserve Bank of India. All Rights Reserved. </div>
+        <div class="grid_5 pull_right"><a href="/Scripts/sitemap.aspx">Sitemap</a> <span aria-hidden="true">|</span> <a href="/Scripts/Disclaimer.aspx">Disclaimer</a></div>
+        <div class="clearfix"></div>
+
+        <div class="grid_6 pull_left">Website owned and managed by Reserve Bank of India. Contact us on helpdoc[at]rbi[dot]org[dot]in</div>
+        <div class="grid_5 pull_right">Website last updated date: Sep 12, 2026</div>
+        <div class="clearfix"></div>
+	<div class="grid_6 pull_left"><a href="https://www.rbi.org.in/scripts/wim.aspx">Web Information Manager</a></div>
+	<div class="grid_5 pull_right"><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Accessibility20012026.pdf" target="_blank">Accessibility Statement
+	<img alt="PDF - Accessibility Statement" style="padding: 1px; width:16px; border:0; vertical-align:middle;" src="../Images/pdf.gif" > (133 KB)
+	</a><span aria-hidden="true"> |</span><a href="/scripts/ScreenReader.aspx" title="Information related to screen reader">Screen Reader and Accessibility Help</a></div>
+	<div class="clearfix"></div>
+        <div class="grid_12 pull_left">Supports: Google Chrome 147+ | Firefox 150+ | Microsoft Edge Version 147+ | Safari 17+</div>
+        
+        <div class="clearfix"></div>
+    </div>
+  </div>
+  
+
+
+
+</div>
+
+</footer>
+
+<script src="/js/ReplaceURL.js" ></script>
+<script >
+
+
+    //this is for floating TOP link
+    
+    $(document).ready(function () {
+
+        var offset = 230;
+        var duration = 500;
+
+
+        jQuery(window).scroll(function () {
+            if (jQuery(this).scrollTop() > offset) {
+                jQuery('.scrollToTop').fadeIn(duration);
+                
+            } else {
+                jQuery('.scrollToTop').fadeOut(duration);
+                
+            }
+        });
+
+        
+	$('.page_title').attr('tabindex','-1');
+        $('.scrollToTop').click(function () {
+            $('html, body').animate({ scrollTop: 0 }, 800);
+		$('.page_title').focus(); 
+            return false;
+        });
+	
+
+
+	if(!window.location.href.includes("Home.aspx") && !window.location.href.includes("home.aspx"))
+{ 
+if( window.location.href.includes(".aspx")){
+var div= document.getElementById('backDiv');
+	div.removeAttribute("hidden");}
+else{
+var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+}
+else{
+
+
+	var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+    });
+
+
+  
+    $(window).scroll(function () {
+
+        if ($('div.banner2').length) {
+
+            if ($(window).scrollTop() >= 265) {
+                $('#menubar').css("position", "fixed");
+                $('#menubar').css("width", "240px");
+                $('#menubar').css("margin-top", "-281px");
+                $('.content_area').css("margin-left", "252px");
+
+                $('.sidebar_nav').css("position", "fixed");
+                $('.sidebar_nav').css("margin-top", "-200px");
+                $('.sidebar_nav').css("width", "236px");
+
+
+             
+
+            }
+
+            else {
+                $('#menubar').css("position", "");
+                $('#menubar').css("width", "");
+                $('#menubar').css("margin-top", "");
+                $('.content_area').css("margin-left", "");
+
+                $('.sidebar_nav').css("position", "");
+                $('.sidebar_nav').css("margin-top", "");
+                $('.sidebar_nav').css("width", "");
+
+
+
+         
+            }
+
+        }
+
+        else if ($(window).scrollTop() >= 185) {
+            $('#menubar').css("position", "fixed");
+            $('#menubar').css("width", "240px");
+            $('#menubar').css("margin-top", "-200px");
+            $('.content_area').css("margin-left", "252px");
+
+            $('.sidebar_nav').css("position", "fixed");
+            $('.sidebar_nav').css("margin-top", "-200px");
+            $('.sidebar_nav').css("width", "236px");
+
+
+          
+		var treeheight=0;
+		if($('#treeYear').height()>0){treeheight=$('#treeYear').height();}
+	    	if($(window).scrollTop() >= $('#example-min').height()-treeheight)
+		{			 
+			$('#menubar').css("position", "absolute");
+            		
+			$('#menubar').css("margin-top", "");
+			$('#menubar').css("top", $('#example-min').height()+100-treeheight +"px");
+		}
+		else{$('#menubar').css("position", "fixed"); $('#menubar').css("top", "");}
+		
+        }
+
+        else {
+            $('#menubar').css("position", "");
+            $('#menubar').css("width", "");
+            $('#menubar').css("margin-top", "");
+            $('.content_area').css("margin-left", "");
+
+            $('.sidebar_nav').css("position", "");
+            $('.sidebar_nav').css("margin-top", "");
+            $('.sidebar_nav').css("width", "");
+
+
+       
+        }
+     
+
+       
+    });
+	
+      
+    $(document).ready(function () {
+	
+	
+		  $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#maskWN').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+		
+		 $('#maskWN').click(function () {
+            $(this).hide();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('.window').hide();
+
+        });
+
+        
+
+        //if close button is clicked
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#mask').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+
+        //if mask is clicked
+        $('#mask').click(function () {
+            $(this).hide();
+            $('.window').hide();
+        });
+        $('#feedbackbtn').click(function () {
+            var id = '#dialog';
+
+            //Get the screen height and width
+            var maskHeight = $(document).height();
+            var maskWidth = $(window).width();
+
+            //Set heigth and width to mask to fill up the whole screen
+            
+            $('#mask').css({ 'width': '100%', 'height': '100%', 'position': 'fixed' });
+
+            //transition effect
+            $('#mask').fadeIn(500);
+            $('#mask').fadeTo("slow", 0.9);
+
+            //Get the window height and width
+            var winH = $(window).height();
+            var winW = $(window).width();
+
+            //Set the popup window to center
+            $(id).css('top', winH / 2 - $(id).height() / 2);
+            $(id).css('left', winW / 2 - $(id).width() / 2);
+
+            //transition effect
+            $(id).fadeIn(2000);
+        });
+
+        $('.submit').click(function () {
+            var Name = $("[id*=txtFeedbackName]").val();
+            var Email = $("[id*=txtFeedbackEmail]").val();
+            var Comments = $("[id*=txtFeedbackComments]").val();
+            if (Name == "") {
+
+                alert("Please enter your name");
+                $("[id*=txtFeedbackName]").focus();
+                return false;
+            }
+            else if (Email == "") {
+                alert("Please enter your email");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+            else if (Email != "" && !ValidateEmail(Email)) {
+                alert("Please enter a valid email address");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+
+            else if (Comments == "") {
+
+                alert("Please enter some comments");
+                $("[id*=txtFeedbackComments]").focus();
+                return false;
+            }
+
+            else {
+                $('[id*=Button1]').attr('disabled', 'disabled');
+
+                var param = { Name: Name, EmailID: Email, Comments: Comments };
+                $.ajax({
+                    type: "POST",
+                    url: "../Home.aspx/SaveFeedback",
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+
+                    success: function (response) {
+
+                        if (response.d == "0") {
+                            alert("Thank you for your feedback");
+                            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+                            $('#mask').hide();
+                            $('.window').hide();
+                            $('[id*=Button1]').removeAttr('disabled');
+                            $("[id*=txtFeedbackName]").val("");
+                            $("[id*=txtFeedbackEmail]").val("");
+                            $("[id*=txtFeedbackComments]").val("");
+                        }
+                        else {
+                            alert("Please try again");
+                            $('[id*=Button1]').removeAttr('disabled');
+
+
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+        function ValidateEmail(email) {
+            var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            return expr.test(email);
+        };
+
+       
+
+        $('a.style1').each(function () {
+
+            var $this = $(this);
+            var aHref = $this.attr('class');
+            $this.attr('class', aHref.replace('style1', 'links'));
+        });
+
+		
+   });
+
+  function isExternal(url) {
+	if(url){url=url.toLowerCase();
+       if(url=='#' || url=='javascript:void(0);' || url.includes('javascript')||url=='' )
+	{ return false;} 
+	else{//return (url.indexOf("rbi.org.in")==-1)
+	
+	if(url.indexOf("www.rbi.org.in")==-1 || url.indexOf("https://rbi.org.in")==-1)
+		{	
+			if(url.indexOf("rbi.org.in")==-1)		
+    				return "external";
+			else if(url.indexOf("www.rbi.org.in")==-1 && url.indexOf(".rbi.org.in")>0 && url.indexOf("rbidocs.rbi.org.in")==-1)
+				{return "subdomain";}
+			else if(url.indexOf("financialeducation")>0 || url.indexOf("commonperson")>0 || url.indexOf("/rekyc/")>0 || url.indexOf("rbi90years")>0 ){
+				return "subsite";}
+			
+		}
+	
+	}}
+    }
+    document.addEventListener("click", function () {
+	linkMessage();
+        
+    });
+function linkMessage(){
+	if (event.target.tagName.toLowerCase() === "a") {
+            if (isExternal(event.target.href)=="external") {
+
+                if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+            }
+	    if (isExternal(event.target.href)=="subdomain") {
+	    	 if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+		if (isExternal(event.target.href)=="subsite") {
+	    	 if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+        }
+	else if (event.target.tagName.toLowerCase() === "img") {
+		$(event.target).preventDefault;		
+		if($(event.target).parent('a').length){
+			 if (isExternal($(event.target).parent('a').prop('href'))==="external") {
+                		if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+                    		return;
+               		 }
+
+                	else {                   
+                    		event.preventDefault();
+                    		return;
+                	}}
+			if (isExternal($(event.target).parent('a').prop('href'))==="subdomain") {
+                		if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    		return;
+               		 	}
+
+                		else {                   
+                    		event.preventDefault();
+                    		return;
+                		}
+			}
+			if (isExternal(event.target.href)=="subsite") {
+	    	 	if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    	return;
+                	}
+                	else {
+                   
+                    		event.preventDefault();
+                    	return;
+                	}
+	    		}
+	}}
+	const link = event.target.closest('a[target="_blank"]');
+	if(link){ 
+		event.preventDefault();
+		if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+			window.open(link.href,"_blank");
+		}
+	}
+		if (event.target.tagName.toLowerCase() === "button") {
+		if($(event.target).parent('a').length>0){
+			const link1 = event.target.closest('a[target="_blank"]');
+		if(link1){
+			event.preventDefault();
+			if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+				window.open(link.href,"_blank");
+			}
+		}
+		}
+	}
+}
+
+</script>
+<script >
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61369961-1', 'auto');
+  ga('send', 'pageview');
+
+document.querySelectorAll('table.tablebg').forEach(table => {
+    const anchors = table.querySelectorAll('a[href^="#"]:not([href="#"])');
+
+    const hasInPageAnchorsInThisTableOnly = Array.from(anchors).some(a => {
+        // Find the closest table ancestor of this anchor
+        const closestTable = a.closest('table');
+    
+        // Only count it if it belongs to the current table (not a nested one)
+        return closestTable === table;
+    });
+
+    if (!hasInPageAnchorsInThisTableOnly) {
+        table.setAttribute('role', 'presentation');
+    } else {
+        table.removeAttribute('role'); 
+    }
+});
+$('.brd-ptable1').attr('role','presentation');
+$('html').attr('lang', 'en');
+document.querySelectorAll('br').forEach(br => {br.setAttribute('aria-hidden','true');});
+$('#doublescroll').children('table').filter(':first').attr("role", "presentation");
+$('.page_title').nextAll('table').first().attr("role", "presentation");
+
+
+
+document.addEventListener('DOMContentLoaded', function(){
+$('.tableheader b').each(function () {
+		var curEle= $(this);
+           $(curEle).replaceWith("<h2 class='dop_header'>"+$(curEle).html()+"</h2>")
+        });
+ });
+
+//  tooltip 
+var TooltipManager = {
+    _tip: null, // Create the tooltip element once 
+init: function() {
+    if (!this._tip) {
+    
+        this._tip = $('<div id="js-custom-tooltip"></div>').css({
+            "position": "absolute", "background": '#ffffca', "color":"#000", "padding": "2px 5px", "border-radius": "0px", "font-size": "11px","font-family":"Sans-serif", "z-index": "10000", "pointer-events": "none","border":"1px solid #767676", "box-shadow":"2px 2px 3px rgba(0,0,0,0.2)","white-space":"nowrap"
+        }).appendTo('body');
+        
+    }
+}, 
+show: function(element, text) {
+    this.init(); 
+var $el = $(element); // Update text and position 
+    
+this._tip.text(text).show();
+var pos = $el.offset(); 
+this._tip.css({
+    top: pos.top + this._tip.outerHeight()  + "px", // Show above 
+    left: pos.left + ($el.outerWidth() / 2) - (this._tip.outerWidth() / 2) + "px"
+});
+    }, hide: function() { if (this._tip) this._tip.hide(); }
+}; // Apply to all elements that have a ToolTip (ToolTip renders as 'title') 
+$(document).ready(function() {
+   
+    $('body').on('focusin', 'input, button, a, select, textarea, img', function() {
+        var title = $(this).attr('title'); if (title) {
+    
+            
+      
+            TooltipManager.show(this, title);
+        }
+    }).on('focusout', 'input, button, a, select, textarea, img', function() { 
+       
+            TooltipManager.hide();
+       
+    }); // Dismiss on Escape key
+    $(document).keyup(function(e) { if (e.key === "Escape") TooltipManager.hide(); });
+});
+
+//breadcrumb current page announce
+$(document).ready(function(){
+
+const breadcrumbList = document.querySelector('.breadcrumbs');
+
+    if (breadcrumbList) {
+        const listItems = breadcrumbList.querySelectorAll('li');
+    
+        if (listItems.length > 0) {
+            
+            const lastItem = $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).last().attr('aria-current', 'page');
+            $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())==="" && $(this).children().length===0;}).attr('role','presentation');
+       		$('.breadcrumbs li').filter(function(){
+			if($(this).children().length!==0)
+			{
+				if($(this).children().text() ===""){}
+			}
+		});
+            const lastLink =lastItem.find('a');
+            if (lastLink) {
+                lastLink.attr('aria-current', 'page');               
+                
+            }
+		if($('.breadcrumbs li').last().find('a').length>0)
+		{			
+			const $a = $('.breadcrumbs li').last().find('a');
+			$('<span>',{class: $a.attr('class'), text: $a.text()}).replaceAll($a).attr('aria-current', 'page');
+		}
+		
+		if($('.breadcrumbs li').last().find('span').length>0)
+		{
+			
+			if($('.breadcrumbs li').last().find('span')[0].innerText==='')
+			{
+				$('.breadcrumbs li').last().find('span').removeAttr('aria-current');				
+			}
+			else{
+				$('.breadcrumbs li').last().find('span').filter(function(){ return $(this).attr('role')!=='presentation';}).last().attr('aria-current', 'page');					
+			}		
+		}
+		$('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).removeAttr('role','presentation');
+        }
+    }
+});
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+setLetterSpace(false);//]]>
+</script>
+</form>
+</body>
+</html>
+<script type="text/javascript" src="/js/plugins.js"></script>
+<script type="text/javascript" src="/js/script.js"></script>
+<script type="text/javascript" src="/js/Scroll.js"></script>
+<script type="text/javascript" language="javascript">
+    DoubleScrollWithTree(document.getElementById('doublescroll'));
+
+function GetYearMonth(year, month) {
+    document.getElementById("hdnYear").value = year;
+    document.getElementById("hdnMonth").value = month;
+    document.getElementById("btn").click();
+}
+//Implemented onlick for 'archives' link in tree structure
+function hideshow(divArchive) {
+    if (!document.getElementById(divArchive))
+        return
+    if (document.getElementById(divArchive).style.display == "block")
+        document.getElementById(divArchive).style.display = "none"
+    else
+        document.getElementById(divArchive).style.display = "block"
+}
+function SetTreeStyles() {
+    var strYear = document.getElementById("hdnYear").value;
+    var strMonth = document.getElementById("hdnMonth").value
+    if (strYear != "") {
+        var toDay = new Date();
+        document.getElementById("btn" + strYear).setAttribute("class", "accordionButton year active_year");
+        document.getElementById(strYear).style.display = "block"
+        if (strMonth) document.getElementById(strYear + strMonth).setAttribute("class", "active");
+        if (toDay.getFullYear() - 9 > parseInt(strYear)) { document.getElementById("divArchiveSub").style.display = "block" }
+    }
+}
+</script>
+<script id="f5_cspm">(function(){var f5_cspm={f5_p:'MPBMLIPGDDFDEIODPOLMKAOLPDAIKIICMPBFKJFKJOKBLEMHOKMPGKJMEPDEHNLFBGMBDIOPAAJCHIMJNCIAEBEKAAMFIOJHNEKALAKCLDNNGGCGJBEMPMMMHMEJDHEN',setCharAt:function(str,index,chr){if(index>str.length-1)return str;return str.substr(0,index)+chr+str.substr(index+1);},get_byte:function(str,i){var s=(i/16)|0;i=(i&15);s=s*32;return((str.charCodeAt(i+16+s)-65)<<4)|(str.charCodeAt(i+s)-65);},set_byte:function(str,i,b){var s=(i/16)|0;i=(i&15);s=s*32;str=f5_cspm.setCharAt(str,(i+16+s),String.fromCharCode((b>>4)+65));str=f5_cspm.setCharAt(str,(i+s),String.fromCharCode((b&15)+65));return str;},set_latency:function(str,latency){latency=latency&0xffff;str=f5_cspm.set_byte(str,40,(latency>>8));str=f5_cspm.set_byte(str,41,(latency&0xff));str=f5_cspm.set_byte(str,35,2);return str;},wait_perf_data:function(){try{var wp=window.performance.timing;if(wp.loadEventEnd>0){var res=wp.loadEventEnd-wp.navigationStart;if(res<60001){var cookie_val=f5_cspm.set_latency(f5_cspm.f5_p,res);window.document.cookie='f5avr0947018921aaaaaaaaaaaaaaaa_cspm_='+encodeURIComponent(cookie_val)+';path=/;'+'';}
+return;}}
+catch(err){return;}
+setTimeout(f5_cspm.wait_perf_data,100);return;},go:function(){var chunk=window.document.cookie.split(/\s*;\s*/);for(var i=0;i<chunk.length;++i){var pair=chunk[i].split(/\s*=\s*/);if(pair[0]=='f5_cspm'&&pair[1]=='1234')
+{var d=new Date();d.setTime(d.getTime()-1000);window.document.cookie='f5_cspm=;expires='+d.toUTCString()+';path=/;'+';';setTimeout(f5_cspm.wait_perf_data,100);}}}}
+f5_cspm.go();}());</script>

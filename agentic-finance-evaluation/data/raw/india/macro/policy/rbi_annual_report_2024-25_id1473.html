@@ -1,0 +1,1533 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Annual Report | Official Website of Reserve Bank of India </title>
+    <meta name="description" content="Annual Report - Reserve Bank of India" />
+    <meta name="keyword" content="RBI Annual Report" />
+    <meta name="author " content="Reserve Bank of India" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="/js/libs/modernizr-2.5.3.min.js"></script>
+</head>
+<body onload="SetTreeStyles()">
+    <form method="post" action="./AnnualReportPublications.aspx?Id=1473" id="Form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJMzY1MDIzMjgyZGTirogjiSKWyp2H7A6jss5xWpxVi6DImZfEwxE9PMK7EA==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="E309B892" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAwK4FgjMZGo32+EsU73+QFSlK+XrsQEVyjeDxQ0A4GYXM3IfYFEMdbtkmb6zzJSc2CLrBfuDtX7nV3nL+5njT0xpTvjNMInTm7jDqH04NfPDGQ6cu1iZ73N7YF2NPAmCyQ/q33cCQLgaFQSElESF1pcG6ARGh77hh0/r4ObuL1TAsg3NivnNEt6QsKSovCCK9t9xf1loRXvygROM/A1O+NHJounKCGGAHd04zzVhBPZz3RgTJ25FWigbeFr84Vgoxd85GmzTs9g56MExTizjelamo8ZO6PQqH+9hU02GyNvAg==" />
+</div>
+        <input type="hidden" name="hdnYear" id="hdnYear" />
+        
+<link href="/JQuery/css/jquery-ui-1.8.18.custom2.css" rel="stylesheet" type="text/css" />
+<link href="/includes/print.css" rel="stylesheet" media="print" type="text/css" />
+
+<link href="/Styles/960.css?v=1.0" rel="stylesheet" type="text/css" />
+<link href="/Includes1/rbi.css?v=5.0" rel="Stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/JQuery/ui/jquery.ui.revampRBI.js"></script>
+<script type="text/javascript" src="/js/ImgSaveDisable.js"></script>
+
+<script type="text/javascript">
+  
+//Redirect to mobile site start
+    function detectmob() {
+        if (screen.width <= 599 || screen.Height <= 975) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if (detectmob()) {
+       window.location.href = "https://m.rbi.org.in" + window.location.pathname;
+		
+       
+    }
+
+	//Redirect to mobile site End
+    $(document).ready(function () {
+        Search();
+	SearchLastUpdateDate(); //Fetch Last Date Page
+    });
+
+
+
+  // Fetch Last Date Page
+
+    function SearchLastUpdateDate() {
+        var strFilterComments = new RegExp("^[a-zA-Z0-9 =_:.&?'%,()-–]+$");
+	var url=window.location.href;
+	if(url.indexOf("WSSViewDetail.aspx")>0 || url.indexOf("PublicationReportDetails.aspx")>0)
+	{
+		url=url.substring(url,url.indexOf("?"));
+	}
+        var param = { keyWord1: url.slice(url.lastIndexOf('/') + 1) };
+	param.keyWord1=param.keyWord1.replaceAll("%20"," ");
+	if(param.keyWord1.indexOf("#")>0)
+	{
+		param.keyWord1=param.keyWord1.substring(param.keyWord1,param.keyWord1.indexOf("#"));
+	}
+        if (!strFilterComments.test(param.keyWord1)) {            
+            return false;
+        }
+        else {
+            $.ajax({
+                url: "/Home.aspx/GetLastUpdateDate_new",
+                data: JSON.stringify(param),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataFilter: function (data) { return data; },
+                success: function (data) {
+                    if (data.d.length > 0) {
+                        $('#lblGetLastUpdateDate').text(data.d);
+                    }
+                    else {
+                        response([{ label: "No results found", value: ""}]);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+
+        }
+    }
+    // Fetch Last Date Page
+
+
+
+    function Search() {
+        highlightTextAutocomplete();
+        $(".autoSuggest").autocomplete({
+
+
+            source: function (request, response) {
+                var param = { keyWord: document.getElementById('txtSearch').value };
+
+                $.ajax({
+                    url: "/Home.aspx/GetKeywords",
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+
+                        if (data.d.length > 0) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: RemoveSpecialChars(item)
+
+                                }
+                            }))
+                        }
+                        else {
+                            response([{ label: "No results found", value: ""}]);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            },
+
+            
+            minLength: 3
+
+        });
+    }
+
+    function highlightTextAutocomplete() {
+
+        var oldFn = $.ui.autocomplete.prototype._renderItem;
+
+        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+
+            var t = String(item.value).replace(
+                new RegExp(this.term, "gi"),
+                "<span class='ui-state-highlight'>$&</span>");
+            if (item.value != "") {
+                return $("<li class='borderAutocomplete'></li>")
+                  .data("item.autocomplete", item)
+                  .append("<a role='link'>" + t + "</a>")
+                  .appendTo(ul);
+            }
+
+            else {
+                return $("<li></li>")
+                  .data("item.autocomplete", item)
+                  .append("")
+                  .appendTo(ul);
+            }
+        };
+    }
+
+
+    function RemoveSpecialChars(inputText) {
+        var filteredString = inputText.replace(/[\*\^\'\!\@\$\.\#\(\)\-\?\<\>\;\"\&\+\{\}\:]/g, '');
+        
+        return filteredString;
+    }
+    
+
+    function LoadSearchData(id, key) {
+        if (id == "txtSearch") {
+            if (key == 13) {
+                validateSearchText();
+                return false;
+            }
+        }
+        else validateSearchText();
+        return true;
+    }
+    function validateSearchText() {
+        if (validation()) {
+            var strloc = new String(document.location.href.toString());
+            if (strloc.indexOf("SearchResults.aspx") == -1) {//             
+                window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+            }
+            else window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+        }
+    }
+    function validation() {
+        strSearch = trim(document.getElementById('txtSearch').value);
+        if (strSearch == "") { alert('Please enter the search text'); return false; }
+        else {
+           
+            var strFilterChars = new RegExp("^[0-9a-zA-Z ]*$");
+            if (!strFilterChars.test(strSearch)) { alert("Please remove special characters from search text"); return false; }
+        }
+        return true;
+    }
+    function trim(value) {
+        value = value.replace(/^\s+/, '');
+        value = value.replace(/\s+$/, '');
+        return value;
+    }
+
+</script>
+
+    <style type="text/css">
+    .blink_msm1 
+{
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 3s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: blinker;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@-moz-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+.blink_NewWebsite {
+        animation:blinker 1.5s linear 3;
+        color:blue;
+        font-size:1.5em;
+        margin-bottom:0px;
+        }
+    @keyframes blinker
+    {
+        50%{
+            opacity:0;
+        }
+    }
+
+.sr-only {
+position: absolute;
+left: -9999px;
+}
+</style>
+<div class="top_setting">
+    <div class="container_12">
+        <div class="grid_5 top_settings">
+            <a href="#mainsection">Skip to main content </a>
+        </div>
+        <div id="UsrFontCntr_tblThemes" style="float: right" class="grid_4 prefix_3 top_settings">
+            <ul style="margin:0px; padding:0px;">
+               <li class="fonts"> 
+                <a id="UsrFontCntr_LinkBtnSpace" role="button" title="Increase Letter Spacing" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnSpace&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/letspace.png" alt="Increase Letter Spacing" />
+                                <span id="UsrFontCntr_spanBtnSpace" class="sr-only">Not Pressed</span></a>                                
+            </li>
+
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontIncrease" role="button" title="Increase Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontIncrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-increase.gif" alt="Increase Font Size" />
+                    <span id="UsrFontCntr_spanFontIncrease" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontRegular" role="button" title="Regular Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontRegular&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-reset.gif" alt="Regular Font Size" />
+                    <span id="UsrFontCntr_spanFontRegular" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontDecrease" role="button" title="Decrease Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontDecrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-decrease.gif" alt="Decrease Font Size" />
+                    <span id="UsrFontCntr_spanFontDecrease" class="sr-only">Not Pressed</span></a>
+            </li></ul>
+		<ul style="margin:0px;padding:0px;">
+            <li class="black">
+                <a id="UsrFontCntr_LinkBtnAccessibilty" role="button" title="Apply Dark Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/dark-theme.gif" alt="Apply Dark Theme" />
+                    <span id="UsrFontCntr_spanAccessibilty" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="white">
+                <a id="UsrFontCntr_LinkBtnUndoAccessibilty" role="button" title="Apply Normal Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnUndoAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/bright-theme.gif" alt="Apply Normal Theme" />
+                     <span id="UsrFontCntr_spanUndoAccessibilty" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="white">
+            <a id="UsrFontCntr_LinkBtnGreyScale" role="button" title="Apply Grey Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnGreyScale&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/graytheme.gif" alt="Apply Grey Theme" />
+                                <span id="UsrFontCntr_spanGreyScale" class="sr-only">Not Pressed</span></a></li>
+
+            </ul>
+		<div>
+		     <a href="#" onclick="javascript:window.print();" id="A1" title="Print This Page" style="text-decoration:none;" >
+                <img src="/images/print-icon.png" alt="Print this page" class="print" />
+		</a></div>
+            <div style="float: right">
+                <label style="margin-right: 6px;">
+                    Change Language</label>
+			
+			<a href="#" onclick="SetLink();" class="link1" title="Website in Hindi">हिंदी</a>
+			</div>
+                   
+        </div>
+        <div class="clearfix">
+        </div>
+    </div>
+   
+</div>
+<div class="container_12">
+    <div class="grid_4" role="banner">
+        <div class="logo">
+            <a href="/home.aspx" title="Official website of Reserve Bank of India">
+                <img src="/images/rbi-company-logo.jpg" alt="Logo of Official website of Reserve Bank of India" title="Official website of Reserve Bank of India" /></a></div>
+    </div>
+    <div class="grid_5" align="right" role="search" style="float: right">
+        <label for="searchbox" class="search_label">
+            Search the Website</label>
+        <input name="UsrFontCntr$txtSearch" type="text" maxlength="103" id="txtSearch" class="search_box autoSuggest" title="Search the Website" aria-label="Search the Website" onkeydown="return LoadSearchData(&#39;txtSearch&#39;,event.keyCode);" placeHolder="Search" />
+        <button id="btnSearch" onclick="return LoadSearchData('btnSearch',event.keyCode);"
+            type="button" class="search_button">
+            Search</button>
+    </div>
+	<div class="grid_2" align="CENTER" role="" style="float: right">
+        <div class="logo" >
+           
+            <img src="../images/BBBP_Logo_4.png" alt="Beti Bachao Beti Padhao Logo" style="width:47%;">
+        </div>
+    	</div>
+    <div class="clearfix">
+    </div>
+</div>
+<!--  NAVIGATION START-->
+<nav role="navigation" aria-label="Main">
+       <div class="menu"><div class="centermenu">
+<ul class="menu">
+  <li><a href="https://rbi.org.in/home.aspx">Home</a></li>
+<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-Sub1">About Us ▼</a>
+ <ul class="submenu1" id="Ab-Sub1" >
+	 <li><a href="/scripts/AboutUsDisplay.aspx">About Us</a></li>
+     <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-org">Organisation & Functions <span aria-hidden="true">▶</span></a>
+		 <ul class="submenu1" id="Ab-org">             
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=OrganizationStructure.htm">Organisation Structure</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=Depts.htm">Departments</a></li>
+            <li><a href="Regionaloffices.aspx">Offices</a></li>
+			<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-tra">Training Establishment <span aria-hidden="true">▶</span></a>                
+				<ul class="submenu1" id="Ab-tra">
+                    <li ><a href="https://cab.rbi.org.in" target="_blank" id="CBOverview">College of Agricultural Banking</a></li>
+                    <li ><a href="/scripts/rbsc.aspx" id="CBNotifications">Reserve Bank Staff College</a></li>
+					<li ><a href="https://cos.rbi.org.in/" id="CBSupervisors">College of Supervisors</a></li>
+                </ul>
+            </li>
+            <li><a href="/scripts/OccasionalPublications.aspx?head=RBI%27s%20Functions%20and%20Working">RBI's Functions and Working</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=PastGovernors.htm">Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=deputygovernors.htm">Deputy Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=ExecutiveDirectors.htm">Executive Directors</a></li>
+        </ul>		
+	 </li>
+<li><a href="AboutUsDisplay.aspx?pg=MediaKit.htm">Media Kit</a></li>
+	 <li><a href="CommunicationPolicy.aspx">Communication Policy of RBI</a></li>
+	
+     <li>
+        <a href="#" aria-expanded="false" role="button" aria-controls="Ab-soi">Sources of Information <span aria-hidden="true">▶</span></a>
+        <ul class="submenu1" id="Ab-soi">
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#AP">Annual Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#HP">Half-yearly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#QP">Quarterly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#MP">Monthly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#WP">Weekly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#OP">Occasional Publications</a></li>
+            <li><a href="/scripts/SDDSview.aspx">SDDS</a></li>
+            <li><a href="/scripts/BS_NSDPDisplay.aspx">NSDP</a></li>
+            <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#PS">Publications available on Subscription</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#GI">General Information</a></li>	  
+        </ul>
+     </li>  
+	 <li><a href="/scripts/Project1.aspx">RBI History</a></li>
+	 <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-mus">Museum <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="Ab-mus">
+			<li><a href="https://therbimuseum.rbi.org.in/">The RBI Museum</a></li>
+			<li><a href="/scripts/ic_museum.aspx">RBI Monetary Museum</a></li>
+         </ul>
+	 </li>
+</ul>
+</li>
+  <li>
+    <a href="#" aria-expanded="false" role="button" aria-controls="No-Sub1">Notification ▼</a>
+    <ul class="submenu1" id="No-Sub1">
+      <li><a href="/scripts/NotificationUser.aspx">Notifications </a></li>
+             <li><a href="/scripts/BS_ViewMasterDirections.aspx">Master Directions </a></li>
+             <li><a href="/scripts/BS_ViewMasterCirculardetails.aspx">Master Circulars </a></li> 
+	     <li><a href="/scripts/Fs_AmendmentDirections.aspx">Amendment Directions </a></li> 
+	     <li><a href="#" aria-expanded="false" role="button" aria-controls="No-draft">Draft Notifications/Guidelines <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="No-draft">
+			<li><a href="/scripts/DraftNotificationsGuildelines.aspx">Draft Notifications/Guidelines</a></li>
+			<li><a href="/scripts/BS_ViewREwiseDraftDirections.aspx">Draft Directions (RE-wise)</a></li> 
+         	</ul>
+	     </li>
+
+            
+             <li><a href="/scripts/BS_CircularIndexDisplay.aspx">Index To RBI Circulars </a></li> 
+             <li><a href="/scripts/BS_ViewListofstandalonecirculars.aspx">Standalone Circulars </a></li>
+             <li><a href="/scripts/NotificationUserWithdrawnCircular.aspx">Circulars Withdrawn </a></li>
+
+      
+    </ul>
+  </li>
+
+  <li><a href="/scripts/BS_PressReleaseDisplay.aspx">Press Releases</a></li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Sp-Sub1">Speeches & Media Interactions ▼</a>
+	<ul class="submenu1" id="Sp-Sub1">
+	  <li><a href="/scripts/BS_ViewSpeeches.aspx">Speeches</a></li>
+      <li><a href="/scripts/BS_ViewInterviews.aspx">Media Interactions</a></li>
+      <li><a href="/scripts/Lectures.aspx">Memorial Lectures</a></li>
+      <li><a href="/scripts/BS_ViewPodcast.aspx">Podcasts</a></li>
+	</ul>
+  </li>
+  <li><a href="#"  aria-expanded="false" role="button" aria-controls="Pu-Sub1">Publications ▼</a>
+		<ul class="submenu1" id="Pu-Sub1">
+			<li><a href="/scripts/Publications.aspx?publication=Biennial">Biennial</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Annual">Annual</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=HalfYearly">Half-Yearly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Quarterly">Quarterly</a></li>
+		    <li><a href="/scripts/Publications.aspx?publication=Bimonthly">Bi-monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Monthly">Monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Weekly">Weekly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Occasional">Occasional</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Reports">Reports</a></li>
+		    <li><a href="/scripts/OccasionalPublications.aspx?head=Working Papers">Working Papers</a></li>
+		</ul>
+	</li>				  
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Le-Sub1">Legal Framework ▼</a>
+	<ul class="submenu1" id="Le-Sub1">
+	   <li><a href="/scripts/Act.aspx">Act </a></li>
+       <li><a href="/scripts/Rules.aspx">Rules </a></li>
+       <li><a href="/scripts/Regulations.aspx">Regulations </a></li> 
+       <li class="last"><a href="/scripts/Schemes.aspx">Schemes </a></li>
+	   </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Re-Sub1">Research ▼</a>
+		<ul class="submenu1" id="Re-Sub1">
+			<li><a href="/Scripts/ExternalResearchSchemes.aspx">External Research Schemes</a></li>
+			<li><a href="/Scripts/OccasionalPapers.aspx">RBI Occasional Papers</a></li>
+			<li><a href="/Scripts/OccasionalPublications.aspx?head=Working%20Papers">Working Papers</a></li>
+			<li><a href="/Scripts/BS_ViewBulletin.aspx">RBI Bulletin</a></li>
+			<li><a href="/Scripts/Project1.aspx">History</a></li>
+			<li><a href="/Scripts/Occas_DRG_Studies.aspx">DRG Studies</a></li>
+			<li><a href="/Scripts/KLEMS.aspx">KLEMS</a></li>
+			<li class="last"><a href="/Scripts/StateStatisticsFinances.aspx">State Statistics and Finances</a></li>
+        </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Statistics ▼</a>
+		<ul class="submenu1" id="St-Sub1">
+		  <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+          <li><a href="https://data.rbi.org.in" target="_blank">Database on Indian Economy</a></li>
+          <li><a href="/scripts/FS_PDS.aspx">Public Debt Statistics</a></li>
+		</ul> 
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Regulatory Reporting ▼</a>
+		<ul class="submenu1">
+			<li><a href="/scripts/BS_Listofallreturns.aspx">List of Returns</a></li>
+			<li><a href="/scripts/DataDefinition.aspx">Data Definition</a></li>
+			<li><a href="/scripts/ValidationRules.aspx">Validation rules/ Taxonomy</a></li>
+			<li><a href="/scripts/ReportingPlaform.aspx">List of RBI Reporting Portals</a></li>
+			<li class="last"><a href="/scripts/ReportingFAQ.aspx">FAQs of RBI Reporting Portals</a></li>
+		</ul>
+   </li>
+</ul>
+</div></div>
+</nav>
+<div class="container_12" >
+    <section>
+        <div class="grid_12" >
+            <div id="dialogAlert" title="" tabindex="-1"  style="text-align: center; display: none;">
+                <p id="AM_Message" tabindex="-1" style="color: #444; font-size: 15px; margin: 20px 0; min-height: 40px;"></p>
+            </div>
+        </div>
+    </section>
+</div>
+<!--  NAVIGATION END-->
+<!--HEADER END-->
+<input type="submit" name="UsrFontCntr$btn" value="" id="btn" style="visibility: hidden; height: 0px; width: 0px;" />
+
+<script type="text/javascript">
+    function SetLink() {
+        //a.href = "https://www.rbi.org.in/hindi/Home.aspx";
+        var txt="This will lead you to Hindi (हिन्दी) language website. Are you sure you want to switch to this language?"
+        if(window.confirm(txt)==true){
+            //document.cookie = 'preferLang' + '=;secure; expires=Thu, 01-Jan-70 00:00:01 GMT;path=/;';
+            window.location.replace("https://www.rbi.org.in/hindi/");
+        }
+        else return false;
+        
+    }
+
+
+
+
+	const allMenuItems = document.querySelectorAll("nav ul li");
+	
+	allMenuItems.forEach(item => {
+		item.addEventListener("focusin", (event) => {	
+			const MenuText =event.target.textContent;
+			const allMenuItems1 = document.querySelectorAll(".hasSubmenu");
+			allMenuItems1.forEach(item1 => {
+				if (MenuText === 'Press Releases')
+				{	
+					
+					item1.classList.remove('focused');
+					rollback(item1)
+					item1.classList.remove('open');
+				}
+			});
+			
+		});
+	});
+
+
+const menuItems = document.querySelectorAll(".hasSubmenu");
+menuItems.forEach(item => {
+	item.addEventListener("mouseenter", (event) => {
+		item.className="hasSubmenu open focused"
+		expandThis(item);
+	});
+	item.addEventListener("mouseleave", (event) => {		
+		rollback(item)
+		item.className="hasSubmenu"
+	});
+	item.addEventListener("focusin", (event) => {		
+		const allMenuItems = document.querySelectorAll("nav ul li");
+		allMenuItems.forEach(item1 => {
+			item1.classList.remove('focused');
+			if(item!==item1)
+			rollback(item1)
+			item1.classList.remove('open');	
+		});							
+		item.classList.add('focused');
+	});
+	item.addEventListener("focusout", (event) => {
+		
+		if(!item.className.includes('focused')){
+		
+		rollback(item)
+		item.className="hasSubmenu"
+		}
+		item.classList.remove('focused');
+		item.classList.remove('open');
+	});
+
+    item.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+		if(item.className.includes("hasSubmenu open")){
+			rollback(item)
+			item.className="hasSubmenu"
+		}
+		else{
+          	item.className="hasSubmenu open focused"
+		var ele=item.querySelectorAll("a")[0];
+		
+		expandThis(item);	
+		}
+				
+        }
+	
+    });
+	
+});
+function expandThis(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+				    if ($targetul.queue().length <= 1) 
+				        if (this.istopheader)
+					$targetul.css({ left: $(this).children('a').eq(0).position().left, top: $mainmenu.position().top + this._dimensions.h - 2 })
+				            
+				    if (document.all && !window.XMLHttpRequest) 
+				        $mainmenu.find('ul').css({ overflow: (this.istopheader) ? 'hidden' : 'visible' })
+					
+					
+				    $targetul.dequeue().stop(true, true).slideDown(droplinemenu.animateduration.over)
+}
+const menuItemsf = document.querySelectorAll("nav .midmenu ul li");
+
+menuItemsf.forEach(item => {
+    item.addEventListener("keydown", (event) => {
+	
+	if(item.className.includes("last") ){
+		 if (pressedKeys['shift'] && event.key === "Tab"){}else{
+		var lastItem = document.getElementsByClassName('hasSubmenu open');
+		rollback(lastItem[0])
+		lastItem[0].className="hasSubmenu";
+		}
+	}
+	
+	});
+	
+	});
+	
+
+function rollback(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+$targetul.dequeue().stop(true, true).slideUp(droplinemenu.animateduration.out);
+}
+ 
+
+function setLetterSpace(val) {
+    
+	
+    if (false) {
+                    document.body.setAttribute("style", "letter-spacing:1px; line-height:20px; word-spacing:2px;");
+       
+    }
+    else {
+                    document.body.removeAttribute("style");
+    }
+    return false;
+
+    
+    }
+   
+
+// Toggle submenu
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if (submenu && submenu.classList.contains('submenu1')) {linkMessage();
+                e.preventDefault();
+                e.stopPropagation();
+
+                const parentLi = this.parentElement;
+
+                // Close sibling menus ONLY (not entire menu)
+                closeSiblings(parentLi);   
+ 
+
+               
+ 
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+        }
+        });
+    });
+
+    //  Close only sibling menus (important fix)
+    function closeSiblings(currentLi) {
+        const siblings = currentLi.parentElement.children;
+
+        Array.from(siblings).forEach(li => {
+            if (li !== currentLi) {
+            const submenus = li.querySelectorAll('.submenu1');
+        submenus.forEach(menu => menu.classList.remove('show'));
+    }
+    });
+    }
+
+    //  Click outside → close all
+    document.addEventListener('click', function () {
+		
+        document.querySelectorAll('.menu li > a').forEach(menu => {
+		if(menu.hasAttribute('aria-expanded')){
+            menu.setAttribute('aria-expanded','false');
+	}
+	
+    });
+
+    document.querySelectorAll('.submenu1').forEach(menu => {
+        menu.setAttribute('aria-hidden','true');
+    menu.classList.remove('show');
+	
+
+    });
+    });
+
+    //  Prevent closing when clicking inside menu
+    document.querySelector('.menu').addEventListener('click', function (e) {linkMessage();
+        e.stopPropagation();
+    });
+
+
+    //  Keyboard support
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('keydown', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if ((e.key === 'Enter' || e.key === ' ') && submenu) {
+                e.preventDefault();
+
+                const parentLi = this.parentElement;
+                closeSiblings(parentLi);
+
+
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+
+           
+        }
+
+          if (e.key === 'Escape') {
+        document.querySelectorAll('.submenu').forEach(menu => {
+            menu.classList.remove('show');
+    });
+    this.blur();
+    }
+    });
+    });
+    // When focusing main menu items → close other submenus
+    document.querySelectorAll('.menu > li > a').forEach(item => {
+        item.addEventListener('focus', function() {
+
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                
+                if (menu !== this.nextElementSibling) {
+              
+
+            document.querySelectorAll('.menu li > a').forEach(menu => {
+                if(menu.hasAttribute('aria-expanded'))
+                menu.setAttribute('aria-expanded','false');
+		
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                menu.setAttribute('aria-hidden','true');
+            
+            menu.classList.remove('show');
+            
+
+
+        });
+
+	
+    });
+
+    }
+    });
+
+    });
+    });
+
+    //  Close submenu when focus leaves it (TAB navigation)
+    document.querySelectorAll('.menu li').forEach(li => {
+        li.addEventListener('focusout', function (e) {
+            // Check if focus is still inside this <li>
+            if (!li.contains(e.relatedTarget)) {
+                const submenu = li.querySelector('.submenu1');
+                if (submenu) {
+                    submenu.classList.remove('show');
+                    if(li.querySelector('a').hasAttribute('aria-expanded'))
+                        li.querySelector('a').setAttribute('aria-expanded','false');
+	
+
+                    submenu.setAttribute('aria-hidden','true');
+                }
+            }
+        });
+    });
+</script>
+        <main class="container_12">
+        <a id="mainsection" name="mainsection"></a>
+
+        <nav aria-label="Breadcrumb" class="grid_12 breadcrumbs">
+<ul>
+                <li><a href="../home.aspx">Home</a></li>
+                <li><a href="publications.aspx">Publications</a></li>
+                <li><a href="publications.aspx">Annual</a></li>
+                <li><a href="AnnualReportMainDisplay.aspx">Annual Report Of The RBI</a></li>
+                <span id="lblNav"><li><a href="AnnualReportPublications.aspx?year=2012">Annex : Chronology of Major Policy Announcements - April 2025 to March 2026</a></li></span>
+            </ul>
+ </nav>
+
+        <div class="clear">
+        </div>
+        <div class="grid_11 omega right_blue_border">
+            <div id="example-one" class="text1">
+                <div class="list-wrap">
+                    <div id="annual">
+
+                        <h1 class="page_title">Annual Report</h1>
+                        <br />
+                        <span id="lblNote" style="text-align: justify"> <font color="RED"><b>Note : </b></font>To read the chapter of your choice, please click on the links below. You can also read past reports by accessing the archives in the right panel.</span>
+                        <div>
+                            <div id="doublescroll">
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                    
+                                    <table class="tablebg" width="100%"> <tr><td class="tableheader" align="left"><a id='APDF_13ANNEX290526E6389ECBCA0C4AC0B4136EEB391510CB' target="_blank" href="https://rbidocs.rbi.org.in/rdocs/AnnualReport/PDFs/13ANNEX290526E6389ECBCA0C4AC0B4136EEB391510CB.PDF" aria-labelledby='APDF_13ANNEX290526E6389ECBCA0C4AC0B4136EEB391510CB SPDF_13ANNEX290526E6389ECBCA0C4AC0B4136EEB391510CB'>
+   <img alt='PDF - Annex : Chronology of Major Policy Announcements - April 2025 to March 2026' style='padding: 8px;' src="../Images/pdf.gif" border="0" align="absmiddle"></a> (<span id='SPDF_13ANNEX290526E6389ECBCA0C4AC0B4136EEB391510CB' aria-hidden="true">415 kb</span>)</td></tr><tr><td class="tableheader" align="right"><b> Date : May 29, 2026</b></td></tr><tr><td align="center" class="tableheader"><b>Annex : Chronology of Major Policy Announcements - April 2025 to March 2026</b></td></tr><tr><td><table width="95%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">  <tr>    <td width="21%" align="center"><span class="head">Date of Announcement</span></td>    <td width="79%" align="center"><span class="head">Policy Initiative</span></td>  </tr>  <tr>    <td colspan="2" align="center"><span class="head">Monetary Policy Department</span></td>  </tr>  <tr>    <td valign="top">April 9, 2025</td>    <td valign="top">The monetary policy committee (MPC) decided to reduce the policy repo rate by 25 basis points (bps) from 6.25 per cent to 6.00 per cent. The MPC decided to change the stance from neutral to accommodative.</td>  </tr>  <tr>    <td valign="top">June 6, 2025</td>    <td valign="top">&bull; The MPC decided to reduce the policy repo rate by 50 bps from 6.00 per cent to 5.50 per cent. The MPC also decided to change the stance from accommodative to neutral. <br>      <br>&bull; Cash reserve ratio (CRR) was reduced by 100 bps to 3.00 per cent in four equal tranches of 25 bps each with effect from the fortnights beginning September 6, October 4, November 1, and November 29, 2025.</td>  </tr>  <tr>    <td valign="top">December 5, 2025</td>    <td valign="top">The MPC decided to reduce the policy repo rate by 25 bps from 5.50 per cent to 5.25 per cent. The MPC also decided to continue with the neutral stance.</td>  </tr>  <tr>    <td colspan="2" align="center" class="head">Financial Inclusion and Development Department</td>  </tr>  <tr>    <td valign="top">July 11, 2025</td>    <td valign="top">A clarification was issued that loans against voluntary pledge of gold and silver as collateral by borrowers, sanctioned by the banks up to the collateral free limit, will not be construed as a violation of extant instructions to waive collateral security in respect of agricultural loans and loans to micro and small enterprises (MSEs) up to specified limits.</td>  </tr>  <tr>    <td valign="top">December 1, 2025</td>    <td valign="top">The National Strategy for Financial Inclusion (NSFI) 2025-30 was released on December 1, 2025. It lays down five strategic objectives (Panch-Jyoti) towards elevating the state of financial inclusion in the country and a menu of 47 action points to achieve them.</td>  </tr>  <tr>    <td valign="top">January 13, 2026</td>    <td valign="top">The continuation of the modified interest subvention scheme (MISS) for short term loans to agriculture and allied activities availed through kisan credit card (KCC) during 2025-26 was notified.</td>  </tr>  <tr>    <td valign="top">February 9, 2026</td>    <td valign="top">With a view to facilitating improved access to formal credit, supporting entrepreneurial activity, and strengthening last mile credit delivery for MSEs with limited collateral, the limit for collateral free loans to MSEs was enhanced from &#8377;10 lakh to &#8377;20 lakh, effective April 1, 2026.</td>  </tr>  <tr>    <td colspan="2" align="center" class="head">Financial Markets Regulation Department</td>  </tr>  <tr>    <td valign="top">May 8, 2025</td>    <td valign="top">To provide greater flexibility for investment by foreign portfolio investors (FPIs), the short-term investment limit and the concentration limit for investments by FPIs in corporate debt securities under the general route were withdrawn.</td>  </tr>  <tr>    <td valign="top">June 16, 2025</td>    <td valign="top">In view of the notable developments in the technology landscape and an increase in product diversity, the regulatory framework for electronic trading platforms was reviewed and a revised Master Direction &ndash; Reserve Bank of India (Electronic Trading Platforms) Directions, 2025 was issued.</td>  </tr>  <tr>    <td valign="top">August 12, 2025</td>    <td valign="top">With a view to enhance suite of instruments for investments by persons resident outside India (PROIs) that maintain a special rupee vostro account (SRVA) for international trade settlement in Indian Rupees (INR), investment of their rupee surplus balance in the aforesaid account was permitted in central government securities (including treasury bills).</td>  </tr>  <tr>    <td valign="top">September 22, 2025</td>    <td valign="top">To widen the access to the non-deliverable derivative contract (NDDC) market, standalone primary dealers (SPDs) authorised as Authorised Dealer Category-III (AD Cat-III), were permitted to transact in NDDCs involving the INR.</td>  </tr>  <tr>    <td valign="top">October 3, 2025</td>    <td valign="top">PROIs that maintain an SRVA for international trade settlement in INR were permitted to invest their rupee surplus balance in the aforesaid account in non-convertible debentures/bonds and commercial papers issued by an Indian company with a view to enhance the suite of instruments for such investment.</td>  </tr>  <tr>    <td valign="top">November 11, 2025</td>    <td valign="top">&lsquo;Master Direction &ndash; Reserve Bank of India [Repurchase Transactions (Repo)] Directions, 2025&rsquo; was updated to include municipal debt securities as eligible securities for repo transactions.</td>  </tr>  <tr>    <td valign="top">December 8, 2025</td>    <td valign="top">With a view to supporting the risk management needs of the broader financial system, and to foster greater transparency, the regulatory framework for interest rate derivatives was reviewed and a revised &lsquo;Master Direction &ndash; Reserve Bank of India (Rupee Interest Rate Derivatives) Directions, 2025&rsquo; was issued.</td>  </tr>  <tr>    <td valign="top">February 6, 2026</td>    <td valign="top">In order to enhance the predictability about the availability of investment limits under the voluntary retention route (VRR) for FPI investment in debt, the investment limits for VRR were subsumed under the investment limit for the General Route for FPI investment in debt. FPIs that have availed retention periods longer than the minimum retention period stipulated for VRR were given the option to exit the VRR after the end of the minimum retention period.</td>  </tr>  <tr>    <td valign="top">February 18, 2026</td>    <td valign="top">With a view to obtaining a comprehensive overview of over-the-counter (OTC) derivative markets by facilitating global aggregation of transactions and prescribing a framework for implementation of unique transaction identifier (UTI), guidelines were issued mandating UTI for all transactions in OTC derivative markets.</td>  </tr>  <tr>    <td valign="top">March 27, 2026</td>    <td valign="top">&bull; &lsquo;Master Direction on Unique Identifiers in Financial Markers&rsquo; were issued, consolidating the instructions on legal entity identifier and UTI to improve accessibility of regulatory instructions and ease of doing business.<br>      <br>&bull; To curb undue volatility in INR, the ADs were mandated to maintain their net open positions involving INR (NOP-INR) in the onshore deliverable market within US$ 100 million at the end of each business day, effective April 10, 2026.</td>  </tr>  <tr>    <td colspan="2" align="center" class="head">Financial Markets Operations Department</td>  </tr>  <tr>    <td valign="top">June 30, 2025</td>    <td valign="top">Consequent upon the extension of call money market timings to 7:00 PM, the Reserve Bank revised the operating timings for the standing deposit facility (SDF) and the marginal standing facility (MSF) from 5:30 PM-11:59 PM to 7:00 PM -11:59 PM, with effect from July 1, 2025.</td>  </tr>  <tr>    <td valign="top">September 30, 2025</td>    <td valign="top">The Reserve Bank revised its liquidity management framework based on the recommendations of the Internal Working Group set up to review the liquidity management framework as well as comments/feedback received from stakeholders and members of the public.</td>  </tr>  <tr>    <td colspan="2" align="center" class="head">Foreign Exchange Department</td>  </tr>  <tr>    <td valign="top">April 22, 2025</td>    <td valign="top">The provision for linking of compounding amount that may be imposed in the compounding order (issued for a second or subsequent compounding application) to the earlier non-complied compounding order and enhancing the same by 50 per cent (as was provided for in the earlier guidelines) was deleted.</td>  </tr>  <tr>    <td valign="top">April 23, 2025</td>    <td valign="top">Exporters were allowed to realise and repatriate full export proceeds of goods exported to Bharat Mart within nine months from the date of sale of goods from the warehouse. They were also permitted to open/hire warehouses and remit funds for initial as well as recurring expenses to set-up and continue business operations of its offices, subject to reasonableness and without pre-conditions.</td>  </tr>  <tr>    <td valign="top">April 24, 2025</td>    <td valign="top">The compounding matrix (indicating broadly the amount to be imposed through compounding) was amended and suitable guidelines were issued for levying a smaller amount for compounding of contraventions in exceptional circumstances/facts involved in a case and in wider public interest. Consequently, the compounding authority was allowed to cap the amount imposed (per rule/regulation contravened) at &#8377;2,00,000 for such cases.</td>  </tr>  <tr>    <td valign="top">April 29, 2025</td>    <td valign="top">The criterion for track record in import/export of diamonds/coloured gemstones/diamond and coloured gemstones studded jewellery/plain gold jewellery was increased from two to three years vide amendment to Schedule II of Foreign Exchange Management (Foreign Currency Accounts by a Person Resident in India) Regulations governing the opening and maintenance of Diamond Dollar Account/s.</td>  </tr>  <tr>    <td valign="top">June 11, 2025</td>    <td valign="top">Government of India notified through an amendment in Foreign Exchange Management (Non-Debt Instruments) Rules, that an Indian company, engaged in a sector or activity prohibited for foreign direct investment (FDI), may issue bonus shares to its pre-existing shareholders who are PROIs, provided that the shareholding pattern of such shareholders does not change pursuant to such issuance.</td>  </tr>  <tr>    <td valign="top">June 13, 2025</td>    <td valign="top">Importers were permitted to make advance remittance for import of shipping vessel, without bank guarantee or an unconditional, irrevocable standby letter of credit, up to US$ 50 million, subject to certain conditions.</td>  </tr>  <tr>    <td valign="top">June 24, 2025</td>    <td valign="top">Tugs, tugboats, dredgers, and vessels going out of India for providing offshore support services were exempted from filing export declaration.</td>  </tr>  <tr>    <td valign="top">August 5, 2025</td>    <td valign="top">AD banks were permitted to open Special Rupee Vostro Accounts (SRVAs) of overseas correspondent banks without referring to the Reserve Bank for approval.</td>  </tr>  <tr>    <td valign="top">October 1, 2025</td>    <td valign="top">&bull; To facilitate merchanting traders to manage their merchanting trade transactions (MTTs) efficiently, it was decided to increase the time period for outlay of foreign exchange in case of MTT, from four to six months.<br>      <br>      &bull; To facilitate timely closure of entries in Export Data Processing and Monitoring System (EDPMS) and Import Data Processing and Monitoring System (IDPMS); and to reduce compliance burden on small exporters and importers, AD banks were advised to:<br>      <br>      o Reconcile and close entries (including outstanding entries) in EDPMS and IDPMS portals, of value equivalent to &#8377;10 lakh per entry/bill or less, based on a declaration provided by the concerned exporter that the amount has been realised or by the importer that the amount has been paid;<br>      <br>      o Accept any reduction in declared value or invoice value of the shipping bills/bills of entry, based on declaration by concerned exporter or importer; and<br>      <br>      o Review charges levied for handling these small-value export and import transactions, keeping in view the revised procedure/relaxations mentioned above and ensure that the same are commensurate with the services rendered and to not levy any penal charges (penalty) for delays in adherence to any regulatory guidelines.</td>  </tr>  <tr>    <td valign="top">October 3, 2025</td>    <td valign="top">It was decided that besides the already permitted investment channels, surplus balances in the SRVAs may be invested in non-convertible debentures/bonds and commercial papers issued by an Indian company also, in terms of applicable guidelines and limits.</td>  </tr>  <tr>    <td valign="top">October 6, 2025</td>    <td valign="top">&bull; AD banks, including their branches outside India, were permitted to lend in INR to PROIs which are resident of Bhutan, Nepal, or Sri Lanka, including a bank in these jurisdictions, for cross-border trade transactions.<br>      <br>&bull; Indian exporters were permitted to retain export proceeds in foreign currency-denominated account opened in International Financial Services Centre (IFSC), for up to three months (effective October 9, 2025) from the existing stipulation of one month.</td>  </tr>  <tr>    <td valign="top">November 13, 2025</td>    <td valign="top">&bull; The following relaxations were undertaken: <br>     <br>     o Time period for realisation and repatriation of full export value of goods/software/services exported from India was extended from nine months to fifteen months, from the date of export from India; and<br>     <br>     o Time period for shipment of goods was extended from one year to three years from the date of receipt of advance payment or as per agreement, whichever is later.</td>  </tr><tr>    <td valign="top">December 3, 2025</td>    <td valign="top">Direct submission of &lsquo;Liberalised Remittance Scheme (LRS) daily return&rsquo; effective January 1, 2026, by AD Category-ll banks/entities and Full-Fledged Money Changers (FFMCs) has been enabled, by providing them access to the CIMS<sup data-toggle="tooltip" title="Centralised Information Management System."><a href="#FN2" class="links">2</a></sup> portal. Consequently, they have discontinued submitting the LRS transactions through AD Category-l banks.</td>  </tr>  <tr>    <td valign="top">December 8, 2025</td>    <td valign="top">&bull; On a review of the extant export/import of currency framework, it was decided to allow a person, not being a citizen of Pakistan or Bangladesh, to:<br>    <br>    o Take or send out of India to Nepal or Bhutan, and bring into India from Nepal or Bhutan, currency notes of Government of India and Reserve Bank of India notes for any amount in denominations up to &#8377;100;<br>    <br>    o Take out of India to Nepal or Bhutan, notes of denominations above &#8377;100 up to a total limit of &#8377;25,000; and<br>    <br>    o Bring into India from Nepal or Bhutan, notes of denominations above &#8377;100, up to a total limit of &#8377;25,000.</td>  </tr>  <tr>    <td valign="top">January 10, 2026</td>    <td valign="top">Through rationalisation of the Foreign Exchange Management Act (FEMA) guarantees framework, the universe of guarantees enabled under automatic route has been expanded. While the previous framework did not have any enabling provision for guarantees issued by a non-resident entity, primary conditions for a guarantee transaction between a principal debtor and a surety, under the rationalised regime, are that the underlying transaction should not be prohibited under FEMA, 1999, and the surety and the debtor, wherever their residential statuses are different, are eligible lender and borrower under the extant borrowing/lending framework. Further, a comprehensive reporting on a quarterly basis has been introduced for all guarantees &ndash; issued, modified and invoked.</td>  </tr>  <tr>    <td valign="top">January 15, 2026</td>    <td valign="top">Foreign Exchange Management (Export and Import of Goods and Services), Regulations, 2026 were published. The regulations will come into effect from October 1, 2026.</td>  </tr>  <tr>    <td valign="top">February 9, 2026</td>    <td valign="top">The External Commercial Borrowings (ECB) Framework has been rationalised by, inter alia, expanding the universe of eligible borrowers and recognised lenders, linking borrowing limits with the borrower&rsquo;s financial strength and stipulation of uniform minimum average maturity period requirement. It also involves removal of cap on the cost of borrowing for ECB, liberalisation of the end-use restrictions and simplification of reporting requirements.</td>  </tr>  <tr>    <td colspan="2" align="center" class="head">Department of Regulation</td>  </tr>  <tr>    <td valign="top">April 9, 2025</td>    <td valign="top">Draft Securitisation of Stressed Assets Directions, 2025: To enable regulated entities (REs) to securitise stressed loan exposures, supplementing the mechanism under the SARFAESI<sup data-toggle="tooltip" title="Securitisation and Reconstruction of Financial Assets and Enforcement of Security Interest."><a href="#FN3" class="links">3</a></sup>    Act, 2002, the draft framework was issued for public comments.</td>  </tr>  <tr>    <td valign="top">April 21, 2025</td>    <td valign="top">&bull; Basel III Framework on Liquidity Standards &ndash; Liquidity Coverage Ratio (LCR) &ndash; Review of Haircuts on High Quality Liquid Assets (HQLA) and Review of Composition and Run-off Rates on Certain Categories of Deposits<sup data-toggle="tooltip" title="Now consolidated under Reserve Bank of India (Commercial Banks – Asset Liability Management) Directions, November 28, 2025."><a href="#FN4" class="links">4</a></sup>: The guidelines revised run-off rates for certain category of deposits and introduced haircuts for Government Securities denominated as level 1 HQLA.<br>      <br>&bull; Deposit Accounts of Minors: Revised and harmonised instructions on opening of and operation in deposit accounts of minors by banks were issued. In terms of these instructions, minors of any age can open and operate savings and term deposit accounts through his/her natural or legal guardian or with mother as guardian. Minors above the age of 10 years may open and operate savings/term deposit accounts independently, if they so desire.</td>  </tr>  <tr>    <td valign="top">May 7, 2025</td>    <td valign="top">Framework for Formulation of Regulations: Laid down broad principles for formulation, amendment, and review of regulations<sup data-toggle="tooltip" title="For the purpose of this Framework, “Regulations” include all regulations, directions, guidelines, notifications, orders, policies, specifications, and standards as issued by the Reserve Bank in exercise of the powers conferred on it by or under the provisions of the Acts and Rules."><a href="#FN5" class="links">5</a></sup> by the Reserve Bank ensuring a standardised, transparent, and consultative approach. Key processes include (i) public consultation; (ii) issuance of general statement of response to the public comments received; (iii) impact analysis (to the extent feasible); and (iv) periodic review.</td>  </tr>  <tr>    <td valign="top">May 8, 2025</td>    <td valign="top">Reserve Bank of India (Digital Lending) Directions, 2025<sup data-toggle="tooltip" title="Now consolidated under Reserve Bank of India (Credit Facilities) Directions, issued Regulated Entity-wise on November 28, 2025."><a href="#FN6" class="links">6</a></sup>: Existing and new instructions were consolidated, mandating REs to ensure that lending service providers (LSPs) display all loan offers to borrowers when multiple lenders are involved. Further, a public directory of Digital Lending Apps (DLAs) was introduced to help borrowers verify their link with REs.</td>  </tr>  <tr>    <td valign="top">May 22, 2025</td>    <td valign="top">Discussion Paper on Capital Raising Avenues for Primary (Urban) Co-operative Banks&rsquo; was issued for public consultation.</td>  </tr>  <tr>    <td valign="top">June 6, 2025</td>    <td valign="top">&bull; Non-Banking Financial Companies - Microfinance Institutions (NBFC-MFIs) Qualifying Asset: Criteria revised from 75 per cent of their total assets to 60 per cent of total assets (netted off by intangible assets) to allow NBFC-MFIs to diversify their assets.<br>      <br>&bull; Lending Against Gold and Silver Collateral Directions, 2025: Guidelines were issued to: (i) put in place a harmonised regulatory framework across various REs; (ii) address concerns relating to prevailing lending practices and provide clarity on certain aspects; and (iii) strengthen the conduct-related aspects.</td>  </tr>  <tr>    <td valign="top">June 12, 2025</td>    <td valign="top">&bull; Amendment to Master Direction on Know Your Customer (KYC): Periodic updation of KYC eased, particularly for individual customers, including the Pradhan Mantri Jan Dhan Yojana (PMJDY) account holders. REs to allow all transactions in accounts of low-risk individual customers and ensure updation of KYC within one year of its due date or up to June 30, 2026, whichever is later. Prior intimation and reminders to customers mandated; and services of business correspondents (BCs) permitted for KYC updation.<br>      <br>&bull; Inoperative Accounts/Unclaimed Deposits in Banks - Revised Instructions (Amendment) 2025: was issued for public comments on May 23, 2025. Accordingly, a circular on &lsquo;Inoperative Accounts/ Unclaimed Deposits in Banks - Revised Instructions (Amendment) 2025&rsquo; was issued on June 12, 2025. Subsequently, the same was consolidated under Reserve Bank of India (Responsible Business Conduct) Directions, 2025; issued Regulated Entity-wise on November 28, 2025.</td>  </tr>  <tr>    <td valign="top">June 19, 2025</td>    <td valign="top">Project Finance Directions, 2025<sup data-toggle="tooltip" title="Now consolidated under Reserve Bank of India (Income Recognition, Asset Classification and Provisioning) Directions, Reserve Bank of India (Resolution of Stressed Assets) Directions, Reserve Bank of India (Credit Facilities) Directions issued Regulated Entity-wise on November 28, 2025."><a href="#FN7" class="links">7</a></sup>: Introduces a principle-based regime for resolution of stress in project finance exposures which include flexibility to defer the date of commencement of commercial operations (DCCO) without any asset classification downgrade. Also prescribes enhancing due diligence requirements including mandatory obtention of clearances before financial closure to minimise project execution risk; minimum share of lenders to enhance skin in the game and stipulation of a common loan agreement amongst lenders.</td>  </tr>  <tr>    <td valign="top">June 20, 2025</td>    <td valign="top">Review of PSL Norms for Small Finance Banks: Revised to 60 per cent of adjusted net bank credit (ANBC) or credit equivalent of off-balance sheet exposures (CEOBE), whichever is higher from existing 75 per cent.</td>  </tr>  <tr>    <td valign="top">July 2, 2025</td>    <td valign="top">Pre-payment Charges on Loans Directions, 2025: Harmonised framework on levy of pre-payment charges on loans sanctioned to individuals and MSEs.</td>  </tr>  <tr>    <td valign="top">July 10, 2025</td>    <td valign="top">CareEdge Global IFSC Limited (CGIL) Rating: CGIL was accredited for rating of non-resident corporate exposures arising out of IFSC vide RBI circular<sup data-toggle="tooltip" title="Now consolidated under Reserve Bank of India (Prudential Norms for Capital Adequacy) Directions, issued Regulated Entity-wise on November 28, 2025."><a href="#FN8" class="links">8</a></sup>. The geographic restriction on rating of exposures arising out of IFSC was relaxed with effect from January 9, 2026.</td>  </tr>  <tr>    <td valign="top">July 29, 2025</td>    <td valign="top">Investment in Alternative Investment Funds (AIFs) Directions, 2025<sup data-toggle="tooltip" title="Now consolidated under Reserve Bank of India (Undertaking of Financial Services) Directions, issued Regulated Entity-wise on November 28, 2025."><a href="#FN9" class="links">9</a></sup>: Revised guidelines cap individual contribution of an RE to 10 per cent of the corpus (20 per cent collectively across REs). Certain flexibility provided to REs to invest in AIFs with downstream investment in debtor companies.</td>  </tr>  <tr>    <td valign="top">August 6, 2025</td>    <td valign="top">&bull; Co-Lending Arrangements Directions, 2025: Framework expanded beyond priority sector loans and revised directions issued to provide a broad-based framework for co-lending.<br>      <br>&bull; Non-Fund Based Credit Facilities Directions, 2025: Harmonised and principle-based framework for issuance of non-fund-based facilities such as guarantees, letters of credit and co-acceptances. Liberalises partial credit enhancement (PCE) related aspects including the exposure limits per RE, list of eligible REs permitted to issue PCE and their capital requirements.</td>  </tr>  <tr>    <td valign="top">August 14, 2025</td>    <td valign="top">&bull; Compliance with Hon&rsquo;ble Supreme Court Order (April 30, 2025): REs were advised to ensure compliance with the directives of the Supreme Court dated April 30, 2025 related to general accessibility of financial services for persons with disabilities (PwDs).<br>      <br>&bull; Amendment to Master Direction on KYC: Focus on inclusiveness and easing the processes of KYC and updation of KYC for customers with special needs, including PwDs. REs were mandated to ensure that their customer acceptance policies shall not result in denial of banking/financial facility to members of public, especially those who are financially or socially disadvantaged, including the PwDs. REs to ensure non-denial of services, record reasons for rejection, and avoid exclusion in video-based customer identification process (V-CIP), including flexible &lsquo;liveness check&rsquo; requirements.</td>  </tr>  <tr>    <td valign="top">September 17, 2025</td>    <td valign="top">Regulatory Review Mechanism: Regulatory Review Cell constituted w.e.f. October 1, 2025, within the Department of Regulation, with the mandate to review each regulation issued by the Reserve Bank in a comprehensive, objective, and systematic manner, at least once in every 5-7 years. Further, to strengthen the stakeholder engagement in the regulatory process and leverage industry expertise on a continued basis, an Independent Advisory Group on Regulation (AGR) comprising of six external experts has been formed, effective October 1, 2025.</td>  </tr>  <tr>    <td valign="top">September 26, 2025</td>    <td valign="top">Settlement of Claims in Respect of Deceased Customers of Banks Directions, 2025: Provides a harmonised framework and standardised documents for settlement of claims by banks in respect of deposit accounts, safe deposit locker and articles in safe custody of a deceased customer and minimises the difficulties faced by the nominees, survivors, and legal heirs.</td>  </tr>  <tr>    <td valign="top">September 29, 2025</td>    <td valign="top">&bull; Lending Against Gold and Silver Collateral (1st Amendment) Directions, 2025: Permits scheduled commercial banks as also Tier 3 and Tier 4 urban co-operative banks (UCBs) to extend working capital loans to any borrower who requires gold as a raw material in manufacturing or industrial processing, beyond jewellers.</td>  </tr>  <tr>    <td valign="top">September 29, 2025</td>    <td valign="top">&bull; Interest Rate on Advances (Amendment Directions), 2025: Allows reduction in spread components other than &lsquo;credit risk premium&rsquo;, at intervals shorter than once in three years for customer retention, on justifiable grounds, in a non-discriminatory manner, and in terms of the bank&rsquo;s policy for floating rate loans. Borrowers given option to switch over to a fixed rate at the time of reset, as per RE&rsquo;s Board approved policy.</td>  </tr>  <tr>    <td valign="top">September 30, 2025</td>    <td valign="top">Scheme for Facilitating Accelerated Payout - Inoperative Accounts and Unclaimed Deposits: Introduced for one year (October 1, 2025 to September 30, 2026) to incentivise banks for reactivation of inoperative accounts and return of unclaimed deposits lying with DEA Fund through differential payouts based on period of inoperativeness and amount of unclaimed deposits/inoperative accounts.</td>  </tr>  <tr>    <td valign="top">October 7, 2025</td>    <td valign="top">&bull; Scheduled Commercial Banks - Capital Charge for Credit Risk &ndash; Standardised Approach Directions, 2025: Draft proposed enhancements in risk sensitivity through granular risk weights for exposures to corporates, micro, small, and medium enterprises (MSMEs) and real estate, revised credit conversion factors, inclusion of transactors in retail category where transactors are credit cards with timely repayments during the previous 12 months, and suitable adjustments to the risk weights applied to loans rated by credit rating agencies, depending on the default history of such loans for each rating agency, and due diligence by banks. The final Directions with suitable revisions based on stakeholder&rsquo;s feedback were issued on April 27, 2026 and are effective from April 1, 2027.<br>      <br>&bull; Scheduled Commercial Banks and AIFI - Asset Classification, Provisioning and Income Recognition Directions, 2025: Draft introduces expected credit loss (ECL) framework for provisioning and income recognition, aligning with international best practices and proposed to be applicable from April 1, 2027. The final guidelines have since been issued on April 27, 2026.</td>  </tr>  <tr>    <td valign="top">October 28, 2025</td>    <td valign="top">Nomination Facility in Deposit Accounts, Safe Deposit Lockers and Articles Kept in Safe Custody with the Banks Directions, 2025: Implements revised nomination related provisions and rules notified by the Government of India under the Banking Laws (Amendment) Act, 2025 and the Banking Companies (Nomination) Rules, 2025, respectively.</td>  </tr>  <tr>    <td valign="top">November 14, 2025</td>    <td valign="top">Trade Relief Measures Directions, 2025: Provides relaxation to exporters, including, inter alia, moratorium period on all loans falling within the specified period and enhancement in maximum credit for pre-shipment and post-shipment credit.</td>  </tr>  <tr>    <td valign="top">November 28, 2025</td>    <td valign="top">Consolidation of Master Directions: 237 Master Directions were issued by Department of Regulation on &lsquo;as-is&rsquo; basis with seven new entity-wise Master Directions on &lsquo;Digital Banking Channels Authorisation&rsquo;. These 244 instructions have been issued separately for 11 types of regulated entities and are cohesively organised across various regulatory areas.</td>  </tr>  <tr>    <td valign="top">December 4, 2025</td>    <td valign="top">&bull; Amendment Directions for Gold Metal Loans (GML): Amendments to instructions pertaining to GML Scheme were issued to commercial banks<sup data-toggle="tooltip" title="Excluding payments banks, local area banks and regional rural banks."><a href="#FN10" class="links">10</a></sup>.<br>      <br>&bull; Withdrawal of Guidelines on Enhancing Credit Supply for Large Borrowers through Market Mechanism: Earlier guidelines dated August 25, 2016, were withdrawn with effect from January 1, 2026. Banks mandated to have systems to monitor and address the risks emanating from their exposures to ultra-large borrowers who are excessively leveraged and have substantial borrowings from the banking system.</td>  </tr>  <tr>    <td valign="top">December 4, 2025</td>    <td valign="top">&bull; Commercial Banks - Concentration Risk Management Amendment Directions, 2025: Effective April 1, 2026, instructions on intragroup transactions and exposures (ITE) were rationalised against the backdrop of the large exposure framework (LEF), and the scope of credit risk mitigation (CRM) benefit emanating from funds placed by foreign banks (operating in branch mode) with the Reserve Bank was enhanced Further, in line with LEF instructions, credit conversion factors and CRM offsets were extended for computation for ITE, and these limits were linked to Tier 1 capital.<br>      <br>&bull; Amendment Directions on Credit Information Reporting: Mandates more frequent submission of credit information by credit institutions to credit information companies, effective July 1, 2026.<br>      <br>      • Branch Authorisation Directions: Harmonise and consolidate the instructions/guidelines related to permission for place of business, change of name and scheduling for primary UCBs and state co-operative banks (StCBs) and district central co-operative banks (DCCBs).<br>      <br>• Basic Savings Bank Deposit (BSBD) Account: Revised instructions provide following additional facilities to be provided free of charge, without any requirement of minimum balance: <br>    <br>    o Cheque book with minimum twenty-five cheque leaves per year;<br>    <br>    o Internet and mobile banking facility; and<br>    <br>    o Passbook or monthly statement of account in lieu of passbook, either in print or by e-mail, as per request of the account holder.</td>  </tr>  <tr>    <td valign="top">December 5, 2025</td>    <td valign="top">Undertaking of Financial Services Directions, 2025: Updated framework on ring-fencing banks&rsquo; core activities from non-core financial services for various REs.</td>  </tr>  <tr>    <td valign="top">December 11, 2025</td>    <td valign="top">&bull; Amendment Directions on Maintenance of Cash Credit Accounts, Current Accounts and Overdraft (OD) Accounts: Withdraws the earlier restrictions placed on maintenance of cash credit accounts with banks. Allows banks having minimum 10 per cent share, either in banking system&rsquo;s aggregate exposure to a borrower or in banking system&rsquo;s aggregate fund-based exposure to a borrower, to maintain current accounts and overdraft accounts without restrictions. Banks not meeting the above eligibility criteria can maintain current accounts or OD accounts only in the nature of collection accounts.<br>    <br>&bull; Definition of &lsquo;Fortnight&rsquo;: Pursuant to the enactment of the Banking Laws (Amendment) Act, 2025, the definition of &lsquo;Fortnight&rsquo; for the purpose of CRR and statutory liquidity ratio (SLR) maintenance and reporting by banks was amended from &ldquo;the period from Saturday to the second following Friday, both days inclusive&rdquo; to &ldquo;the period from the first day to the fifteenth day of each calendar month or sixteenth day to the last day of each calendar month, both days inclusive&rdquo;, with effect from December 15, 2025.</td>  </tr>  <tr>    <td valign="top">December 29, 2025</td>    <td valign="top">Amendment to RE-wise KYC Directions, 2025: Delineates the customer identification process (CIP) and other customer due diligence (CDD) procedure related responsibilities of the REs, uploading the customers&rsquo; KYC records on CKYCR<sup data-toggle="tooltip" title="Central Know Your Customer Records Registry."><a href="#FN11" class="links">11</a></sup> vis-&agrave;-vis the REs downloading the same from CKYCR.</td>  </tr>  <tr>    <td valign="top">January 1, 2026</td>    <td valign="top">Risk Weighting Framework for Exposure of NBFCs to Infrastructure Projects: Risk weights prescribed for infrastructure exposures that meet certain high-quality conditions and repayment thresholds were rationalised.</td>  </tr>  <tr>    <td valign="top">January 5, 2026</td>    <td valign="top">Amendment Directions on Lending to Related Parties: Introduces scale-based materiality thresholds, beyond which exposures to related parties require approval of the Bank Board or its designated Committee, alongside enhanced governance, and disclosure requirements. To address the risks arising from reciprocal or quid pro quo lending arrangements between banks, the Directions introduces the concept of &lsquo;Reciprocally Related Person&rsquo;.</td>  </tr>  <tr>    <td valign="top">January 8, 2026</td>    <td valign="top">Draft &lsquo;Reserve Bank of India (Urban Co-operative Banks - Governance) Amendment Directions, 2026&rsquo; and draft &lsquo;Reserve Bank of India (Rural Co-operative Banks - Governance) Amendment Directions, 2026&rsquo; were issued for public/stakeholders&rsquo; comments. These prescribed a mandatory three-year cooling-off period after 10 years of continuous tenure before a director can rejoin the same bank&rsquo;s Board.</td>  </tr>  <tr>    <td valign="top">January 13, 2026</td>    <td valign="top">Discussion Paper on &lsquo;Licensing of Urban Co-operative Banks (UCBs)&rsquo; was issued for public/stakeholders&rsquo; comments.</td>  </tr>  <tr>    <td valign="top">January 27, 2026</td>    <td valign="top">Draft &lsquo;Commercial Banks - Relief Measures in Areas Affected by Natural Calamities Directions, 2026&rsquo; was issued for public comments. The final directions were issued on April 29, 2026.</td>  </tr>  <tr>    <td valign="top">February 6, 2026</td>    <td valign="top">The draft amendment directions on &lsquo;Reserve Bank of India (Non-Banking Financial Companies &ndash; Branch Authorisation)&rsquo; were issued. The final directions were issued on April 15, 2026.</td>  </tr>  <tr>    <td valign="top">February 10, 2026</td>    <td valign="top">&bull; With a view to exempt eligible &lsquo;NBFCs not availing public funds and not having customer interface (including &lsquo;Type I NBFCs&rsquo;)&rsquo; from registration requirement with the Reserve Bank, subject to certain conditions, the draft &lsquo;Reserve Bank of India (Non-Banking Financial Companies &ndash; Registration, Exemptions and Framework for Scale Based Regulation) Amendment Directions, 2026&rsquo; were issued for public comments on February 10, 2026. The final directions were issued on April 29, 2026.<br>    <br>&bull; Draft amendment directions were issued rationalising the definition and aggregate limits of unsecured advances, enhanced loan limits for single borrower unsecured advances, specified certain disclosure requirements and deregulated the tenor and moratorium requirements for housing loans for Tier 3 and Tier 4 UCBs among others. The final directions were issued on April 29, 2026.</td>  </tr>  <tr>    <td valign="top">February 11, 2026</td>    <td valign="top">&bull; Draft Agency Business and Referral Services: Clarifies the distinction between agency and referral activities; and strengthens disclosure requirements to ensure customers are clearly informed of the RE&rsquo;s role and absence of risk assumption. Reinforces governance, due diligence, and oversight requirements to prevent mis-selling and contain contingent risks.<br>    <br>• Draft Amendment Directions on Advertising, Marketing and Sales of Financial Products and Services by Regulated Entities: Proposes to prevent mis-selling, dark patterns and compulsory bundling of financial products and services by REs (their own as well as third-party&rsquo;s) while ensuring explicit customer consent, suitability assessment, responsible conduct of DSAs/DMAs and effective customer protection and compensation mechanisms.</td>  </tr>  <tr>    <td valign="top">February 12, 2026</td>    <td valign="top">Draft Amendment Directions on Conduct of Regulated Entities in Recovery of Loans and Engagement of Recovery Agents: Proposes to harmonise the instructions across all the REs to ensure fair treatment of borrowers, prevention of harsh recovery practices and to strengthen the framework relating to due diligence, Code of Conduct, monitoring and accountability of banks and recovery agents in recovery related activities.</td>  </tr>  <tr>    <td valign="top">February 13, 2026</td>    <td valign="top">&bull; Draft Directions on Bank Lending to Real Estate Investment Trusts (REITs): Draft proposes to allow commercial banks to extend direct financing to listed REITs at the trust level. Existing guidelines on lending to Infrastructure Investment Trust (InvITs) are also proposed to be harmonised for parity with prudential safeguards proposed for lending to REITs.<br>      <br>      • Default Loss Guarantee (DLG) Clarification: Allows NBFCs to consider DLG cover for determining provisions under the ECL framework across all stages, subject to the requirements as laid down under Indian Accounting Standards (IndAS) which require, inter alia, the DLG arrangement to be integral to the contractual terms of the loan and not being recognised separately. NBFCs also need to comply with the disclosure requirements under IndAS 1.<br>      <br>• Rural Co-operative Banks Clarification: Clarifies income recognition norms - accrual basis for standard assets and cash basis for non-performing asset (NPAs).</td>  </tr>  <tr>    <td valign="top">February 26, 2026</td>    <td valign="top">Directions on &lsquo;Private Placement of Equity Shares by NUCFDC (Umbrella Organisation for Primary Co-operative Banks)&rsquo; was issued.</td>  </tr>  <tr>    <td valign="top">March 6, 2026</td>    <td valign="top">Draft Amendment Directions for &lsquo;Review of Framework of Limiting Customer Liability in Digital Transactions&rsquo;: Proposes to strengthen customer protection in electronic banking transactions by clearly defining the categories of transactions and liability standards. Further, compensation mechanism in case of small value fraudulent electronic banking transactions is proposed to be introduced.</td>  </tr>  <tr>    <td valign="top">March 10, 2026</td>    <td valign="top">        &bull; Dividend Framework: Revised prudential norms on &lsquo;Declaration of Dividend and Remittance of Profits&rsquo; to enable the banks with higher net profits, lower net NPAs and higher cushion in terms of capital adequacy, declare higher dividends. The new directions shall come into effect from FY 2026-27.<br>      <br>• Amendment Directions on &lsquo;Counterparty Credit Risk - Add-on factors for computation of Potential Future Exposure&rsquo;<sup data-toggle="tooltip" title="Now consolidated under Reserve Bank of India (Commercial Banks - Prudential Norms on Capital Adequacy) Directions, 2025 dated November 28, 2025."><a href="#FN12" class="links">12</a></sup>: Clarified that banks acting as clearing members in equity and commodity derivatives on SEBI-recognised exchanges are required to maintain capital charge for counterparty credit risk. Further, the add-on factors for potential future exposure (PFE) under the current exposure method (CEM) for interest rate, exchange rate, and gold contracts were revised to largely align with Basel Committee on Banking Supervision (BCBS) guidelines.<br>      <br>• &lsquo;Reserve Bank of India (Non-Banking Financial Companies &ndash; Prudential Norms on Capital Adequacy) Second Amendment Directions, 2026&rsquo; was issued.</td>  </tr>  <tr>    <td valign="top">March 16, 2026</td>    <td valign="top">Financial Statements - Presentation and Disclosures Amendment Directions, 2026: The disclosure requirements pertaining to Deposit Insurance and Credit Guarantee Corporation (DICGC) insurance premium were aligned with the &lsquo;Risk Based Premium (RBP) Framework&rsquo;. With effect from April 1, 2026, the banks are required to disclose in the annual report that &lsquo;deposit insurance premium as applicable was paid to DICGC within the prescribed timelines&rsquo; or otherwise.</td>  </tr>  <tr>    <td valign="top">March 30, 2026</td>    <td valign="top">Amendment Directions on Capital Market Exposure: These directions: (i) provide an enabling framework for commercial banks (excluding SFBs) to finance acquisitions by Indian corporates; (ii) rationalise the limits for lending by banks to individuals against shares, units of REITs, InvITs, etc; and (iii) put in place a more principle-based framework for lending to capital market intermediaries.</td>  </tr>  <tr>    <td valign="top">March 31, 2026</td>    <td valign="top">Trade Relief Measures Directions, 2026: Given the continuing disruptions to global trade due to the West Asia crisis, the credit period for pre-shipment and post-shipment export credit disbursed till June 30, 2026 has been extended to 450 days.</td>  </tr>  <tr>    <td colspan="2" align="center" class="head">FinTech Department</td>  </tr>  <tr>    <td valign="top">April 9, 2025</td>    <td valign="top">The Reserve Bank allowed &lsquo;Theme Neutral&rsquo; applications as part of the &lsquo;On Tap&rsquo; facility under the Regulatory Sandbox.</td>  </tr>  <tr>    <td valign="top">August 13, 2025</td>    <td valign="top">Report of the Committee to develop a &lsquo;Framework for Responsible and Ethical Enablement of Artificial Intelligence (FREE-AI) in the Financial Sector&rsquo; was placed on the Reserve Bank&rsquo;s website.</td>  </tr>  <tr>    <td valign="top">October 23, 2025</td>    <td valign="top">The Reserve Bank launched the fourth edition of its Global Hackathon &ndash; &lsquo;HaRBInger -Innovation for Transformation&rsquo; with the theme &lsquo;Secure Banking: Powered by Identity, Integrity and Inclusivity&rsquo;.</td>  </tr>  <tr>    <td colspan="2" align="center" class="head">Department of Supervision</td>  </tr>  <tr>    <td valign="top">February 6, 2026</td>    <td valign="top">The Reserve Bank announced the launch of Mission SAKSHAM<sup data-toggle="tooltip" title="Mission SAKSHAM was subsequently launched on April 28, 2026."><a href="#FN13" class="links">13</a></sup>    (Sahakari Bank Kshamta Nirman) for primary UCBs - a sector wide capacity building and certification framework. The capacity building of the sector would be implemented through a large number of physical training programmes as well as a scalable learning platform, to cover about 1.4 lakh participants, across all functions.</td>  </tr>  <tr>    <td colspan="2" align="center" class="head">Consumer Education and Protection Department</td>  </tr>  <tr>    <td valign="top">October 7, 2025</td>    <td valign="top">The State Co-operative Banks and District Central Cooperative Banks were brought under the ambit of the Reserve Bank &ndash; Integrated Ombudsman Scheme, 2021, effective November 1, 2025.</td>  </tr>  <tr>    <td valign="top">January 14, 2026</td>    <td valign="top">To provide meaningful and timely resolution of customer grievances, six Master Directions on Internal Ombudsman, specific to each category of regulated entity, were issued.</td>  </tr>  <tr>    <td valign="top">January 16, 2026</td>    <td valign="top">Based on the operational experience, stakeholder feedback, and global best practices, the Reserve Bank undertook a comprehensive review of the Reserve Bank &ndash; Integrated Ombudsman Scheme, 2021. The revised Reserve Bank - Integrated Ombudsman Scheme, 2026 was notified, which will come into force from July 1, 2026. The revised Scheme is expected to strengthen the Reserve Bank Ombudsman framework and bring about further efficiency in complaints resolution.</td>  </tr>  <tr>    <td colspan="2" align="center" class="head">Internal Debt Management Department</td>  </tr>  <tr>    <td valign="top">March 27, 2025</td>    <td valign="top">The ways and means advances (WMA) limit for the Government of India (GoI) for H1:2025-26 (April to September 2025) was fixed at &#8377;1,50,000 crore.</td>  </tr>  <tr>    <td valign="top">June 12, 2025</td>    <td valign="top">The Reserve Bank introduced Separate Trading of Registered Interest and Principal of Securities (STRIPS) in state government securities.</td>  </tr>  <tr>    <td valign="top">September 26, 2025</td>    <td valign="top">The WMA limit for the GoI for H2:2025-26 (October 2025 to March 2026) was fixed at &#8377;50,000 crore.</td>  </tr>  <tr>    <td valign="top">January 5, 2026</td>    <td valign="top">The Reserve Bank of India entered into an agreement with the Government of National Capital Territory of Delhi (GNCTD), under sub-section(1) of Section 21A of the Reserve Bank of India Act, 1934, to carry on the general banking business of GNCTD and manage its rupee public debt.</td>  </tr>  <tr>    <td valign="top">January 9, 2026</td>    <td valign="top">The WMA limit of GNCTD was set at &#8377;890 crore, taking the aggregate WMA limit of all the states/UTs to &#8377;61,008 crore.</td>  </tr>  <tr>    <td colspan="2" align="center" class="head">Department of Currency Management</td>  </tr>  <tr>    <td valign="top">April 25, 2025</td>    <td valign="top">The existing procedure for receiving the applications for opening, shifting and closure of Currency Chests (CCs) by banks was revised. Accordingly, all applications for opening, shifting and closure of CCs are now received only through PRAVAAH<sup data-toggle="tooltip" title="Platform for Regulatory Application, Validation And AutHorisation."><a href="#FN14" class="links">14</a></sup>    portal on RBI website under relevant forms.</td>  </tr>  <tr>    <td valign="top">April 28, 2025</td>    <td valign="top">All banks and White Label ATM Operators (WLAOs) have been mandated to ensure that their ATMs dispense &#8377;100 and/or &#8377;200 denomination banknotes on a regular basis.</td>  </tr>  <tr>    <td valign="top">July 1, 2025</td>    <td valign="top">The scope of services covered under the Citizen&rsquo;s Charter was reviewed to include services of providing exchange of notes received through Postal Covers, Triple Lock Receptacles (TLRs) and notes that cannot withstand normal handling.</td>  </tr>  <tr>    <td valign="top">September 10, 2025</td>    <td valign="top">Indian Currency Microsite (<a href="https://indiancurrency.rbi.org.in/" target="_blank" class="links">https://indiancurrency.rbi.org.in</a>) was launched replacing the earlier &lsquo;Paisa Bolta Hai&rsquo; microsite. The microsite provides members of the public a platform to access information on Indian banknotes. It also has a dedicated section for information on exchange of banknotes.</td>  </tr>  <tr>    <td valign="top">September 29, 2025</td>    <td valign="top">Keeping in view the broader increase in cost of establishing and operating CCs, the service charge levied by CCs for deposits made by non-CC branches was enhanced, with effect from October 1, 2025.</td>  </tr>  <tr>    <td colspan="2" align="center" class="head">Department of Payment and Settlement Systems</td>  </tr>  <tr>    <td valign="top">June 27, 2025</td>    <td valign="top">To protect bank customers from frauds perpetuated through Aadhaar Enabled Payment System (AePS) due to identity theft or compromise of customer credentials, the Reserve Bank issued directions for streamlining the process for onboarding of AePS touchpoint operators and strengthening fraud risk management.</td>  </tr>  <tr>    <td valign="top">August 13, 2025</td>    <td valign="top">Continuous clearing and settlement on realisation was introduced in the cheque truncation system. Phase 1 of the transition was implemented on October 4, 2025.</td>  </tr>  <tr>    <td valign="top">September 15, 2025</td>    <td valign="top">The consolidated Master Direction on &lsquo;Regulation of Payment Aggregator (PA)&rsquo; was issued by the Reserve Bank for regulation of PA-Physical, PA-Online and PA-Cross Border (PA-CB) business. Through this Direction, PA-physical was also brought under the regulatory ambit. Further, the authorisation requirements for PA entities were rationalised.</td>  </tr>  <tr>    <td valign="top">September 25, 2025</td>    <td valign="top">&lsquo;The Reserve Bank of India (Authentication Mechanisms for Digital Payment Transactions) Directions, 2025&rsquo; were issued to enable the payments ecosystem to leverage the technological advancements for implementing alternative authentication mechanisms. The directions provide broad principles which need to be complied with by all the participants in the payment chain, while using a form of authentication.</td>  </tr>  <tr>    <td colspan="2"><sup><a id="FN1"></a>1</sup> The list is indicative in nature and details are available on the Reserve Bank&rsquo;s website.<br>      <sup><a id="FN2"></a>2</sup> Centralised Information Management System.<br>      <sup><a id="FN3"></a>3</sup> Securitisation and Reconstruction of Financial Assets and Enforcement of Security Interest.<br>      <sup><a id="FN4"></a>4</sup> Now consolidated under Reserve Bank of India (Commercial Banks &ndash; Asset Liability Management) Directions, November 28, 2025.<br>      <sup><a id="FN5"></a>5</sup> For the purpose of this Framework, &ldquo;Regulations&rdquo; include all regulations, directions, guidelines, notifications, orders, policies, specifications, and standards as issued by the Reserve Bank in exercise of the powers conferred on it by or under the provisions of the Acts and Rules.<br>      <sup><a id="FN6"></a>6</sup> Now consolidated under Reserve Bank of India (Credit Facilities) Directions, issued Regulated Entity-wise on November 28, 2025.<br>      <sup><a id="FN7"></a>7</sup> Now consolidated under Reserve Bank of India (Income Recognition, Asset Classification and Provisioning) Directions, Reserve Bank of India (Resolution of Stressed Assets) Directions, Reserve Bank of India (Credit Facilities) Directions issued Regulated Entity-wise on November 28, 2025.<br>      <sup><a id="FN8"></a>8</sup> Now consolidated under Reserve Bank of India (Prudential Norms for Capital Adequacy) Directions, issued Regulated Entity-wise on November 28, 2025.<br>      <sup><a id="FN9"></a>9</sup> Now consolidated under Reserve Bank of India (Undertaking of Financial Services) Directions, issued Regulated Entity-wise on November 28, 2025.<br>      <sup><a id="FN10"></a>10</sup> Excluding payments banks, local area banks and regional rural banks.<br>      <sup><a id="FN11"></a>11</sup> Central Know Your Customer Records Registry.<br>      <sup><a id="FN12"></a>12</sup> Now consolidated under Reserve Bank of India (Commercial Banks - Prudential Norms on Capital Adequacy) Directions, 2025 dated November 28, 2025.<br>      <sup><a id="FN13"></a>13</sup> Mission SAKSHAM was subsequently launched on April 28, 2026.<br>    <sup><a id="FN14"></a>14</sup> Platform for Regulatory Application, Validation And AutHorisation.</td>  </tr></table><p>&nbsp;</p><p align="right"><a href="https://www.rbi.org.in/Scripts/AnnualReportPublications.aspx?year=2026" class="links">Index</a></p></td></tr></table>
+                                </table>
+                            </div>
+                            <input name="btn" type="button" id="btn" style="visibility: hidden;" value="2026" />
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <span id="DateSettree_lbltree"><div class="grid_1 archives alpha" id="treeYear"><ul><li><a class="year" href="#" id="2026" onclick='GetYear("2026")'>2026</a></li><li><a class="year" href="#" id="2025" onclick='GetYear("2025")'>2025</a></li><li><a class="year" href="#" id="2024" onclick='GetYear("2024")'>2024</a></li><li><a class="year" href="#" id="2023" onclick='GetYear("2023")'>2023</a></li><li><a class="year" href="#" id="2022" onclick='GetYear("2022")'>2022</a></li><li><a class="year" href="#" id="2021" onclick='GetYear("2021")'>2021</a></li><li><a class="year" href="#" id="2020" onclick='GetYear("2020")'>2020</a></li><li><a class="year" href="#" id="2019" onclick='GetYear("2019")'>2019</a></li><li><a class="year" href="#" id="2018" onclick='GetYear("2018")'>2018</a></li><li><a class="year" href="#" id="2017" onclick='GetYear("2017")'>2017</a></li><h2 class="year"><a href="javascript:void(0);" id="divArchiveMain"  onclick="hideshow('divArchiveSub');" style="cursor: pointer;">Archives</a></h2><div  id="divArchiveSub" style="display: none;"><div class="grid_tree archives alpha" id="treeYear"><ul><li><a class="year" href="#" id="2016" onclick='GetYear("2016")'>2016</a></li><li><a class="year" href="#" id="2015" onclick='GetYear("2015")'>2015</a></li><li><a class="year" href="#" id="2014" onclick='GetYear("2014")'>2014</a></li><li><a class="year" href="#" id="2013" onclick='GetYear("2013")'>2013</a></li><li><a class="year" href="#" id="2012" onclick='GetYear("2012")'>2012</a></li><li><a class="year" href="#" id="2011" onclick='GetYear("2011")'>2011</a></li><li><a class="year" href="#" id="2010" onclick='GetYear("2010")'>2010</a></li><li><a class="year" href="#" id="2009" onclick='GetYear("2009")'>2009</a></li><li><a class="year" href="#" id="2008" onclick='GetYear("2008")'>2008</a></li><li><a class="year" href="#" id="2007" onclick='GetYear("2007")'>2007</a></li><li><a class="year" href="#" id="2006" onclick='GetYear("2006")'>2006</a></li><li><a class="year" href="#" id="2005" onclick='GetYear("2005")'>2005</a></li><li><a class="year" href="#" id="2004" onclick='GetYear("2004")'>2004</a></li><li><a class="year" href="#" id="2003" onclick='GetYear("2003")'>2003</a></li><li><a class="year" href="#" id="2002" onclick='GetYear("2002")'>2002</a></li><li><a class="year" href="#" id="2001" onclick='GetYear("2001")'>2001</a></li><li><a class="year" href="#" id="2000" onclick='GetYear("2000")'>2000</a></li><li><a class="year" href="#" id="1999" onclick='GetYear("1999")'>1999</a></li><li><a class="year" href="#" id="1998" onclick='GetYear("1998")'>1998</a></li><li><a class="year" href="#" id="1997" onclick='GetYear("1997")'>1997</a></li><li><a class="year" href="#" id="1996" onclick='GetYear("1996")'>1996</a></li><li><a class="year" href="#" id="1995" onclick='GetYear("1995")'>1995</a></li><li><a class="year" href="#" id="1994" onclick='GetYear("1994")'>1994</a></li><li><a class="year" href="#" id="1993" onclick='GetYear("1993")'>1993</a></li><li><a class="year" href="#" id="1992" onclick='GetYear("1992")'>1992</a></li><li><a class="year" href="#" id="1991" onclick='GetYear("1991")'>1991</a></li><li><a class="year" href="#" id="1990" onclick='GetYear("1990")'>1990</a></li></ul></div></div></div></span>
+<style type="text/css"> /*added by ni*/
+.year a
+{
+    text-transform:none;
+    margin:0px;
+    /*color:Black;*/
+    font-size:12px;
+    text-decoration:none;
+    padding: 3px 4px 5px 2px;
+    }
+#DateSettree_lbltree h2
+{
+    margin-top:0px;
+}
+.month ul li a {
+    padding: 3px 4px 7px 2px;
+}
+
+.accordionContent ul.accordionlist li {
+    
+    min-height: 24px;
+}
+</style>
+
+
+
+    </main>
+        <div class="clearfix">
+        </div>
+        <a href="#top" class="scrollToTop" id="backToTop">Top</a>
+<div id="backDiv" style=" text-align:center;" >
+<a href="javascript:history.back()" class="paraheader">Back to previous page</a><br/>
+<span id="lblGetLastUpdateDate" class="paraheader"></span>
+</div>
+<footer class="footer">
+
+<div class="footer">
+  <div class="container_12">    
+      <div class="grid_9" style="width: 833px !important; ">
+          
+          <h2><span class="blue">More</span> Links</h2>
+          
+		<ul class="footerlist" style="column-count:4">
+                  <li ><a href="/Scripts/HolidayMatrixDisplay.aspx">Bank Holidays</a></li>
+                  <li ><a href="https://shabdavali.rbi.org.in/">Banking Glossary</a></li>
+                  <li ><a href="/Scripts/CitiChart.aspx">Citizen's Charter</a></li>
+                  <li ><a href="/Scripts/Complaints.aspx">Complaints</a></li>
+                  <li ><a href="/Scripts/contactus.aspx">Contact Us</a></li>
+  		<li ><a href="https://www.rbi.org.in/scripts/bs_viewcontent.aspx?Id=3894">COVID-19 Measures</a></li>
+                  <li ><a target="_blank" href="https://ncfe.org.in/e-lms">E-LMS</a></li>
+                  <li ><a href="/Scripts/EventsDisplay.aspx">Events</a></li>
+                  <li ><a href="/Scripts/FAQDisplay.aspx">FAQs</a></li>
+                  <li ><a target="_blank" href="https://www.rbi.org.in/FinancialEducation/">Financial Education</a></li>
+		<li ><a href="/Scripts/BS_ViewForms.aspx">Forms</a></li>
+                  <li ><a href="/Scripts/IFSCMICRDetails.aspx">IFSC/MICR Codes</a></li>
+                  <li><a href="/Scripts/OtherLinks.aspx">Important Websites</a></li>
+                  <li><a target="_blank" href="https://opportunities.rbi.org.in/scripts/index.aspx">Opportunities<span>@</span>RBI</a></li>
+                  <li><a href="/Scripts/rbi_clarification.aspx">RBI Clarifications</a></li>
+ 		<li><a target="_blank" href="https://rbikehtahai.rbi.org.in/">RBI Kehta Hai</a></li>
+                  <li><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Utkarsh202910042026.pdf" target="_blank">RBI’s Vision and Values <img src="../Images/pdf.gif" alt="PDF document" style="padding-bottom: 4px; width:12px; border:0; vertical-align:middle;"> (652 KB)</a></li>
+                  <li><a href="/Scripts/Righttoinfoact.aspx">Right to Information Act</a></li>
+                  <li><a href="/Scripts/BS_ViewTenders.aspx">Tenders</a></li>
+                  
+              </ul>
+      </div>
+
+    <div class="grid_3" style="width:197px !important">
+      
+        <h2><span class="blue">Follow</span> RBI</h2>
+      <ul class="footerlist">
+        
+
+          <li style="float: left;background: url(/images/footer_list_arrow.gif) left 8px no-repeat;"><a href="/Scripts/rss.aspx"><img src="/images/rss-icon.png" alt="RSS Icon" class="rss">RSS</a></li>
+
+        
+          <li>
+              <a href="https://twitter.com/RBI" target="_blank" class="twitter">
+                  <img src="/images/Twitter_New.png" alt="Twitter Icon" class="videos" style="padding-left: 18%; width:14px;">Twitter
+              </a>
+          </li>
+
+        
+
+          <li style="float: left;"><a href="https://www.youtube.com/channel/UCIfCOl43tunZVNYafeC4RQA" class="videos" target="_blank"><img src="/images/youtube.png" alt="YouTube Icon" class="videos">YouTube</a></li>
+
+          <li>
+              <a href="https://instagram.com/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/Instagram.jpg" alt="Instagram Icon" class="videos" style="padding-left: 5%; width:14px;">Instagram
+              </a>
+          </li>
+          <li style="float: left;"><a href="https://www.facebook.com/RBIsays" class="videos" target="_blank"><img src="/images/Facebook.jpg" style="width:14px;" alt="Facebook Icon" class="videos">Facebook</a></li>
+          <li>
+              <a href="https://www.linkedin.com/company/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/LinkedinIcon1.png" alt="LinkedIn Icon" class="" style="padding-left: 4%;width: 17px;background: bottom no-repeat;display: block;float: left;margin: 2px 3px 0 1px;">LinkedIn
+              </a>
+          </li>
+      </ul>
+	<a href="https://www.india.gov.in" class="videos" target="_blank">
+                  <img src="/images/indiaGov.png" alt="National Portal of India logo" class="">
+              </a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="copyright">
+    <div class="container_12">
+     <div class="grid_6 pull_left">&copy; Reserve Bank of India. All Rights Reserved. </div>
+        <div class="grid_5 pull_right"><a href="/Scripts/sitemap.aspx">Sitemap</a> <span aria-hidden="true">|</span> <a href="/Scripts/Disclaimer.aspx">Disclaimer</a></div>
+        <div class="clearfix"></div>
+
+        <div class="grid_6 pull_left">Website owned and managed by Reserve Bank of India. Contact us on helpdoc[at]rbi[dot]org[dot]in</div>
+        <div class="grid_5 pull_right">Website last updated date: Sep 12, 2026</div>
+        <div class="clearfix"></div>
+	<div class="grid_6 pull_left"><a href="https://www.rbi.org.in/scripts/wim.aspx">Web Information Manager</a></div>
+	<div class="grid_5 pull_right"><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Accessibility20012026.pdf" target="_blank">Accessibility Statement
+	<img alt="PDF - Accessibility Statement" style="padding: 1px; width:16px; border:0; vertical-align:middle;" src="../Images/pdf.gif" > (133 KB)
+	</a><span aria-hidden="true"> |</span><a href="/scripts/ScreenReader.aspx" title="Information related to screen reader">Screen Reader and Accessibility Help</a></div>
+	<div class="clearfix"></div>
+        <div class="grid_12 pull_left">Supports: Google Chrome 147+ | Firefox 150+ | Microsoft Edge Version 147+ | Safari 17+</div>
+        
+        <div class="clearfix"></div>
+    </div>
+  </div>
+  
+
+
+
+</div>
+
+</footer>
+
+<script src="/js/ReplaceURL.js" ></script>
+<script >
+
+
+    //this is for floating TOP link
+    
+    $(document).ready(function () {
+
+        var offset = 230;
+        var duration = 500;
+
+
+        jQuery(window).scroll(function () {
+            if (jQuery(this).scrollTop() > offset) {
+                jQuery('.scrollToTop').fadeIn(duration);
+                
+            } else {
+                jQuery('.scrollToTop').fadeOut(duration);
+                
+            }
+        });
+
+        
+	$('.page_title').attr('tabindex','-1');
+        $('.scrollToTop').click(function () {
+            $('html, body').animate({ scrollTop: 0 }, 800);
+		$('.page_title').focus(); 
+            return false;
+        });
+	
+
+
+	if(!window.location.href.includes("Home.aspx") && !window.location.href.includes("home.aspx"))
+{ 
+if( window.location.href.includes(".aspx")){
+var div= document.getElementById('backDiv');
+	div.removeAttribute("hidden");}
+else{
+var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+}
+else{
+
+
+	var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+    });
+
+
+  
+    $(window).scroll(function () {
+
+        if ($('div.banner2').length) {
+
+            if ($(window).scrollTop() >= 265) {
+                $('#menubar').css("position", "fixed");
+                $('#menubar').css("width", "240px");
+                $('#menubar').css("margin-top", "-281px");
+                $('.content_area').css("margin-left", "252px");
+
+                $('.sidebar_nav').css("position", "fixed");
+                $('.sidebar_nav').css("margin-top", "-200px");
+                $('.sidebar_nav').css("width", "236px");
+
+
+             
+
+            }
+
+            else {
+                $('#menubar').css("position", "");
+                $('#menubar').css("width", "");
+                $('#menubar').css("margin-top", "");
+                $('.content_area').css("margin-left", "");
+
+                $('.sidebar_nav').css("position", "");
+                $('.sidebar_nav').css("margin-top", "");
+                $('.sidebar_nav').css("width", "");
+
+
+
+         
+            }
+
+        }
+
+        else if ($(window).scrollTop() >= 185) {
+            $('#menubar').css("position", "fixed");
+            $('#menubar').css("width", "240px");
+            $('#menubar').css("margin-top", "-200px");
+            $('.content_area').css("margin-left", "252px");
+
+            $('.sidebar_nav').css("position", "fixed");
+            $('.sidebar_nav').css("margin-top", "-200px");
+            $('.sidebar_nav').css("width", "236px");
+
+
+          
+		var treeheight=0;
+		if($('#treeYear').height()>0){treeheight=$('#treeYear').height();}
+	    	if($(window).scrollTop() >= $('#example-min').height()-treeheight)
+		{			 
+			$('#menubar').css("position", "absolute");
+            		
+			$('#menubar').css("margin-top", "");
+			$('#menubar').css("top", $('#example-min').height()+100-treeheight +"px");
+		}
+		else{$('#menubar').css("position", "fixed"); $('#menubar').css("top", "");}
+		
+        }
+
+        else {
+            $('#menubar').css("position", "");
+            $('#menubar').css("width", "");
+            $('#menubar').css("margin-top", "");
+            $('.content_area').css("margin-left", "");
+
+            $('.sidebar_nav').css("position", "");
+            $('.sidebar_nav').css("margin-top", "");
+            $('.sidebar_nav').css("width", "");
+
+
+       
+        }
+     
+
+       
+    });
+	
+      
+    $(document).ready(function () {
+	
+	
+		  $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#maskWN').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+		
+		 $('#maskWN').click(function () {
+            $(this).hide();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('.window').hide();
+
+        });
+
+        
+
+        //if close button is clicked
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#mask').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+
+        //if mask is clicked
+        $('#mask').click(function () {
+            $(this).hide();
+            $('.window').hide();
+        });
+        $('#feedbackbtn').click(function () {
+            var id = '#dialog';
+
+            //Get the screen height and width
+            var maskHeight = $(document).height();
+            var maskWidth = $(window).width();
+
+            //Set heigth and width to mask to fill up the whole screen
+            
+            $('#mask').css({ 'width': '100%', 'height': '100%', 'position': 'fixed' });
+
+            //transition effect
+            $('#mask').fadeIn(500);
+            $('#mask').fadeTo("slow", 0.9);
+
+            //Get the window height and width
+            var winH = $(window).height();
+            var winW = $(window).width();
+
+            //Set the popup window to center
+            $(id).css('top', winH / 2 - $(id).height() / 2);
+            $(id).css('left', winW / 2 - $(id).width() / 2);
+
+            //transition effect
+            $(id).fadeIn(2000);
+        });
+
+        $('.submit').click(function () {
+            var Name = $("[id*=txtFeedbackName]").val();
+            var Email = $("[id*=txtFeedbackEmail]").val();
+            var Comments = $("[id*=txtFeedbackComments]").val();
+            if (Name == "") {
+
+                alert("Please enter your name");
+                $("[id*=txtFeedbackName]").focus();
+                return false;
+            }
+            else if (Email == "") {
+                alert("Please enter your email");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+            else if (Email != "" && !ValidateEmail(Email)) {
+                alert("Please enter a valid email address");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+
+            else if (Comments == "") {
+
+                alert("Please enter some comments");
+                $("[id*=txtFeedbackComments]").focus();
+                return false;
+            }
+
+            else {
+                $('[id*=Button1]').attr('disabled', 'disabled');
+
+                var param = { Name: Name, EmailID: Email, Comments: Comments };
+                $.ajax({
+                    type: "POST",
+                    url: "../Home.aspx/SaveFeedback",
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+
+                    success: function (response) {
+
+                        if (response.d == "0") {
+                            alert("Thank you for your feedback");
+                            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+                            $('#mask').hide();
+                            $('.window').hide();
+                            $('[id*=Button1]').removeAttr('disabled');
+                            $("[id*=txtFeedbackName]").val("");
+                            $("[id*=txtFeedbackEmail]").val("");
+                            $("[id*=txtFeedbackComments]").val("");
+                        }
+                        else {
+                            alert("Please try again");
+                            $('[id*=Button1]').removeAttr('disabled');
+
+
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+        function ValidateEmail(email) {
+            var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            return expr.test(email);
+        };
+
+       
+
+        $('a.style1').each(function () {
+
+            var $this = $(this);
+            var aHref = $this.attr('class');
+            $this.attr('class', aHref.replace('style1', 'links'));
+        });
+
+		
+   });
+
+  function isExternal(url) {
+	if(url){url=url.toLowerCase();
+       if(url=='#' || url=='javascript:void(0);' || url.includes('javascript')||url=='' )
+	{ return false;} 
+	else{//return (url.indexOf("rbi.org.in")==-1)
+	
+	if(url.indexOf("www.rbi.org.in")==-1 || url.indexOf("https://rbi.org.in")==-1)
+		{	
+			if(url.indexOf("rbi.org.in")==-1)		
+    				return "external";
+			else if(url.indexOf("www.rbi.org.in")==-1 && url.indexOf(".rbi.org.in")>0 && url.indexOf("rbidocs.rbi.org.in")==-1)
+				{return "subdomain";}
+			else if(url.indexOf("financialeducation")>0 || url.indexOf("commonperson")>0 || url.indexOf("/rekyc/")>0 || url.indexOf("rbi90years")>0 ){
+				return "subsite";}
+			
+		}
+	
+	}}
+    }
+    document.addEventListener("click", function () {
+	linkMessage();
+        
+    });
+function linkMessage(){
+	if (event.target.tagName.toLowerCase() === "a") {
+            if (isExternal(event.target.href)=="external") {
+
+                if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+            }
+	    if (isExternal(event.target.href)=="subdomain") {
+	    	 if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+		if (isExternal(event.target.href)=="subsite") {
+	    	 if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+        }
+	else if (event.target.tagName.toLowerCase() === "img") {
+		$(event.target).preventDefault;		
+		if($(event.target).parent('a').length){
+			 if (isExternal($(event.target).parent('a').prop('href'))==="external") {
+                		if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+                    		return;
+               		 }
+
+                	else {                   
+                    		event.preventDefault();
+                    		return;
+                	}}
+			if (isExternal($(event.target).parent('a').prop('href'))==="subdomain") {
+                		if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    		return;
+               		 	}
+
+                		else {                   
+                    		event.preventDefault();
+                    		return;
+                		}
+			}
+			if (isExternal(event.target.href)=="subsite") {
+	    	 	if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    	return;
+                	}
+                	else {
+                   
+                    		event.preventDefault();
+                    	return;
+                	}
+	    		}
+	}}
+	const link = event.target.closest('a[target="_blank"]');
+	if(link){ 
+		event.preventDefault();
+		if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+			window.open(link.href,"_blank");
+		}
+	}
+		if (event.target.tagName.toLowerCase() === "button") {
+		if($(event.target).parent('a').length>0){
+			const link1 = event.target.closest('a[target="_blank"]');
+		if(link1){
+			event.preventDefault();
+			if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+				window.open(link.href,"_blank");
+			}
+		}
+		}
+	}
+}
+
+</script>
+<script >
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61369961-1', 'auto');
+  ga('send', 'pageview');
+
+document.querySelectorAll('table.tablebg').forEach(table => {
+    const anchors = table.querySelectorAll('a[href^="#"]:not([href="#"])');
+
+    const hasInPageAnchorsInThisTableOnly = Array.from(anchors).some(a => {
+        // Find the closest table ancestor of this anchor
+        const closestTable = a.closest('table');
+    
+        // Only count it if it belongs to the current table (not a nested one)
+        return closestTable === table;
+    });
+
+    if (!hasInPageAnchorsInThisTableOnly) {
+        table.setAttribute('role', 'presentation');
+    } else {
+        table.removeAttribute('role'); 
+    }
+});
+$('.brd-ptable1').attr('role','presentation');
+$('html').attr('lang', 'en');
+document.querySelectorAll('br').forEach(br => {br.setAttribute('aria-hidden','true');});
+$('#doublescroll').children('table').filter(':first').attr("role", "presentation");
+$('.page_title').nextAll('table').first().attr("role", "presentation");
+
+
+
+document.addEventListener('DOMContentLoaded', function(){
+$('.tableheader b').each(function () {
+		var curEle= $(this);
+           $(curEle).replaceWith("<h2 class='dop_header'>"+$(curEle).html()+"</h2>")
+        });
+ });
+
+//  tooltip 
+var TooltipManager = {
+    _tip: null, // Create the tooltip element once 
+init: function() {
+    if (!this._tip) {
+    
+        this._tip = $('<div id="js-custom-tooltip"></div>').css({
+            "position": "absolute", "background": '#ffffca', "color":"#000", "padding": "2px 5px", "border-radius": "0px", "font-size": "11px","font-family":"Sans-serif", "z-index": "10000", "pointer-events": "none","border":"1px solid #767676", "box-shadow":"2px 2px 3px rgba(0,0,0,0.2)","white-space":"nowrap"
+        }).appendTo('body');
+        
+    }
+}, 
+show: function(element, text) {
+    this.init(); 
+var $el = $(element); // Update text and position 
+    
+this._tip.text(text).show();
+var pos = $el.offset(); 
+this._tip.css({
+    top: pos.top + this._tip.outerHeight()  + "px", // Show above 
+    left: pos.left + ($el.outerWidth() / 2) - (this._tip.outerWidth() / 2) + "px"
+});
+    }, hide: function() { if (this._tip) this._tip.hide(); }
+}; // Apply to all elements that have a ToolTip (ToolTip renders as 'title') 
+$(document).ready(function() {
+   
+    $('body').on('focusin', 'input, button, a, select, textarea, img', function() {
+        var title = $(this).attr('title'); if (title) {
+    
+            
+      
+            TooltipManager.show(this, title);
+        }
+    }).on('focusout', 'input, button, a, select, textarea, img', function() { 
+       
+            TooltipManager.hide();
+       
+    }); // Dismiss on Escape key
+    $(document).keyup(function(e) { if (e.key === "Escape") TooltipManager.hide(); });
+});
+
+//breadcrumb current page announce
+$(document).ready(function(){
+
+const breadcrumbList = document.querySelector('.breadcrumbs');
+
+    if (breadcrumbList) {
+        const listItems = breadcrumbList.querySelectorAll('li');
+    
+        if (listItems.length > 0) {
+            
+            const lastItem = $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).last().attr('aria-current', 'page');
+            $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())==="" && $(this).children().length===0;}).attr('role','presentation');
+       		$('.breadcrumbs li').filter(function(){
+			if($(this).children().length!==0)
+			{
+				if($(this).children().text() ===""){}
+			}
+		});
+            const lastLink =lastItem.find('a');
+            if (lastLink) {
+                lastLink.attr('aria-current', 'page');               
+                
+            }
+		if($('.breadcrumbs li').last().find('a').length>0)
+		{			
+			const $a = $('.breadcrumbs li').last().find('a');
+			$('<span>',{class: $a.attr('class'), text: $a.text()}).replaceAll($a).attr('aria-current', 'page');
+		}
+		
+		if($('.breadcrumbs li').last().find('span').length>0)
+		{
+			
+			if($('.breadcrumbs li').last().find('span')[0].innerText==='')
+			{
+				$('.breadcrumbs li').last().find('span').removeAttr('aria-current');				
+			}
+			else{
+				$('.breadcrumbs li').last().find('span').filter(function(){ return $(this).attr('role')!=='presentation';}).last().attr('aria-current', 'page');					
+			}		
+		}
+		$('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).removeAttr('role','presentation');
+        }
+    }
+});
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+setLetterSpace(false);//]]>
+</script>
+</form>
+    <script type="text/javascript" src="/js/plugins.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
+    <script type="text/javascript" src="/js/Scroll.js"></script>
+    <script type="text/javascript" language="javascript">
+
+        DoubleScrollWithTree(document.getElementById('doublescroll'));
+        function GetYear(year) {
+            document.getElementById("hdnYear").value = year;
+            document.getElementById("btn").click();
+        }
+        function hideshow(divArchive) {
+            if (!document.getElementById(divArchive))
+                return
+            if (document.getElementById(divArchive).style.display == "block")
+                document.getElementById(divArchive).style.display = "none"
+            else
+                document.getElementById(divArchive).style.display = "block"
+        }
+        function SetTreeStyles() {
+            var strYear = document.getElementById("hdnYear").value;
+            var ArcYear = parseInt(document.getElementById("btn").value) - 9;
+
+
+            if (strYear != "") {
+                var toDay = new Date();
+                document.getElementById(strYear).setAttribute("class", "year active");
+                document.getElementById(strYear).style.display = "block";
+                if (toDay.getFullYear() - 9 > parseInt(strYear)) { document.getElementById("divArchiveSub").style.display = "block" }
+            }
+        }
+    </script>
+</body>
+</html>
+<script id="f5_cspm">(function(){var f5_cspm={f5_p:'DKCEJPAHJHAFDKMEKFHPNIAHDNFNPFKBKJDIFIKFCHMMODAMMCLBHEJEFPLEKHDNEEKBAMIDAAIFADKAAGBABKNPAAOHJAIFEHEKLAKJGNFEAGJGEFGNAOPFPMLKEOIL',setCharAt:function(str,index,chr){if(index>str.length-1)return str;return str.substr(0,index)+chr+str.substr(index+1);},get_byte:function(str,i){var s=(i/16)|0;i=(i&15);s=s*32;return((str.charCodeAt(i+16+s)-65)<<4)|(str.charCodeAt(i+s)-65);},set_byte:function(str,i,b){var s=(i/16)|0;i=(i&15);s=s*32;str=f5_cspm.setCharAt(str,(i+16+s),String.fromCharCode((b>>4)+65));str=f5_cspm.setCharAt(str,(i+s),String.fromCharCode((b&15)+65));return str;},set_latency:function(str,latency){latency=latency&0xffff;str=f5_cspm.set_byte(str,40,(latency>>8));str=f5_cspm.set_byte(str,41,(latency&0xff));str=f5_cspm.set_byte(str,35,2);return str;},wait_perf_data:function(){try{var wp=window.performance.timing;if(wp.loadEventEnd>0){var res=wp.loadEventEnd-wp.navigationStart;if(res<60001){var cookie_val=f5_cspm.set_latency(f5_cspm.f5_p,res);window.document.cookie='f5avr0947018921aaaaaaaaaaaaaaaa_cspm_='+encodeURIComponent(cookie_val)+';path=/;'+'';}
+return;}}
+catch(err){return;}
+setTimeout(f5_cspm.wait_perf_data,100);return;},go:function(){var chunk=window.document.cookie.split(/\s*;\s*/);for(var i=0;i<chunk.length;++i){var pair=chunk[i].split(/\s*=\s*/);if(pair[0]=='f5_cspm'&&pair[1]=='1234')
+{var d=new Date();d.setTime(d.getTime()-1000);window.document.cookie='f5_cspm=;expires='+d.toUTCString()+';path=/;'+';';setTimeout(f5_cspm.wait_perf_data,100);}}}}
+f5_cspm.go();}());</script>

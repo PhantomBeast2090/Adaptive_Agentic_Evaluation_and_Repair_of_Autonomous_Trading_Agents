@@ -1,41 +1,425 @@
-acquisition_status: pending_manual_download
+acquisition_status: acquired
 asset_class: policy
 dataset_id: rbi_policy_rate_events
-duplicate_count: null
-earliest_observation: null
-eligibility_status: acquisition_pending
+duplicate_count: 0
+earliest_observation: '2008-06-12'
+eligibility_status: blocked
 frequency: event_based
-has_availability_date: false
-has_observation_date: false
-latest_observation: null
-missingness_summary: []
-notes: "[rbi_policy_rate_events] Acquisition from RBI DBIE / RBI website failed: RBI\
-  \ policy rate data requires web navigation through DBIE. Manual download is required\
-  \ to ensure accurate announcement dates are captured (not just effective dates).\n\
-  \nManual download instructions:\n\nRBI Policy Rate Manual Download:\n\nOption A\
-  \ \u2014 RBI DBIE (preferred):\n  1. Visit: https://dbie.rbi.org.in/\n  2. Navigate:\
-  \ Financial Sector \u2192 Monetary Policy \u2192 Key Policy Rates\n  3. Select:\
-  \ Repo Rate (and optionally: Reverse Repo, MSF Rate, CRR, SLR)\n  4. Download as\
-  \ CSV\n  5. Place at: data/raw/india/macro/rbi_policy_rate.csv\n\nOption B \u2014\
-  \ RBI Handbook of Statistics:\n  1. Visit: https://www.rbi.org.in/Scripts/AnnualPublications.aspx?head=Handbook+of+Statistics+on+Indian+Economy\n\
-  \  2. Find the monetary policy table\n  3. Download relevant tables\n\nCRITICAL:\
-  \ Each record must include:\n  - effective_date (when rate took effect)\n  - announcement_date\
-  \ (when RBI published the decision)\n  - rate_type (e.g. REPO, REVERSE_REPO, MSF)\n\
-  \  - rate_pct (rate in percentage, e.g. 6.5)\n  - [optional] stance (accommodative,\
-  \ neutral, withdrawal of accommodation)\n\nIf the source only provides effective\
-  \ dates, record both effective_date and\nannouncement_date as the same value and\
-  \ flag in notes that announcement dates\nwere not separately captured.\n"
-processed_path: null
-processed_sha256: null
-processing_parameters: {}
+has_availability_date: true
+has_observation_date: true
+latest_observation: '2025-12-05'
+missingness_summary:
+- field_name: announcement_date
+  missing_count: 27
+  missing_pct: 14.438502673796792
+  total_count: 187
+- field_name: effective_date
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 187
+- field_name: stance
+  missing_count: 112
+  missing_pct: 59.893048128342244
+  total_count: 187
+notes: "[rbi_policy_rate_events] Dual-source RBI policy-rate events: Handbook Table\
+  \ 40 (2025-26 ed., id=23865; Table 43 in 2024-25, Table 44 in 2022-23) effective\
+  \ dates + levels (107 Table rows -> 187 rate_type events, Table coverage 2008-04-26\
+  \ to 2025-12-05; canonical coverage starts 2008-06-12 because the first Table rows\
+  \ are CRR-only (excluded type); Bank/Repo/Reverse/SDF/MSF; CRR/SLR excluded) reconciled\
+  \ with MPC resolutions, Governor statements, MSF circular, MPRs, meeting minutes\
+  \ (MPC era) and Annual Report chronology annexes, appendix tables, monetary chapters,\
+  \ monthly reviews (Governor era). Canonical events=187 across 62 decision groups;\
+  \ verified=84, cross-checked=76, announcement_unverified=27 (pre-2016 Governor-era\
+  \ events lacking dated announcement text: 2010-03-19, 2010-04-20, 2010-07-02, 2010-07-27,\
+  \ 2010-09-16, 2010-11-02, 2011-03-17, 2011-06-16, 2011-09-16, 2011-10-25, 2012-02-13,\
+  \ 2012-04-17; announcement_date null, availability falls back to effective date\
+  \ flagged, blocked from agent use). 0 change conflicts; 0 excluded backbone rows;\
+  \ 83 chapter-table rows corroborate Table levels with 0 mismatches. Event-level\
+  \ rows sharing decision_id per announcement (one decision may move several rates);\
+  \ 14 effective dates span split decision groups reflecting heterogeneous evidence\
+  \ states, traceable via effective_date. Oct-2004 repo/reverse nomenclature note\
+  \ preserved. Stance only where explicitly stated (112 null: pre-stance-vocabulary\
+  \ era) \u2014 never inferred. 8 events have availability (announcement) strictly\
+  \ before observation (effective), e.g. Jun-2008 actions announced a day early \u2014\
+  \ dual dates preserve this; InformationSet requires allow_pre_observation for policy\
+  \ per the Data Contract. Leakage: policy-branch audit clean (0 confirmed/0 unresolved);\
+  \ InformationSet boundary verified (nothing visible before availability_date). Calendar:\
+  \ event dates need no trading calendar; common intersection still incomplete. Eligibility:\
+  \ VALIDATED_BUT_BLOCKED pending (a) historical calendar coverage and (b) common\
+  \ intersection. Do not mark experiment-eligible merely because files exist."
+processed_path: data/processed/india/macro/rbi_policy_rate_events.csv
+processed_sha256: 24b4e91742743da3bae47b8cc2f1c6b75d30211937f2b90cb1c2c280eb957db7
+processing_parameters:
+  backbone: rbi_handbook_2025-26_table40_policy_rates.xlsx (Handbook 2025-26, Table
+    40 id=23865; Table 43 in 2024-25 id=23217; Table 44 in 2022-23 id=21141)
+  backbone_rows: 107
+  calendar_coverage: event dates need no trading calendar; common intersection incomplete
+  canonical_events: 187
+  change_validation: computed from Table predecessor per rate_type; cross-checked
+    vs announced repo change text; 0 mismatches
+  chapter_corroboration: 83 chapter rate rows, 0 level mismatches
+  conflicting_overlaps: 0
+  daily_conversion: false
+  date_semantics: announcement_date = public decision date (never inferred); effective_date
+    = Table date; availability_date = announcement if known else effective fallback
+    flagged
+  decisions: 62
+  evidence_files_count: 61
+  excluded_invalid_rows: []
+  excluded_types:
+  - CRR
+  - SLR
+  forward_fill: false
+  leakage: policy-branch clean (0 confirmed/0 unresolved); InformationSet verified
+    with allow_pre_observation
+  method: table_backbone_plus_announcement_evidence_reconciliation
+  nomenclature_note: pre-29-Oct-2004 repo/reverse meanings interchanged; Table follows
+    current nomenclature
+  provenance_column: source_files
+  rate_types:
+  - BANK_RATE
+  - REPO
+  - REVERSE_REPO
+  - SDF
+  - MSF
+  reconciliation_status:
+    announcement_cross_checked: 76
+    announcement_unverified: 27
+    verified: 84
+  sort: ascending (effective_date, rate_type); event-based, never daily
+  unverified_effective_dates:
+  - '2010-03-19'
+  - '2010-04-20'
+  - '2010-07-02'
+  - '2010-07-27'
+  - '2010-09-16'
+  - '2010-11-02'
+  - '2011-03-17'
+  - '2011-06-16'
+  - '2011-09-16'
+  - '2011-10-25'
+  - '2012-02-13'
+  - '2012-04-17'
 processing_version: 1.0.0
+raw_artifacts:
+- byte_size: 16479
+  path: data/raw/india/macro/rbi_handbook_2025-26_table40_policy_rates.xlsx
+  row_count: 107
+  sha256: 7ac18abb846add2e7aace7cb7ec262318616b60f1f0b1e1631511dd1522d160e
+- byte_size: 1300756
+  path: data/raw/india/macro/policy/rbi_annual_policy_2011-05-03_aps030511.pdf
+  row_count: null
+  sha256: 46a27fe710049ec9d02235dd97f9ad182046475a610220b65d0f28868c9ad39e
+- byte_size: 132155
+  path: data/raw/india/macro/policy/rbi_annual_report_2019-20_id1297.html
+  row_count: null
+  sha256: 361a9cc47922ea11b6c8e87374c216ac3e39b302e0a6dc6173229d1c3f096734
+- byte_size: 132036
+  path: data/raw/india/macro/policy/rbi_annual_report_2020-21_id1316.html
+  row_count: null
+  sha256: ffd011d14077ba79df77836bd8065efa6f53a20841d9a0d0ea4140a5b2daef8e
+- byte_size: 132292
+  path: data/raw/india/macro/policy/rbi_annual_report_2022-23_id1374.html
+  row_count: null
+  sha256: 196a17d1734f40748189ab021b83c90bb045c4790c506a505fd20d4bde1a5a2e
+- byte_size: 121185
+  path: data/raw/india/macro/policy/rbi_annual_report_2024-25_id1473.html
+  row_count: null
+  sha256: 530f268c05384af92d21885ffb9f9e707c52a1af62fd14681480fbc584edf183
+- byte_size: 128892
+  path: data/raw/india/macro/policy/rbi_ar_2009-10_monetary_ch982.html
+  row_count: null
+  sha256: c8096d0740204690a35eb40c9d0f32450b69689fccf4deca892e05c7569e6f9e
+- byte_size: 123252
+  path: data/raw/india/macro/policy/rbi_ar_2010-11_monetary_ch1000.html
+  row_count: null
+  sha256: d6fcaf5fd55ca6f1e7bba5fbc47ea3b6d9d1674fd8fd7aea9b1c49c1b552773b
+- byte_size: 114404
+  path: data/raw/india/macro/policy/rbi_ar_2011-12_monetary_ch1040.html
+  row_count: null
+  sha256: a9cb8de5d35532153809b0589c32ac5eb07beb0835182443d853ce5f686b2262
+- byte_size: 135358
+  path: data/raw/india/macro/policy/rbi_ar_2012-13_monetary_ch1081.html
+  row_count: null
+  sha256: 6aa387dbd2e0867dbdf59e2b56cd300a2cca7997ceee94ed3c1a8ab58ba89a1e
+- byte_size: 140290
+  path: data/raw/india/macro/policy/rbi_ar_2013-14_monetary_ch1121.html
+  row_count: null
+  sha256: 37834d2f7e992cd33fa16b33a03e09ca3d186214c78b7875c4a3324c5ddb6a4e
+- byte_size: 130308
+  path: data/raw/india/macro/policy/rbi_ar_2014-15_monetary_ch1149.html
+  row_count: null
+  sha256: de6dba0a4cd6692a901cded577dd4f4dcd082a483115357572e8d84c2466d713
+- byte_size: 118940
+  path: data/raw/india/macro/policy/rbi_ar_2015-16_monetary_ch1176.html
+  row_count: null
+  sha256: c18e833bb1e044f9a66d96b7098e23a16f60d97ddf83961d9dcb7f1fa54c7abe
+- byte_size: 141212
+  path: data/raw/india/macro/policy/rbi_ar_2016-17_monetary_ch1203.html
+  row_count: null
+  sha256: e9dfac9dff82d573bc75685b818f33c8116fa3affe39ab27950e5599e8a6b3b0
+- byte_size: 120978
+  path: data/raw/india/macro/policy/rbi_ar_2017-18_monetary_ch1230.html
+  row_count: null
+  sha256: 96321d30b2bf22cdd183187f38693f807169924fc2d245c74896bb37d0f8fffd
+- byte_size: 117048
+  path: data/raw/india/macro/policy/rbi_ar_2018-19_monetary_ch1258.html
+  row_count: null
+  sha256: 1245d13bb292af30cb6e56b17ca8551bbb7cbbbeaae53d814a45c2c1032e7e8d
+- byte_size: 259800
+  path: data/raw/india/macro/policy/rbi_ar_chronology_2007-08_annex823.html
+  row_count: null
+  sha256: a265f24ed43423dbed1e6b3946143fd3421eed49b6adba2ae8d3601296e3a536
+- byte_size: 385451
+  path: data/raw/india/macro/policy/rbi_ar_chronology_2008-09_annex907.html
+  row_count: null
+  sha256: 0b220e4ba30830698c463d502c7dfc173bd5824604c84fb699145730475b712e
+- byte_size: 124977
+  path: data/raw/india/macro/policy/rbi_ar_chronology_2014-15_annex1158.html
+  row_count: null
+  sha256: 8bc81ba1c79d1e4244810bb585db94f21782603cf7edae3800728b7588fcfbb1
+- byte_size: 126194
+  path: data/raw/india/macro/policy/rbi_ar_chronology_2015-16_annex1185.html
+  row_count: null
+  sha256: 7f5fda745e3f166bbbf633e8a12dc3052a7aaada656820a05a6674841df78416
+- byte_size: 115194
+  path: data/raw/india/macro/policy/rbi_ar_chronology_2016-17_annex1212.html
+  row_count: null
+  sha256: 024196f226c4dbc45e9f5401f81e02e9965f980c3cbab56ee197169360ba8e3a
+- byte_size: 103044
+  path: data/raw/india/macro/policy/rbi_ar_chronology_2017-18_annex1240.html
+  row_count: null
+  sha256: bd0ed31b44caa66db1616b514784a13dc65a97cf1f820a9a4646a8500e066448
+- byte_size: 102984
+  path: data/raw/india/macro/policy/rbi_ar_chronology_2018-19_annex1268.html
+  row_count: null
+  sha256: 270c69f30c965f0914ec4bc23a751045e25f38e34792767d11a879605e4bb686
+- byte_size: 156366
+  path: data/raw/india/macro/policy/rbi_ar_chronology_2020-21_annex1326.html
+  row_count: null
+  sha256: bd75a445c661bad4c2cb66af9b4cbc4296998e6f0dd799efc37b2a632d791e7c
+- byte_size: 140314
+  path: data/raw/india/macro/policy/rbi_ar_chronology_2022-23_annex1384.html
+  row_count: null
+  sha256: 8d95fb9b015660393f8611b2b48a0f39abf35af7412d0999e1cf74cb1d4beee0
+- byte_size: 127920
+  path: data/raw/india/macro/policy/rbi_ar_chronology_2023-24_annex1413.html
+  row_count: null
+  sha256: db91506b6b28b0d6d17df2d7ad955b6c9f586da9b6480dbc015244fd7c3b4cdf
+- byte_size: 126221
+  path: data/raw/india/macro/policy/rbi_ar_chronology_2024-25_annex1443.html
+  row_count: null
+  sha256: 654785ce6909da9044a748656f07419ee541cc76df78c9a0af9c7c10e427cbc5
+- byte_size: 154022
+  path: data/raw/india/macro/policy/rbi_ar_chronology_covid2_annex1327.html
+  row_count: null
+  sha256: 1d0bfe91c185e2c7bd1d8370e91b69408cae0e098e100bedadc611ee2bda79cf
+- byte_size: 71497
+  path: data/raw/india/macro/policy/rbi_ar_chronology_covid3_annex1385.html
+  row_count: null
+  sha256: 61468318a948e9a876125c7df21c4dbe10edc11356096329cbb2358622eb6c25
+- byte_size: 115352
+  path: data/raw/india/macro/policy/rbi_ar_chronology_covid_annex1298.html
+  row_count: null
+  sha256: cf6038d2ded3a5b22905f8eaf5d31afdddb0277196f3ebc6559e0d7adf2bc791
+- byte_size: 159428
+  path: data/raw/india/macro/policy/rbi_fqr_2011-07-26_id6631.html
+  row_count: null
+  sha256: 965bc218b57ba440623866fd57a7957e7b71d4d3a029b12fb46e1e06e4c4329b
+- byte_size: 87607
+  path: data/raw/india/macro/policy/rbi_gov_statement_2020-04-17_id3853.html
+  row_count: null
+  sha256: d676a5737bbfa5ccb7a675615acb5a82e179af89cc80d0d1f8587a9f9965e46b
+- byte_size: 87189
+  path: data/raw/india/macro/policy/rbi_gov_statement_2020-05-22_id3859.html
+  row_count: null
+  sha256: af4756d43312deaf54b50821861a64134e170862b17944103685c392218f6d67
+- byte_size: 332232
+  path: data/raw/india/macro/policy/rbi_gov_statement_2022-05-04_pr154mpc.pdf
+  row_count: null
+  sha256: 99b8e4f1c679c83e23b9c5f1eaf372e1f726c6ba6ab026fbd81b250182af0fa0
+- byte_size: 748080
+  path: data/raw/india/macro/policy/rbi_gov_statement_2022-06-08_pr333.pdf
+  row_count: null
+  sha256: 9c515e882224eea72f2dbf51f9e006dd49c80e77a9327dad939e5022755d8568
+- byte_size: 87423
+  path: data/raw/india/macro/policy/rbi_mcir_2011-01-25_id13156.html
+  row_count: null
+  sha256: 7f18be1015c94d675b406dd315ec3334e6059e8b465a912f4dc70bfffe030f70
+- byte_size: 162779
+  path: data/raw/india/macro/policy/rbi_mpc_minutes_2019-08-07_prid47941.html
+  row_count: null
+  sha256: 0580e716ecd94d9aab7df7a3394eb224184111e268da8dbfdddd691ec2f984c8
+- byte_size: 161566
+  path: data/raw/india/macro/policy/rbi_mpc_minutes_2022-06-08_prid53904.html
+  row_count: null
+  sha256: b20d98de6e6f90a3dcbdc030cf5fcad2a9c2296eed4eea999f0e4807e4e97556
+- byte_size: 167424
+  path: data/raw/india/macro/policy/rbi_mpc_minutes_2022-08-05_prid54236.html
+  row_count: null
+  sha256: 591dde41b93948e3f095d8513eb57811b9b45e6b9a65c96fc8c2b3cbe72f3720
+- byte_size: 858226
+  path: data/raw/india/macro/policy/rbi_mpc_minutes_2022-12-07_pr1420.pdf
+  row_count: null
+  sha256: 952bde1ad7d0bb0b7623ffa9f2bdedce07843ff96d2a8a5e01cb6055e02a097f
+- byte_size: 155900
+  path: data/raw/india/macro/policy/rbi_mpc_resolution_2017-08-02_prid41391.html
+  row_count: null
+  sha256: 9dacb99b8b54c334db3c6452e0cdb465e12240becb14fad0a293fdfbc0ec3274
+- byte_size: 403465
+  path: data/raw/india/macro/policy/rbi_mpc_resolution_2018-06-06_pr3190.pdf
+  row_count: null
+  sha256: 273d367176c46284d48da9c632ceacdf3b91869330188a372ddf144fbfb7273b
+- byte_size: 129306
+  path: data/raw/india/macro/policy/rbi_mpc_resolution_2019-04-04_prid46722.html
+  row_count: null
+  sha256: 6783180298ff760709dc8833c900d188ac836ac79748c36d8ee5deea467bc2b5
+- byte_size: 128871
+  path: data/raw/india/macro/policy/rbi_mpc_resolution_2019-06-06_prid47225.html
+  row_count: null
+  sha256: 849807cae7fcad015b41c71cd1d14a1570ff3747ce5abdd773f52e80ee972b1a
+- byte_size: 459511
+  path: data/raw/india/macro/policy/rbi_mpc_resolution_2019-08-07_pr364df.pdf
+  row_count: null
+  sha256: 8f3f4ee6cca2f24424d65f3affd94e405ff9c5c094a5ea6da980cb12baea33b7
+- byte_size: 123805
+  path: data/raw/india/macro/policy/rbi_mpc_resolution_2020-03-27_prid49581.html
+  row_count: null
+  sha256: 7330bb03caa3a57e3909703559fb08f89f30f0de74c094d721750928cf56e187
+- byte_size: 115285
+  path: data/raw/india/macro/policy/rbi_mpc_resolution_2025-02-07_prid59692.html
+  row_count: null
+  sha256: 00e22a6c1e80e74f3dd8f4196c95b51261961a69c7fcef38d5636c3e27b0ae1b
+- byte_size: 116704
+  path: data/raw/india/macro/policy/rbi_mpc_resolution_2025-04-09_prid60176.html
+  row_count: null
+  sha256: 8e4c30d6a71a35815c1a9c80b2ead7ef7126d0b16c5eaa6aae251f3fb112c89f
+- byte_size: 118479
+  path: data/raw/india/macro/policy/rbi_mpc_resolution_2025-06-06_prid60604.html
+  row_count: null
+  sha256: 0d058895c27f95209e61d5d4dbc647b916d45bea5ce9f0b85cbe41422bba177e
+- byte_size: 118098
+  path: data/raw/india/macro/policy/rbi_mpc_resolution_2025-12-05_prid61749.html
+  row_count: null
+  sha256: 5d7e974a794a2aae4eac2d766de16beee5854aab5fe2c7a7c1d3fe5bf78fdf87
+- byte_size: 79343
+  path: data/raw/india/macro/policy/rbi_mpc_statement_2016-12-07_id2075.html
+  row_count: null
+  sha256: 4e77dc744022a42d495dce940faa79c75cf48b99a07a32287fde79e002f6b0d1
+- byte_size: 338073
+  path: data/raw/india/macro/policy/rbi_mpc_statement_2017-04-06_pr26893.pdf
+  row_count: null
+  sha256: fdcecd2f0510b2278f16b6f6cd52eb4a8d7e406b10efa084d8fa0632b128d2d8
+- byte_size: 84360
+  path: data/raw/india/macro/policy/rbi_mpc_statement_2019-10-04_pub19338.html
+  row_count: null
+  sha256: 76b708b68b300a113cead7fc17a1529bd84db3e1b92f555ddb51550684aefb22
+- byte_size: 85987
+  path: data/raw/india/macro/policy/rbi_mpc_statement_2019-12-05_pub19409.html
+  row_count: null
+  sha256: 1e4b2360bdaad38d0f47852333c2a0ea8b9d52ad08bfbc1c647d6a5cefea8f7c
+- byte_size: 117935
+  path: data/raw/india/macro/policy/rbi_mpc_statement_2022-04-08_id3353.html
+  row_count: null
+  sha256: 86a2ab3ec0b0db3085d696b82cfd64ad885a45bf68f8dd526cb459a8329b0145
+- byte_size: 70038
+  path: data/raw/india/macro/policy/rbi_mpc_statement_2022-05-04_id3356.html
+  row_count: null
+  sha256: 3467f15bb6c1148ca644deba10cd9fcbc1edca799fbba15d44918a7dcf0e69ed
+- byte_size: 71600
+  path: data/raw/india/macro/policy/rbi_mpc_statement_2022-06-08_id3362.html
+  row_count: null
+  sha256: e9a12945ded497896c09135be7d924849f8214dca5be28cd748a3a1113ce5350
+- byte_size: 250380
+  path: data/raw/india/macro/policy/rbi_mpr_2016-10-04_pub17385.html
+  row_count: null
+  sha256: 2ed214d45cb0ea3c381264e39b628031ea744ec1f6c2ab0bf478c1b99ef580e7
+- byte_size: 64233
+  path: data/raw/india/macro/policy/rbi_msf_circular_2016-10-04_id2280.html
+  row_count: null
+  sha256: d24914f2209ed93978a5922d029816be301ca8cb74c2ec587c2ee162ac4f1224
+- byte_size: 88505
+  path: data/raw/india/macro/policy/rbi_publications_2012-13_statements_id15544.html
+  row_count: null
+  sha256: 6b12ef33651bd43af5ac1fb0cfde34835862cf11a2cabd42bd824bc4acc63e06
+- byte_size: 140228
+  path: data/raw/india/macro/policy/rbi_sdf_statement_2022-04-08_prid53536.html
+  row_count: null
+  sha256: 1fd42e09d633e4000af605ca389ce346f1a5fbb360e8e1463bbd74ef4f1d686c
+- byte_size: 141461
+  path: data/raw/india/macro/policy/rbi_statement_2015-09-29_prid35087.html
+  row_count: null
+  sha256: e901cfa6d2f2d0ef6b66954df2d78c50435294e5cc2acc39436f2d8969cd7a7f
 raw_path: null
+raw_paths:
+- data/raw/india/macro/rbi_handbook_2025-26_table40_policy_rates.xlsx
+- data/raw/india/macro/policy/rbi_annual_policy_2011-05-03_aps030511.pdf
+- data/raw/india/macro/policy/rbi_annual_report_2019-20_id1297.html
+- data/raw/india/macro/policy/rbi_annual_report_2020-21_id1316.html
+- data/raw/india/macro/policy/rbi_annual_report_2022-23_id1374.html
+- data/raw/india/macro/policy/rbi_annual_report_2024-25_id1473.html
+- data/raw/india/macro/policy/rbi_ar_2009-10_monetary_ch982.html
+- data/raw/india/macro/policy/rbi_ar_2010-11_monetary_ch1000.html
+- data/raw/india/macro/policy/rbi_ar_2011-12_monetary_ch1040.html
+- data/raw/india/macro/policy/rbi_ar_2012-13_monetary_ch1081.html
+- data/raw/india/macro/policy/rbi_ar_2013-14_monetary_ch1121.html
+- data/raw/india/macro/policy/rbi_ar_2014-15_monetary_ch1149.html
+- data/raw/india/macro/policy/rbi_ar_2015-16_monetary_ch1176.html
+- data/raw/india/macro/policy/rbi_ar_2016-17_monetary_ch1203.html
+- data/raw/india/macro/policy/rbi_ar_2017-18_monetary_ch1230.html
+- data/raw/india/macro/policy/rbi_ar_2018-19_monetary_ch1258.html
+- data/raw/india/macro/policy/rbi_ar_chronology_2007-08_annex823.html
+- data/raw/india/macro/policy/rbi_ar_chronology_2008-09_annex907.html
+- data/raw/india/macro/policy/rbi_ar_chronology_2014-15_annex1158.html
+- data/raw/india/macro/policy/rbi_ar_chronology_2015-16_annex1185.html
+- data/raw/india/macro/policy/rbi_ar_chronology_2016-17_annex1212.html
+- data/raw/india/macro/policy/rbi_ar_chronology_2017-18_annex1240.html
+- data/raw/india/macro/policy/rbi_ar_chronology_2018-19_annex1268.html
+- data/raw/india/macro/policy/rbi_ar_chronology_2020-21_annex1326.html
+- data/raw/india/macro/policy/rbi_ar_chronology_2022-23_annex1384.html
+- data/raw/india/macro/policy/rbi_ar_chronology_2023-24_annex1413.html
+- data/raw/india/macro/policy/rbi_ar_chronology_2024-25_annex1443.html
+- data/raw/india/macro/policy/rbi_ar_chronology_covid2_annex1327.html
+- data/raw/india/macro/policy/rbi_ar_chronology_covid3_annex1385.html
+- data/raw/india/macro/policy/rbi_ar_chronology_covid_annex1298.html
+- data/raw/india/macro/policy/rbi_fqr_2011-07-26_id6631.html
+- data/raw/india/macro/policy/rbi_gov_statement_2020-04-17_id3853.html
+- data/raw/india/macro/policy/rbi_gov_statement_2020-05-22_id3859.html
+- data/raw/india/macro/policy/rbi_gov_statement_2022-05-04_pr154mpc.pdf
+- data/raw/india/macro/policy/rbi_gov_statement_2022-06-08_pr333.pdf
+- data/raw/india/macro/policy/rbi_mcir_2011-01-25_id13156.html
+- data/raw/india/macro/policy/rbi_mpc_minutes_2019-08-07_prid47941.html
+- data/raw/india/macro/policy/rbi_mpc_minutes_2022-06-08_prid53904.html
+- data/raw/india/macro/policy/rbi_mpc_minutes_2022-08-05_prid54236.html
+- data/raw/india/macro/policy/rbi_mpc_minutes_2022-12-07_pr1420.pdf
+- data/raw/india/macro/policy/rbi_mpc_resolution_2017-08-02_prid41391.html
+- data/raw/india/macro/policy/rbi_mpc_resolution_2018-06-06_pr3190.pdf
+- data/raw/india/macro/policy/rbi_mpc_resolution_2019-04-04_prid46722.html
+- data/raw/india/macro/policy/rbi_mpc_resolution_2019-06-06_prid47225.html
+- data/raw/india/macro/policy/rbi_mpc_resolution_2019-08-07_pr364df.pdf
+- data/raw/india/macro/policy/rbi_mpc_resolution_2020-03-27_prid49581.html
+- data/raw/india/macro/policy/rbi_mpc_resolution_2025-02-07_prid59692.html
+- data/raw/india/macro/policy/rbi_mpc_resolution_2025-04-09_prid60176.html
+- data/raw/india/macro/policy/rbi_mpc_resolution_2025-06-06_prid60604.html
+- data/raw/india/macro/policy/rbi_mpc_resolution_2025-12-05_prid61749.html
+- data/raw/india/macro/policy/rbi_mpc_statement_2016-12-07_id2075.html
+- data/raw/india/macro/policy/rbi_mpc_statement_2017-04-06_pr26893.pdf
+- data/raw/india/macro/policy/rbi_mpc_statement_2019-10-04_pub19338.html
+- data/raw/india/macro/policy/rbi_mpc_statement_2019-12-05_pub19409.html
+- data/raw/india/macro/policy/rbi_mpc_statement_2022-04-08_id3353.html
+- data/raw/india/macro/policy/rbi_mpc_statement_2022-05-04_id3356.html
+- data/raw/india/macro/policy/rbi_mpc_statement_2022-06-08_id3362.html
+- data/raw/india/macro/policy/rbi_mpr_2016-10-04_pub17385.html
+- data/raw/india/macro/policy/rbi_msf_circular_2016-10-04_id2280.html
+- data/raw/india/macro/policy/rbi_publications_2012-13_statements_id15544.html
+- data/raw/india/macro/policy/rbi_sdf_statement_2022-04-08_prid53536.html
+- data/raw/india/macro/policy/rbi_statement_2015-09-29_prid35087.html
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T17:20:51.342449+00:00'
-row_count: null
+retrieval_timestamp: '2026-09-12T14:05:15.886392+00:00'
+row_count: 187
 source_institution: RBI
-source_url: null
+source_url: https://www.rbi.org.in/Scripts/PublicationsView.aspx?id=23865
 tier: C
-unique_date_count: null
-validation_status: pending
+unique_date_count: 61
+validation_status: passed
 variable: RBI_REPO_RATE

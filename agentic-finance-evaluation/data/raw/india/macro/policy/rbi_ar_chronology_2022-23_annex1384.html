@@ -1,0 +1,1533 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Annual Report | Official Website of Reserve Bank of India </title>
+    <meta name="description" content="Annual Report - Reserve Bank of India" />
+    <meta name="keyword" content="RBI Annual Report" />
+    <meta name="author " content="Reserve Bank of India" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="/js/libs/modernizr-2.5.3.min.js"></script>
+</head>
+<body onload="SetTreeStyles()">
+    <form method="post" action="./AnnualReportPublications.aspx?Id=1384" id="Form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJMzY1MDIzMjgyZGTirogjiSKWyp2H7A6jss5xWpxVi6DImZfEwxE9PMK7EA==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="E309B892" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAwK4FgjMZGo32+EsU73+QFSlK+XrsQEVyjeDxQ0A4GYXM3IfYFEMdbtkmb6zzJSc2CLrBfuDtX7nV3nL+5njT0xpTvjNMInTm7jDqH04NfPDGQ6cu1iZ73N7YF2NPAmCyQ/q33cCQLgaFQSElESF1pcG6ARGh77hh0/r4ObuL1TAsg3NivnNEt6QsKSovCCK9t9xf1loRXvygROM/A1O+NHJounKCGGAHd04zzVhBPZz3RgTJ25FWigbeFr84Vgoxd85GmzTs9g56MExTizjelamo8ZO6PQqH+9hU02GyNvAg==" />
+</div>
+        <input type="hidden" name="hdnYear" id="hdnYear" />
+        
+<link href="/JQuery/css/jquery-ui-1.8.18.custom2.css" rel="stylesheet" type="text/css" />
+<link href="/includes/print.css" rel="stylesheet" media="print" type="text/css" />
+
+<link href="/Styles/960.css?v=1.0" rel="stylesheet" type="text/css" />
+<link href="/Includes1/rbi.css?v=5.0" rel="Stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/JQuery/ui/jquery.ui.revampRBI.js"></script>
+<script type="text/javascript" src="/js/ImgSaveDisable.js"></script>
+
+<script type="text/javascript">
+  
+//Redirect to mobile site start
+    function detectmob() {
+        if (screen.width <= 599 || screen.Height <= 975) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if (detectmob()) {
+       window.location.href = "https://m.rbi.org.in" + window.location.pathname;
+		
+       
+    }
+
+	//Redirect to mobile site End
+    $(document).ready(function () {
+        Search();
+	SearchLastUpdateDate(); //Fetch Last Date Page
+    });
+
+
+
+  // Fetch Last Date Page
+
+    function SearchLastUpdateDate() {
+        var strFilterComments = new RegExp("^[a-zA-Z0-9 =_:.&?'%,()-–]+$");
+	var url=window.location.href;
+	if(url.indexOf("WSSViewDetail.aspx")>0 || url.indexOf("PublicationReportDetails.aspx")>0)
+	{
+		url=url.substring(url,url.indexOf("?"));
+	}
+        var param = { keyWord1: url.slice(url.lastIndexOf('/') + 1) };
+	param.keyWord1=param.keyWord1.replaceAll("%20"," ");
+	if(param.keyWord1.indexOf("#")>0)
+	{
+		param.keyWord1=param.keyWord1.substring(param.keyWord1,param.keyWord1.indexOf("#"));
+	}
+        if (!strFilterComments.test(param.keyWord1)) {            
+            return false;
+        }
+        else {
+            $.ajax({
+                url: "/Home.aspx/GetLastUpdateDate_new",
+                data: JSON.stringify(param),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataFilter: function (data) { return data; },
+                success: function (data) {
+                    if (data.d.length > 0) {
+                        $('#lblGetLastUpdateDate').text(data.d);
+                    }
+                    else {
+                        response([{ label: "No results found", value: ""}]);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+
+        }
+    }
+    // Fetch Last Date Page
+
+
+
+    function Search() {
+        highlightTextAutocomplete();
+        $(".autoSuggest").autocomplete({
+
+
+            source: function (request, response) {
+                var param = { keyWord: document.getElementById('txtSearch').value };
+
+                $.ajax({
+                    url: "/Home.aspx/GetKeywords",
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+
+                        if (data.d.length > 0) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: RemoveSpecialChars(item)
+
+                                }
+                            }))
+                        }
+                        else {
+                            response([{ label: "No results found", value: ""}]);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            },
+
+            
+            minLength: 3
+
+        });
+    }
+
+    function highlightTextAutocomplete() {
+
+        var oldFn = $.ui.autocomplete.prototype._renderItem;
+
+        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+
+            var t = String(item.value).replace(
+                new RegExp(this.term, "gi"),
+                "<span class='ui-state-highlight'>$&</span>");
+            if (item.value != "") {
+                return $("<li class='borderAutocomplete'></li>")
+                  .data("item.autocomplete", item)
+                  .append("<a role='link'>" + t + "</a>")
+                  .appendTo(ul);
+            }
+
+            else {
+                return $("<li></li>")
+                  .data("item.autocomplete", item)
+                  .append("")
+                  .appendTo(ul);
+            }
+        };
+    }
+
+
+    function RemoveSpecialChars(inputText) {
+        var filteredString = inputText.replace(/[\*\^\'\!\@\$\.\#\(\)\-\?\<\>\;\"\&\+\{\}\:]/g, '');
+        
+        return filteredString;
+    }
+    
+
+    function LoadSearchData(id, key) {
+        if (id == "txtSearch") {
+            if (key == 13) {
+                validateSearchText();
+                return false;
+            }
+        }
+        else validateSearchText();
+        return true;
+    }
+    function validateSearchText() {
+        if (validation()) {
+            var strloc = new String(document.location.href.toString());
+            if (strloc.indexOf("SearchResults.aspx") == -1) {//             
+                window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+            }
+            else window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+        }
+    }
+    function validation() {
+        strSearch = trim(document.getElementById('txtSearch').value);
+        if (strSearch == "") { alert('Please enter the search text'); return false; }
+        else {
+           
+            var strFilterChars = new RegExp("^[0-9a-zA-Z ]*$");
+            if (!strFilterChars.test(strSearch)) { alert("Please remove special characters from search text"); return false; }
+        }
+        return true;
+    }
+    function trim(value) {
+        value = value.replace(/^\s+/, '');
+        value = value.replace(/\s+$/, '');
+        return value;
+    }
+
+</script>
+
+    <style type="text/css">
+    .blink_msm1 
+{
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 3s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: blinker;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@-moz-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+.blink_NewWebsite {
+        animation:blinker 1.5s linear 3;
+        color:blue;
+        font-size:1.5em;
+        margin-bottom:0px;
+        }
+    @keyframes blinker
+    {
+        50%{
+            opacity:0;
+        }
+    }
+
+.sr-only {
+position: absolute;
+left: -9999px;
+}
+</style>
+<div class="top_setting">
+    <div class="container_12">
+        <div class="grid_5 top_settings">
+            <a href="#mainsection">Skip to main content </a>
+        </div>
+        <div id="UsrFontCntr_tblThemes" style="float: right" class="grid_4 prefix_3 top_settings">
+            <ul style="margin:0px; padding:0px;">
+               <li class="fonts"> 
+                <a id="UsrFontCntr_LinkBtnSpace" role="button" title="Increase Letter Spacing" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnSpace&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/letspace.png" alt="Increase Letter Spacing" />
+                                <span id="UsrFontCntr_spanBtnSpace" class="sr-only">Not Pressed</span></a>                                
+            </li>
+
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontIncrease" role="button" title="Increase Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontIncrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-increase.gif" alt="Increase Font Size" />
+                    <span id="UsrFontCntr_spanFontIncrease" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontRegular" role="button" title="Regular Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontRegular&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-reset.gif" alt="Regular Font Size" />
+                    <span id="UsrFontCntr_spanFontRegular" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontDecrease" role="button" title="Decrease Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontDecrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-decrease.gif" alt="Decrease Font Size" />
+                    <span id="UsrFontCntr_spanFontDecrease" class="sr-only">Not Pressed</span></a>
+            </li></ul>
+		<ul style="margin:0px;padding:0px;">
+            <li class="black">
+                <a id="UsrFontCntr_LinkBtnAccessibilty" role="button" title="Apply Dark Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/dark-theme.gif" alt="Apply Dark Theme" />
+                    <span id="UsrFontCntr_spanAccessibilty" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="white">
+                <a id="UsrFontCntr_LinkBtnUndoAccessibilty" role="button" title="Apply Normal Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnUndoAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/bright-theme.gif" alt="Apply Normal Theme" />
+                     <span id="UsrFontCntr_spanUndoAccessibilty" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="white">
+            <a id="UsrFontCntr_LinkBtnGreyScale" role="button" title="Apply Grey Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnGreyScale&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/graytheme.gif" alt="Apply Grey Theme" />
+                                <span id="UsrFontCntr_spanGreyScale" class="sr-only">Not Pressed</span></a></li>
+
+            </ul>
+		<div>
+		     <a href="#" onclick="javascript:window.print();" id="A1" title="Print This Page" style="text-decoration:none;" >
+                <img src="/images/print-icon.png" alt="Print this page" class="print" />
+		</a></div>
+            <div style="float: right">
+                <label style="margin-right: 6px;">
+                    Change Language</label>
+			
+			<a href="#" onclick="SetLink();" class="link1" title="Website in Hindi">हिंदी</a>
+			</div>
+                   
+        </div>
+        <div class="clearfix">
+        </div>
+    </div>
+   
+</div>
+<div class="container_12">
+    <div class="grid_4" role="banner">
+        <div class="logo">
+            <a href="/home.aspx" title="Official website of Reserve Bank of India">
+                <img src="/images/rbi-company-logo.jpg" alt="Logo of Official website of Reserve Bank of India" title="Official website of Reserve Bank of India" /></a></div>
+    </div>
+    <div class="grid_5" align="right" role="search" style="float: right">
+        <label for="searchbox" class="search_label">
+            Search the Website</label>
+        <input name="UsrFontCntr$txtSearch" type="text" maxlength="103" id="txtSearch" class="search_box autoSuggest" title="Search the Website" aria-label="Search the Website" onkeydown="return LoadSearchData(&#39;txtSearch&#39;,event.keyCode);" placeHolder="Search" />
+        <button id="btnSearch" onclick="return LoadSearchData('btnSearch',event.keyCode);"
+            type="button" class="search_button">
+            Search</button>
+    </div>
+	<div class="grid_2" align="CENTER" role="" style="float: right">
+        <div class="logo" >
+           
+            <img src="../images/BBBP_Logo_4.png" alt="Beti Bachao Beti Padhao Logo" style="width:47%;">
+        </div>
+    	</div>
+    <div class="clearfix">
+    </div>
+</div>
+<!--  NAVIGATION START-->
+<nav role="navigation" aria-label="Main">
+       <div class="menu"><div class="centermenu">
+<ul class="menu">
+  <li><a href="https://rbi.org.in/home.aspx">Home</a></li>
+<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-Sub1">About Us ▼</a>
+ <ul class="submenu1" id="Ab-Sub1" >
+	 <li><a href="/scripts/AboutUsDisplay.aspx">About Us</a></li>
+     <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-org">Organisation & Functions <span aria-hidden="true">▶</span></a>
+		 <ul class="submenu1" id="Ab-org">             
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=OrganizationStructure.htm">Organisation Structure</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=Depts.htm">Departments</a></li>
+            <li><a href="Regionaloffices.aspx">Offices</a></li>
+			<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-tra">Training Establishment <span aria-hidden="true">▶</span></a>                
+				<ul class="submenu1" id="Ab-tra">
+                    <li ><a href="https://cab.rbi.org.in" target="_blank" id="CBOverview">College of Agricultural Banking</a></li>
+                    <li ><a href="/scripts/rbsc.aspx" id="CBNotifications">Reserve Bank Staff College</a></li>
+					<li ><a href="https://cos.rbi.org.in/" id="CBSupervisors">College of Supervisors</a></li>
+                </ul>
+            </li>
+            <li><a href="/scripts/OccasionalPublications.aspx?head=RBI%27s%20Functions%20and%20Working">RBI's Functions and Working</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=PastGovernors.htm">Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=deputygovernors.htm">Deputy Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=ExecutiveDirectors.htm">Executive Directors</a></li>
+        </ul>		
+	 </li>
+<li><a href="AboutUsDisplay.aspx?pg=MediaKit.htm">Media Kit</a></li>
+	 <li><a href="CommunicationPolicy.aspx">Communication Policy of RBI</a></li>
+	
+     <li>
+        <a href="#" aria-expanded="false" role="button" aria-controls="Ab-soi">Sources of Information <span aria-hidden="true">▶</span></a>
+        <ul class="submenu1" id="Ab-soi">
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#AP">Annual Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#HP">Half-yearly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#QP">Quarterly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#MP">Monthly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#WP">Weekly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#OP">Occasional Publications</a></li>
+            <li><a href="/scripts/SDDSview.aspx">SDDS</a></li>
+            <li><a href="/scripts/BS_NSDPDisplay.aspx">NSDP</a></li>
+            <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#PS">Publications available on Subscription</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#GI">General Information</a></li>	  
+        </ul>
+     </li>  
+	 <li><a href="/scripts/Project1.aspx">RBI History</a></li>
+	 <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-mus">Museum <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="Ab-mus">
+			<li><a href="https://therbimuseum.rbi.org.in/">The RBI Museum</a></li>
+			<li><a href="/scripts/ic_museum.aspx">RBI Monetary Museum</a></li>
+         </ul>
+	 </li>
+</ul>
+</li>
+  <li>
+    <a href="#" aria-expanded="false" role="button" aria-controls="No-Sub1">Notification ▼</a>
+    <ul class="submenu1" id="No-Sub1">
+      <li><a href="/scripts/NotificationUser.aspx">Notifications </a></li>
+             <li><a href="/scripts/BS_ViewMasterDirections.aspx">Master Directions </a></li>
+             <li><a href="/scripts/BS_ViewMasterCirculardetails.aspx">Master Circulars </a></li> 
+	     <li><a href="/scripts/Fs_AmendmentDirections.aspx">Amendment Directions </a></li> 
+	     <li><a href="#" aria-expanded="false" role="button" aria-controls="No-draft">Draft Notifications/Guidelines <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="No-draft">
+			<li><a href="/scripts/DraftNotificationsGuildelines.aspx">Draft Notifications/Guidelines</a></li>
+			<li><a href="/scripts/BS_ViewREwiseDraftDirections.aspx">Draft Directions (RE-wise)</a></li> 
+         	</ul>
+	     </li>
+
+            
+             <li><a href="/scripts/BS_CircularIndexDisplay.aspx">Index To RBI Circulars </a></li> 
+             <li><a href="/scripts/BS_ViewListofstandalonecirculars.aspx">Standalone Circulars </a></li>
+             <li><a href="/scripts/NotificationUserWithdrawnCircular.aspx">Circulars Withdrawn </a></li>
+
+      
+    </ul>
+  </li>
+
+  <li><a href="/scripts/BS_PressReleaseDisplay.aspx">Press Releases</a></li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Sp-Sub1">Speeches & Media Interactions ▼</a>
+	<ul class="submenu1" id="Sp-Sub1">
+	  <li><a href="/scripts/BS_ViewSpeeches.aspx">Speeches</a></li>
+      <li><a href="/scripts/BS_ViewInterviews.aspx">Media Interactions</a></li>
+      <li><a href="/scripts/Lectures.aspx">Memorial Lectures</a></li>
+      <li><a href="/scripts/BS_ViewPodcast.aspx">Podcasts</a></li>
+	</ul>
+  </li>
+  <li><a href="#"  aria-expanded="false" role="button" aria-controls="Pu-Sub1">Publications ▼</a>
+		<ul class="submenu1" id="Pu-Sub1">
+			<li><a href="/scripts/Publications.aspx?publication=Biennial">Biennial</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Annual">Annual</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=HalfYearly">Half-Yearly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Quarterly">Quarterly</a></li>
+		    <li><a href="/scripts/Publications.aspx?publication=Bimonthly">Bi-monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Monthly">Monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Weekly">Weekly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Occasional">Occasional</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Reports">Reports</a></li>
+		    <li><a href="/scripts/OccasionalPublications.aspx?head=Working Papers">Working Papers</a></li>
+		</ul>
+	</li>				  
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Le-Sub1">Legal Framework ▼</a>
+	<ul class="submenu1" id="Le-Sub1">
+	   <li><a href="/scripts/Act.aspx">Act </a></li>
+       <li><a href="/scripts/Rules.aspx">Rules </a></li>
+       <li><a href="/scripts/Regulations.aspx">Regulations </a></li> 
+       <li class="last"><a href="/scripts/Schemes.aspx">Schemes </a></li>
+	   </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Re-Sub1">Research ▼</a>
+		<ul class="submenu1" id="Re-Sub1">
+			<li><a href="/Scripts/ExternalResearchSchemes.aspx">External Research Schemes</a></li>
+			<li><a href="/Scripts/OccasionalPapers.aspx">RBI Occasional Papers</a></li>
+			<li><a href="/Scripts/OccasionalPublications.aspx?head=Working%20Papers">Working Papers</a></li>
+			<li><a href="/Scripts/BS_ViewBulletin.aspx">RBI Bulletin</a></li>
+			<li><a href="/Scripts/Project1.aspx">History</a></li>
+			<li><a href="/Scripts/Occas_DRG_Studies.aspx">DRG Studies</a></li>
+			<li><a href="/Scripts/KLEMS.aspx">KLEMS</a></li>
+			<li class="last"><a href="/Scripts/StateStatisticsFinances.aspx">State Statistics and Finances</a></li>
+        </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Statistics ▼</a>
+		<ul class="submenu1" id="St-Sub1">
+		  <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+          <li><a href="https://data.rbi.org.in" target="_blank">Database on Indian Economy</a></li>
+          <li><a href="/scripts/FS_PDS.aspx">Public Debt Statistics</a></li>
+		</ul> 
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Regulatory Reporting ▼</a>
+		<ul class="submenu1">
+			<li><a href="/scripts/BS_Listofallreturns.aspx">List of Returns</a></li>
+			<li><a href="/scripts/DataDefinition.aspx">Data Definition</a></li>
+			<li><a href="/scripts/ValidationRules.aspx">Validation rules/ Taxonomy</a></li>
+			<li><a href="/scripts/ReportingPlaform.aspx">List of RBI Reporting Portals</a></li>
+			<li class="last"><a href="/scripts/ReportingFAQ.aspx">FAQs of RBI Reporting Portals</a></li>
+		</ul>
+   </li>
+</ul>
+</div></div>
+</nav>
+<div class="container_12" >
+    <section>
+        <div class="grid_12" >
+            <div id="dialogAlert" title="" tabindex="-1"  style="text-align: center; display: none;">
+                <p id="AM_Message" tabindex="-1" style="color: #444; font-size: 15px; margin: 20px 0; min-height: 40px;"></p>
+            </div>
+        </div>
+    </section>
+</div>
+<!--  NAVIGATION END-->
+<!--HEADER END-->
+<input type="submit" name="UsrFontCntr$btn" value="" id="btn" style="visibility: hidden; height: 0px; width: 0px;" />
+
+<script type="text/javascript">
+    function SetLink() {
+        //a.href = "https://www.rbi.org.in/hindi/Home.aspx";
+        var txt="This will lead you to Hindi (हिन्दी) language website. Are you sure you want to switch to this language?"
+        if(window.confirm(txt)==true){
+            //document.cookie = 'preferLang' + '=;secure; expires=Thu, 01-Jan-70 00:00:01 GMT;path=/;';
+            window.location.replace("https://www.rbi.org.in/hindi/");
+        }
+        else return false;
+        
+    }
+
+
+
+
+	const allMenuItems = document.querySelectorAll("nav ul li");
+	
+	allMenuItems.forEach(item => {
+		item.addEventListener("focusin", (event) => {	
+			const MenuText =event.target.textContent;
+			const allMenuItems1 = document.querySelectorAll(".hasSubmenu");
+			allMenuItems1.forEach(item1 => {
+				if (MenuText === 'Press Releases')
+				{	
+					
+					item1.classList.remove('focused');
+					rollback(item1)
+					item1.classList.remove('open');
+				}
+			});
+			
+		});
+	});
+
+
+const menuItems = document.querySelectorAll(".hasSubmenu");
+menuItems.forEach(item => {
+	item.addEventListener("mouseenter", (event) => {
+		item.className="hasSubmenu open focused"
+		expandThis(item);
+	});
+	item.addEventListener("mouseleave", (event) => {		
+		rollback(item)
+		item.className="hasSubmenu"
+	});
+	item.addEventListener("focusin", (event) => {		
+		const allMenuItems = document.querySelectorAll("nav ul li");
+		allMenuItems.forEach(item1 => {
+			item1.classList.remove('focused');
+			if(item!==item1)
+			rollback(item1)
+			item1.classList.remove('open');	
+		});							
+		item.classList.add('focused');
+	});
+	item.addEventListener("focusout", (event) => {
+		
+		if(!item.className.includes('focused')){
+		
+		rollback(item)
+		item.className="hasSubmenu"
+		}
+		item.classList.remove('focused');
+		item.classList.remove('open');
+	});
+
+    item.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+		if(item.className.includes("hasSubmenu open")){
+			rollback(item)
+			item.className="hasSubmenu"
+		}
+		else{
+          	item.className="hasSubmenu open focused"
+		var ele=item.querySelectorAll("a")[0];
+		
+		expandThis(item);	
+		}
+				
+        }
+	
+    });
+	
+});
+function expandThis(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+				    if ($targetul.queue().length <= 1) 
+				        if (this.istopheader)
+					$targetul.css({ left: $(this).children('a').eq(0).position().left, top: $mainmenu.position().top + this._dimensions.h - 2 })
+				            
+				    if (document.all && !window.XMLHttpRequest) 
+				        $mainmenu.find('ul').css({ overflow: (this.istopheader) ? 'hidden' : 'visible' })
+					
+					
+				    $targetul.dequeue().stop(true, true).slideDown(droplinemenu.animateduration.over)
+}
+const menuItemsf = document.querySelectorAll("nav .midmenu ul li");
+
+menuItemsf.forEach(item => {
+    item.addEventListener("keydown", (event) => {
+	
+	if(item.className.includes("last") ){
+		 if (pressedKeys['shift'] && event.key === "Tab"){}else{
+		var lastItem = document.getElementsByClassName('hasSubmenu open');
+		rollback(lastItem[0])
+		lastItem[0].className="hasSubmenu";
+		}
+	}
+	
+	});
+	
+	});
+	
+
+function rollback(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+$targetul.dequeue().stop(true, true).slideUp(droplinemenu.animateduration.out);
+}
+ 
+
+function setLetterSpace(val) {
+    
+	
+    if (false) {
+                    document.body.setAttribute("style", "letter-spacing:1px; line-height:20px; word-spacing:2px;");
+       
+    }
+    else {
+                    document.body.removeAttribute("style");
+    }
+    return false;
+
+    
+    }
+   
+
+// Toggle submenu
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if (submenu && submenu.classList.contains('submenu1')) {linkMessage();
+                e.preventDefault();
+                e.stopPropagation();
+
+                const parentLi = this.parentElement;
+
+                // Close sibling menus ONLY (not entire menu)
+                closeSiblings(parentLi);   
+ 
+
+               
+ 
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+        }
+        });
+    });
+
+    //  Close only sibling menus (important fix)
+    function closeSiblings(currentLi) {
+        const siblings = currentLi.parentElement.children;
+
+        Array.from(siblings).forEach(li => {
+            if (li !== currentLi) {
+            const submenus = li.querySelectorAll('.submenu1');
+        submenus.forEach(menu => menu.classList.remove('show'));
+    }
+    });
+    }
+
+    //  Click outside → close all
+    document.addEventListener('click', function () {
+		
+        document.querySelectorAll('.menu li > a').forEach(menu => {
+		if(menu.hasAttribute('aria-expanded')){
+            menu.setAttribute('aria-expanded','false');
+	}
+	
+    });
+
+    document.querySelectorAll('.submenu1').forEach(menu => {
+        menu.setAttribute('aria-hidden','true');
+    menu.classList.remove('show');
+	
+
+    });
+    });
+
+    //  Prevent closing when clicking inside menu
+    document.querySelector('.menu').addEventListener('click', function (e) {linkMessage();
+        e.stopPropagation();
+    });
+
+
+    //  Keyboard support
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('keydown', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if ((e.key === 'Enter' || e.key === ' ') && submenu) {
+                e.preventDefault();
+
+                const parentLi = this.parentElement;
+                closeSiblings(parentLi);
+
+
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+
+           
+        }
+
+          if (e.key === 'Escape') {
+        document.querySelectorAll('.submenu').forEach(menu => {
+            menu.classList.remove('show');
+    });
+    this.blur();
+    }
+    });
+    });
+    // When focusing main menu items → close other submenus
+    document.querySelectorAll('.menu > li > a').forEach(item => {
+        item.addEventListener('focus', function() {
+
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                
+                if (menu !== this.nextElementSibling) {
+              
+
+            document.querySelectorAll('.menu li > a').forEach(menu => {
+                if(menu.hasAttribute('aria-expanded'))
+                menu.setAttribute('aria-expanded','false');
+		
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                menu.setAttribute('aria-hidden','true');
+            
+            menu.classList.remove('show');
+            
+
+
+        });
+
+	
+    });
+
+    }
+    });
+
+    });
+    });
+
+    //  Close submenu when focus leaves it (TAB navigation)
+    document.querySelectorAll('.menu li').forEach(li => {
+        li.addEventListener('focusout', function (e) {
+            // Check if focus is still inside this <li>
+            if (!li.contains(e.relatedTarget)) {
+                const submenu = li.querySelector('.submenu1');
+                if (submenu) {
+                    submenu.classList.remove('show');
+                    if(li.querySelector('a').hasAttribute('aria-expanded'))
+                        li.querySelector('a').setAttribute('aria-expanded','false');
+	
+
+                    submenu.setAttribute('aria-hidden','true');
+                }
+            }
+        });
+    });
+</script>
+        <main class="container_12">
+        <a id="mainsection" name="mainsection"></a>
+
+        <nav aria-label="Breadcrumb" class="grid_12 breadcrumbs">
+<ul>
+                <li><a href="../home.aspx">Home</a></li>
+                <li><a href="publications.aspx">Publications</a></li>
+                <li><a href="publications.aspx">Annual</a></li>
+                <li><a href="AnnualReportMainDisplay.aspx">Annual Report Of The RBI</a></li>
+                <span id="lblNav"><li><a href="AnnualReportPublications.aspx?year=2012">Annex I: Chronology of Major Policy Announcements: April 2022 to March 2023</a></li></span>
+            </ul>
+ </nav>
+
+        <div class="clear">
+        </div>
+        <div class="grid_11 omega right_blue_border">
+            <div id="example-one" class="text1">
+                <div class="list-wrap">
+                    <div id="annual">
+
+                        <h1 class="page_title">Annual Report</h1>
+                        <br />
+                        <span id="lblNote" style="text-align: justify"> <font color="RED"><b>Note : </b></font>To read the chapter of your choice, please click on the links below. You can also read past reports by accessing the archives in the right panel.</span>
+                        <div>
+                            <div id="doublescroll">
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                    
+                                    <table class="tablebg" width="100%"> <tr><td class="tableheader" align="left"><a id='APDF_13ANNEX_I7614F64C8715417C9AE7ED6801B387CD' target="_blank" href="https://rbidocs.rbi.org.in/rdocs/AnnualReport/PDFs/13ANNEX_I7614F64C8715417C9AE7ED6801B387CD.PDF" aria-labelledby='APDF_13ANNEX_I7614F64C8715417C9AE7ED6801B387CD SPDF_13ANNEX_I7614F64C8715417C9AE7ED6801B387CD'>
+   <img alt='PDF - Annex I: Chronology of Major Policy Announcements: April 2022 to March 2023' style='padding: 8px;' src="../Images/pdf.gif" border="0" align="absmiddle"></a> (<span id='SPDF_13ANNEX_I7614F64C8715417C9AE7ED6801B387CD' aria-hidden="true">155 kb</span>)</td></tr><tr><td class="tableheader" align="right"><b> Date : May 30, 2023</b></td></tr><tr><td align="center" class="tableheader"><b>Annex I: Chronology of Major Policy Announcements: April 2022 to March 2023</b></td></tr><tr><td><table width="95%" border="0" align="center" cellpadding="0" cellspacing="1" class="tablebg">  <tr>    <td width="30%" align="center" valign="top"><span class="head">Date of Announcement</span></td>    <td width="70%" align="center" valign="top"><span class="head">Policy Initiative</span></td>  </tr>  <tr>    <td colspan="2" align="center" valign="top"><span class="head">Monetary Policy Department</span></td>  </tr>  <tr>    <td valign="top" align="justify">April 8, 2022</td>    <td valign="top" align="justify">&bull; The monetary policy committee (MPC) decided to keep the policy repo rate unchanged at 4.0 per cent. The MPC decided to remain accommodative, while focusing on withdrawal of accommodation to ensure that inflation remains within the target going forward, while supporting growth.<br>      <br>      &bull; Standing Deposit Facility (SDF) was introduced at 40 basis points (bps) above the fixed reverse repo rate (FRRR) and replaced the FRRR as floor of the liquidity adjustment facility (LAF) corridor. The SDF rate was placed 25 basis points (bps) below the repo rate, i.e., 3.75 per cent.</td>  </tr>  <tr>    <td valign="top" align="justify">May 4, 2022</td>    <td valign="top" align="justify">&bull; The MPC decided to raise the policy repo rate by 40 bps to 4.40 per cent. Consequently, the SDF rate was adjusted to 4.15 per cent and marginal standing facility (MSF) rate and Bank rate to 4.65 per cent. The MPC decided to remain accommodative, while focusing on withdrawal of accommodation to ensure that inflation remains within the target going forward, while supporting growth.<br>      <br>      &bull; Cash reserve ratio (CRR) was increased by 50 bps to 4.5 per cent effective from the fortnight beginning May 21, 2022.</td>  </tr>  <tr>    <td valign="top" align="justify">June 8, 2022</td>    <td valign="top" align="justify">The MPC decided to raise the policy repo rate by 50 bps to 4.90 per cent. Consequently, the SDF rate was adjusted to 4.65 per cent and MSF rate and Bank rate to 5.15 per cent. The MPC decided to remain focused on withdrawal of accommodation to ensure that inflation remains within the target going forward, while supporting growth.</td>  </tr>  <tr>    <td valign="top" align="justify">August 5, 2022</td>    <td valign="top" align="justify">The MPC decided to raise the policy repo rate by 50 bps to 5.40 per cent. Consequently, the SDF rate was adjusted to 5.15 per cent and MSF rate and Bank rate to 5.65 per cent. The MPC decided to remain focused on withdrawal of accommodation to ensure that inflation remains within the target going forward, while supporting growth.</td>  </tr>  <tr>    <td valign="top" align="justify">September 30, 2022</td>    <td valign="top" align="justify">The MPC decided to raise the policy repo rate by 50 bps to 5.90 per cent. Consequently, the SDF rate was adjusted to 5.65 per cent and MSF rate and Bank rate to 6.15 per cent. The MPC decided to remain focused on withdrawal of accommodation to ensure that inflation remains within the target going forward, while supporting growth.</td>  </tr>  <tr>    <td valign="top" align="justify">December 7, 2022</td>    <td valign="top" align="justify">The MPC decided to raise the policy repo rate by 35 bps to 6.25 per cent. Consequently, the SDF rate was adjusted to 6.0 per cent and the MSF rate and the Bank rate to 6.5 per cent. The MPC decided to remain focused on withdrawal of accommodation to ensure that inflation remains within the target going forward, while supporting growth.</td>  </tr>  <tr>    <td valign="top" align="justify">February 8, 2023</td>    <td valign="top" align="justify">The MPC decided to raise the policy repo rate by 25 bps to 6.50 per cent. Consequently, the SDF rate was adjusted to 6.25 per cent and the MSF rate and the Bank rate to 6.75 per cent. The MPC decided to remain focused on withdrawal of accommodation to ensure that inflation remains within the target going forward, while supporting growth.</td>  </tr>  <tr>    <td colspan="2" align="center" valign="top" class="head">Financial Inclusion and Development Department</td>  </tr>  <tr>    <td valign="top" align="justify">April 28, 2022</td>    <td valign="top" align="justify">Modified interest subvention scheme for short-term loans for agriculture and allied activities availed through Kisan Credit Card (KCC) was extended to farmers during the financial year 2021-22 with the applicable lending rate of 7 per cent and rate of interest subvention of 2 per cent. The scheme has been extended to small finance banks (SFBs) and computerised primary agriculture cooperative societies (PACs) which have been ceded with scheduled commercial banks (SCBs), in addition to public sector banks (PSBs) and private sector banks (in respect of loans given by their rural and semi-urban branches only), on use of their own resources.</td>  </tr>  <tr>    <td valign="top" align="justify">May 13, 2022</td>    <td valign="top" align="justify">To ensure continuation of the synergies between banks and non-banking financial companies (NBFCs) in delivering credit to the specified priority sectors, it was decided to permit the following as priority sector lending (PSL) on an on-going basis: (a) lending by SCBs to NBFCs for the purpose of on-lending to &lsquo;agriculture&rsquo; and &lsquo;micro and small enterprises&rsquo;; and (b) lending by small finance banks (SFBs) to NBFC-Microfinance Institutions (MFIs) and other MFIs, which have a &lsquo;gross loan portfolio&rsquo; (GLP) of up to &#8377;500 crore as on March 31 of the previous financial year, for the purpose of on-lending to individuals.</td>  </tr>  <tr>    <td valign="top" align="justify">May 18, 2022</td>    <td valign="top" align="justify">The licensing/authorisation related requirements pertaining to fishing/aquaculture in inland water bodies vary across states. In order to broad base the eligibility of fishermen to avail the KCC facility, the eligibility criteria for inland fisheries and aquaculture under KCC scheme has been modified by replacing the requirement of possessing necessary license for fisheries related activities with that of possessing necessary authorisation/certification for such activities, as applicable in each state.</td>  </tr>  <tr>    <td valign="top" align="justify">May 19, 2022</td>    <td valign="top" align="justify">The validity of the existing Entrepreneurs Memorandum (EM), Udyog Aadhaar Memorandum (UAMs) and the documents obtained in terms of circulars dated March 8, 2017 and July 13, 2017, for classification of micro, small, medium enterprises (MSMEs) up to June 30, 2020, was extended up to June 30, 2022.</td>  </tr>  <tr>    <td valign="top" align="justify">July 20, 2022</td>    <td valign="top" align="justify">Modified guidelines on Deendayal Antyodaya Yojana - National Rural Livelihood Mission (DAY-NRLM) were issued.</td>  </tr>  <tr>    <td valign="top" align="justify">November 23, 2022</td>    <td valign="top" align="justify">Modified interest subvention scheme for short-term loans for agriculture and allied activities availed through KCC was extended to farmers during the financial years 2022-23 and 2023-24, with the applicable lending rate of 7 per cent and rate of interest subvention of 1.5 per cent.</td>  </tr>  <tr>    <td colspan="2" align="center" valign="top" class="head">Financial Markets Regulation Department</td>  </tr>  <tr>    <td valign="top" align="justify">April 19, 2022</td>    <td valign="top" align="justify">Investment limit for foreign portfolio investors (FPIs) in government securities and corporate debt under the medium-term framework (MTF) and limit for the notional amount of credit default swaps (CDS) that can be sold by FPIs, for the financial year 2022-23 were notified.</td>  </tr>  <tr>    <td valign="top" align="justify">June 1, 2022</td>    <td valign="top" align="justify">The Master Direction - Reserve Bank of India (Variation Margin) Directions, 2022 were issued, mandating covered entities to exchange variation margin for non-centrally cleared derivative (foreign exchange, interest rate and credit) transactions.</td>  </tr>  <tr>    <td valign="top" align="justify">July 7, 2022</td>    <td valign="top" align="justify">&bull; All new issuances of central government securities (G-secs) of 7-year and 14-year tenors (including the current issuances) were designated as &lsquo;specified securities&rsquo; under the fully accessible route (FAR).<br>      <br>&bull; Investments by FPIs in government securities and corporate debt under the MTF were exempted from the requirements of short-term investment limit and minimum residual maturity till October 31, 2022.<br><br>&bull; Authorised dealer category-I banks were permitted to utilise overseas foreign currency borrowing (OFCB) for lending in foreign currency to entities for a wider set of end-use purposes, subject to the negative list set out for external commercial borrowings (ECBs). The dispensation for raising such borrowings was available till October 31, 2022.</td>  </tr>  <tr>    <td valign="top" align="justify">August 8, 2022</td>    <td valign="top" align="justify">Standalone primary dealers, authorised to deal in foreign exchange, were permitted to undertake foreign currency settled overnight indexed swap (FCS-OIS) transactions with non-residents and other eligible market-makers.</td>  </tr>  <tr>    <td valign="top" align="justify">September 7, 2022</td>    <td valign="top" align="justify">&ldquo;Alert List'; of entities which are neither authorised to deal in forex under the Foreign Exchange Management Act, 1999 (FEMA) nor authorised to operate electronic trading platforms for forex transactions was published. It also includes names of entities/platforms/websites which appear to be promoting unauthorised entities/electronic trading platforms (ETPs), including through advertisements of such unauthorised entities or claiming to be providing training/advisory services. The &ldquo;Alert List&rdquo; was updated on February 10, 2023.</td>  </tr>  <tr>    <td valign="top" align="justify">December 1, 2022</td>    <td valign="top" align="justify">In terms of provisions of the Financial Benchmark Administrators (Reserve Bank) Directions, 2019, Modified Mumbai Interbank Forward Outright Rate (MMIFOR) was notified as a &lsquo;significant benchmark&rsquo;.</td>  </tr>  <tr>    <td valign="top" align="justify">December 12, 2022</td>    <td valign="top" align="justify">Resident entities were permitted to hedge their gold price risk on recognised exchanges in the International Financial Services Centre (IFSC) recognised by the International Financial Services Centres Authority (IFSCA).</td>  </tr>  <tr>    <td valign="top" align="justify">January 23, 2023</td>    <td valign="top" align="justify">All Sovereign Green Bonds issued by the government in the fiscal year 2022-23 were designated as &lsquo;specified securities&rsquo; under the FAR.</td>  </tr>  <tr>    <td colspan="2" align="center" valign="top" class="head">Financial Markets Operations Department</td>  </tr>  <tr>    <td valign="top" align="justify">April 8, 2022</td>    <td valign="top" align="justify">&bull; It was decided to fully restore the liquidity management framework instituted in February 2020, albeit with some refinements to enhance its effectiveness.<br>      <br>&bull; Standing Deposit Facility (SDF) was introduced as the floor of the liquidity adjustment facility (LAF) corridor. The overnight SDF rate was decided to be 25 bps below the policy rate. Thus, the width of the LAF corridor was restored to the pre-pandemic configuration of 50 bps, symmetrically around the policy repo rate, which was at the centre of the corridor.</td>  </tr>  <tr>    <td valign="top" align="justify">April 18, 2022</td>    <td valign="top" align="justify">Restoration of regulated market opening time to the pre-pandemic level of 9:00 AM.</td>  </tr>  <tr>    <td valign="top" align="justify">September 30, 2022</td>    <td valign="top" align="justify">The 28-day variable rate reverse repo (VRRR) auction was merged with the fortnightly 14-day main auction.</td>  </tr>  <tr>    <td valign="top" align="justify">December 7, 2022</td>    <td valign="top" align="justify">Extension of market timings to 5:00 PM for call/notice/term money, commercial paper, certificates of deposit, repo in corporate bond and rupee interest rate derivatives from 3:30 PM.</td>  </tr>  <tr>    <td valign="top" align="justify">February 8, 2023</td>    <td valign="top" align="justify">&bull; Extension of market timings to 5:00 PM for government securities (central government securities, state government securities<sup data-toggle="tooltip" title="Refer to footnote 31 of Chapter II of this Report."><a href="#FN2" class="links">2</a></sup> and treasury bills) from 3:30 PM.<br>      <br>&bull; To aid efficient price discovery and work towards a smooth completion of the market borrowing programme of the centre and states governments, the Reserve Bank proposed to permit lending and borrowing of government securities.</td>  </tr>  <tr>    <td colspan="2" align="center" valign="top" class="head">Foreign Exchange Department</td>  </tr>  <tr>    <td valign="top" align="justify">May 19, 2022</td>    <td valign="top" align="justify">In view of the difficulties being experienced by exporters in receipt of export proceeds from Sri Lanka and based on the State Bank of India&rsquo;s credit facility agreement dated March 17, 2022, with the Government of Sri Lanka for sanction of Government of India guaranteed USD 1,000 million term loan to the latter for financing purchase of essential goods by Sri Lanka from India, vide circular dated May 19, 2022, it was decided that such trade transactions with Sri Lanka, falling under the said arrangement, may be settled in Indian Rupee (INR) outside the Asian Clearing Union (ACU) mechanism.</td>  </tr>  <tr>    <td valign="top" align="justify">May 25, 2022</td>    <td valign="top" align="justify">Qualified jewellers [as notified by International Financial Services Centres Authority (IFSCA)] were permitted to import gold under specific ITC (HS)<sup data-toggle="tooltip" title="Indian Trade Classification based on Harmonised System (ITC-HS)."><a href="#FN3" class="links">3</a></sup> codes through India International Bullion Exchange IFSC Limited (IIBX), in addition to the nominated agencies [as notified by Directorate General of Foreign Trade (DGFT)] and nominated banks (as notified by the Reserve Bank for import of gold). Consequently, Authorised Dealer (AD) banks were permitted, vide circular dated May 25, 2022, to allow qualified jewellers (as notified by IFSCA) to remit advance payment to enable them to import gold through IIBX in IFSC, subject to specified conditions.</td>  </tr>  <tr>    <td valign="top" align="justify">June 9, 2022</td>    <td valign="top" align="justify">In view of the recommendations by Regulations Review Authority 2.0 (RRA 2.0) related to discontinuation/merger or conversion of extant 65 regulatory paper-based returns into online returns, to ease regulatory compliance for the regulated entities while improving the accuracy, speed, and quality of data submission, it was notified on February 18, 2022, that 21 physical returns would be switched to online submission, while one return, &lsquo;quarterly return on guarantee availed and invoked from non-resident entities&rsquo;, would be discontinued/merged. Subsequently, AD banks were advised about the discontinuation of the said return with effect from the quarter ending June 2022, vide circular dated June 9, 2022.</td>  </tr>  <tr>    <td valign="top" align="justify">July 8, 2022</td>    <td valign="top" align="justify">AD category-I banks were advised that all eligible current account transactions including trade transactions with Sri Lanka shall be settled in any permitted currency outside the ACU mechanism until further notice.</td>  </tr>  <tr>    <td valign="top" align="justify">July 11, 2022</td>    <td valign="top" align="justify">To facilitate global trade with emphasis on promoting exports from India and to support the increasing interest of the global trading community in INR, an additional arrangement for invoicing, payment, and settlement of exports/imports in INR was provided. Under this arrangement, settlement of trade transactions with any country can be done in INR through Special Rupee Vostro Accounts of correspondent bank/s of the partner trading country maintained with AD banks.</td>  </tr>  <tr>    <td valign="top" align="justify">August 1, 2022</td>    <td valign="top" align="justify">In order to further diversify and expand the sources of forex funding, the Reserve Bank vide press release dated July 6, 2022, on &ldquo;Liberalisation of Forex Flows&rdquo; had announced temporary increase of the External Commercial Borrowing (ECB) limit under the automatic route from USD 750 million or its equivalent per financial year to USD 1.5 billion and the all-in-cost ceiling by 100 bps for borrowers of investment-grade rating. These temporary measures were available for the ECBs raised up to December 31, 2022. Accordingly, after making necessary amendments in FEMA 3R [Foreign Exchange Management (Borrowing and Lending) Regulations, 2018], all category-I AD banks were notified about the same on August 1, 2022.</td>  </tr>  <tr>    <td valign="top" align="justify">August 22, 2022</td>    <td valign="top" align="justify">In keeping with the spirit of liberalisation and to promote ease of doing business, the Foreign Exchange Management (Overseas Investment) Regulations, 2022, have been notified in supersession of Foreign Exchange Management (Transfer or Issue of any Foreign Security) (Amendment) Regulations, 2004, and Foreign Exchange Management (Acquisition and Transfer of Immovable Property Outside India) Regulations, 2015. The Foreign Exchange Management [Overseas Investment (OI)] Directions, 2022 issued on August 22, 2022, superseded Master Direction No.15/2015-16 dated January 1, 2016, as amended from time to time.</td>  </tr>  <tr>    <td valign="top" align="justify">September 15, 2022</td>    <td valign="top" align="justify">With a view to enabling Bharat Bill Payment System (BBPS), an interoperable platform for standardised bill payment to process cross-border inbound bill payments, it was decided, vide circular dated September 15, 2022, to allow foreign inward remittances received under the Rupee Drawing Arrangement (RDA), to be transferred to the know your customer (KYC) compliant bank account of the biller (beneficiary) through BBPS, subject to certain conditions. This shall facilitate Non-Resident Indians (NRIs) to undertake utility, education, and other bill payments on behalf of their families in India.</td>  </tr>  <tr>    <td valign="top" align="justify">September 30, 2022</td>    <td valign="top" align="justify">The concept of late submission fee (LSF) for reporting delays under the Foreign Exchange Management Act, 1999 (FEMA), was introduced for Foreign Investment (FI), ECBs, and Overseas Investment (OI) related transactions with effect from November 7, 2017, January 16, 2019, and August 22, 2022, respectively. Accordingly, in order to bring uniformity in the imposition of LSF across functions, a uniform matrix in line with the one for OI-related transactions, for calculation of LSF, wherever applicable under FEMA, was introduced on September 30, 2022.</td>  </tr>  <tr>    <td colspan="2" align="center" valign="top" class="head">Department of Regulation</td>  </tr>  <tr>    <td valign="top" align="justify">April 7, 2022</td>    <td valign="top" align="justify">Guidelines on establishment of Digital Banking Units (DBUs) were issued to all domestic scheduled commercial banks (excluding regional rural banks, payments banks and local area banks). The guidelines define digital banking, DBU, digital banking products and digital banking segment, and cover the infrastructure and resources required by DBUs, and the products and services that could be offered by them. The DBUs shall facilitate customers in adopting digital modes/channels and create awareness on digital banking.</td>  </tr>  <tr>    <td valign="top" align="justify">April 8, 2022</td>    <td valign="top" align="justify">&bull; As a countercyclical measure, in October 2020, risk weights for individual housing loans were linked only to loan to value (LTV) ratios, irrespective of the amount, for all new housing loans sanctioned up to March 31, 2022. On a review, the above dispensation was extended to cover all new individual housing loans sanctioned up to March 31, 2023.<br>      <br>&bull; To mitigate the adverse impact of COVID-19 pandemic, banks were earlier allowed to exceed the ceiling for statutory liquidity ratio (SLR) securities that could be under held to maturity (HTM) category from 19.5 per cent of net demand and time liabilities (NDTL) up to an overall limit of 22 per cent of NDTL (in respect of SLR securities acquired between September 1, 2020 and March 31, 2022). On April 8, 2022, the limit was further enhanced to 23 per cent of NDTL, while including the SLR securities acquired between April 1, 2022 and March 31, 2023. The enhanced HTM limit of 23 per cent was to be restored to 19.5 per cent in a phased manner, beginning from the quarter ending June 2023. Subsequently, on December 8, 2022, the dispensation was further extended to include SLR securities acquired up to March 31, 2024, while the HTM limits would be restored to 19.5 per cent in a phased manner by March 31, 2025, starting from the quarter ending June 30, 2024.<br><br>&bull; In 2018, the amended Section 17 of the Reserve Bank of India Act, 1934 empowered the Reserve Bank to introduce the Standing Deposit Facility (SDF) &ndash; an additional tool for absorbing liquidity without any collateral. The SDF will replace the fixed rate reverse repo (FRRR) as the floor of the LAF corridor. Further, it was decided that the balances held by banks with the Reserve Bank under the SDF shall be an eligible SLR asset. Accordingly, in partial modification of the existing instructions, it was specified that balances under SDF will form part of &ldquo;Cash&rdquo; for the purpose of SLR maintenance. The balances held by banks with the Reserve Bank under the SDF shall, however, not be eligible for cash reserve ratio (CRR) maintenance.</td>  </tr>  <tr>    <td valign="top" align="justify">April 18, 2022</td>    <td valign="top" align="justify">It was decided to permit banks to reckon government securities as Level 1 HQLA<sup data-toggle="tooltip" title="HQLA: High Quality Liquid Assets."><a href="#FN4" class="links">4</a></sup> under the FALLCR<sup data-toggle="tooltip" title="FALLCR: Facility to Avail Liquidity for Liquidity Coverage Ratio."><a href="#FN5" class="links">5</a></sup> within the mandatory SLR requirement up to 16 per cent of their NDTL. Accordingly, total HQLA carve out from the mandatory SLR, for meeting LCR requirement, stands at 18 per cent of NDTL (2 per cent MSF plus 16 per cent FALLCR).</td>  </tr>  <tr>    <td valign="top" align="justify">April 19, 2022</td>    <td valign="top" align="justify">&bull; The instructions applicable for rural co-operative banks (RCBs) on issue and regulation of capital funds were reviewed to ensure congruity with the provisions of the Banking Regulation (Amendment) Act, 2020. The revised guidelines prescribe terms for issuance of capital instruments as well as conditions for withdrawal of share capital, and also permit them to raise capital by issuance of preference shares.<br>      <br>      &bull; In terms of scale based regulatory framework for NBFCs, the upper layer NBFCs (NBFC-UL) are required to, inter alia, maintain common equity Tier 1 (CET-1) capital of at least 9 per cent of risk weighted assets. As a follow-up to the framework provisions, detailed instructions on components of, as well as regulatory adjustments from CET-1 capital, applicable to all NBFC-UL (except core investment companies) were issued.<br>      <br>      &bull; Detailed guidelines on large exposure framework for NBFCs in upper layer (NBFCs-UL) and certain regulatory restrictions on lending for NBFCs placed in different layers were issued.<br>      <br>      &bull; In order to enforce credit discipline amongst the borrowers as well as to facilitate better monitoring by the lenders, instructions on the manner of opening of cash credit/overdraft (CC/OD) and current/collection accounts by banks were issued in August 2020, and revised in October 2021. To provide clarity on the instructions, a self-contained circular on the subject, consolidating all the extant instructions, was issued.<br>      <br>      &bull; Certain additional disclosure requirements for NBFCs in accordance with the scale based regulation (SBR) framework were issued.<br>    <br>&bull; To improve governance in NBFCs and avoid conflicts of interest in lending decisions, restrictions were placed on NBFCs in respect of loans to their directors, senior officers, their relatives as also associated entities. In respect of loans to real estate sector, it has been mandated that NBFCs must ensure that the borrowers have obtained necessary prior permission from government/local government/other statutory authorities for the project.</td>  </tr>  <tr>    <td valign="top" align="justify">April 21, 2022</td>    <td valign="top" align="justify">&bull; With a view to prevent any conflict of interest and parallel/shadow authority, urban co-operative banks (UCBs) were directed not to create any honorary positions/titles or confer any such titles, such as chairman emeritus, group chairman, etc., that are non-statutory in nature. UCBs have been provided time of one year to comply with these instructions.<br>      <br>      &bull; In November 2017, legal entity identifier (LEI) was mandated for all entities having total exposure of &#8377;50 crore and above. On a review, it was decided to extend LEI requirement to all non-individual borrowers of SCBs, UCBs, All India Financial Institutions (AIFIs), SFBs and NBFCs with a total fund and non-fund based exposure of &#8377;5 crore and above, to be obtained in a phased manner.<br>    <br>&bull; The instructions contained in Master Circular (July 2015) on credit card, debit card and rupee denominated co-branded pre-paid card operations of banks and credit card issuing NBFCs, were updated and issued in the form of Master Direction (MD) - Credit Card and Debit Card - Issuance and Conduct. Aspects such as closure of a credit card account, issuance of credit card for business purpose, billing issues, adjustment of credit transactions, new form factors, issues relating to co-branded arrangement, mis-selling, etc., have been strengthened. Subsequently, on June 21, 2022, timelines for implementation of a few provisions were extended.</td>  </tr>  <tr>    <td valign="top" align="justify">April 29, 2022</td>    <td valign="top" align="justify">A set of principles were issued for fixing compensation of key managerial personnel (KMP) and senior management of NBFCs. As per the guidelines, NBFCs are required to constitute a nomination and remuneration committee (NRC), which will be responsible for framing, reviewing and implementing the compensation policy. The guidelines, inter alia, prescribe that the compensation package comprising fixed and variable pay may be adjusted for all types of risks. A certain portion of variable pay may have a deferral arrangement and the deferral pay may be subjected to malus/clawback arrangement.</td>  </tr>  <tr>    <td valign="top" align="justify">May 2, 2022</td>    <td valign="top" align="justify">As per extant guidelines, deposit taking NBFCs/housing finance companies (HFCs) are not permitted to accept public deposit unless they have obtained minimum investment grade credit rating (MIGR) for fixed deposits from any one of the approved credit rating agencies (CRAs). In this regard, a circular was issued stating that the MIGR for deposits of NBFCs/HFCs shall not be below &lsquo;BBB&ndash;&rsquo; from any of the SEBI-registered CRAs.</td>  </tr>  <tr>    <td valign="top" align="justify">May 19, 2022</td>    <td valign="top" align="justify">In order to bring more clarity on the presentation of reverse repo on the balance sheet, revised guidelines were issued to commercial banks.</td>  </tr>  <tr>    <td valign="top" align="justify">May 24, 2022</td>    <td valign="top" align="justify">The ceiling on loans extended by UCBs to individuals for carrying out repairs/additions/alterations to their dwelling units was aligned with the limits prescribed under the extant priority sector guidelines.</td>  </tr>  <tr>    <td valign="top" align="justify">May 31, 2022</td>    <td valign="top" align="justify">The validity of the interest equalisation scheme (IES) for pre and post shipment rupee export credit, a Government of India (GoI) scheme to provide interest subvention to exporters, was extended by GoI, with modified scope and coverage, up to March 31, 2024, vide circular dated March 8, 2022. Subsequently, it was clarified that the extended scheme would also be available to such beneficiaries for segments other than for which they have availed of production-linked incentive (PLI) benefits, subject to submission of a self-declaration by the exporters in the prescribed format.</td>  </tr>  <tr>    <td valign="top" align="justify">June 6, 2022</td>    <td valign="top" align="justify">In line with the revised regulatory framework for NBFCs, differential standard asset provisioning was prescribed for NBFCs-UL (including HFCs).</td>  </tr>  <tr>    <td valign="top" align="justify">June 7, 2022</td>    <td valign="top" align="justify">The Reserve Bank laid down regulatory framework for participation of Indian banks&rsquo; branches in GIFT-IFSC<sup data-toggle="tooltip" title="Gujarat International Finance Tech-city (GIFT) - International Financial Services Centre (IFSC)."><a href="#FN6" class="links">6</a></sup> to provide clearing and settlement services on India International Bullion Exchange IFSC Limited (IIBX). The instructions were issued to domestic scheduled commercial banks (including foreign banks operating through a wholly owned subsidiary incorporated in India), which are authorised to deal in foreign exchange and have a branch in GIFT-IFSC.</td>  </tr>  <tr>    <td valign="top" align="justify">June 8, 2022</td>    <td valign="top" align="justify">The ceiling on the amount of housing loans that can be extended by tier-I and tier-II UCBs was increased from &#8377;30 lakh and &#8377;70 lakh to &#8377;60 lakh and &#8377;140 lakh, respectively. Subsequently, on implementation of the four-tier structure for UCBs, the limit of &#8377;60 lakh and &#8377;140 lakh was made applicable to UCBs in tier-1 and tier- 2 to 4, respectively, vide circular dated December 30, 2022. The limits on the amount of housing loans that can be sanctioned by rural co-operative banks (RCBs), i.e., state co-operative banks (StCBs) and central co-operative banks (CCBs), were increased from &#8377;20 lakh and &#8377;30 lakh to &#8377;50 lakh and &#8377;75 lakh for RCBs having asset net worth less than &#8377;100 crore and those having net worth of &#8377;100 crore and more, respectively. It was decided to allow RCBs to extend finance to commercial real estate &ndash; residential housing (CRE-RH) within the aggregate limit of 5 per cent of total assets for housing sector. Guidelines have been issued in terms of Section 23 of Banking Regulation Act, 1949 [as applicable to co-operative societies (AACS)] to UCBs for offering doorstep banking services to the customers, on a voluntary basis, at par with SCBs. Financially sound and well managed (FSWM) UCBs can offer the service under automatic route, whereas non-FSWM UCBs would require prior approval of the Reserve Bank. UCBs have been also advised to review the scheme by their boards on a half-yearly basis, during the first year of its operation and subsequently on an annual basis.</td>  </tr>  <tr>    <td valign="top" align="justify">June 10, 2022</td>    <td valign="top" align="justify">As per the Punjab and Maharashtra Co-operative Bank Limited (Amalgamation with Unity Small Finance Bank Limited) Scheme, 2022, 80 per cent of uninsured deposits of institutional depositors with erstwhile PMC bank will be converted into perpetual non-cumulative preference shares (PNCPS) and remaining 20 per cent will be converted into equity warrants. The circular clarified that UCBs shall make full provisions for their investment in PNCPS, and no provisions are required for investment in equity warrants. The resulting provisions may be spread equally over two financial years such that the entire loss is fully provided for by March 31, 2024. Further, investment in PNCPS and equity warrants shall be classified as non-SLR investments and shall be exempt from the prudential limits applicable on investment in non-SLR securities.</td>  </tr>  <tr>    <td valign="top" align="justify">June 14, 2022</td>    <td valign="top" align="justify">&bull; Banks were found to be violating the instructions contained in Master Circular on &lsquo;Loans and Advances &ndash; Statutory and Other Restrictions&rsquo; which require, inter alia, that in case of projects undertaken by government owned entities, term loans should be sanctioned only for corporate bodies; due diligence should be carried out on viability and bankability of the projects to ensure that revenue stream from the project is sufficient to take care of the debt servicing obligations; and that the repayment/servicing of debt is not from budgetary resources.<br>      <br>&bull; In view of the violations observed, the extant instructions have been reiterated for strict compliance by banks. Banks were advised to carry out a review and place before their Boards, a comprehensive report on the status of compliance with the instructions within three months.</td>  </tr>  <tr>    <td valign="top" align="justify">June 28, 2022</td>    <td valign="top" align="justify">&bull; When investment by a SCB in security receipts (SRs) backed by stressed loans transferred by it is more than 10 per cent of all SRs linked to the transferred loans, the valuation of the SRs on the books of the transferor shall be the lower of: a) the redemption value of SRs based on the Net Asset Value (NAV) declared by the asset reconstruction company (ARC); b) Net Book Value (NBV) of the transferred stressed loan at the time of transfer; and c) face value of the SRs reduced by the notional provisioning rate applicable if the loans had continued on the books of the transferor. These instructions were made applicable to lenders other than SCBs with the issue of the &lsquo;Master Direction on Transfer of Loan Exposures (MD-TLE)&rsquo; on September 24, 2021, which led to large provisioning requirement for some of the lenders on outstanding SRs held by them as on the date of the Master Direction. To ensure smooth implementation, regulated entities (REs) other than SCBs were advised that the additional provisions as above, required to be held towards valuation of outstanding SRs, can be spread over a five-year period starting with the financial year ending March 31, 2022, i.e., from 2021-22 till 2025-26. It has also been advised that provisions created every financial year as above shall not be less than one fifth of the required provisioning on this count.</td>  </tr>  <tr>    <td valign="top" align="justify">July 6, 2022</td>    <td valign="top" align="justify">&bull; Banks were advised that with effect from the reporting fortnight beginning July 30, 2022, incremental foreign currency non-resident (Bank) [FCNR (B)] deposits as also non-resident external (NRE) term deposits with reference to base date of July 1, 2022, mobilised by banks will be exempt from maintenance of CRR and SLR. These exemptions were valid for deposits raised till November 4, 2022.<br>      <br>      &bull; The interest rate ceiling applicable to FCNR (B) deposits, was temporarily withdrawn for incremental FCNR (B) deposits mobilised by banks. The extant restriction with respect to interest rates offered on incremental NRE deposits mobilised by banks was also temporarily withdrawn. The above concessions were granted with effect from July 7, 2022 until October 31, 2022.<br>    <br>&bull; Unity Small Finance Bank Limited was included in the second schedule to the Reserve Bank of India Act, 1934.</td>  </tr>  <tr>    <td valign="top" align="justify">July 26, 2022</td>    <td valign="top" align="justify">UCBs were advised that the loan policy of the bank shall be reviewed by the board at least once in a financial year to ensure that it remains in alignment with the extant regulations.</td>  </tr>  <tr>    <td valign="top" align="justify">July 27, 2022</td>    <td valign="top" align="justify">The results of a survey undertaken in January 2022 on climate risk and sustainable finance were released. The survey covered 12 public sector banks, 16 private sector banks and 6 foreign banks in India. The objective of the survey was to assess the approach, level of preparedness and progress made by leading SCBs in managing climate-related financial risks. In addition, along with the survey, a discussion paper on climate risk and sustainable finance was also placed on the Reserve Bank&rsquo;s website to prepare a strategy based on global best practices for mitigating the adverse impacts of climate change for public comments and feedback.</td>  </tr>  <tr>    <td valign="top" align="justify">August 4, 2022</td>    <td valign="top" align="justify">A new sub-para titled &lsquo;Guidelines for Renewal/Redemption of Medium and Long-Term Government Deposit (MLTGD)&rsquo; was added to the Master Direction - Gold Monetisation Scheme (MD-GMS), 2015, which specifies the modalities for redemption upon maturity in gold or INR, along with instructions for renewal and partial redemption of the deposit.</td>  </tr>  <tr>    <td valign="top" align="justify">August 8, 2022</td>    <td valign="top" align="justify">With the objective of giving more flexibility to small finance banks (SFBs) to meet their customers&rsquo; foreign exchange business requirement, it was decided that all scheduled SFBs, after completion of at least two years of operations as authorised dealer (AD) category-II, will be eligible for AD category-I license, subject to compliance with the eligibility norms specified therein.</td>  </tr>  <tr>    <td valign="top" align="justify">August 10, 2022</td>    <td valign="top" align="justify">A Press Release was issued specifying the Reserve Bank&rsquo;s regulatory stance on the recommendations of the Working Group on Digital Lending (WGDL)<sup data-toggle="tooltip" title="Report of the Working Group on digital lending, including lending through online platforms and mobile Apps (Chair: Shri J.K. Dash, Executive Director, RBI), was released on November 18, 2021 on the Reserve Bank’s website."><a href="#FN7" class="links">7</a></sup>. The Press Release divided the recommendations into three parts &ndash; i) accepted for immediate implementation, ii) accepted for deferred implementation, and iii) recommendations for the consideration of the Government of India.</td>  </tr>  <tr>    <td valign="top" align="justify">August 11, 2022</td>    <td valign="top" align="justify">&bull; Regulated entities (REs) have been allowed to compute their counterparty credit risk on net basis under the bilateral netting framework for qualified financial contracts [over the counter (OTC) derivatives and repo contracts]. Consequently, based on references received, it was clarified that (a) the exemption for foreign exchange (except gold) contracts which have an original maturity of 14 calendar days or less shall henceforth be applicable only to RRBs, LABs and co-operative banks, where the bank has not adopted the bilateral netting framework; (b) sold options can be exempted provided they are outside the netting set; and (c) the exposure of a credit default swap (CDS) seller to its buyer may be capped at the amount of premium unpaid provided the CDS are outside the legal netting set.<br>      <br>&bull; Pursuant to the amendment to the Banking Regulation Act dated September 29, 2020, central co-operative banks (CCBs) were permitted to open new place of business/install automated teller machines (ATMs) or shift the location of such offices only after obtaining prior approval of the Reserve Bank of India (RBI). Accordingly, guidelines were issued with details of criteria and procedure for submission of application by district CCBs for opening new place of business/installation of ATMs.</td>  </tr>  <tr>    <td valign="top" align="justify">August 12, 2022</td>    <td valign="top" align="justify">Considering growing incidences of unacceptable practices followed by recovery agents (RAs), certain additional instructions to REs were issued by extending the scope of extant guidelines and limiting the hours for calling borrowers on phone for recovery of overdue loans.</td>  </tr>  <tr>    <td valign="top" align="justify">August 22, 2022</td>    <td valign="top" align="justify">Under branch authorisation guidelines (issued in May 2017), a special incentive is given to banks for opening banking outlets in tier 3 to 6 centres of &lsquo;Left Wing Extremism (LWE)&rsquo; affected districts, as notified by the Government of India (GoI), by bringing them at par with &lsquo;Unbanked Rural Centres&rsquo;. As GoI had revised the list of LWE affected districts, a circular was issued conveying the revised list to the banks for their consideration to open banking outlets in LWE affected districts.</td>  </tr>  <tr>    <td valign="top" align="justify">September 2, 2022</td>    <td valign="top" align="justify">&bull; Pursuant to the press release of August 2022 specifying the Reserve Bank&rsquo;s regulatory stance on the recommendations of the Working Group on Digital Lending (WGDL), a circular was issued covering WGDL&rsquo;s recommendations accepted for immediate implementation.<br>      <br>&bull; The guidelines were issued regarding customer-centric aspects with an aim of addressing concerns arising out of unbridled engagement of outsourced agents (lending service providers) to carry out various lending activities, mis-selling, breach of data privacy, customer grievance redressal, unfair business conduct, and unethical recovery practices.</td>  </tr>  <tr>    <td valign="top" align="justify">September 7, 2022</td>    <td valign="top" align="justify">In terms of extant regulations on capital adequacy, bank loans guaranteed under various credit guarantee schemes attract a zero per cent risk weight to the extent of guarantee cover. It was observed that some of the schemes launched by the aforesaid trust funds have certain features which essentially restrict the effective guarantee coverage and stand counter to the requisite prudential requirements to permit concessional capital treatment. In order to have a consistent approach, a circular was issued clarifying the broad principles for applying zero per cent risk weight for exposures guaranteed under any existing or future schemes launched by the relevant trust funds. Further, the zero per cent risk weight relaxation till now was confined only to SCBs. To have a harmonised regulatory approach, the above relaxation was also extended to other member lending institutions (MLIs), including NBFCs and UCBs, to the extent these entities are recognised as eligible MLIs under the respective schemes.</td>  </tr>  <tr>    <td valign="top" align="justify">September 16, 2022</td>    <td valign="top" align="justify">In terms of the guidance provided by the Reserve Bank, the reference rates for arriving at the interest rates on FCNR (B) deposits are being quoted/displayed by Financial Benchmarks India Pvt. Ltd. (FBIL) instead of Foreign Exchange Dealers Association of India (FEDAI) with effect from January 31, 2022. In this regard, the relevant Sections of the Master Directions on interest rate on deposits were suitably modified. Further, certain instructions regarding eligibility for opening of savings account were also modified to make them more explicit.</td>  </tr>  <tr>    <td valign="top" align="justify">September 30, 2022</td>    <td valign="top" align="justify">A list of sixteen NBFCs in the Upper Layer, identified as per the methodology specified under scale-based regulation for NBFCs, was released on September 30, 2022.</td>  </tr>  <tr>    <td valign="top" align="justify">October 10, 2022</td>    <td valign="top" align="justify">Credit rating agencies (CRAs) are required to disclose the name of the banks and the corresponding credit facilities rated by them in the press releases (PRs) issued on rating actions, after obtaining requisite consent from the borrowers. To disincentivise non-cooperation from borrowers in this regard, banks were advised that a bank loan rating without the above disclosure by the CRA shall not be eligible for being reckoned for capital computation by banks.</td>  </tr>  <tr>    <td valign="top" align="justify">October 11, 2022</td>    <td valign="top" align="justify">&bull; To strengthen the role of standalone primary dealers (SPDs) as market makers, at par with banks operating primary dealer business, SPDs were allowed to offer all foreign exchange market-making facilities as currently permitted to category-I authorised dealers, subject to prudential guidelines.<br>      <br>      &bull; To strengthen compliance with income recognition, asset classification and provisioning norms, the thresholds for disclosure of divergences have been revised downwards and disclosure requirements have also been introduced for primary (urban) co-operative banks (UCBs).<br>      <br>&bull; A circular was issued providing for consolidation of total assets of all the NBFCs in a &lsquo;Group&rsquo; to arrive at the threshold for classification of NBFCs in the Middle Layer under the scale based regulatory framework.<br><br>&bull; To review and consolidate the extant guidelines on unhedged foreign currency exposure (UFCE) with a view to providing clarity to and reducing the compliance burden of banks, UFCE directions were issued, which came into effect from January 1, 2023. The key changes, inter alia, include: (a) exemption of factoring transactions from UFCE guidelines; and (b) increase in threshold limit for smaller entities.<br><br>&bull; To address some of the structural issues in the Asset Reconstruction Companies (ARCs) sector and to enable the ARCs to play a more meaningful role in the resolution of stressed assets, guidelines were issued to the ARCs which, inter alia, include a comprehensive corporate governance framework and the guidelines on one-time settlement with the borrowers, management fee, minimum Net Owned Fund (NOF) requirement, deployment of surplus funds, investment in the Security Receipts (SRs) issued by the ARCs, permission to act as a resolution applicant under Insolvency and Bankruptcy Code (IBC), transfer of stressed loans by lenders.</td>  </tr>  <tr>    <td valign="top" align="justify">October 13, 2022</td>    <td valign="top" align="justify">It was decided that the amounts received by a bank from the National Credit Guarantee Trustee Company Ltd. (NCGTC) towards claims in respect of guarantees invoked and held by them pending adjustment of the same towards the relative advances need not be treated as outside liabilities for the purpose of computation of NDTL for CRR and SLR.</td>  </tr>  <tr>    <td valign="top" align="justify">November 1, 2022</td>    <td valign="top" align="justify">To promote the spread of digital banking in rural areas, the revised eligibility criteria for RRBs for offering internet banking facility were issued.</td>  </tr>  <tr>    <td valign="top" align="justify">November 23, 2022</td>    <td valign="top" align="justify">&bull; It was clarified that the overnight balances held by banks with the Reserve Bank under SDF shall be eligible as &lsquo;Level 1 HQLA&rsquo; for computation of LCR.<br>      <br>&bull; With a view to facilitating cash flow-based lending to MSMEs, goods and service tax network (GSTN) was included as a financial information provider under the account aggregator framework. Department of Revenue, GoI, shall be the regulator of GSTN for this specific purpose and two GST Returns, viz., Form GSTR-1 and Form GSTR-3B, have been included as financial information.</td>  </tr>  <tr>    <td valign="top" align="justify">December 1, 2022</td>    <td valign="top" align="justify">&bull; On July 19, 2022, the Reserve Bank issued a revised regulatory framework for UCBs under which a simple four-tiered approach was adopted with differentiated regulatory prescriptions aimed at strengthening their financial soundness. Accordingly, regulations were realigned as under: (i) a circular containing the new definition of tier 1, tier 2, tier 3 and tier 4 UCBs was issued, which will be adopted for all regulatory purposes, in supersession of the earlier instructions (May 6, 2009); (ii) Financially Sound and Well Managed (FSWM) criteria was revised to make them more objective and can be adopted by UCBs on self-assessment basis based on the assessed financials and findings of the Reserve Bank inspection report or audited financial statements whichever is latest; and (iii) minimum capital adequacy and net worth requirements as also permission to include revaluation reserves in tier-I capital, subject to conditions, were stipulated for all tiers of UCBs. UCBs which do not meet the requirements have been provided with a glide path to facilitate smooth transition.<br>      <br>&bull; A framework has been put in place for Indian banks/AIFIs dealing in financial products, including structured financial products, through their branches/subsidiaries operating in foreign jurisdictions and in International Financial Services Centers (IFSCs), including GIFT City. Accordingly, branches/subsidiaries of Indian banks/AIFIs operating in foreign jurisdictions or IFSCs can deal in financial products, including structured financial products, which are not available or are not permitted by the Reserve Bank in the domestic market without prior approval of the Reserve Bank, subject to compliance with certain conditions.</td>  </tr>  <tr>    <td valign="top" align="justify">December 5, 2022</td>    <td valign="top" align="justify">Amendments were carried out in the Master Direction on &lsquo;Transfer of Loan Exposures&rsquo; and &lsquo;Securitisation of Standard Assets&rsquo; clarifying/modifying the provisions relating to inter alia scope of transactions permitted for overseas branches of Indian banks; making explicit the restriction on securitisation of short-term exposures; MHP for securitisation of under-construction projects.</td>  </tr>  <tr>    <td valign="top" align="justify">December 13, 2022</td>    <td valign="top" align="justify">&bull; The circular &ldquo;Data Format for Furnishing of Credit Information to Credit Information Companies and other Regulatory Measures&rdquo; clarified that cases admitted with National Company Law Tribunal (NCLT)/National Company Law Appellate Tribunal (NCLAT) under the Insolvency and Bankruptcy Code (IBC), 2016 are also required to be reported by credit institutions (CIs) to credit information companies (CICs) under suit-filed cases. CIs shall ensure implementation of the circular latest by February 28, 2023.<br>      <br>&bull; To ensure greater transparency in the financial statements, banks were advised to disclose the particulars of all such items in the notes to accounts wherever any item under the Schedule 5(IV) - Other Liabilities and Provisions - &ldquo;Others (including provisions)&rdquo; or Schedule 11(VI) - Other Assets - &ldquo;Others&rdquo; exceeds one per cent of the total assets.</td>  </tr>  <tr>    <td valign="top" align="justify">January 2, 2023</td>    <td valign="top" align="justify">A press release was issued communicating that State Bank of India, ICICI Bank, and HDFC Bank continue to be identified as domestic systemically important banks (D-SIBs) under the same bucketing structure.</td>  </tr>  <tr>    <td valign="top" align="justify">January 9, 2023</td>    <td valign="top" align="justify">A revised list of domestic credit rating agencies accredited for risk weighting the claims of banks for capital adequacy purposes was issued.</td>  </tr>  <tr>    <td valign="top" align="justify">January 16, 2023</td>    <td valign="top" align="justify">A press release was published on November 26, 2021, communicating the acceptance of 21 of (some with partial modifications, where considered necessary) 33 recommendations made by an Internal Working Group (IWG) to review the extant guidelines on ownership and corporate structure for Indian private sector banks along with notification that the consequential amendments in instructions/circulars/master directions/licensing guidelines will follow in due course. Accordingly, on January 16, 2023 an MD and Guidelines for major shareholders (Acquisition and Holding of Shares or Voting Rights in Banking Companies) were issued consolidating three Master Directions (MDs) pertaining to shareholding and voting rights in banking companies. The major changes made in the MD/Guidelines, inter alia, include updates in the limits on permissible shareholding by different categories of shareholders, introduction of reporting requirements for encumbrance of shares by promoter, and strengthening of arrangements for continuous monitoring of the &lsquo;fit & proper&rsquo; status of major shareholder of a banking company.</td>  </tr>  <tr>    <td valign="top" align="justify">February 14, 2023</td>    <td valign="top" align="justify">A set of Frequently Asked Questions (FAQs) was released clarifying certain important aspects of the &lsquo;Guidelines on Digital Lending&rsquo; issued on September 2, 2022.</td>  </tr>  <tr>    <td valign="top" align="justify">February 17, 2023</td>    <td valign="top" align="justify">Guidelines on Governance, measurement and management of Interest Rate Risk in Banking Book (IRBBB) were issued to commercial banks (other than Regional Rural Banks, Small Finance Banks, Payments Banks and Local Area Banks) requiring them to measure, monitor, and disclose their exposure to IRRBB so that excessive IRRBB cannot pose a significant risk to their current capital base and/or future earnings. The guidelines were in alignment with the revised framework issued by the Basel Committee on Banking Supervision (BCBS).</td>  </tr>  <tr>    <td valign="top" align="justify">February 20, 2023</td>    <td valign="top" align="justify">&bull; Reserve Bank of India (Financial Statements - Presentation and Disclosures) Directions, 2021, (&lsquo;Master Direction&rsquo;) issued on August 30, 2021, which was initially applied to all commercial banks and Urban Co-operative Banks (UCBs), was made applicable to State Cooperative Banks and Central Cooperative Banks (together referred to as &lsquo;Rural Co-operative Banks&rsquo; or &lsquo;RCBs&rsquo;). The Master Direction dated August 30, 2021, provides comprehensive guidance on various aspects related to financial reporting by banks such as instructions on the preparation of financial statements, regulatory clarification on compliance with accounting standards, prudential guidelines on certain accounting practices, and disclosures in notes to accounts. The Master Direction now has been extended to Rural Co-operative Banks (RCBs) and, therefore, ensures comparability in the accounting and disclosure practices followed across the banking sector. Some disclosure requirements outlined in the Master Directions have been made mandatory from the financial year ending March 31, 2024, as these entail changes to existing systems of RCBs.<br>      <br>&bull; To address the prudential concerns on unrealised management fees, instructions were issued to ARCs preparing their financial statements as per Ind AS which are required to reduce stipulated amounts from their net owned funds while calculating the Capital Adequacy Ratio and the amount available for payment of dividend.</td>  </tr>  <tr>    <td valign="top" align="justify">March 27, 2023</td>    <td valign="top" align="justify">Abu Dhabi Commercial Bank PJSC ceased to be a banking company within the meaning of the Banking Regulation Act, 1949 and was excluded from the Second Schedule to the Reserve Bank of India Act, 1934.</td>  </tr>  <tr>    <td valign="top" align="justify">March 28, 2023</td>    <td valign="top" align="justify">The instructions on &lsquo;Revised Regulatory Framework for Urban Co-operative Banks (UCBs) &ndash; Net Worth and Capital Adequacy&rsquo; issued to all Primary (Urban) Co-operative Banks was made effective from March 31, 2023.</td>  </tr>  <tr>    <td colspan="2" align="center" valign="top" class="head">FinTech Department</td>  </tr>  <tr>    <td valign="top" align="justify">September 2, 2022</td>    <td valign="top" align="justify">Digitalisation of rural finance in India - pilot for kisan credit card (KCC) lending developed by the Reserve Bank Innovation Hub.</td>  </tr>  <tr>    <td valign="top" align="justify">October 7, 2022</td>    <td valign="top" align="justify">Issuance of concept note on central bank digital currency (CBDC).</td>  </tr>  <tr>    <td valign="top" align="justify">October 12, 2022</td>    <td valign="top" align="justify">Standard operating procedure for inter-operable regulatory sandbox was issued.</td>  </tr>  <tr>    <td valign="top" align="justify">October 31, 2022</td>    <td valign="top" align="justify">Operationalisation of CBDC Wholesale (e&#8377;-W) pilot.</td>  </tr>  <tr>    <td valign="top" align="justify">November 29, 2022</td>    <td valign="top" align="justify">Operationalisation of CBDC Retail (e&#8377;-R) pilot.</td>  </tr>  <tr>    <td colspan="2" align="center" valign="top" class="head">Department of Supervision</td>  </tr>  <tr>    <td valign="top" align="justify">April 11, 2022</td>    <td valign="top" align="justify">Certain principles, standards and procedures for compliance function in NBFC-Upper Layer (NBFC-UL) and NBFC-Middle Layer (NBFC-ML), keeping in view the principles of proportionality, were introduced which included, inter alia, to have an independent compliance function, a board approved compliance policy and a chief compliance officer (CCO). NBFC-UL and NBFC-ML were given time till April 1, 2023 and October 1, 2023, respectively, to comply with the provisions of the circular.</td>  </tr>  <tr>    <td valign="top" align="justify">September 19, 2022</td>    <td valign="top" align="justify">Certain principles, standards and procedures for compliance function in tier 3 and tier 4 UCBs<sup data-toggle="tooltip" title="Refer to the Reserve Bank’s press release dated July 19, 2022 on the revised regulatory framework for urban co-operative banks (UCBs) in terms of which UCBs have been categorised into following four tiers for regulatory purposes: Tier 1 - All unit UCBs and salary earner’s UCBs (irrespective of deposit size), and all other UCBs having deposits up to &#8377;100 crore; Tier 2 - UCBs with deposits more than &#8377;100 crore and up to &#8377;1,000 crore; Tier 3 - UCBs with deposits more than &#8377;1,000 crore and up to &#8377;10,000 crore; and Tier 4 - UCBs with deposits more than &#8377;10,000 crore."><a href="#FN8" class="links">8</a></sup>, keeping in view the principles of proportionality, were introduced which included, inter alia, to have an independent compliance function, a board approved compliance policy and a chief compliance officer (CCO). Tier 4 and tier 3 UCBs were given time till April 1, 2023 and October 1, 2023, respectively, to comply with the provisions of the circular.</td>  </tr>  <tr>    <td colspan="2" align="center" valign="top" class="head">Consumer Education and Protection Department</td>  </tr>  <tr>    <td valign="top" align="justify">May 23, 2022</td>    <td valign="top" align="justify">A Committee (Chairman: Shri B. P. Kanungo) for Review of Customer Service Standards in RBI Regulated Entities (REs) was constituted for examining and reviewing the customer service standards in the REs and adequacy of customer service regulations and suggest measures to improve customer protection.</td>  </tr>  <tr>    <td valign="top" align="justify">August 5, 2022</td>    <td valign="top" align="justify">To provide an avenue for expeditious and cost-free alternate grievance redress to the customers of REs covered under the RB-IOS, 2021 for grievances relating to credit information, the CICs have been brought under the ambit of RB-IOS, 2021 with effect from September 1, 2022.</td>  </tr>  <tr>    <td valign="top" align="justify">October 6, 2022</td>    <td valign="top" align="justify">To strengthen and improve the efficiency of the internal grievance redressal mechanism of CICs, all CICs have to comply with the Reserve Bank of India (Credit Information Companies - Internal Ombudsman) Directions, 2022 by April 1, 2023. The IO is an independent authority at the apex of the CIC&rsquo;s internal grievance redress mechanism and reviews consumer complaints rejected wholly or partly by the CIC.</td>  </tr>  <tr>    <td valign="top" align="justify">November 2, 2022</td>    <td valign="top" align="justify">The Reserve Bank, in collaboration with REs, initiated a nation-wide consumer financial awareness programme with deeper outreach covering all segments of population, especially those in rural and semi-urban areas. The campaign was customised regionally for a better connect. While emphasising information on customer rights, customer protection and grievance redress framework under RB-IOS, 2021, the campaign also endeavoured to deepen percolation of awareness on protection against digital and electronic financial transaction frauds covering dos and don&rsquo;ts, safeguards and prevention.</td>  </tr>  <tr>    <td valign="top" align="justify">January 23, 2023</td>    <td valign="top" align="justify">In order to alleviate the difficulties faced by customers in renewing then locker agreement with banks, the deadline for banks to complete the process of renewal of existing agreements for the safe deposit lockers was extended by a year to December 31, 2023, with intermediate milestones of 50 per cent by June 30, 2023, and 75 per cent by September 30, 2023. Banks were advised to facilitate execution of the fresh/supplementary stamped agreements with their customers by taking measures such as arranging stamp papers, franking, electronic execution of agreement, e-stamping, etc. and provide a copy of the executed agreement to the customer. Where operations in lockers had been frozen for non-execution of agreement by January 1, 2023, the same were advised to be unfrozen with immediate effect.</td>  </tr>  <tr>    <td colspan="2" align="center" valign="top" class="head">Internal Debt Management Department</td>  </tr>  <tr>    <td valign="top" align="justify">March 31, 2022</td>    <td valign="top" align="justify">The ways and means advances (WMA) limit for the GoI for H1:2022-23 (April 2022 to September 2022) was fixed at &#8377;1,50,000 crore.</td>  </tr>  <tr>    <td valign="top" align="justify">April 1, 2022</td>    <td valign="top" align="justify">The WMA limits and timelines for Overdraft (OD) for state governments/union territories (UTs) were fixed as per the recommendation of the advisory committee on &lsquo;Ways and Means Advances to State Governments&rsquo; (Chairman: Shri Sudhir Shrivastava), effective April 1, 2022. Accordingly, the WMA limit for state governments/UTs was fixed at &#8377;47,010 crore. State governments/UTs can avail overdraft on 14 consecutive days and can be in OD for a maximum number of 36 days in a quarter.</td>  </tr>  <tr>    <td valign="top" align="justify">September 29, 2022</td>    <td valign="top" align="justify">The WMA limit for the GoI for H2:2022-23 (October 2022 to March 2023) was fixed at &#8377;50,000 crore.</td>  </tr>  <tr>    <td valign="top" align="justify">January 6, 2023</td>    <td valign="top" align="justify">The Reserve Bank of India, in consultation with the Government of India, notified the indicative calendar for the maiden issuance of Sovereign Green Bonds for the fiscal year 2022-23 for an aggregate amount of &#8377;16,000 crore.</td>  </tr>  <tr>    <td colspan="2" align="center" valign="top" class="head">Department of Currency Management</td>  </tr>  <tr>    <td valign="top" align="justify">July 1, 2022</td>    <td valign="top" align="justify">In the backdrop of introduction of Mahatma Gandhi (New) Series, 2016, authentication and fitness sorting parameters applicable to note sorting machines were reviewed and a revised set of guidelines was issued to all the banks.</td>  </tr>  <tr>    <td valign="top" align="justify">September 21, 2022</td>    <td valign="top" align="justify">The Mobile Aided Note Identifier (MANI) App launched in 2020 for aiding visually impaired persons to identify the denomination of Indian Banknotes through audio notification in Hindi and English, is now capable of notifying the banknote denomination in 11 other languages (viz., Assamese, Bengali, Gujarati, Kannada, Malayalam, Marathi, Odia, Punjabi, Tamil, Telugu and Urdu).</td>  </tr>  <tr>    <td colspan="2" align="center" valign="top" class="head">Department of Payment and Settlement Systems</td>  </tr>  <tr>    <td valign="top" align="justify">April 8, 2022</td>    <td valign="top" align="justify">The Reserve Bank announced the introduction of cyber resilience and payment security controls for payment system operators covering robust governance mechanism for identification, assessment, monitoring and management of cybersecurity risks.</td>  </tr>  <tr>    <td valign="top" align="justify">May 19, 2022</td>    <td valign="top" align="justify">Guidelines were issued permitting Interoperable Card-less Cash Withdrawal (ICCW) at ATMs with customer authentication using Unified Payments Interface (UPI).</td>  </tr>  <tr>    <td valign="top" align="justify">May 26, 2022</td>    <td valign="top" align="justify">Guidelines on Bharat Bill Payment System (BBPS) were amended and minimum net-worth requirement for non-bank Bharat Bill Payment Operating Units (BBPOUs) was reduced to &#8377;25 crore.</td>  </tr>  <tr>    <td valign="top" align="justify">June 8, 2022</td>    <td valign="top" align="justify">The Reserve Bank announced enhancement to UPI by facilitating linking of RuPay credit cards.</td>  </tr>  <tr>    <td valign="top" align="justify">June 9, 2022</td>    <td valign="top" align="justify">The Reserve Bank reviewed Payments Infrastructure Development Fund (PIDF) scheme to enhance the subsidy amount, simplify the subsidy claim process, etc.</td>  </tr>  <tr>    <td valign="top" align="justify">June 16, 2022</td>    <td valign="top" align="justify">The e-mandate framework for recurring transactions was revised enhancing the limit for subsequent transactions without additional factor of authentication (AFA) from &#8377;5,000 to &#8377;15,000.</td>  </tr>  <tr>    <td valign="top" align="justify">June 17, 2022</td>    <td valign="top" align="justify">Payments Vision 2025 was released outlining the roadmap for payment ecosystem in India over the period till December 2025.</td>  </tr>  <tr>    <td valign="top" align="justify">July 1, 2022</td>    <td valign="top" align="justify">Report on follow-on exercise for benchmarking India&rsquo;s payment systems was published covering India&rsquo;s standing in the payments landscape vis-&agrave;-vis twenty other countries, as well as progress since the last exercise, under various indicators.</td>  </tr>  <tr>    <td valign="top" align="justify">July 4, 2022</td>    <td valign="top" align="justify">Guidelines were issued mandating prior approval in case of takeover/acquisition of control of non-bank payment system operators (PSOs) and sale/transfer of payment system activity of non-bank PSOs.</td>  </tr>  <tr>    <td valign="top" align="justify">July 28, 2022</td>    <td valign="top" align="justify">&bull; Another window was provided for online Payment Aggregators (PAs) [existing as on March 17, 2020] to apply to the Reserve Bank for authorisation.<br>      <br>&bull; For transactions wherein the cardholder would manually enter card details, merchants or their PAs were permitted to store card data till settlement or T+4 days (whichever is earlier) and acquiring banks were permitted to store card data till January 31, 2023.</td>  </tr>  <tr>    <td valign="top" align="justify">August 5, 2022</td>    <td valign="top" align="justify">The Reserve Bank announced enabling of BBPS to facilitate processing cross-border inbound bill payments.</td>  </tr>  <tr>    <td valign="top" align="justify">August 17, 2022</td>    <td valign="top" align="justify">A discussion paper on &ldquo;Charges in Payment Systems&rdquo; was published for public feedback.</td>  </tr>  <tr>    <td valign="top" align="justify">September 30, 2022</td>    <td valign="top" align="justify">The Reserve Bank announced extending the current regulations applicable to online PAs to cover offline PAs.</td>  </tr>  <tr>    <td valign="top" align="justify">November 30, 2022</td>    <td valign="top" align="justify">The Reserve Bank of India exchanged letter of co-operation in the field of Central Counterparties (CCPs) with Financial Services Agency, Japan.</td>  </tr>  <tr>    <td valign="top" align="justify">December 7, 2022</td>    <td valign="top" align="justify">&bull; The Reserve Bank announced enhancements to UPI to facilitate processing mandates with single-block-and-multiple-debits.<br>      <br>&bull; The Reserve Bank announced expanding the scope of BBPS to include all payments and collections.</td>  </tr>  <tr>    <td valign="top" align="justify">December 26, 2022</td>    <td valign="top" align="justify">Directions were issued mandating migration of payment fraud reporting to the DAKSH <sup data-toggle="tooltip" title="The Reserve Bank’s advanced supervisory monitoring system."><a href="#FN9" class="links">9</a></sup> platform from January 1, 2023.</td>  </tr>  <tr>    <td valign="top" align="justify">February 8, 2023</td>    <td valign="top" align="justify">The Reserve Bank announced enhancements in the scope of activities pertaining to Trade Receivables Discounting System (TReDS), viz., insurance facility, secondary market operations, etc.</td>  </tr>  <tr>    <td valign="top" align="justify">February 10, 2023</td>    <td valign="top" align="justify">The Reserve Bank permitted access to UPI by NRIs and foreign nationals (from G20 countries) for their merchant payments [peer-to-merchant (P2M)] in India.</td>  </tr>  <tr>    <td valign="top" align="justify">February 16, 2023</td>    <td valign="top" align="justify">The Reserve Bank enhanced RTGS/NEFT messages to capture foreign contribution donor details and advised member banks to provide the necessary donor details while routing donations received from outside jurisdictions through NEFT and RTGS systems to the designated FCRA account at State Bank of India.</td>  </tr>  <tr>    <td valign="top" align="justify">February 21, 2023</td>    <td valign="top" align="justify">The UPI-PayNow linkage between fast payment systems of India and Singapore was operationalised.</td>  </tr>  <tr>    <td valign="top" align="justify">March 6, 2023</td>    <td valign="top" align="justify">The Reserve Bank launched the mission &lsquo;Har Payment Digital&rsquo; on the occasion of the Digital Payments Awareness Week (DPAW) 2023, observed during March 6 - 12, 2023, with theme &ldquo;Digital Payment Apnao, Auron Ko Bhi Sikhao&rdquo; (Adopt digital payments and also teach others).</td>  </tr>  <tr>    <td colspan="2" valign="top" align="justify"><sup>1</sup> The list is indicative in nature and details are available on the Reserve Bank&rsquo;s website.<br>    <a id="FN2"></a><sup>2</sup> Refer to footnote 31 of Chapter II of this Report.<br>    <a id="FN3"></a><sup>3</sup> Indian Trade Classification based on Harmonised System (ITC-HS).<br>    <a id="FN4"></a><sup>4</sup> HQLA: High Quality Liquid Assets.<br>    <a id="FN5"></a><sup>5</sup> FALLCR: Facility to Avail Liquidity for Liquidity Coverage Ratio.<br>    <a id="FN6"></a><sup>6</sup> Gujarat International Finance Tech-city (GIFT) - International Financial Services Centre (IFSC).<br>    <a id="FN7"></a><sup>7</sup> Report of the Working Group on digital lending, including lending through online platforms and mobile Apps (Chair: Shri J.K. Dash, Executive Director, RBI), was released on November 18, 2021 on the Reserve Bank&rsquo;s website.<br>    <a id="FN8"></a><sup>8</sup> Refer to the Reserve Bank&rsquo;s press release dated July 19, 2022 on the revised regulatory framework for urban co-operative banks (UCBs) in terms of which UCBs have been categorised into following four tiers for regulatory purposes: <span class="head">Tier 1</span> - All unit UCBs and salary earner&rsquo;s UCBs (irrespective of deposit size), and all other UCBs having deposits up to &#8377;100 crore; <span class="head">Tier 2</span> - UCBs with deposits more than &#8377;100 crore and up to &#8377;1,000 crore; <span class="head">Tier 3</span> - UCBs with deposits more than &#8377;1,000 crore and up to &#8377;10,000 crore; and <span class="head">Tier 4</span> - UCBs with deposits more than &#8377;10,000 crore.<br>    <a id="FN9"></a><sup>9</sup> The Reserve Bank&rsquo;s advanced supervisory monitoring system.</td>  </tr></table></td></tr></table>
+                                </table>
+                            </div>
+                            <input name="btn" type="button" id="btn" style="visibility: hidden;" value="2026" />
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <span id="DateSettree_lbltree"><div class="grid_1 archives alpha" id="treeYear"><ul><li><a class="year" href="#" id="2026" onclick='GetYear("2026")'>2026</a></li><li><a class="year" href="#" id="2025" onclick='GetYear("2025")'>2025</a></li><li><a class="year" href="#" id="2024" onclick='GetYear("2024")'>2024</a></li><li><a class="year" href="#" id="2023" onclick='GetYear("2023")'>2023</a></li><li><a class="year" href="#" id="2022" onclick='GetYear("2022")'>2022</a></li><li><a class="year" href="#" id="2021" onclick='GetYear("2021")'>2021</a></li><li><a class="year" href="#" id="2020" onclick='GetYear("2020")'>2020</a></li><li><a class="year" href="#" id="2019" onclick='GetYear("2019")'>2019</a></li><li><a class="year" href="#" id="2018" onclick='GetYear("2018")'>2018</a></li><li><a class="year" href="#" id="2017" onclick='GetYear("2017")'>2017</a></li><h2 class="year"><a href="javascript:void(0);" id="divArchiveMain"  onclick="hideshow('divArchiveSub');" style="cursor: pointer;">Archives</a></h2><div  id="divArchiveSub" style="display: none;"><div class="grid_tree archives alpha" id="treeYear"><ul><li><a class="year" href="#" id="2016" onclick='GetYear("2016")'>2016</a></li><li><a class="year" href="#" id="2015" onclick='GetYear("2015")'>2015</a></li><li><a class="year" href="#" id="2014" onclick='GetYear("2014")'>2014</a></li><li><a class="year" href="#" id="2013" onclick='GetYear("2013")'>2013</a></li><li><a class="year" href="#" id="2012" onclick='GetYear("2012")'>2012</a></li><li><a class="year" href="#" id="2011" onclick='GetYear("2011")'>2011</a></li><li><a class="year" href="#" id="2010" onclick='GetYear("2010")'>2010</a></li><li><a class="year" href="#" id="2009" onclick='GetYear("2009")'>2009</a></li><li><a class="year" href="#" id="2008" onclick='GetYear("2008")'>2008</a></li><li><a class="year" href="#" id="2007" onclick='GetYear("2007")'>2007</a></li><li><a class="year" href="#" id="2006" onclick='GetYear("2006")'>2006</a></li><li><a class="year" href="#" id="2005" onclick='GetYear("2005")'>2005</a></li><li><a class="year" href="#" id="2004" onclick='GetYear("2004")'>2004</a></li><li><a class="year" href="#" id="2003" onclick='GetYear("2003")'>2003</a></li><li><a class="year" href="#" id="2002" onclick='GetYear("2002")'>2002</a></li><li><a class="year" href="#" id="2001" onclick='GetYear("2001")'>2001</a></li><li><a class="year" href="#" id="2000" onclick='GetYear("2000")'>2000</a></li><li><a class="year" href="#" id="1999" onclick='GetYear("1999")'>1999</a></li><li><a class="year" href="#" id="1998" onclick='GetYear("1998")'>1998</a></li><li><a class="year" href="#" id="1997" onclick='GetYear("1997")'>1997</a></li><li><a class="year" href="#" id="1996" onclick='GetYear("1996")'>1996</a></li><li><a class="year" href="#" id="1995" onclick='GetYear("1995")'>1995</a></li><li><a class="year" href="#" id="1994" onclick='GetYear("1994")'>1994</a></li><li><a class="year" href="#" id="1993" onclick='GetYear("1993")'>1993</a></li><li><a class="year" href="#" id="1992" onclick='GetYear("1992")'>1992</a></li><li><a class="year" href="#" id="1991" onclick='GetYear("1991")'>1991</a></li><li><a class="year" href="#" id="1990" onclick='GetYear("1990")'>1990</a></li></ul></div></div></div></span>
+<style type="text/css"> /*added by ni*/
+.year a
+{
+    text-transform:none;
+    margin:0px;
+    /*color:Black;*/
+    font-size:12px;
+    text-decoration:none;
+    padding: 3px 4px 5px 2px;
+    }
+#DateSettree_lbltree h2
+{
+    margin-top:0px;
+}
+.month ul li a {
+    padding: 3px 4px 7px 2px;
+}
+
+.accordionContent ul.accordionlist li {
+    
+    min-height: 24px;
+}
+</style>
+
+
+
+    </main>
+        <div class="clearfix">
+        </div>
+        <a href="#top" class="scrollToTop" id="backToTop">Top</a>
+<div id="backDiv" style=" text-align:center;" >
+<a href="javascript:history.back()" class="paraheader">Back to previous page</a><br/>
+<span id="lblGetLastUpdateDate" class="paraheader"></span>
+</div>
+<footer class="footer">
+
+<div class="footer">
+  <div class="container_12">    
+      <div class="grid_9" style="width: 833px !important; ">
+          
+          <h2><span class="blue">More</span> Links</h2>
+          
+		<ul class="footerlist" style="column-count:4">
+                  <li ><a href="/Scripts/HolidayMatrixDisplay.aspx">Bank Holidays</a></li>
+                  <li ><a href="https://shabdavali.rbi.org.in/">Banking Glossary</a></li>
+                  <li ><a href="/Scripts/CitiChart.aspx">Citizen's Charter</a></li>
+                  <li ><a href="/Scripts/Complaints.aspx">Complaints</a></li>
+                  <li ><a href="/Scripts/contactus.aspx">Contact Us</a></li>
+  		<li ><a href="https://www.rbi.org.in/scripts/bs_viewcontent.aspx?Id=3894">COVID-19 Measures</a></li>
+                  <li ><a target="_blank" href="https://ncfe.org.in/e-lms">E-LMS</a></li>
+                  <li ><a href="/Scripts/EventsDisplay.aspx">Events</a></li>
+                  <li ><a href="/Scripts/FAQDisplay.aspx">FAQs</a></li>
+                  <li ><a target="_blank" href="https://www.rbi.org.in/FinancialEducation/">Financial Education</a></li>
+		<li ><a href="/Scripts/BS_ViewForms.aspx">Forms</a></li>
+                  <li ><a href="/Scripts/IFSCMICRDetails.aspx">IFSC/MICR Codes</a></li>
+                  <li><a href="/Scripts/OtherLinks.aspx">Important Websites</a></li>
+                  <li><a target="_blank" href="https://opportunities.rbi.org.in/scripts/index.aspx">Opportunities<span>@</span>RBI</a></li>
+                  <li><a href="/Scripts/rbi_clarification.aspx">RBI Clarifications</a></li>
+ 		<li><a target="_blank" href="https://rbikehtahai.rbi.org.in/">RBI Kehta Hai</a></li>
+                  <li><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Utkarsh202910042026.pdf" target="_blank">RBI’s Vision and Values <img src="../Images/pdf.gif" alt="PDF document" style="padding-bottom: 4px; width:12px; border:0; vertical-align:middle;"> (652 KB)</a></li>
+                  <li><a href="/Scripts/Righttoinfoact.aspx">Right to Information Act</a></li>
+                  <li><a href="/Scripts/BS_ViewTenders.aspx">Tenders</a></li>
+                  
+              </ul>
+      </div>
+
+    <div class="grid_3" style="width:197px !important">
+      
+        <h2><span class="blue">Follow</span> RBI</h2>
+      <ul class="footerlist">
+        
+
+          <li style="float: left;background: url(/images/footer_list_arrow.gif) left 8px no-repeat;"><a href="/Scripts/rss.aspx"><img src="/images/rss-icon.png" alt="RSS Icon" class="rss">RSS</a></li>
+
+        
+          <li>
+              <a href="https://twitter.com/RBI" target="_blank" class="twitter">
+                  <img src="/images/Twitter_New.png" alt="Twitter Icon" class="videos" style="padding-left: 18%; width:14px;">Twitter
+              </a>
+          </li>
+
+        
+
+          <li style="float: left;"><a href="https://www.youtube.com/channel/UCIfCOl43tunZVNYafeC4RQA" class="videos" target="_blank"><img src="/images/youtube.png" alt="YouTube Icon" class="videos">YouTube</a></li>
+
+          <li>
+              <a href="https://instagram.com/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/Instagram.jpg" alt="Instagram Icon" class="videos" style="padding-left: 5%; width:14px;">Instagram
+              </a>
+          </li>
+          <li style="float: left;"><a href="https://www.facebook.com/RBIsays" class="videos" target="_blank"><img src="/images/Facebook.jpg" style="width:14px;" alt="Facebook Icon" class="videos">Facebook</a></li>
+          <li>
+              <a href="https://www.linkedin.com/company/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/LinkedinIcon1.png" alt="LinkedIn Icon" class="" style="padding-left: 4%;width: 17px;background: bottom no-repeat;display: block;float: left;margin: 2px 3px 0 1px;">LinkedIn
+              </a>
+          </li>
+      </ul>
+	<a href="https://www.india.gov.in" class="videos" target="_blank">
+                  <img src="/images/indiaGov.png" alt="National Portal of India logo" class="">
+              </a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="copyright">
+    <div class="container_12">
+     <div class="grid_6 pull_left">&copy; Reserve Bank of India. All Rights Reserved. </div>
+        <div class="grid_5 pull_right"><a href="/Scripts/sitemap.aspx">Sitemap</a> <span aria-hidden="true">|</span> <a href="/Scripts/Disclaimer.aspx">Disclaimer</a></div>
+        <div class="clearfix"></div>
+
+        <div class="grid_6 pull_left">Website owned and managed by Reserve Bank of India. Contact us on helpdoc[at]rbi[dot]org[dot]in</div>
+        <div class="grid_5 pull_right">Website last updated date: Sep 12, 2026</div>
+        <div class="clearfix"></div>
+	<div class="grid_6 pull_left"><a href="https://www.rbi.org.in/scripts/wim.aspx">Web Information Manager</a></div>
+	<div class="grid_5 pull_right"><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Accessibility20012026.pdf" target="_blank">Accessibility Statement
+	<img alt="PDF - Accessibility Statement" style="padding: 1px; width:16px; border:0; vertical-align:middle;" src="../Images/pdf.gif" > (133 KB)
+	</a><span aria-hidden="true"> |</span><a href="/scripts/ScreenReader.aspx" title="Information related to screen reader">Screen Reader and Accessibility Help</a></div>
+	<div class="clearfix"></div>
+        <div class="grid_12 pull_left">Supports: Google Chrome 147+ | Firefox 150+ | Microsoft Edge Version 147+ | Safari 17+</div>
+        
+        <div class="clearfix"></div>
+    </div>
+  </div>
+  
+
+
+
+</div>
+
+</footer>
+
+<script src="/js/ReplaceURL.js" ></script>
+<script >
+
+
+    //this is for floating TOP link
+    
+    $(document).ready(function () {
+
+        var offset = 230;
+        var duration = 500;
+
+
+        jQuery(window).scroll(function () {
+            if (jQuery(this).scrollTop() > offset) {
+                jQuery('.scrollToTop').fadeIn(duration);
+                
+            } else {
+                jQuery('.scrollToTop').fadeOut(duration);
+                
+            }
+        });
+
+        
+	$('.page_title').attr('tabindex','-1');
+        $('.scrollToTop').click(function () {
+            $('html, body').animate({ scrollTop: 0 }, 800);
+		$('.page_title').focus(); 
+            return false;
+        });
+	
+
+
+	if(!window.location.href.includes("Home.aspx") && !window.location.href.includes("home.aspx"))
+{ 
+if( window.location.href.includes(".aspx")){
+var div= document.getElementById('backDiv');
+	div.removeAttribute("hidden");}
+else{
+var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+}
+else{
+
+
+	var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+    });
+
+
+  
+    $(window).scroll(function () {
+
+        if ($('div.banner2').length) {
+
+            if ($(window).scrollTop() >= 265) {
+                $('#menubar').css("position", "fixed");
+                $('#menubar').css("width", "240px");
+                $('#menubar').css("margin-top", "-281px");
+                $('.content_area').css("margin-left", "252px");
+
+                $('.sidebar_nav').css("position", "fixed");
+                $('.sidebar_nav').css("margin-top", "-200px");
+                $('.sidebar_nav').css("width", "236px");
+
+
+             
+
+            }
+
+            else {
+                $('#menubar').css("position", "");
+                $('#menubar').css("width", "");
+                $('#menubar').css("margin-top", "");
+                $('.content_area').css("margin-left", "");
+
+                $('.sidebar_nav').css("position", "");
+                $('.sidebar_nav').css("margin-top", "");
+                $('.sidebar_nav').css("width", "");
+
+
+
+         
+            }
+
+        }
+
+        else if ($(window).scrollTop() >= 185) {
+            $('#menubar').css("position", "fixed");
+            $('#menubar').css("width", "240px");
+            $('#menubar').css("margin-top", "-200px");
+            $('.content_area').css("margin-left", "252px");
+
+            $('.sidebar_nav').css("position", "fixed");
+            $('.sidebar_nav').css("margin-top", "-200px");
+            $('.sidebar_nav').css("width", "236px");
+
+
+          
+		var treeheight=0;
+		if($('#treeYear').height()>0){treeheight=$('#treeYear').height();}
+	    	if($(window).scrollTop() >= $('#example-min').height()-treeheight)
+		{			 
+			$('#menubar').css("position", "absolute");
+            		
+			$('#menubar').css("margin-top", "");
+			$('#menubar').css("top", $('#example-min').height()+100-treeheight +"px");
+		}
+		else{$('#menubar').css("position", "fixed"); $('#menubar').css("top", "");}
+		
+        }
+
+        else {
+            $('#menubar').css("position", "");
+            $('#menubar').css("width", "");
+            $('#menubar').css("margin-top", "");
+            $('.content_area').css("margin-left", "");
+
+            $('.sidebar_nav').css("position", "");
+            $('.sidebar_nav').css("margin-top", "");
+            $('.sidebar_nav').css("width", "");
+
+
+       
+        }
+     
+
+       
+    });
+	
+      
+    $(document).ready(function () {
+	
+	
+		  $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#maskWN').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+		
+		 $('#maskWN').click(function () {
+            $(this).hide();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('.window').hide();
+
+        });
+
+        
+
+        //if close button is clicked
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#mask').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+
+        //if mask is clicked
+        $('#mask').click(function () {
+            $(this).hide();
+            $('.window').hide();
+        });
+        $('#feedbackbtn').click(function () {
+            var id = '#dialog';
+
+            //Get the screen height and width
+            var maskHeight = $(document).height();
+            var maskWidth = $(window).width();
+
+            //Set heigth and width to mask to fill up the whole screen
+            
+            $('#mask').css({ 'width': '100%', 'height': '100%', 'position': 'fixed' });
+
+            //transition effect
+            $('#mask').fadeIn(500);
+            $('#mask').fadeTo("slow", 0.9);
+
+            //Get the window height and width
+            var winH = $(window).height();
+            var winW = $(window).width();
+
+            //Set the popup window to center
+            $(id).css('top', winH / 2 - $(id).height() / 2);
+            $(id).css('left', winW / 2 - $(id).width() / 2);
+
+            //transition effect
+            $(id).fadeIn(2000);
+        });
+
+        $('.submit').click(function () {
+            var Name = $("[id*=txtFeedbackName]").val();
+            var Email = $("[id*=txtFeedbackEmail]").val();
+            var Comments = $("[id*=txtFeedbackComments]").val();
+            if (Name == "") {
+
+                alert("Please enter your name");
+                $("[id*=txtFeedbackName]").focus();
+                return false;
+            }
+            else if (Email == "") {
+                alert("Please enter your email");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+            else if (Email != "" && !ValidateEmail(Email)) {
+                alert("Please enter a valid email address");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+
+            else if (Comments == "") {
+
+                alert("Please enter some comments");
+                $("[id*=txtFeedbackComments]").focus();
+                return false;
+            }
+
+            else {
+                $('[id*=Button1]').attr('disabled', 'disabled');
+
+                var param = { Name: Name, EmailID: Email, Comments: Comments };
+                $.ajax({
+                    type: "POST",
+                    url: "../Home.aspx/SaveFeedback",
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+
+                    success: function (response) {
+
+                        if (response.d == "0") {
+                            alert("Thank you for your feedback");
+                            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+                            $('#mask').hide();
+                            $('.window').hide();
+                            $('[id*=Button1]').removeAttr('disabled');
+                            $("[id*=txtFeedbackName]").val("");
+                            $("[id*=txtFeedbackEmail]").val("");
+                            $("[id*=txtFeedbackComments]").val("");
+                        }
+                        else {
+                            alert("Please try again");
+                            $('[id*=Button1]').removeAttr('disabled');
+
+
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+        function ValidateEmail(email) {
+            var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            return expr.test(email);
+        };
+
+       
+
+        $('a.style1').each(function () {
+
+            var $this = $(this);
+            var aHref = $this.attr('class');
+            $this.attr('class', aHref.replace('style1', 'links'));
+        });
+
+		
+   });
+
+  function isExternal(url) {
+	if(url){url=url.toLowerCase();
+       if(url=='#' || url=='javascript:void(0);' || url.includes('javascript')||url=='' )
+	{ return false;} 
+	else{//return (url.indexOf("rbi.org.in")==-1)
+	
+	if(url.indexOf("www.rbi.org.in")==-1 || url.indexOf("https://rbi.org.in")==-1)
+		{	
+			if(url.indexOf("rbi.org.in")==-1)		
+    				return "external";
+			else if(url.indexOf("www.rbi.org.in")==-1 && url.indexOf(".rbi.org.in")>0 && url.indexOf("rbidocs.rbi.org.in")==-1)
+				{return "subdomain";}
+			else if(url.indexOf("financialeducation")>0 || url.indexOf("commonperson")>0 || url.indexOf("/rekyc/")>0 || url.indexOf("rbi90years")>0 ){
+				return "subsite";}
+			
+		}
+	
+	}}
+    }
+    document.addEventListener("click", function () {
+	linkMessage();
+        
+    });
+function linkMessage(){
+	if (event.target.tagName.toLowerCase() === "a") {
+            if (isExternal(event.target.href)=="external") {
+
+                if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+            }
+	    if (isExternal(event.target.href)=="subdomain") {
+	    	 if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+		if (isExternal(event.target.href)=="subsite") {
+	    	 if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+        }
+	else if (event.target.tagName.toLowerCase() === "img") {
+		$(event.target).preventDefault;		
+		if($(event.target).parent('a').length){
+			 if (isExternal($(event.target).parent('a').prop('href'))==="external") {
+                		if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+                    		return;
+               		 }
+
+                	else {                   
+                    		event.preventDefault();
+                    		return;
+                	}}
+			if (isExternal($(event.target).parent('a').prop('href'))==="subdomain") {
+                		if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    		return;
+               		 	}
+
+                		else {                   
+                    		event.preventDefault();
+                    		return;
+                		}
+			}
+			if (isExternal(event.target.href)=="subsite") {
+	    	 	if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    	return;
+                	}
+                	else {
+                   
+                    		event.preventDefault();
+                    	return;
+                	}
+	    		}
+	}}
+	const link = event.target.closest('a[target="_blank"]');
+	if(link){ 
+		event.preventDefault();
+		if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+			window.open(link.href,"_blank");
+		}
+	}
+		if (event.target.tagName.toLowerCase() === "button") {
+		if($(event.target).parent('a').length>0){
+			const link1 = event.target.closest('a[target="_blank"]');
+		if(link1){
+			event.preventDefault();
+			if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+				window.open(link.href,"_blank");
+			}
+		}
+		}
+	}
+}
+
+</script>
+<script >
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61369961-1', 'auto');
+  ga('send', 'pageview');
+
+document.querySelectorAll('table.tablebg').forEach(table => {
+    const anchors = table.querySelectorAll('a[href^="#"]:not([href="#"])');
+
+    const hasInPageAnchorsInThisTableOnly = Array.from(anchors).some(a => {
+        // Find the closest table ancestor of this anchor
+        const closestTable = a.closest('table');
+    
+        // Only count it if it belongs to the current table (not a nested one)
+        return closestTable === table;
+    });
+
+    if (!hasInPageAnchorsInThisTableOnly) {
+        table.setAttribute('role', 'presentation');
+    } else {
+        table.removeAttribute('role'); 
+    }
+});
+$('.brd-ptable1').attr('role','presentation');
+$('html').attr('lang', 'en');
+document.querySelectorAll('br').forEach(br => {br.setAttribute('aria-hidden','true');});
+$('#doublescroll').children('table').filter(':first').attr("role", "presentation");
+$('.page_title').nextAll('table').first().attr("role", "presentation");
+
+
+
+document.addEventListener('DOMContentLoaded', function(){
+$('.tableheader b').each(function () {
+		var curEle= $(this);
+           $(curEle).replaceWith("<h2 class='dop_header'>"+$(curEle).html()+"</h2>")
+        });
+ });
+
+//  tooltip 
+var TooltipManager = {
+    _tip: null, // Create the tooltip element once 
+init: function() {
+    if (!this._tip) {
+    
+        this._tip = $('<div id="js-custom-tooltip"></div>').css({
+            "position": "absolute", "background": '#ffffca', "color":"#000", "padding": "2px 5px", "border-radius": "0px", "font-size": "11px","font-family":"Sans-serif", "z-index": "10000", "pointer-events": "none","border":"1px solid #767676", "box-shadow":"2px 2px 3px rgba(0,0,0,0.2)","white-space":"nowrap"
+        }).appendTo('body');
+        
+    }
+}, 
+show: function(element, text) {
+    this.init(); 
+var $el = $(element); // Update text and position 
+    
+this._tip.text(text).show();
+var pos = $el.offset(); 
+this._tip.css({
+    top: pos.top + this._tip.outerHeight()  + "px", // Show above 
+    left: pos.left + ($el.outerWidth() / 2) - (this._tip.outerWidth() / 2) + "px"
+});
+    }, hide: function() { if (this._tip) this._tip.hide(); }
+}; // Apply to all elements that have a ToolTip (ToolTip renders as 'title') 
+$(document).ready(function() {
+   
+    $('body').on('focusin', 'input, button, a, select, textarea, img', function() {
+        var title = $(this).attr('title'); if (title) {
+    
+            
+      
+            TooltipManager.show(this, title);
+        }
+    }).on('focusout', 'input, button, a, select, textarea, img', function() { 
+       
+            TooltipManager.hide();
+       
+    }); // Dismiss on Escape key
+    $(document).keyup(function(e) { if (e.key === "Escape") TooltipManager.hide(); });
+});
+
+//breadcrumb current page announce
+$(document).ready(function(){
+
+const breadcrumbList = document.querySelector('.breadcrumbs');
+
+    if (breadcrumbList) {
+        const listItems = breadcrumbList.querySelectorAll('li');
+    
+        if (listItems.length > 0) {
+            
+            const lastItem = $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).last().attr('aria-current', 'page');
+            $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())==="" && $(this).children().length===0;}).attr('role','presentation');
+       		$('.breadcrumbs li').filter(function(){
+			if($(this).children().length!==0)
+			{
+				if($(this).children().text() ===""){}
+			}
+		});
+            const lastLink =lastItem.find('a');
+            if (lastLink) {
+                lastLink.attr('aria-current', 'page');               
+                
+            }
+		if($('.breadcrumbs li').last().find('a').length>0)
+		{			
+			const $a = $('.breadcrumbs li').last().find('a');
+			$('<span>',{class: $a.attr('class'), text: $a.text()}).replaceAll($a).attr('aria-current', 'page');
+		}
+		
+		if($('.breadcrumbs li').last().find('span').length>0)
+		{
+			
+			if($('.breadcrumbs li').last().find('span')[0].innerText==='')
+			{
+				$('.breadcrumbs li').last().find('span').removeAttr('aria-current');				
+			}
+			else{
+				$('.breadcrumbs li').last().find('span').filter(function(){ return $(this).attr('role')!=='presentation';}).last().attr('aria-current', 'page');					
+			}		
+		}
+		$('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).removeAttr('role','presentation');
+        }
+    }
+});
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+setLetterSpace(false);//]]>
+</script>
+</form>
+    <script type="text/javascript" src="/js/plugins.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
+    <script type="text/javascript" src="/js/Scroll.js"></script>
+    <script type="text/javascript" language="javascript">
+
+        DoubleScrollWithTree(document.getElementById('doublescroll'));
+        function GetYear(year) {
+            document.getElementById("hdnYear").value = year;
+            document.getElementById("btn").click();
+        }
+        function hideshow(divArchive) {
+            if (!document.getElementById(divArchive))
+                return
+            if (document.getElementById(divArchive).style.display == "block")
+                document.getElementById(divArchive).style.display = "none"
+            else
+                document.getElementById(divArchive).style.display = "block"
+        }
+        function SetTreeStyles() {
+            var strYear = document.getElementById("hdnYear").value;
+            var ArcYear = parseInt(document.getElementById("btn").value) - 9;
+
+
+            if (strYear != "") {
+                var toDay = new Date();
+                document.getElementById(strYear).setAttribute("class", "year active");
+                document.getElementById(strYear).style.display = "block";
+                if (toDay.getFullYear() - 9 > parseInt(strYear)) { document.getElementById("divArchiveSub").style.display = "block" }
+            }
+        }
+    </script>
+</body>
+</html>
+<script id="f5_cspm">(function(){var f5_cspm={f5_p:'CPJGCCGFHGAGDDKGODCNLBMBCKIOPIBEEKMFEPEMDMCGNHGPHBMCHBPGPJBNCAPMPDIBGFEFAAJLHMMLHNMAKDABAANGGGFPFLNCJJOCBFOKAIBMNFEIKPBANMNHPGNK',setCharAt:function(str,index,chr){if(index>str.length-1)return str;return str.substr(0,index)+chr+str.substr(index+1);},get_byte:function(str,i){var s=(i/16)|0;i=(i&15);s=s*32;return((str.charCodeAt(i+16+s)-65)<<4)|(str.charCodeAt(i+s)-65);},set_byte:function(str,i,b){var s=(i/16)|0;i=(i&15);s=s*32;str=f5_cspm.setCharAt(str,(i+16+s),String.fromCharCode((b>>4)+65));str=f5_cspm.setCharAt(str,(i+s),String.fromCharCode((b&15)+65));return str;},set_latency:function(str,latency){latency=latency&0xffff;str=f5_cspm.set_byte(str,40,(latency>>8));str=f5_cspm.set_byte(str,41,(latency&0xff));str=f5_cspm.set_byte(str,35,2);return str;},wait_perf_data:function(){try{var wp=window.performance.timing;if(wp.loadEventEnd>0){var res=wp.loadEventEnd-wp.navigationStart;if(res<60001){var cookie_val=f5_cspm.set_latency(f5_cspm.f5_p,res);window.document.cookie='f5avr0947018921aaaaaaaaaaaaaaaa_cspm_='+encodeURIComponent(cookie_val)+';path=/;'+'';}
+return;}}
+catch(err){return;}
+setTimeout(f5_cspm.wait_perf_data,100);return;},go:function(){var chunk=window.document.cookie.split(/\s*;\s*/);for(var i=0;i<chunk.length;++i){var pair=chunk[i].split(/\s*=\s*/);if(pair[0]=='f5_cspm'&&pair[1]=='1234')
+{var d=new Date();d.setTime(d.getTime()-1000);window.document.cookie='f5_cspm=;expires='+d.toUTCString()+';path=/;'+';';setTimeout(f5_cspm.wait_perf_data,100);}}}}
+f5_cspm.go();}());</script>

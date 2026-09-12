@@ -252,25 +252,31 @@ def run_audit(base_dir: Path) -> str:
         dataset_id = str(manifest.get("dataset_id", audit_stem))
         frequency = str(manifest.get("frequency", "")).lower()
         frequency = frequency.rsplit(".", 1)[-1]
+        is_event_based = frequency == "event_based"
         frequency = {"daily": "daily", "monthly": "monthly"}.get(frequency)
         is_trading = manifest.get("asset_class") not in {"macro", "policy", "calendar"}
+        if manifest.get("asset_class") == "calendar":
+            identifier_cols: list[str] | None = ["market_segment"]
+        elif manifest.get("asset_class") == "gold":
+            identifier_cols = ["contract_symbol", "expiry_date"]
+        elif manifest.get("asset_class") == "policy":
+            identifier_cols = ["rate_type"]
+        else:
+            identifier_cols = None
         result = auditor.audit_dataset(
             dataset_id=dataset_id,
             df=df,
             required_fields=required,
             date_col=date_col,
             expected_frequency=frequency,
+            # Event-based policy decisions are sparse by nature; routine
+            # inter-event intervals are not temporal gaps.
+            max_gap_days=400 if is_event_based else 10,
             is_trading_day_data=is_trading,
             has_availability_date=bool(manifest.get("has_availability_date")),
             allow_pre_observation=manifest.get("asset_class") == "policy",
             calendar=calendar,
-            identifier_cols=(
-                ["market_segment"]
-                if manifest.get("asset_class") == "calendar"
-                else ["contract_symbol", "expiry_date"]
-                if manifest.get("asset_class") == "gold"
-                else None
-            ),
+            identifier_cols=identifier_cols,
         )
         acquired.append({"manifest": manifest, "result": result, "df": df})
 

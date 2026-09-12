@@ -1,0 +1,2527 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <title>Annual Report | Official Website of Reserve Bank of India </title>
+    <meta name="description" content="Annual Report - Reserve Bank of India" />
+    <meta name="keyword" content="RBI Annual Report" />
+    <meta name="author " content="Reserve Bank of India" />
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="/js/libs/modernizr-2.5.3.min.js"></script>
+</head>
+<body onload="SetTreeStyles()">
+    <form method="post" action="./AnnualReportPublications.aspx?Id=1000" id="Form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJMzY1MDIzMjgyZGTirogjiSKWyp2H7A6jss5xWpxVi6DImZfEwxE9PMK7EA==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="E309B892" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAwK4FgjMZGo32+EsU73+QFSlK+XrsQEVyjeDxQ0A4GYXM3IfYFEMdbtkmb6zzJSc2CLrBfuDtX7nV3nL+5njT0xpTvjNMInTm7jDqH04NfPDGQ6cu1iZ73N7YF2NPAmCyQ/q33cCQLgaFQSElESF1pcG6ARGh77hh0/r4ObuL1TAsg3NivnNEt6QsKSovCCK9t9xf1loRXvygROM/A1O+NHJounKCGGAHd04zzVhBPZz3RgTJ25FWigbeFr84Vgoxd85GmzTs9g56MExTizjelamo8ZO6PQqH+9hU02GyNvAg==" />
+</div>
+        <input type="hidden" name="hdnYear" id="hdnYear" />
+        
+<link href="/JQuery/css/jquery-ui-1.8.18.custom2.css" rel="stylesheet" type="text/css" />
+<link href="/includes/print.css" rel="stylesheet" media="print" type="text/css" />
+
+<link href="/Styles/960.css?v=1.0" rel="stylesheet" type="text/css" />
+<link href="/Includes1/rbi.css?v=5.0" rel="Stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/JQuery/ui/jquery.ui.revampRBI.js"></script>
+<script type="text/javascript" src="/js/ImgSaveDisable.js"></script>
+
+<script type="text/javascript">
+  
+//Redirect to mobile site start
+    function detectmob() {
+        if (screen.width <= 599 || screen.Height <= 975) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    if (detectmob()) {
+       window.location.href = "https://m.rbi.org.in" + window.location.pathname;
+		
+       
+    }
+
+	//Redirect to mobile site End
+    $(document).ready(function () {
+        Search();
+	SearchLastUpdateDate(); //Fetch Last Date Page
+    });
+
+
+
+  // Fetch Last Date Page
+
+    function SearchLastUpdateDate() {
+        var strFilterComments = new RegExp("^[a-zA-Z0-9 =_:.&?'%,()-–]+$");
+	var url=window.location.href;
+	if(url.indexOf("WSSViewDetail.aspx")>0 || url.indexOf("PublicationReportDetails.aspx")>0)
+	{
+		url=url.substring(url,url.indexOf("?"));
+	}
+        var param = { keyWord1: url.slice(url.lastIndexOf('/') + 1) };
+	param.keyWord1=param.keyWord1.replaceAll("%20"," ");
+	if(param.keyWord1.indexOf("#")>0)
+	{
+		param.keyWord1=param.keyWord1.substring(param.keyWord1,param.keyWord1.indexOf("#"));
+	}
+        if (!strFilterComments.test(param.keyWord1)) {            
+            return false;
+        }
+        else {
+            $.ajax({
+                url: "/Home.aspx/GetLastUpdateDate_new",
+                data: JSON.stringify(param),
+                dataType: "json",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataFilter: function (data) { return data; },
+                success: function (data) {
+                    if (data.d.length > 0) {
+                        $('#lblGetLastUpdateDate').text(data.d);
+                    }
+                    else {
+                        response([{ label: "No results found", value: ""}]);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                }
+            });
+
+        }
+    }
+    // Fetch Last Date Page
+
+
+
+    function Search() {
+        highlightTextAutocomplete();
+        $(".autoSuggest").autocomplete({
+
+
+            source: function (request, response) {
+                var param = { keyWord: document.getElementById('txtSearch').value };
+
+                $.ajax({
+                    url: "../Home.aspx/GetKeywords",
+                    data: JSON.stringify(param),
+                    dataType: "json",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    dataFilter: function (data) { return data; },
+                    success: function (data) {
+
+                        if (data.d.length > 0) {
+                            response($.map(data.d, function (item) {
+                                return {
+                                    value: RemoveSpecialChars(item)
+
+                                }
+                            }))
+                        }
+                        else {
+                            response([{ label: "No results found", value: ""}]);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert(textStatus);
+                    }
+                });
+            },
+
+            
+            minLength: 3
+
+        });
+    }
+
+    function highlightTextAutocomplete() {
+
+        var oldFn = $.ui.autocomplete.prototype._renderItem;
+
+        $.ui.autocomplete.prototype._renderItem = function (ul, item) {
+
+            var t = String(item.value).replace(
+                new RegExp(this.term, "gi"),
+                "<span class='ui-state-highlight'>$&</span>");
+            if (item.value != "") {
+                return $("<li class='borderAutocomplete'></li>")
+                  .data("item.autocomplete", item)
+                  .append("<a role='link'>" + t + "</a>")
+                  .appendTo(ul);
+            }
+
+            else {
+                return $("<li></li>")
+                  .data("item.autocomplete", item)
+                  .append("")
+                  .appendTo(ul);
+            }
+        };
+    }
+
+
+    function RemoveSpecialChars(inputText) {
+        var filteredString = inputText.replace(/[\*\^\'\!\@\$\.\#\(\)\-\?\<\>\;\"\&\+\{\}\:]/g, '');
+        
+        return filteredString;
+    }
+    
+
+    function LoadSearchData(id, key) {
+        if (id == "txtSearch") {
+            if (key == 13) {
+                validateSearchText();
+                return false;
+            }
+        }
+        else validateSearchText();
+        return true;
+    }
+    function validateSearchText() {
+        if (validation()) {
+            var strloc = new String(document.location.href.toString());
+            if (strloc.indexOf("SearchResults.aspx") == -1) {//             
+                window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+            }
+            else window.open("/scripts/SearchResults.aspx?search=" + document.getElementById("txtSearch").value,"_self");
+        }
+    }
+    function validation() {
+        strSearch = trim(document.getElementById('txtSearch').value);
+        if (strSearch == "") { alert('Please enter the search text'); return false; }
+        else {
+           
+            var strFilterChars = new RegExp("^[0-9a-zA-Z ]*$");
+            if (!strFilterChars.test(strSearch)) { alert("Please remove special characters from search text"); return false; }
+        }
+        return true;
+    }
+    function trim(value) {
+        value = value.replace(/^\s+/, '');
+        value = value.replace(/\s+$/, '');
+        return value;
+    }
+
+</script>
+
+    <style type="text/css">
+    .blink_msm1 
+{
+    -webkit-animation-name: blinker;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: blinker;
+    -moz-animation-duration: 3s;
+    -moz-animation-timing-function: linear;
+    -moz-animation-iteration-count: infinite;
+
+    animation-name: blinker;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+@-moz-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes blinker {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+.blink_NewWebsite {
+        animation:blinker 1.5s linear 3;
+        color:blue;
+        font-size:1.5em;
+        margin-bottom:0px;
+        }
+    @keyframes blinker
+    {
+        50%{
+            opacity:0;
+        }
+    }
+
+.sr-only {
+position: absolute;
+left: -9999px;
+}
+</style>
+<div class="top_setting">
+    <div class="container_12">
+        <div class="grid_5 top_settings">
+            <a href="#mainsection">Skip to main content </a>
+        </div>
+        <div id="UsrFontCntr_tblThemes" style="float: right" class="grid_4 prefix_3 top_settings">
+            <ul style="margin:0px; padding:0px;">
+               <li class="fonts"> 
+                <a id="UsrFontCntr_LinkBtnSpace" role="button" title="Increase Letter Spacing" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnSpace&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/letspace.png" alt="Increase Letter Spacing" />
+                                <span id="UsrFontCntr_spanBtnSpace" class="sr-only">Not Pressed</span></a>                                
+            </li>
+
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontIncrease" role="button" title="Increase Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontIncrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-increase.gif" alt="Increase Font Size" />
+                    <span id="UsrFontCntr_spanFontIncrease" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontRegular" role="button" title="Regular Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontRegular&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-reset.gif" alt="Regular Font Size" />
+                    <span id="UsrFontCntr_spanFontRegular" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="fonts">
+                <a id="UsrFontCntr_LinkBtnFontDecrease" role="button" title="Decrease Font Size" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnFontDecrease&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/font-decrease.gif" alt="Decrease Font Size" />
+                    <span id="UsrFontCntr_spanFontDecrease" class="sr-only">Not Pressed</span></a>
+            </li></ul>
+		<ul style="margin:0px;padding:0px;">
+            <li class="black">
+                <a id="UsrFontCntr_LinkBtnAccessibilty" role="button" title="Apply Dark Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/dark-theme.gif" alt="Apply Dark Theme" />
+                    <span id="UsrFontCntr_spanAccessibilty" class="sr-only">Not Pressed</span></a>
+            </li>
+            <li class="white">
+                <a id="UsrFontCntr_LinkBtnUndoAccessibilty" role="button" title="Apply Normal Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnUndoAccessibilty&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/bright-theme.gif" alt="Apply Normal Theme" />
+                     <span id="UsrFontCntr_spanUndoAccessibilty" class="sr-only">Pressed</span></a>
+            </li>
+            <li class="white">
+            <a id="UsrFontCntr_LinkBtnGreyScale" role="button" title="Apply Grey Theme" href="javascript:__doPostBack(&#39;UsrFontCntr$LinkBtnGreyScale&#39;,&#39;&#39;)" style="text-decoration:none;"><img src="/images/graytheme.gif" alt="Apply Grey Theme" />
+                                <span id="UsrFontCntr_spanGreyScale" class="sr-only">Not Pressed</span></a></li>
+
+            </ul>
+		<div>
+		     <a href="#" onclick="javascript:window.print();" id="A1" title="Print This Page" style="text-decoration:none;" >
+                <img src="/images/print-icon.png" alt="Print this page" class="print" />
+		</a></div>
+            <div style="float: right">
+                <label style="margin-right: 6px;">
+                    Change Language</label>
+			
+			<a href="#" onclick="SetLink();" class="link1" title="Website in Hindi">हिंदी</a>
+			</div>
+                   
+        </div>
+        <div class="clearfix">
+        </div>
+    </div>
+   
+</div>
+<div class="container_12">
+    <div class="grid_4" role="banner">
+        <div class="logo">
+            <a href="/home.aspx" title="Official website of Reserve Bank of India">
+                <img src="/images/rbi-company-logo.jpg" alt="Logo of Official website of Reserve Bank of India" title="Official website of Reserve Bank of India" /></a></div>
+    </div>
+    <div class="grid_5" align="right" role="search" style="float: right">
+        <label for="searchbox" class="search_label">
+            Search the Website</label>
+        <input name="UsrFontCntr$txtSearch" type="text" maxlength="103" id="txtSearch" class="search_box autoSuggest" title="Search the Website" aria-label="Search the Website" onkeydown="return LoadSearchData(&#39;txtSearch&#39;,event.keyCode);" placeHolder="Search" />
+        <button id="btnSearch" onclick="return LoadSearchData('btnSearch',event.keyCode);"
+            type="button" class="search_button">
+            Search</button>
+    </div>
+	<div class="grid_2" align="CENTER" role="" style="float: right">
+        <div class="logo" >
+           
+            <img src="../images/BBBP_Logo_4.png" alt="Beti Bachao Beti Padhao Logo" style="width:47%;">
+        </div>
+    	</div>
+    <div class="clearfix">
+    </div>
+</div>
+<!--  NAVIGATION START-->
+<nav role="navigation" aria-label="Main">
+       <div class="menu"><div class="centermenu">
+<ul class="menu">
+  <li><a href="https://rbi.org.in/home.aspx">Home</a></li>
+<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-Sub1">About Us ▼</a>
+ <ul class="submenu1" id="Ab-Sub1" >
+	 <li><a href="/scripts/AboutUsDisplay.aspx">About Us</a></li>
+     <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-org">Organisation & Functions <span aria-hidden="true">▶</span></a>
+		 <ul class="submenu1" id="Ab-org">             
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=OrganizationStructure.htm">Organisation Structure</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=Depts.htm">Departments</a></li>
+            <li><a href="Regionaloffices.aspx">Offices</a></li>
+			<li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-tra">Training Establishment <span aria-hidden="true">▶</span></a>                
+				<ul class="submenu1" id="Ab-tra">
+                    <li ><a href="https://cab.rbi.org.in" target="_blank" id="CBOverview">College of Agricultural Banking</a></li>
+                    <li ><a href="/scripts/rbsc.aspx" id="CBNotifications">Reserve Bank Staff College</a></li>
+					<li ><a href="https://cos.rbi.org.in/" id="CBSupervisors">College of Supervisors</a></li>
+                </ul>
+            </li>
+            <li><a href="/scripts/OccasionalPublications.aspx?head=RBI%27s%20Functions%20and%20Working">RBI's Functions and Working</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=PastGovernors.htm">Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=deputygovernors.htm">Deputy Governors</a></li>
+			<li><a href="/scripts/AboutUsDisplay.aspx?pg=ExecutiveDirectors.htm">Executive Directors</a></li>
+        </ul>		
+	 </li>
+	 <li><a href="AboutUsDisplay.aspx?pg=MediaKit.htm">Media Kit</a></li>
+	 <li><a href="CommunicationPolicy.aspx">Communication Policy of RBI</a></li>
+     <li>
+        <a href="#" aria-expanded="false" role="button" aria-controls="Ab-soi">Sources of Information <span aria-hidden="true">▶</span></a>
+        <ul class="submenu1" id="Ab-soi">
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#AP">Annual Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#HP">Half-yearly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#QP">Quarterly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#MP">Monthly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#WP">Weekly Publications</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#OP">Occasional Publications</a></li>
+            <li><a href="/scripts/SDDSview.aspx">SDDS</a></li>
+            <li><a href="/scripts/BS_NSDPDisplay.aspx">NSDP</a></li>
+            <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#PS">Publications available on Subscription</a></li>
+            <li><a href="/scripts/AboutUsDisplay.aspx?pg=AllPublications.htm#GI">General Information</a></li>	  
+        </ul>
+     </li>  
+	 <li><a href="/scripts/Project1.aspx">RBI History</a></li>
+	 <li><a href="#" aria-expanded="false" role="button" aria-controls="Ab-mus">Museum <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="Ab-mus">
+			<li><a href="https://therbimuseum.rbi.org.in/">The RBI Museum</a></li>
+			<li><a href="/scripts/ic_museum.aspx">RBI Monetary Museum</a></li>
+         </ul>
+	 </li>
+</ul>
+</li>
+  <li>
+    <a href="#" aria-expanded="false" role="button" aria-controls="No-Sub1">Notification ▼</a>
+    <ul class="submenu1" id="No-Sub1">
+      <li><a href="/scripts/NotificationUser.aspx">Notifications </a></li>
+             <li><a href="/scripts/BS_ViewMasterDirections.aspx">Master Directions </a></li>
+             <li><a href="/scripts/BS_ViewMasterCirculardetails.aspx">Master Circulars </a></li> 
+	     <li><a href="/scripts/Fs_AmendmentDirections.aspx">Amendment Directions </a></li> 
+	     <li><a href="#" aria-expanded="false" role="button" aria-controls="No-draft">Draft Notifications/Guidelines <span aria-hidden="true">▶</span></a>
+		<ul class="submenu1" id="No-draft">
+			<li><a href="/scripts/DraftNotificationsGuildelines.aspx">Draft Notifications/Guidelines</a></li>
+			<li><a href="/scripts/BS_ViewREwiseDraftDirections.aspx">Draft Directions (RE-wise)</a></li> 
+         	</ul>
+	     </li>
+
+            
+             <li><a href="/scripts/BS_CircularIndexDisplay.aspx">Index To RBI Circulars </a></li> 
+             <li><a href="/scripts/BS_ViewListofstandalonecirculars.aspx">Standalone Circulars </a></li>
+             <li><a href="/scripts/NotificationUserWithdrawnCircular.aspx">Circulars Withdrawn </a></li>
+
+      
+    </ul>
+  </li>
+
+  <li><a href="/scripts/BS_PressReleaseDisplay.aspx">Press Releases</a></li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Sp-Sub1">Speeches & Media Interactions ▼</a>
+	<ul class="submenu1" id="Sp-Sub1">
+	  <li><a href="/scripts/BS_ViewSpeeches.aspx">Speeches</a></li>
+      <li><a href="/scripts/BS_ViewInterviews.aspx">Media Interactions</a></li>
+      <li><a href="/scripts/Lectures.aspx">Memorial Lectures</a></li>
+      <li><a href="/scripts/BS_ViewPodcast.aspx">Podcasts</a></li>
+	</ul>
+  </li>
+  <li><a href="#"  aria-expanded="false" role="button" aria-controls="Pu-Sub1">Publications ▼</a>
+		<ul class="submenu1" id="Pu-Sub1">
+			<li><a href="/scripts/Publications.aspx?publication=Biennial">Biennial</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Annual">Annual</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=HalfYearly">Half-Yearly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Quarterly">Quarterly</a></li>
+		    <li><a href="/scripts/Publications.aspx?publication=Bimonthly">Bi-monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Monthly">Monthly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Weekly">Weekly</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Occasional">Occasional</a></li>
+            <li><a href="/scripts/Publications.aspx?publication=Reports">Reports</a></li>
+		    <li><a href="/scripts/OccasionalPublications.aspx?head=Working Papers">Working Papers</a></li>
+		</ul>
+	</li>				  
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Le-Sub1">Legal Framework ▼</a>
+	<ul class="submenu1" id="Le-Sub1">
+	   <li><a href="/scripts/Act.aspx">Act </a></li>
+       <li><a href="/scripts/Rules.aspx">Rules </a></li>
+       <li><a href="/scripts/Regulations.aspx">Regulations </a></li> 
+       <li class="last"><a href="/scripts/Schemes.aspx">Schemes </a></li>
+	   </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="Re-Sub1">Research ▼</a>
+		<ul class="submenu1" id="Re-Sub1">
+			<li><a href="/Scripts/ExternalResearchSchemes.aspx">External Research Schemes</a></li>
+			<li><a href="/Scripts/OccasionalPapers.aspx">RBI Occasional Papers</a></li>
+			<li><a href="/Scripts/OccasionalPublications.aspx?head=Working%20Papers">Working Papers</a></li>
+			<li><a href="/Scripts/BS_ViewBulletin.aspx">RBI Bulletin</a></li>
+			<li><a href="/Scripts/Project1.aspx">History</a></li>
+			<li><a href="/Scripts/Occas_DRG_Studies.aspx">DRG Studies</a></li>
+			<li><a href="/Scripts/KLEMS.aspx">KLEMS</a></li>
+			<li class="last"><a href="/Scripts/StateStatisticsFinances.aspx">State Statistics and Finances</a></li>
+        </ul>
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Statistics ▼</a>
+		<ul class="submenu1" id="St-Sub1">
+		  <li><a href="/scripts/Statistics.aspx">Data Releases</a></li>
+          <li><a href="https://data.rbi.org.in" target="_blank">Database on Indian Economy</a></li>
+          <li><a href="/scripts/FS_PDS.aspx">Public Debt Statistics</a></li>
+		</ul> 
+  </li>
+  <li><a href="#" aria-expanded="false" role="button" aria-controls="St-Sub1">Regulatory Reporting ▼</a>
+		<ul class="submenu1">
+			<li><a href="/scripts/BS_Listofallreturns.aspx">List of Returns</a></li>
+			<li><a href="/scripts/DataDefinition.aspx">Data Definition</a></li>
+			<li><a href="/scripts/ValidationRules.aspx">Validation rules/ Taxonomy</a></li>
+			<li><a href="/scripts/ReportingPlaform.aspx">List of RBI Reporting Portals</a></li>
+			<li class="last"><a href="/scripts/ReportingFAQ.aspx">FAQs of RBI Reporting Portals</a></li>
+		</ul>
+   </li>
+</ul>
+</div></div>
+</nav>
+<div class="container_12" >
+    <section>
+        <div class="grid_12" >
+            <div id="dialogAlert" title="" tabindex="-1"  style="text-align: center; display: none;">
+                <p id="AM_Message" tabindex="-1" style="color: #444; font-size: 15px; margin: 20px 0; min-height: 40px;"></p>
+            </div>
+        </div>
+    </section>
+</div>
+<!--  NAVIGATION END-->
+<!--HEADER END-->
+<input type="submit" name="UsrFontCntr$btn" value="" id="btn" style="visibility: hidden; height: 0px; width: 0px;" />
+
+<script type="text/javascript">
+    function SetLink() {
+        //a.href = "https://www.rbi.org.in/hindi/Home.aspx";
+        var txt="This will lead you to Hindi (हिन्दी) language website. Are you sure you want to switch to this language?"
+        if(window.confirm(txt)==true){
+            //document.cookie = 'preferLang' + '=;secure; expires=Thu, 01-Jan-70 00:00:01 GMT;path=/;';
+            window.location.replace("https://www.rbi.org.in/hindi/");
+        }
+        else return false;
+        
+    }
+
+
+
+
+	const allMenuItems = document.querySelectorAll("nav ul li");
+	
+	allMenuItems.forEach(item => {
+		item.addEventListener("focusin", (event) => {	
+			const MenuText =event.target.textContent;
+			const allMenuItems1 = document.querySelectorAll(".hasSubmenu");
+			allMenuItems1.forEach(item1 => {
+				if (MenuText === 'Press Releases')
+				{	
+					
+					item1.classList.remove('focused');
+					rollback(item1)
+					item1.classList.remove('open');
+				}
+			});
+			
+		});
+	});
+
+
+const menuItems = document.querySelectorAll(".hasSubmenu");
+menuItems.forEach(item => {
+	item.addEventListener("mouseenter", (event) => {
+		item.className="hasSubmenu open focused"
+		expandThis(item);
+	});
+	item.addEventListener("mouseleave", (event) => {		
+		rollback(item)
+		item.className="hasSubmenu"
+	});
+	item.addEventListener("focusin", (event) => {		
+		const allMenuItems = document.querySelectorAll("nav ul li");
+		allMenuItems.forEach(item1 => {
+			item1.classList.remove('focused');
+			if(item!==item1)
+			rollback(item1)
+			item1.classList.remove('open');	
+		});							
+		item.classList.add('focused');
+	});
+	item.addEventListener("focusout", (event) => {
+		
+		if(!item.className.includes('focused')){
+		
+		rollback(item)
+		item.className="hasSubmenu"
+		}
+		item.classList.remove('focused');
+		item.classList.remove('open');
+	});
+
+    item.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+		if(item.className.includes("hasSubmenu open")){
+			rollback(item)
+			item.className="hasSubmenu"
+		}
+		else{
+          	item.className="hasSubmenu open focused"
+		var ele=item.querySelectorAll("a")[0];
+		
+		expandThis(item);	
+		}
+				
+        }
+	
+    });
+	
+});
+function expandThis(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+				    if ($targetul.queue().length <= 1) 
+				        if (this.istopheader)
+					$targetul.css({ left: $(this).children('a').eq(0).position().left, top: $mainmenu.position().top + this._dimensions.h - 2 })
+				            
+				    if (document.all && !window.XMLHttpRequest) 
+				        $mainmenu.find('ul').css({ overflow: (this.istopheader) ? 'hidden' : 'visible' })
+					
+					
+				    $targetul.dequeue().stop(true, true).slideDown(droplinemenu.animateduration.over)
+}
+const menuItemsf = document.querySelectorAll("nav .midmenu ul li");
+
+menuItemsf.forEach(item => {
+    item.addEventListener("keydown", (event) => {
+	
+	if(item.className.includes("last") ){
+		 if (pressedKeys['shift'] && event.key === "Tab"){}else{
+		var lastItem = document.getElementsByClassName('hasSubmenu open');
+		rollback(lastItem[0])
+		lastItem[0].className="hasSubmenu";
+		}
+	}
+	
+	});
+	
+	});
+	
+
+function rollback(menu){
+ var $targetul = $(menu).children("ul:eq(0)")
+$targetul.dequeue().stop(true, true).slideUp(droplinemenu.animateduration.out);
+}
+ 
+
+function setLetterSpace(val) {
+    
+	
+    if (false) {
+                    document.body.setAttribute("style", "letter-spacing:1px; line-height:20px; word-spacing:2px;");
+       
+    }
+    else {
+                    document.body.removeAttribute("style");
+    }
+    return false;
+
+    
+    }
+   
+
+// Toggle submenu
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if (submenu && submenu.classList.contains('submenu1')) {linkMessage();
+                e.preventDefault();
+                e.stopPropagation();
+
+                const parentLi = this.parentElement;
+
+                // Close sibling menus ONLY (not entire menu)
+                closeSiblings(parentLi);   
+ 
+
+               
+ 
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+        }
+        });
+    });
+
+    //  Close only sibling menus (important fix)
+    function closeSiblings(currentLi) {
+        const siblings = currentLi.parentElement.children;
+
+        Array.from(siblings).forEach(li => {
+            if (li !== currentLi) {
+            const submenus = li.querySelectorAll('.submenu1');
+        submenus.forEach(menu => menu.classList.remove('show'));
+    }
+    });
+    }
+
+    //  Click outside → close all
+    document.addEventListener('click', function () {
+		
+        document.querySelectorAll('.menu li > a').forEach(menu => {
+		if(menu.hasAttribute('aria-expanded')){
+            menu.setAttribute('aria-expanded','false');
+	}
+	
+    });
+
+    document.querySelectorAll('.submenu1').forEach(menu => {
+        menu.setAttribute('aria-hidden','true');
+    menu.classList.remove('show');
+	
+
+    });
+    });
+
+    //  Prevent closing when clicking inside menu
+    document.querySelector('.menu').addEventListener('click', function (e) {linkMessage();
+        e.stopPropagation();
+    });
+
+
+    //  Keyboard support
+    document.querySelectorAll('.menu li > a').forEach(link => {
+        link.addEventListener('keydown', function (e) {
+            const submenu = this.nextElementSibling;
+
+            if ((e.key === 'Enter' || e.key === ' ') && submenu) {
+                e.preventDefault();
+
+                const parentLi = this.parentElement;
+                closeSiblings(parentLi);
+
+
+                const isExpanded=link.getAttribute('aria-expanded') ==='true';
+                link.setAttribute('aria-expanded',!isExpanded);
+                submenu.hidden=isExpanded;
+                submenu.setAttribute('aria-hidden', isExpanded);
+                setTimeout(()=>{
+                    // Toggle current submenu
+                    submenu.classList.toggle('show', !isExpanded);
+            },50);
+
+
+           
+        }
+
+          if (e.key === 'Escape') {
+        document.querySelectorAll('.submenu').forEach(menu => {
+            menu.classList.remove('show');
+    });
+    this.blur();
+    }
+    });
+    });
+    // When focusing main menu items → close other submenus
+    document.querySelectorAll('.menu > li > a').forEach(item => {
+        item.addEventListener('focus', function() {
+
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                
+                if (menu !== this.nextElementSibling) {
+              
+
+            document.querySelectorAll('.menu li > a').forEach(menu => {
+                if(menu.hasAttribute('aria-expanded'))
+                menu.setAttribute('aria-expanded','false');
+		
+            document.querySelectorAll('.submenu1').forEach(menu => {
+                menu.setAttribute('aria-hidden','true');
+            
+            menu.classList.remove('show');
+            
+
+
+        });
+
+	
+    });
+
+    }
+    });
+
+    });
+    });
+
+    //  Close submenu when focus leaves it (TAB navigation)
+    document.querySelectorAll('.menu li').forEach(li => {
+        li.addEventListener('focusout', function (e) {
+            // Check if focus is still inside this <li>
+            if (!li.contains(e.relatedTarget)) {
+                const submenu = li.querySelector('.submenu1');
+                if (submenu) {
+                    submenu.classList.remove('show');
+                    if(li.querySelector('a').hasAttribute('aria-expanded'))
+                        li.querySelector('a').setAttribute('aria-expanded','false');
+	
+
+                    submenu.setAttribute('aria-hidden','true');
+                }
+            }
+        });
+    });
+</script>
+        <main class="container_12">
+        <a id="mainsection" name="mainsection"></a>
+
+        <nav aria-label="Breadcrumb" class="grid_12 breadcrumbs">
+<ul>
+                <li><a href="../home.aspx">Home</a></li>
+                <li><a href="publications.aspx">Publications</a></li>
+                <li><a href="publications.aspx">Annual</a></li>
+                <li><a href="AnnualReportMainDisplay.aspx">Annual Report Of The RBI</a></li>
+                <span id="lblNav"><li><a href="AnnualReportPublications.aspx?year=2012">III. Monetary Policy Operations</a></li></span>
+            </ul>
+ </nav>
+
+        <div class="clear">
+        </div>
+        <div class="grid_11 omega right_blue_border">
+            <div id="example-one" class="text1">
+                <div class="list-wrap">
+                    <div id="annual">
+
+                        <h1 class="page_title">Annual Report</h1>
+                        <br />
+                        <span id="lblNote" style="text-align: justify"> <font color="RED"><b>Note : </b></font>To read the chapter of your choice, please click on the links below. You can also read past reports by accessing the archives in the right panel.</span>
+                        <div>
+                            <div id="doublescroll">
+                                <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                                    
+                                    <table class="tablebg" width="100%"> <tr><td class="tableheader" align="left"><a id='APDF_8IIIMPO250811' target="_blank" href="https://rbidocs.rbi.org.in/rdocs/AnnualReport/PDFs/8IIIMPO250811.pdf" aria-labelledby='APDF_8IIIMPO250811 SPDF_8IIIMPO250811'>
+   <img alt='PDF - III. Monetary Policy Operations' style='padding: 8px;' src="../Images/pdf.gif" border="0" align="absmiddle"></a> (<span id='SPDF_8IIIMPO250811' aria-hidden="true">516 kb</span>)</td></tr><tr><td class="tableheader" align="right"><b> Date : Aug 25, 2011</b></td></tr><tr><td align="center" class="tableheader"><b>III. Monetary Policy Operations</b></td></tr><tr><td><style>
+.table{
+	font-family: Arial;
+	font-size: 13px;
+	font-weight: normal;
+	background-color: #F2F8FD;
+	height: 22px;
+	padding-right: 2px;
+	padding-left: 2px;
+	color: #000000;
+	padding-top: 3px;
+	padding-bottom: 3px;}
+	.head {font-family:Arial, Helvetica, sans-serif; font-weight:bold; font-size:13px;}
+.td{font-family:Arial; color:#000000; text-align:justify; font-size:13px;}
+.links {color: #0000FF}
+.Rupee {font-family:"rupee Foradian"; font-size:14px}
+</style>
+<link href='../includes1024/Includes1/rbi.css' rel='stylesheet' type='text/css'>
+<table width="750" border="0" align="center" class="td">
+  <tr>
+    <td><p><strong>PART TWO: THE WORKING AND OPERATIONS OF 
+      THE RESERVE BANK OF INDIA</strong></p>
+      <p><strong>III MONETARY POLICY OPERATIONS</strong></p>
+      <p>In balancing the twin objectives of price stability and growth, the conduct of monetary policy was conditioned by the
+        shift in policy challenge from &ldquo;management of recovery&rdquo; to &ldquo;management of inflation&rdquo;. During the first half of
+        2010-11, policy was geared towards non-disruptive normalisation of the monetary policy stance, which supported
+        consolidation of growth. Inflation stayed elevated, but the sources of inflationary pressures warranted cautious
+        calibration of the normalisation process. The anti-inflation accent of monetary policy became stronger during the
+        second half of the year, as the inflation process became generalised and sticky in an environment of strong growth.
+        Furthering transparency about the monetary policy process, minutes of the meetings of the Technical Advisory
+        Committee on Monetary Policy are now being released in the public domain. The operating framework for monetary
+        policy was modified in May 2011, with the switchover to repo rate as the single policy rate for better signalling the
+      stance of monetary policy.</p>
+      <p>III.1 The monetary policy stance in 2010-11
+        changed course during the year, from calibrated
+        normalisation to tightening driven by inflation
+        concerns. Liquidity conditions remained consistent
+        with the shift in monetary policy stance, though some
+        of the key determinants of liquidity remained volatile.
+        The cumulative effect of transient factors (such as
+        advance tax collections), frictional factors (large
+        government surplus balances) and structural factors
+        (i.e., high increase in currency in circulation and higher
+        credit growth relative to deposit growth) culminated
+        in large deficit liquidity conditions, which were
+        managed by the Reserve Bank through an
+      appropriate mix of SLR, OMO and LAF.</p>
+      <p>III.2 A number of steps were taken during 2010-11
+        to enhance the communication of monetary policy.
+        The Reserve Bank introduced mid-quarter reviews
+        during the year. Another notable development during
+        2010-11 was the introduction of the Base Rate system
+        which replaced the Benchmark Prime Lending Rate
+        (BPLR) with effect from July 2010. This helped in
+        improving the assessment of the transmission of
+      monetary policy (<a href="#B1" class="links">Box III.1</a>).</p>
+      <p><strong>Role of communication in monetary policy</strong></p>
+      <p>III.3 Monetary policy acts on its ultimate objectives
+        of price stability and growth with long and variable
+        lags. Given these lags in monetary transmission,
+        effective communication of monetary policy
+        objectives, rationale for policy actions and expected
+        outcomes is critical. Effective communication along
+        with appropriate monetary actions can help anchor
+        inflation expectations. Like other central banks, the
+        Reserve Bank has also placed a lot of emphasis on
+        effective communication of its policy objectives. The
+        stance of monetary policy and the rationale are
+        communicated to the public in a variety of ways &ndash;
+        periodic monetary policy statements, other
+        publications, speeches by the top management and
+        press releases. In order to further enhance the efficacy
+        of the communication process, a number of steps
+        have been taken in the recent period. From
+        September 2010, the Reserve Bank introduced Mid-
+        Quarter Reviews (MQRs) to combine the rigour and
+        comprehensiveness of the quarterly process with the
+        need for flexibility to respond in a fast evolving global
+      and domestic macroeconomic situation.</p>
+      <p align="center"><strong><a name="B1" id="B1"></a>Box III.1
+          <br />
+      Monetary Policy Transmission after the Switchover to Base Rate</strong></p>
+      <p align="justify">The Benchmark Prime Lending Rate (BPLR), introduced in
+        2003, was expected to serve as the benchmark rate for
+        pricing of loan products by reflecting the actual cost of funds
+        for banks. The BPLR system, however, fell short of its original
+        objective of bringing transparency to lending rates. This was
+        mainly because banks could lend below the BPLR under
+        the system. The share of sub-BPLR lending (excluding export
+        credit and small loans) of SCBs was as high as 77 per cent
+        in September 2008, before dropping to 70 per cent, which
+        was still very high, during the quarter ended June 2010. As
+        a result, it was difficult to assess the transmission of policy
+      rates of the Reserve Bank to lending rates of banks.</p>
+      <p align="justify">In order to address these concerns, the Reserve Bank
+        announced the constitution of a Working Group (Chairman:
+        Shri Deepak Mohanty) in the Annual Policy Statement of
+        2009-10 to review the BPLR system and suggest changes
+        to make credit pricing more transparent. The Working Group
+        submitted its Report in October 2009 and based on the
+        recommendations of the Group and the suggestions from
+        various stakeholders, the Reserve Bank issued guidelines
+        on the Base Rate system in April 2010. The system of Base
+        Rate, that came into effect on July 1, 2010, replaced the
+      BPLR system.</p>
+      <p align="justify">Under the new system, the actual lending rate charged to
+        borrowers is the Base Rate plus borrower-specific charges.
+        The Base Rate is the minimum rate for all loans and banks
+        are not permitted to resort to any lending below the Base
+        Rate except some specified categories such as:
+        (a) Differential Rate of Interest (DRI) advances, (b) loans to
+        banks&rsquo; own employees, (c) loans to banks&rsquo; depositors against
+        their own deposits, (d) interest rate subvention given by
+        government to agricultural loans and rupee export credit,
+        and (e) some specific cases of restructured loans. The
+        interest rates on small loans up to <span class="Rupee">`</span>2 lakh and rupee export
+        credit have been deregulated to increase the flow of credit
+        to small borrowers and exporters at reasonable rates. With
+        these measures, the Reserve Bank achieved complete
+        deregulation of interest rates relating to rupee lending by
+        commercial banks. The Base Rate system was expected to
+        facilitate better pricing of loans, enhance transparency in
+        lending rates and improve the assessment of the
+        transmission of monetary policy. Though the experience so
+        far is limited, it suggests that these objectives have been
+      largely met.</p>
+      <p align="justify">The Reserve Bank has increased the repo rate by 325 basis
+        points (bps) since mid-March 2010. The effective tightening
+        of the policy rate has, however, been of the order of 475 bps
+        as the system migrated from surplus mode to deficit mode.
+      In response, Base Rates have been raised by 75-375 bps between July 2010 and August 11, 2011 (<a href="#TA1">Table 1</a>). The range
+      of increase was, however, much narrower, i.e., 175-375 bps
+      for 49 major banks.</p>
+      <table width="508" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#3e72aa">
+        <tr>
+          <td colspan="5" valign="top" class="table"><p align="center"><strong><a name="Ta1" id="Ta1"></a>Table    1: Variation in Policy Rate of the    Reserve Bank and <br />
+            Deposit/Lending
+          Rates of SCBs</strong></p></td>
+        </tr>
+        <tr>
+          <td colspan="5" valign="top" class="table"><p align="right">(bps)</p></td>
+        </tr>
+        <tr>
+          <td width="201" rowspan="2" valign="top" class="table"><p align="center">Period</p>            </td>
+          <td width="62" rowspan="2" valign="top" class="table"><p align="center"><strong>Increase in
+            Repo 
+            Rate</strong></p></td>
+          <td width="67" rowspan="2" valign="top" class="table"><p align="center"><strong>Increase in Deposit &nbsp;Rates </strong></p>            </td>
+          <td colspan="2" valign="top" class="table"><p align="center"><strong>Increase in 
+            Lending Rate </strong></p></td>
+        </tr>
+        
+        <tr>
+          <td width="95" valign="top" class="table"><p align="center"><strong>Base Rate </strong></p></td>
+          <td width="77" valign="top" class="table"><p align="center"><strong>BPLR </strong></p></td>
+        </tr>
+        <tr>
+          <td width="201" class="table"><p>Mid-March 2010    to
+            May 2010</p></td>
+          <td width="62" valign="top" class="table"><p align="right">50</p></td>
+          <td width="67" valign="top" class="table"><p align="right">25-160</p></td>
+          <td width="95" class="table"><p align="right">Not 
+            Applicable    </p></td>
+          <td width="77" class="table"><p align="right">No Change</p></td>
+        </tr>
+        <tr>
+          <td width="201" class="table"><p>June 2010 to
+            August 11, 2011</p></td>
+          <td width="62" valign="top" class="table"><p align="right">275</p></td>
+          <td width="67" valign="top" class="table"><p align="right">25-550</p></td>
+          <td width="95" valign="top" class="table"><p align="right">75-375</p></td>
+          <td width="77" valign="top" class="table"><p align="right">100-375</p></td>
+        </tr>
+      </table>      
+      <p>It has been observed that there is greater convergence
+        amongst banks in fixing the Base Rate over time vis-a-vis
+        under the BPLR system. As a result, the Base Rate system
+        is found to be more transparent and more responsive to hikes
+        in policy rates by the Reserve Bank compared to the BPLR
+        system. This is reflected in the average increase in the Base
+        Rate by public and private sector banks since July 2010. It
+        is seen that the pace of increase in Base Rate in response
+        to increase in policy rate was initially slower but picked up
+        momentum during December 2010-February 2011. Also, the
+        number of days taken by these banks to raise their Base
+        Rates went down during this period (<a href="#TA2" class="links">Table 2</a>). However,
+        following gradual moderation in the growth of non-food credit,
+        the pace of increase in Base Rate relative to that of the repo
+        rate slowed down from February 2011 onwards, while the
+      number of days taken to raise the Base Rate also increased.</p>
+      <table width="486" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#3e72aa">
+        <tr>
+          <td colspan="4" valign="top" class="table"><p align="center"><strong><a name="TA2" id="TA2"></a>Table    2: Extent of Increase in Base Rate and Time</strong>
+                  <strong>Taken    by <br />
+                  Public/Private Sector Banks</strong><strong> </strong></p></td>
+        </tr>
+        <tr>
+          <td width="243" valign="top" class="table"><p align="center"><strong>Period</strong>
+                  <strong>(Month over</strong>
+                  <strong>Month)</strong></p></td>
+          <td width="63" valign="top" class="table"><p align="center"><strong>Increase</strong>
+                  <strong>in Repo</strong>
+                  <strong>Rate (bps)</strong></p></td>
+          <td width="80" valign="top" class="table"><p align="center"><strong>Average</strong>
+                  <strong>increase in</strong>
+                  <strong>Base Rate</strong>
+                  <strong>(bps)</strong></p></td>
+          <td width="95" valign="top" class="table"><p align="center"><strong>Average</strong>
+                  <strong>no. of days</strong>
+                  <strong>taken to raise</strong>
+                  <strong>Base Rate</strong></p></td>
+        </tr>
+        <tr>
+          <td width="243" class="table"><p>Dec.10/July 10</p></td>
+          <td width="63" class="table"><p align="right">75</p></td>
+          <td width="80" class="table"><p align="right">58</p></td>
+          <td width="95" class="table"><p align="right">140</p></td>
+        </tr>
+        <tr>
+          <td width="243" class="table"><p>Feb.11/Dec.10</p></td>
+          <td width="63" class="table"><p align="right">25</p></td>
+          <td width="80" class="table"><p align="right">65</p></td>
+          <td width="95" class="table"><p align="right">74</p></td>
+        </tr>
+        <tr>
+          <td width="243" valign="top" class="table"><p>May 11/Feb.11</p></td>
+          <td width="63" valign="top" class="table"><p align="right">75</p></td>
+          <td width="80" valign="top" class="table"><p align="right">64</p></td>
+          <td width="95" valign="top" class="table"><p align="right">88</p></td>
+        </tr>
+        <tr>
+          <td width="243" class="table"><p>August 11,    11/May 11</p></td>
+          <td width="63" class="table"><p align="right">125</p></td>
+          <td width="80" class="table"><p align="right">69</p></td>
+          <td width="95" class="table"><p align="right">87</p></td>
+        </tr>
+      </table>
+      <p>Thus, not only has there been a larger degree of convergence
+        of the Base Rates across banks, they have also become
+        more responsive to increase in policy rates of the Reserve
+        Bank. As a result, the assessment of the transmission of
+        monetary policy has strengthened under the new system,
+      from that under the BPLR system.</p>
+      <p>III.4 Steps taken to strengthen the existing two-way
+        communication process include webcasting of the
+        Governor&rsquo;s press conference and interaction with
+      researchers/analysts on monetary policy after the quarterly reviews. Audio recordings and transcripts
+      of the press conference and the teleconference with
+      researchers/analysts are also put on the Reserve
+      Bank&rsquo;s website.</p>
+      <p>III.5 As a part of its communication policy and
+        given the objective of more transparency, the
+        Reserve Bank is endeavouring to put in public
+        domain all data/inputs that go into the formulation
+        of monetary policy. Accordingly, the main points of
+        discussion in the meetings of the Technical Advisory
+        Committee (TAC) on Monetary Policy are being
+        placed on the website, roughly four weeks after the
+        meeting of the Committee. The first such release
+        was in February 2011 of the TAC meeting in January
+      2011.</p>
+      <p><strong>Introduction of mid-quarter reviews</strong></p>
+      <p>III.6 Most major central banks make frequent
+        monetary policy announcements ranging from 8 to
+        12 announcements a year. Monetary and credit policy
+        was traditionally reviewed by the Reserve Bank twice
+        a year. Over time, a need was felt to increase the
+        frequency of the policy communication and the Annual
+        Policy Statement of 2005-06 announced the
+        introduction of more frequent reviews of monetary
+        policy, at quarterly intervals. The proposed quarterly
+        reviews of monetary policy were intended to provide
+        the opportunity for structured communication with
+        markets on a more frequent basis, while retaining the
+        flexibility to take specific measures warranted by
+      evolving circumstances.</p>
+      <p>III.7 The gap of a quarter between policy reviews
+        was felt too long in a rapidly evolving macroeconomic
+        situation. There were several occasions (April, June
+        and September-December 2008; January and March
+        2009; March and July 2010) when the Reserve Bank
+        had to take policy actions in response to
+        macroeconomic developments. While these
+        instances questioned the discipline of the quarterly
+        schedule, they also underscored the need for
+      flexibility.</p>
+      <p>III.8 Accordingly, the First Quarter Review of
+        Monetary Policy for July 2010 announced the
+        introduction of MQRs. By instituting MQRs, the
+        Reserve Bank intended to take the surprise element
+        out of the off-cycle actions. The Reserve Bank,
+        however, reserves the flexibility to take swift and preemptive
+      policy actions, as and when warranted by the evolving macroeconomic developments. It was
+      decided to announce the MQRs in June, September,
+      December and March by way of a press release,
+      providing a rationale for either action or maintenance
+      of the status quo. The first MQR was announced in
+      September 2010.</p>
+      <p>III.9 Unlike the Quarterly Reviews, the MQRs were
+        intended to be a less intensive process. In the run up
+        to the MQRs, there are no pre-policy consultations
+        with the stakeholders from the financial market and
+        the industry. However, there is a process of consulting
+        the members of the TAC. In order to take the advice
+        of the TAC members in the run up to the MQRs, the
+        Reserve Bank has instituted a mechanism to obtain
+        the views of the members through a structured
+      feedback format.</p>
+      <p align="center"><strong>MONETARY POLICY OPERATIONS:
+      CONTEXT AND RATIONALE</strong></p>
+      <p align="justify">III.10 The monetary policy stance in 2010-11
+        evolved in line with changing domestic growth-inflation
+        dynamics. In the first half of 2010-11, the thrust of
+        monetary policy was on avoiding policy impediments
+        to the recovery amidst global uncertainties, while also
+        containing inflationary pressures. Headline inflation,
+        which touched double digits in the first quarter of 2010-
+        11, showed moderation in the second quarter of the
+        year, but remained above the comfort zone of the
+        Reserve Bank. Food inflation remained high on
+        account of structural demand-supply imbalances
+        despite normal monsoons. Though non-food
+        manufactured products inflation declined from the
+        elevated levels seen at the start of the year, it
+        remained sticky and above its medium term trend.
+        Considering global uncertainties and associated
+        implications for domestic growth and the fact that
+        inflation was largely driven by supply side factors, the
+        Reserve Bank followed calibrated normalisation of
+      policy (<a href="#T1" class="links">Table III.1</a>).</p>
+      <p align="justify">III.11 In the second half of 2010-11, while growth
+        continued to consolidate, the moderating path of
+        inflation reversed beginning December 2010 due to
+      a series of supply side shocks, both domestic and global. Food prices registered sharp increases in
+      December 2010 and January 2011 following
+      unseasonal increase in vegetable prices. The sharp
+      increase in global prices of raw cotton and rubber, metals and minerals were transmitted quickly to the
+      domestic markets during the second half of the year.
+      Even as mineral oil price inflation showed an uptick,
+      it was less than the extent of the global crude price
+      inflation as the administered mineral oil prices
+      remained unchanged. Robust demand conditions saw
+      input price pressures being increasingly transmitted
+      to final output prices and rising core inflation. It was,
+      therefore, crucial to ensure that the elevated
+      inflationary expectations did not get entrenched.
+      Hence, towards the end of 2010-11, monetary policy
+      stance underwent a shift as the Reserve Bank
+      deviated from the calibrated approach and took
+      stronger monetary policy measures. This was
+      warranted to ensure that the long-term growth
+      prospects were not harmed, even if it meant sacrificing
+      some growth in the short-term (<a href="#T2" class="links">Table III.2</a>).</p>
+      <table width="557" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#3e72aa">
+        <tr>
+          <td colspan="5" valign="top" class="table"><div align="center"><strong><a name="T1" id="T1"></a>Table III.1: Movements in Key Policy Rates and
+          Reserve Requirements in India</strong></div></td>
+        </tr>
+        <tr>
+          <td colspan="5" valign="top" class="table"><div align="right">(Per cent)</div></td>
+        </tr>
+        <tr>
+          <td valign="top" class="table"><div align="center"><strong>Effective since</strong></div></td>
+          <td valign="top" class="table"><div align="center"><strong>Reverse Repo Rate</strong></div></td>
+          <td valign="top" class="table"><div align="center"><strong>Repo Rate</strong></div></td>
+          <td valign="top" class="table"><div align="center"><strong>Cash Reserve Ratio</strong></div></td>
+          <td valign="top" class="table"><div align="center"><strong>Marginal Standing Facility Rate</strong></div></td>
+        </tr>
+        <tr>
+          <td valign="top" class="table"><p align="center"><strong>1</strong></p></td>
+          <td valign="top" class="table"><p align="center"><strong>2</strong></p></td>
+          <td valign="top" class="table"><p align="center"><strong>3</strong></p></td>
+          <td valign="top" class="table"><p align="center"><strong>4</strong></p></td>
+          <td valign="top" class="table"><p align="center"><strong>5</strong></p></td>
+        </tr>
+        <tr>
+          <td width="208" valign="top" class="table"><p>February 13,    2010</p></td>
+          <td width="85" valign="top" class="table"><p align="right">3.25</p></td>
+          <td width="86" valign="top" class="table"><p align="right">4.75</p></td>
+          <td width="86" valign="top" class="table"><p align="right">5.50 (+0.50)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">-</p></td>
+        </tr>
+        <tr>
+          <td width="208" valign="top" class="table"><p>February 27,    2010</p></td>
+          <td width="85" valign="top" class="table"><p align="right">3.25</p></td>
+          <td width="86" valign="top" class="table"><p align="right">4.75</p></td>
+          <td width="86" valign="top" class="table"><p align="right">5.75 (+0.25)</p></td>
+          <td width="86" class="table"><p align="right">-</p></td>
+        </tr>
+        <tr>
+          <td width="208" class="table"><p>March 19, 2010</p></td>
+          <td width="85" class="table"><p align="right">3.50 (+0.25)</p></td>
+          <td width="86" class="table"><p align="right">5.00 (+0.25)</p></td>
+          <td width="86" class="table"><p align="right">5.75</p></td>
+          <td width="86" class="table"><p align="right">-</p></td>
+        </tr>
+        <tr>
+          <td width="208" valign="top" class="table"><p>April 20, 2010</p></td>
+          <td width="85" valign="top" class="table"><p align="right">3.75 (+0.25)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">5.25 (+0.25)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">5.75</p></td>
+          <td width="86" class="table"><p align="right">-</p></td>
+        </tr>
+        <tr>
+          <td width="208" valign="top" class="table"><p>April 24, 2010</p></td>
+          <td width="85" valign="top" class="table"><p align="right">3.75</p></td>
+          <td width="86" valign="top" class="table"><p align="right">5.25</p></td>
+          <td width="86" valign="top" class="table"><p align="right">6.00 (+0.25)</p></td>
+          <td width="86" class="table"><p align="right">-</p></td>
+        </tr>
+        <tr>
+          <td width="208" class="table"><p>July 2, 2010</p></td>
+          <td width="85" class="table"><p align="right">4.00 (+0.25)</p></td>
+          <td width="86" class="table"><p align="right">5.50 (+0.25)</p></td>
+          <td width="86" class="table"><p align="right">6.00</p></td>
+          <td width="86" class="table"><p align="right">-</p></td>
+        </tr>
+        <tr>
+          <td width="208" valign="top" class="table"><p>July 27, 2010</p></td>
+          <td width="85" valign="top" class="table"><p align="right">4.50 (+0.50)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">5.75 (+0.25)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">6.00</p></td>
+          <td width="86" class="table"><p align="right">-</p></td>
+        </tr>
+        <tr>
+          <td width="208" valign="top" class="table"><p>September 16,    2010</p></td>
+          <td width="85" valign="top" class="table"><p align="right">5.00 (+0.50)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">6.00 (+0.25)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">6.00</p></td>
+          <td width="86" class="table"><p align="right">-</p></td>
+        </tr>
+        <tr>
+          <td width="208" class="table"><p>November 2, 2010</p></td>
+          <td width="85" class="table"><p align="right">5.25 (+0.25)</p></td>
+          <td width="86" class="table"><p align="right">6.25 (+0.25)</p></td>
+          <td width="86" class="table"><p align="right">6.00</p></td>
+          <td width="86" class="table"><p align="right">-</p></td>
+        </tr>
+        <tr>
+          <td width="208" valign="top" class="table"><p>January 25, 2011</p></td>
+          <td width="85" valign="top" class="table"><p align="right">5.50 (+0.25)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">6.50 (+0.25)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">6.00</p></td>
+          <td width="86" class="table"><p align="right">-</p></td>
+        </tr>
+        <tr>
+          <td width="208" valign="top" class="table"><p>March 17, 2011</p></td>
+          <td width="85" valign="top" class="table"><p align="right">5.75 (+0.25)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">6.75 (+0.25)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">6.00</p></td>
+          <td width="86" class="table"><p align="right">-</p></td>
+        </tr>
+        <tr>
+          <td width="208" class="table"><p>May 3, 2011</p></td>
+          <td width="85" class="table"><p align="right">6.25 (+0.50)</p></td>
+          <td width="86" class="table"><p align="right">7.25 (+0.50)</p></td>
+          <td width="86" class="table"><p align="right">6.00</p></td>
+          <td width="86" class="table"><p align="right">8.25*</p></td>
+        </tr>
+        <tr>
+          <td width="208" valign="top" class="table"><p>June 16, 2011</p></td>
+          <td width="85" valign="top" class="table"><p align="right">6.50 (+0.25)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">7.50 (+0.25)</p></td>
+          <td width="86" valign="top" class="table"><p align="right">6.00</p></td>
+          <td width="86" valign="top" class="table"><p align="right">8.50 (+0.25)</p></td>
+        </tr>
+        <tr>
+          <td width="208" class="table"><p>July 26, 2011</p></td>
+          <td width="85" class="table"><p align="right">7.00 (+0.50)</p></td>
+          <td width="86" class="table"><p align="right">8.00 (+0.50)</p></td>
+          <td width="86" class="table"><p align="right">6.00</p></td>
+          <td width="86" class="table"><p align="right">9.00 (+0.50)</p></td>
+        </tr>
+        <tr>
+          <td colspan="5" class="table">Note: 1. Reverse repo indicates absorption of liquidity and repo indicates 
+            injection of liquidity.<br />
+            2. Figures in parentheses indicate change in policy rates in per cent.<br />
+            * : Marginal Standing Facility is with effect from May 9, 2011.</td>
+        </tr>
+      </table>      
+      <p>III.12 Based on the Report of the Working Group to
+        Review the Operating Procedures of Monetary Policy
+        in India (Chairman: Shri Deepak Mohanty) and in the
+        light of the feedback received, changes relating to
+        operating procedures of monetary policy were
+        announced in the Monetary Policy Statement for 2011-
+      12 (<a href="#B2" class="links">Box III.2</a>).</p>
+      <p align="center"><strong><a name="T2" id="T2"></a>Table III.2: Monetary Policy Reviews</strong></p>
+      <p align="left"><strong>Monetary Policy Statement 2010-11</strong></p>
+      <p align="left">Backdrop:</p>
+      <ul>
+        <li> Broad-based recovery taking firm hold with rising domestic
+        and external demand.</li>
+        <li>Inflation pressures, initially driven by food prices, becoming
+        more generalized.</li>
+        <li>Corporates regaining pricing power in many sectors.</li>
+        <li>Inflation expectations of the households at elevated level.</li>
+      </ul>      
+      <p align="justify">Baseline Projection/Indicative Trajectory:</p>
+      <ul>
+        <li> 8.0 per cent real GDP growth (with an upside bias) during
+          2010-11.</li>
+        <li>5.5 per cent WPI inflation for March 2011.</li>
+        <li>17.0 per cent, 18.0 per cent and 20.0 per cent growth in M<sub>3</sub>,
+          aggregate deposits and non-food credit, respectively, during
+          2010-11.</li>
+      </ul>
+    <p>Measures:</p>
+    <ul>
+      <li>  Increase in repo rate, reverse repo rate and CRR by 25 basis
+        points each.</li>
+      </ul>
+    <p>Expected Outcome:</p>
+    <ul>
+      <li> Contain inflation and anchor inflationary expectations.</li>
+      <li>Sustain the recovery process.</li>
+      <li>Meet government borrowing requirements and the private
+        credit demand.</li>
+      <li>Align policy instruments in a manner consistent with the
+        evolving state of the economy.</li>
+      </ul>
+    <p><strong>Mid-Cycle Policy Measure: July 2, 2010</strong></p>
+    <p>Backdrop:</p>
+    <ul>
+      <li>Double-digit headline inflation levels.</li>
+      <li>Petrol prices were decontrolled and prices of remaining
+        administered fuel such as diesel, LPG and kerosene were
+        increased in end-June 2010.</li>
+    </ul>
+    <p>Measures:</p>
+    <ul>
+      <li> Increase in repo rate and reverse repo rate by 25 basis points
+        each (with the LAF window having moved to deficit mode
+        from end-May 2010, effective tightening of 175 basis points).</li>
+      </ul>
+    <p><strong>First Quarter Review of Monetary Policy 2010-11</strong></p>
+    <p>Backdrop:</p>
+    <ul>
+      <li>  Growth process registered further momentum during Q1 of
+        2010-11.</li>
+      <li>Overall food inflation at elevated level.</li>
+      <li>Rise in administered prices of iron ore and electricity.</li>
+      <li>Non-food manufactured products inflation much higher than
+        the medium-term trend.</li>
+    </ul>
+    <p>Baseline Projection/Indicative Trajectory:</p>
+    <ul>
+      <li> 8.5 per cent real GDP growth during 2010-11.</li>
+      <li>6.0 per cent WPI inflation for March 2011.</li>
+      </ul>    
+    <p>Measures:</p>
+    <ul>
+      <li>Increase in repo rate and reverse repo rate by 25 basis points
+        and 50 basis points, respectively.</li>
+    </ul>    
+    <p><strong>Mid Quarter Review: September 2010</strong></p>
+    <ul>
+      <li> Inflation continued to be the dominant concern for policy.</li>
+      <li>Increase in repo rate and reverse repo rate by 25 basis points
+        and 50 basis points, respectively.</li>
+    </ul>
+    <p><strong>Second Quarter Review of Monetary Policy 2010-11</strong></p>
+    <p>Backdrop:</p>
+    <ul>
+      <li> Normal monsoons raised the prospects of good Kharif
+        cultivation.</li>
+      <li>Quarterly industrial outlook survey showed improvement in
+        the overall business conditions.</li>
+      <li>Moderation in food inflation not commensurate with a normal
+        monsoon, due to continued elevated prices of protein-rich
+        food items.</li>
+      <li>Non-food primary articles, specifically fibres registered
+        significant inflation.</li>
+    </ul>
+    <p>Baseline Projection/Indicative Trajectory:</p>
+    <ul>
+      <li>8.5 per cent real GDP growth during 2010-11.</li>
+      <li> 5.5 per cent WPI inflation (under the new base) for March
+        2011, equivalent to 6.0 per cent inflation under the old base.</li>
+    </ul>
+    <p>Measures:</p>
+    <ul>
+      <li> Increase in repo rate and reverse repo rate by 25 basis points
+        each.</li>
+    </ul>
+    <p>Expected Outcome:</p>
+    <ul>
+      <li>Sustain the anti-inflationary thrust of the recent monetary
+        actions and outcomes in the face of persistent inflation risk.</li>
+      <li> Rein in rising inflationary expectations that could be
+        aggravated by the structural nature of food price increases,
+        while not disrupting growth.</li>
+    </ul>
+    <p><strong>Mid Quarter Review: December 2010</strong></p>
+    <ul>
+      <li>
+        <p align="justify">Management of liquidity came to the forefront of policy
+          concerns, following the excessive tightness in money markets.</p>
+      </li>
+      <li>
+        <p align="justify"> The SLR of SCBs was reduced from 25 per cent of their NDTL
+          to 24 per cent with effect from December 18, 2010.</p>
+      </li>
+      <li>
+        <p align="justify"> Staggered OMO auctions for purchase of government
+          securities for an aggregate amount of <span class="Rupee">`</span>48,000 crore
+          announced.</p>
+      </li>
+      <li>
+        <p align="justify"> These measures were expected to release sizeable primary
+          liquidity into the system, bringing down the liquidity deficit in 
+          the system close to the comfort zone of the Reserve Bank
+          while stabilising interest rates in the overnight inter-bank 
+          market closer to the operative policy rate of the Reserve Bank.</p>
+      </li>
+    </ul>
+    <p><strong>Third Quarter Review of Monetary Policy 2010-11</strong></p>
+    <p>Backdrop:</p>
+    <ul>
+      <li> Real GDP increased by 8.9 per cent during the first half of
+        2010-11, reflecting strong domestic demand, especially 
+        private consumption and investment, and improving external
+        demand.</li>
+      <li>Series of commodity price shocks &ndash; vegetable prices, crude
+        oil prices.</li>
+    </ul>
+    <p>Baseline Projection/Indicative Trajectory:</p>
+    <ul>
+      <li> 8.5 per cent real GDP growth (with an upside bias) during
+        2010-11.</li>
+      <li>7.0 per cent WPI inflation for March 2011.</li>
+    </ul>
+    <p>Measures:</p>
+    <ul>
+      <li>Increase in repo rate and reverse repo rate by 25 basis
+        points each.</li>
+      </ul>
+    <p><strong>Mid Quarter Review: March 2011</strong></p>
+    <ul>
+      <li> Inflation pressures accentuated further after January 2011.</li>
+      <li>Inflation estimated at around 8 per cent for March 2011.</li>
+      <li>Increase in repo rate and reverse repo rate by 25 basis points
+        each.</li>
+    </ul>    
+    <p><strong>Monetary Policy Statement 2011-12</strong></p>
+    <p>Backdrop:</p>
+    <ul>
+      <li>Very sharp rise in inflation and elevated inflationary
+        expectations.</li>
+      <li>Rise in inputs costs quickly passed on to domestic
+        manufactured goods.</li>
+      <li>Signs of moderation in growth particularly investment
+        spending.</li>
+      <li>Rise in administered coal prices in end-February 2011.</li>
+    </ul>    
+    <p>Baseline Projection/Indicative Trajectory:</p>
+    <ul>
+      <li>8.0 per cent real GDP growth during 2011-12.</li>
+      <li>6.0 per cent WPI inflation (with an upward bias) for March
+        2012.</li>
+      <li>16.0 per cent, 17.0 per cent and 19.0 per cent growth in M<sub>3</sub>, aggregate deposits and non-food credit of SCBs, respectively.</li>
+    </ul>    
+    <p>Measures:</p>
+    <ul>
+      <li> Repo rate increased by 50 basis points to 7.25 per cent.</li>
+      <li> Reverse repo rate, determined with a spread of 100 basis
+        points below the repo rate, automatically adjusted to 6.25
+        per cent.</li>
+      <li> Marginal Standing Facility (MSF) rate, determined with a
+        spread of 100 basis points above the repo rate, fixed at 8.25
+        per cent.</li>
+      <li> Interest rate on savings bank deposit rate increased from 3.5
+        per cent to 4.0 per cent.</li>
+    </ul>    
+    <p>Expected Outcome:</p>
+    <ul>
+      <li>  Contain inflation by reining in demand-side pressures.</li>
+      <li> Anchor inflationary expectations and sustain the growth in
+        the medium-term by containing inflation.</li>
+    </ul>    
+    <p>Mid Quarter Review: June 2011</p>
+    <ul>
+      <li> The monetary policy stance remains anti-inflationary.</li>
+      <li>Repo rate increased by 25 basis points.</li>
+    </ul>    
+    <p><strong>First Quarter Review of Monetary Policy 2011-12</strong></p>
+    <p>Backdrop:</p>
+    <ul>
+      <li>  Some moderation underway in industrial production.</li>
+      <li>Prospects of agriculture not clear.</li>
+      <li>Continued high level of inflation.</li>
+      <li>Rise in administered fuel prices in June 2011.</li>
+    </ul>    
+    <p>Baseline Projection/Indicative Trajectory:</p>
+    <ul>
+      <li>8.0 per cent real GDP growth during 2011-12.</li>
+      <li>7.0 per cent WPI inflation for March 2012.</li>
+      <li>15.5 per cent and 18.0 per cent growth in M<sub>3</sub> and non-food
+        credit of SCBs, respectively.</li>
+    </ul>    
+    <p>Measures:</p>
+    <ul>
+      <li>Repo rate increased by 50 basis points to 8.0 per cent.</li>
+      <li>Reverse repo rate, determined with a spread of 100 basis
+        points below the repo rate, automatically adjusted to 7.0 per 
+        cent.</li>
+      <li>MSF rate, determined with a spread of 100 basis points above
+        the repo rate, fixed at 9.0 per cent.</li>
+    </ul>    
+    <p align="center"><strong><a name="B2" id="B2"></a>Box III.2
+    Changes in Operating Procedure of Monetary Policy</strong></p>
+    <p align="left">Background</p>
+    <p align="justify">The operating procedure of monetary policy in India has
+      witnessed significant changes since the beginning of the
+      1990s with developments in money market and changes in
+      liquidity conditions brought about by financial sector reforms.
+      In this process, the LAF, introduced in June 2000, emerged
+      as the principal operating procedure of monetary policy, with
+      the repo and the reverse repo rates as the key instruments
+      for signalling the monetary policy stance. LAF, supported by
+      instruments such as the CRR, OMO and MSS, had served
+      the Indian monetary and financial system well. Large volatility
+      in capital flows and sharp fluctuations in government cash
+      balances, however, posed several challenges to liquidity
+    management by the Reserve Bank.</p>
+    <p align="justify">Thus, the first Quarter Review of Monetary Policy for 2010-
+      11 proposed the need for revisiting the operating procedures
+      of monetary policy in India. Accordingly, on October 1, 2010,
+      a Working Group (Chairman: Shri Deepak Mohanty) was
+      constituted with members drawn from the Reserve Bank,
+    financial market participants and the academia.</p>
+    <p align="left">Changes in the Extant Operating Procedures of Monetary
+    Policy</p>
+    <p align="left">Based on the Group&rsquo;s recommendations and the feedback
+      received, the following changes in the extant operating
+      procedures of monetary policy were effected as announced
+    in the Monetary Policy Statement for 2011-12:</p>
+    <ul>
+      <li> The weighted average overnight call money rate is now
+        the operating target of monetary policy.</li>
+      <li> The repo rate has acquired the status of being the only
+        one independently varying policy rate.</li>
+      <li>A new MSF has been instituted from which SCBs can
+        borrow overnight up to 1.0 per cent of their respective
+        NDTL at 100 basis points above the repo rate.</li>
+      </ul>
+    <p>The revised corridor has a fixed width of 200 basis points.
+      The repo rate has been placed in the middle of the corridor,
+      with the reverse repo rate 100 basis points below it and the
+      MSF rate 100 basis points above it. However, the Reserve
+      Bank will have the flexibility to change the width of the corridor,
+    should monetary conditions so warrant.</p>
+    <p><strong>Asset price implications for monetary policy</strong></p>
+    <p>III.13 In general, wealth impact is not observed to
+      be very significant in India. Only a small portion of
+      savings, i.e., about 12 per cent of total savings of the
+      household sector in financial assets, is invested in
+      the equity market. In many advanced economies, the
+      share of such investment in total financial savings is
+      much bigger. Therefore, cooling down of the equity
+      market should not have any significant impact on the
+      aggregate demand. As regards, the real estate
+      market, home owners in India, unlike advanced
+      economies, do not borrow against the houses already
+      purchased when their valuations go up. As such,
+      cooling of real estate prices should also not have any
+      significant impact on consumption and hence
+      aggregate demand. Thus, asset prices do not seem
+      to influence the inflation path and conduct of monetary
+      policy may refrain from responding directly to asset
+      price cycles. The Reserve Bank has used both micro
+      and macro prudential measures to limit the risks to
+      financial stability from asset price cycles. Monetary
+      policy, as a macroeconomic policy tool, enables an
+      environment in which prudential regulation works
+    more effectively.</p>
+    <p><strong>Overall Assessment</strong></p>
+    <p>III.14 During the major part of 2010-11, the stance
+      of the monetary policy was for calibrated
+      normalisation. The moderation in inflation in Q2 and
+      Q3 of 2010-11 justified such a calibrated approach.
+      As the LAF window of the Reserve Bank transited
+      from a surplus to a deficit mode, consistent with the
+      Reserve Bank&rsquo;s anti-inflationary stance and its
+      calibrated approach to absorb surplus liquidity,
+      liquidity management also became a central focus in
+      2010-11. It had to be ensured that the primary liquidity
+      needs of an expanding economy were met in a
+      manner consistent with the anti-inflationary monetary
+      policy stance. Inflation pressures, however, intensified
+      in Q4 of 2010-11 even as the growth process showed
+      some signs of moderation. The proximate cause of
+      the intensification of inflationary pressure was a series
+      of supply side shocks, both domestic and global,
+      which rapidly fed into a broad spectrum of
+      manufactured products. The inflation pressures and
+      elevated inflation expectations emerged as a source
+      of risk to future growth. Accordingly, the stance of
+      monetary policy for 2011-12 gave foremost priority to
+    containing inflation and anchoring inflation expectations even at the cost of some growth in the
+    short-run.</p>
+    <p><strong>Management of liquidity &ndash; evolving factors driving
+  Reserve Bank&rsquo;s operations</strong></p>
+    <p>III.15 During 2010-11, the centre&rsquo;s cash balance
+      with the Reserve Bank and currency in circulation
+      were key drivers of autonomous liquidity. With the
+      consolidation of economic growth, credit growth
+      accelerated faster than deposit mobilisation, leading
+      to structural squeeze on liquidity for an extended
+      period. The deficit liquidity conditions were reflected
+      in large recourse to the LAF repo window (<a href="#C1" class="links">Chart III.1</a>).
+      The Reserve Bank actively managed liquidity so that
+      neither a surplus diluted monetary transmission, nor
+      a deficit choked fund flows. While the overall liquidity
+      in the system remained in deficit, consistent with the
+      policy stance, the extent of deficit went beyond the
+      Reserve Bank&rsquo;s comfort zone of (+)/(-) one per cent
+      of NDTL of banks, requiring appropriate policy
+    measures (<a href="#T3" class="links">Table III.3</a>).</p>
+    <p>III.16 The liquidity conditions changed significantly
+      during Q1 of 2010-11. With the recovery of the
+      economy firmly in place, the Reserve Bank moved in
+      a calibrated manner in the direction of normalising its
+    policy instruments. Accordingly, there was gradual moderation in the volume of surplus liquidity in the
+    system from February 2010. The liquidity conditions
+    switched to deficit mode from end-May 2010, due to
+    large increase in government balances with the
+    Reserve Bank generated from 3G/BWA spectrum
+    auctions and the first instalment of quarterly advance
+    tax payments in June 2010.</p>
+    <table width="200" border="0" align="center">
+      <tr>
+        <td><a name="C1" id="C1"></a><img src="http://rbi.org.in/scripts/images/8IIIMPO230811_1.gif" alt="1" width="379" height="374" border="1" /></td>
+      </tr>
+    </table>    
+    <p>III.17 During Q2 2010-11, the liquidity conditions
+      continued to remain in deficit mode till end-July 2010
+      and eased thereafter mainly on account of large scale
+      public debt redemptions. After a brief period of surplus
+      liquidity (from end-August to early-September 2010),
+      it again switched to deficit mode as liquidity migrated
+      to government balances with the Reserve Bank on
+      account of the second quarterly advance tax
+      payments.</p>
+    <p>III.18 The liquidity conditions tightened significantly
+      during Q3 2010-11 mainly due to autonomous factors,
+      i.e., increase in the government&rsquo;s surplus balance with
+      the Reserve Bank and currency in circulation
+      compounded by the structural liquidity mismatch
+      faced by banks. The government&rsquo;s surplus balance
+      peaked in December 2010 reflecting advance tax
+      collections. The net injection under the LAF peaked
+      at <span class="Rupee">`</span>1,70,485 crore during the third week of December
+      2010 (<a href="#C2" class="links">Chart III.2</a>).</p>
+    <table width="200" border="0" align="center">
+      <tr>
+        <td><a name="C2" id="C2"></a><img src="http://rbi.org.in/scripts/images/8IIIMPO230811_2.gif" alt="2" width="379" height="369" border="1" /></td>
+      </tr>
+    </table>
+    <br />
+    <table width="672" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#3e72aa">
+      <tr>
+        <td colspan="2" class="table"><p align="center"><strong><a name="T3" id="T3"></a>Table III.3: Liquidity Management Measures taken by the Reserve Bank in 2010-11</strong></p></td>
+        </tr>
+      <tr>
+        <td width="235" class="table"><p align="center"><strong>Time Period/Event</strong></p></td>
+        <td width="434" class="table"><p align="center"><strong>Measures</strong></p></td>
+      </tr>
+      <tr>
+        <td class="table"><p align="center"><strong>1</strong></p></td>
+        <td class="table"><p align="center"><strong>2</strong></p></td>
+      </tr>
+      <tr>
+        <td class="table" valign="top"><p align="justify">End-May 2010 : Larger than
+          anticipated collection from 3G/BWA
+          spectrum auctions in addition to
+          advance tax outflows resulted in
+          migration of liquidity to central
+          government&rsquo;s cash balance account
+          with the Reserve Bank</p></td>
+        <td class="table"><p align="justify">For the period May 28, 2010-July 2, 2010, SCBs were :</p>
+          <p align="justify">(i) Allowed to avail additional liquidity support under the LAF to the extent of up to
+            0.5 per cent of their NDTL (for any shortfall in maintenance of SLR arising out of
+            availment of this facility, banks were allowed to seek waiver of penal interest).</p>
+          <p align="justify"> (ii) Given access to second LAF (SLAF) on a daily basis. With the persistence of
+            deficit liquidity conditions, measure (i) was extended up to July 16, 2010 and
+          measure (ii) up to July 30, 2010.</p></td>
+      </tr>
+      <tr>
+        <td class="table" valign="top"><p align="justify">End-October 2010 : Frictional liquidity
+          pressure due to autonomous factors</p></td>
+        <td class="table"><p align="justify">(i) The Reserve Bank conducted special SLAF on October 29 and November 1, 
+          2010, a special two-day repo auction under the LAF on October 30, 2010, and 
+          allowed waiver of penal interest on shortfall in maintenance of SLR (on October 
+          30-31, 2010) to the extent of 1.0 per cent of NDTL for availing additional liquidity 
+          support under the LAF.</p>
+          <p align="justify">(ii) The Reserve Bank extended these liquidity easing measures further and 
+            conducted SLAF on all days during November 1-4, 2010 and extended the 
+            period of waiver of penal interest on shortfall in maintenance of SLR (to the 
+            extent of 1.0 per cent of NDTL) for availing additional liquidity support under the 
+            LAF till November 7, 2010.</p>
+          <p align="justify">(iii) The Reserve Bank purchased government securities under OMO from November 
+            4, 2010.</p>
+          <p align="justify">(iv) On November 9, 2010, the Reserve Bank reintroduced daily SLAF and extended 
+            the period of waiver of penal interest on shortfall in maintenance of SLR to the 
+            extent of 1.0 per cent of NDTL for availing additional liquidity support under the 
+            LAF till December 16, 2010.</p>
+          <p align="justify">(v) On November 29, 2010, the Reserve Bank extended the daily SLAF and allowed 
+            additional liquidity support to the SCBs under the LAF to the extent of up to 2.0 
+          per cent of their NDTL till January 28, 2011.</p></td>
+      </tr>
+      <tr>
+        <td class="table" valign="top"><p align="justify">Mid-December 2010 : Continued build
+          up in government balances on
+          account of third quarterly advance tax
+          collections</p></td>
+        <td class="table"><p align="justify">In the MQR, the Reserve Bank:</p>
+          <p align="justify">(i) Reduced the SLR of SCBs from 25 per cent of NDTL to 24 per cent with effect
+            from December 18, 2010. Given the permanent reduction in the SLR, additional
+            liquidity support of 1.0 per cent of NDTL was made available from December
+            18, 2010 to January 28, 2011.            </p>
+          <p align="justify">(ii) Announced conduct of OMO auctions for purchase of government securities
+            for an aggregate amount of <span class="Rupee">`</span>48,000 crore over the next one month (staggered
+          as purchases of <span class="Rupee">`</span>12,000 crore per week).</p></td>
+      </tr>
+      <tr>
+        <td class="table" valign="top"><p align="justify">End-January 2011: Frictional and
+          structural liquidity pressure</p></td>
+        <td class="table"><p align="justify">In the Third Quarter Review of January 2011, the Reserve Bank extended the daily
+          SLAF and additional liquidity support to SCBs of 1.0 per cent of NDTL under the LAF
+          till April 8, 2011.
+          </p>
+          <p align="justify">Subsequently, both the measures were extended till May 6, 2011.</p></td>
+      </tr>
+    </table>
+    <p>III.19 At the start of Q4 2010-11, injections under
+      the LAF declined marginally due to the cumulative
+      impact of decline in surplus balances of the Centre
+      and staggered OMO carried out by the Reserve Bank
+      in December 2010-January 2011. During 2010-11, the
+      Reserve Bank purchased government securities for
+      an aggregate amount of about <span class="Rupee">`</span>67,000 crore under OMO auctions. The liquidity conditions improved
+      further in February 2011 with the decline in the surplus
+      balances of the Centre. Notwithstanding the quarterly
+      advance tax outflows during mid-March 2011, the
+      liquidity deficit remained controlled on account of
+      higher government expenditure during the month.
+      Thus, the quantum of liquidity deficit declined in Q4 as compared with Q3, mainly on account of
+      the Reserve Bank&rsquo;s OMO purchases and the
+      decline in government cash balances with the
+      Reserve Bank.</p>
+    <p>III.20 The current financial year began with liquidity
+      remaining in absorption mode in the first week of
+      April 2011 on account of high government
+      expenditure and the absence of normal government
+      securities auctions. The liquidity conditions again
+      shifted to injection mode from the second week of
+      April 2011. The average daily net liquidity injection
+      declined significantly to about <span class="Rupee">`</span>19,000 crore during
+      April 2011 from about <span class="Rupee">`</span>81,000 crore in March 2011.
+      While the negative government balance with the
+      Reserve Bank added liquidity into the system, the
+      increasing currency with the public acted in the
+      opposite direction during the month. The liquidity
+      conditions tightened further in May 2011 as the gap
+      between pace of credit growth and deposit
+      mobilisation by banks, which had been narrowing
+      from end-December 2010, reversed trend and
+      increased in May 2011. There was also a decline in
+      WMA/OD availed by the government.</p>
+    <p>III.21 The liquidity conditions remained in deficit
+      mode in June 2011 due to quarterly advance tax
+      outflows. The average daily net liquidity injection
+      increased further to around <span class="Rupee">`</span>74,000 crore. The
+      liquidity conditions improved at the beginning of July
+      2011 partly on account of redemption of a security
+      with outstanding stock of <span class="Rupee">`</span>37,000 crore. The liquidity
+      deficit, however, increased subsequently and the
+      average daily net liquidity injection was around
+      <span class="Rupee">`</span>44,000 crore during July 2011. The average daily
+      net liquidity injection under the LAF was around
+      <span class="Rupee">`</span>37,000 crore during August 1-16, 2011. Up to
+      mid-August 2011, availment of funds under the MSF,
+      which came into operation in May 2011, has happened
+      only twice.</p>
+    <p>III.22 As the main drivers of liquidity conditions
+      varied from quarter to quarter as discussed above,
+      the Reserve Bank had to manage liquidity actively
+      while avoiding any possible conflict with the monetary
+      policy stance. Persistence of inflation at elevated level
+      was a key challenge for monetary policy, despite
+      evidence of strengthening monetary policy
+      transmission.</p>
+    </td>
+  </tr>
+</table></td></tr></table>
+                                </table>
+                            </div>
+                            <input name="btn" type="button" id="btn" style="visibility: hidden;" value="2026" />
+                        </div>
+                    </div>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <span id="DateSettree_lbltree"><div class="grid_1 archives alpha" id="treeYear"><ul><li><a class="year" href="#" id="2026" onclick='GetYear("2026")'>2026</a></li><li><a class="year" href="#" id="2025" onclick='GetYear("2025")'>2025</a></li><li><a class="year" href="#" id="2024" onclick='GetYear("2024")'>2024</a></li><li><a class="year" href="#" id="2023" onclick='GetYear("2023")'>2023</a></li><li><a class="year" href="#" id="2022" onclick='GetYear("2022")'>2022</a></li><li><a class="year" href="#" id="2021" onclick='GetYear("2021")'>2021</a></li><li><a class="year" href="#" id="2020" onclick='GetYear("2020")'>2020</a></li><li><a class="year" href="#" id="2019" onclick='GetYear("2019")'>2019</a></li><li><a class="year" href="#" id="2018" onclick='GetYear("2018")'>2018</a></li><li><a class="year" href="#" id="2017" onclick='GetYear("2017")'>2017</a></li><h2 class="year"><a href="javascript:void(0);" id="divArchiveMain"  onclick="hideshow('divArchiveSub');" style="cursor: pointer;">Archives</a></h2><div  id="divArchiveSub" style="display: none;"><div class="grid_tree archives alpha" id="treeYear"><ul><li><a class="year" href="#" id="2016" onclick='GetYear("2016")'>2016</a></li><li><a class="year" href="#" id="2015" onclick='GetYear("2015")'>2015</a></li><li><a class="year" href="#" id="2014" onclick='GetYear("2014")'>2014</a></li><li><a class="year" href="#" id="2013" onclick='GetYear("2013")'>2013</a></li><li><a class="year" href="#" id="2012" onclick='GetYear("2012")'>2012</a></li><li><a class="year" href="#" id="2011" onclick='GetYear("2011")'>2011</a></li><li><a class="year" href="#" id="2010" onclick='GetYear("2010")'>2010</a></li><li><a class="year" href="#" id="2009" onclick='GetYear("2009")'>2009</a></li><li><a class="year" href="#" id="2008" onclick='GetYear("2008")'>2008</a></li><li><a class="year" href="#" id="2007" onclick='GetYear("2007")'>2007</a></li><li><a class="year" href="#" id="2006" onclick='GetYear("2006")'>2006</a></li><li><a class="year" href="#" id="2005" onclick='GetYear("2005")'>2005</a></li><li><a class="year" href="#" id="2004" onclick='GetYear("2004")'>2004</a></li><li><a class="year" href="#" id="2003" onclick='GetYear("2003")'>2003</a></li><li><a class="year" href="#" id="2002" onclick='GetYear("2002")'>2002</a></li><li><a class="year" href="#" id="2001" onclick='GetYear("2001")'>2001</a></li><li><a class="year" href="#" id="2000" onclick='GetYear("2000")'>2000</a></li><li><a class="year" href="#" id="1999" onclick='GetYear("1999")'>1999</a></li><li><a class="year" href="#" id="1998" onclick='GetYear("1998")'>1998</a></li><li><a class="year" href="#" id="1997" onclick='GetYear("1997")'>1997</a></li><li><a class="year" href="#" id="1996" onclick='GetYear("1996")'>1996</a></li><li><a class="year" href="#" id="1995" onclick='GetYear("1995")'>1995</a></li><li><a class="year" href="#" id="1994" onclick='GetYear("1994")'>1994</a></li><li><a class="year" href="#" id="1993" onclick='GetYear("1993")'>1993</a></li><li><a class="year" href="#" id="1992" onclick='GetYear("1992")'>1992</a></li><li><a class="year" href="#" id="1991" onclick='GetYear("1991")'>1991</a></li><li><a class="year" href="#" id="1990" onclick='GetYear("1990")'>1990</a></li></ul></div></div></div></span>
+<style type="text/css"> /*added by ni*/
+.year a
+{
+    text-transform:none;
+    margin:0px;
+    /*color:Black;*/
+    font-size:12px;
+    text-decoration:none;
+    padding: 3px 4px 5px 2px;
+    }
+#DateSettree_lbltree h2
+{
+    margin-top:0px;
+}
+.month ul li a {
+    padding: 3px 4px 7px 2px;
+}
+
+.accordionContent ul.accordionlist li {
+    
+    min-height: 24px;
+}
+</style>
+
+
+
+    </main>
+        <div class="clearfix">
+        </div>
+        <a href="#top" class="scrollToTop" id="backToTop">Top</a>
+<div id="backDiv" style=" text-align:center;" >
+<a href="javascript:history.back()" class="paraheader">Back to previous page</a><br/>
+<span id="lblGetLastUpdateDate" class="paraheader"></span>
+</div>
+<footer class="footer">
+
+<div class="footer">
+  <div class="container_12">    
+      <div class="grid_9" style="width: 833px !important; ">
+          
+          <h2><span class="blue">More</span> Links :</h2>
+          
+		<ul class="footerlist" style="column-count:4">
+                  <li ><a href="/Scripts/HolidayMatrixDisplay.aspx">Bank Holidays</a></li>
+                  <li ><a href="https://shabdavali.rbi.org.in/">Banking Glossary</a></li>
+                  <li ><a href="/Scripts/CitiChart.aspx">Citizen's Charter</a></li>
+                  <li ><a href="/Scripts/Complaints.aspx">Complaints</a></li>
+                  <li ><a href="/Scripts/contactus.aspx">Contact Us</a></li>
+  		<li ><a href="https://www.rbi.org.in/scripts/bs_viewcontent.aspx?Id=3894">COVID-19 Measures</a></li>
+                  <li ><a target="_blank" href="https://ncfe.org.in/e-lms">E-LMS</a></li>
+                  <li ><a href="/Scripts/EventsDisplay.aspx">Events</a></li>
+                  <li ><a href="/Scripts/FAQDisplay.aspx">FAQs</a></li>
+                  <li ><a target="_blank" href="https://www.rbi.org.in/FinancialEducation/">Financial Education</a></li>
+		<li ><a href="/Scripts/BS_ViewForms.aspx">Forms</a></li>
+                  <li ><a href="/Scripts/IFSCMICRDetails.aspx">IFSC/MICR Codes</a></li>
+                  <li><a href="/Scripts/OtherLinks.aspx">Important Websites</a></li>
+                  <li><a target="_blank" href="https://opportunities.rbi.org.in/scripts/index.aspx">Opportunities<span>@</span>RBI</a></li>
+                  <li><a href="/Scripts/rbi_clarification.aspx">RBI Clarifications</a></li>
+ 		<li><a target="_blank" href="https://rbikehtahai.rbi.org.in/">RBI Kehta Hai</a></li>
+                  <li><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Utkarsh202910042026.pdf" target="_blank">RBI’s Vision and Values <img src="../Images/pdf.gif" alt="PDF document" style="padding-bottom: 4px; width:12px; border:0; vertical-align:middle;"> (652 KB)</a></li>
+                  <li><a href="/Scripts/Righttoinfoact.aspx">Right to Information Act</a></li>
+                  <li><a href="/Scripts/BS_ViewTenders.aspx">Tenders</a></li>
+                  
+              </ul>
+      </div>
+
+    <div class="grid_3" style="width:197px !important">
+      
+        <h2><span class="blue">Follow</span> RBI</h2>
+      <ul class="footerlist">
+        
+
+          <li style="float: left;background: url(/images/footer_list_arrow.gif) left 8px no-repeat;"><a href="/Scripts/rss.aspx"><img src="/images/rss-icon.png" alt="RSS Icon" class="rss">RSS</a></li>
+
+        
+          <li>
+              <a href="https://twitter.com/RBI" target="_blank" class="twitter">
+                  <img src="/images/Twitter_New.png" alt="Twitter Icon" class="videos" style="padding-left: 18%; width:14px;">Twitter
+              </a>
+          </li>
+
+        
+
+          <li style="float: left;"><a href="https://www.youtube.com/channel/UCIfCOl43tunZVNYafeC4RQA" class="videos" target="_blank"><img src="/images/youtube.png" alt="YouTube Icon" class="videos">YouTube</a></li>
+
+          <li>
+              <a href="https://instagram.com/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/Instagram.jpg" alt="Instagram Icon" class="videos" style="padding-left: 5%; width:14px;">Instagram
+              </a>
+          </li>
+          <li style="float: left;"><a href="https://www.facebook.com/RBIsays" class="videos" target="_blank"><img src="/images/Facebook.jpg" style="width:14px;" alt="Facebook Icon" class="videos">Facebook</a></li>
+          <li>
+              <a href="https://www.linkedin.com/company/reservebankofindia" class="videos" target="_blank">
+                  <img src="/images/LinkedinIcon1.png" alt="LinkedIn Icon" class="" style="padding-left: 4%;width: 17px;background: bottom no-repeat;display: block;float: left;margin: 2px 3px 0 1px;">LinkedIn
+              </a>
+          </li>
+      </ul>
+	<a href="https://www.india.gov.in" class="videos" target="_blank">
+                  <img src="/images/indiaGov.png" alt="National Portal of India logo" class="">
+              </a>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+  <div class="copyright">
+    <div class="container_12">
+     <div class="grid_6 pull_left">&copy; Reserve Bank of India. All Rights Reserved. </div>
+        <div class="grid_5 pull_right"><a href="/Scripts/sitemap.aspx">Sitemap</a> <span aria-hidden="true">|</span> <a href="/Scripts/Disclaimer.aspx">Disclaimer</a></div>
+        <div class="clearfix"></div>
+
+        <div class="grid_6 pull_left">Website owned and managed by Reserve Bank of India. Contact us on helpdoc[at]rbi[dot]org[dot]in</div>
+        <div class="grid_5 pull_right">Website last updated date: Sep 12, 2026</div>
+        <div class="clearfix"></div>
+	<div class="grid_6 pull_left"><a href="https://www.rbi.org.in/scripts/wim.aspx">Web Information Manager</a></div>
+	<div class="grid_5 pull_right"><a href="https://rbidocs.rbi.org.in/rdocs/content/pdfs/Accessibility20012026.pdf" target="_blank">Accessibility Statement
+	<img alt="PDF - Accessibility Statement" style="padding: 1px; width:16px; border:0; vertical-align:middle;" src="../Images/pdf.gif" > (133 KB)
+	</a><span aria-hidden="true"> |</span><a href="/scripts/ScreenReader.aspx" title="Information related to screen reader">Screen Reader and Accessibility Help</a></div>
+	<div class="clearfix"></div>
+        <div class="grid_12 pull_left">Supports: Google Chrome 147+ | Firefox 150+ | Microsoft Edge Version 147+ | Safari 17+</div>
+        
+        <div class="clearfix"></div>
+    </div>
+  </div>
+  
+
+
+
+</div>
+
+</footer>
+
+<script src="/js/ReplaceURL.js" ></script>
+<script >
+
+
+    //this is for floating TOP link
+    
+    $(document).ready(function () {
+
+        var offset = 230;
+        var duration = 500;
+
+
+        jQuery(window).scroll(function () {
+            if (jQuery(this).scrollTop() > offset) {
+                jQuery('.scrollToTop').fadeIn(duration);
+                
+            } else {
+                jQuery('.scrollToTop').fadeOut(duration);
+                
+            }
+        });
+
+        
+	$('.page_title').attr('tabindex','-1');
+        $('.scrollToTop').click(function () {
+            $('html, body').animate({ scrollTop: 0 }, 800);
+		$('.page_title').focus(); 
+            return false;
+        });
+	
+
+
+	if(!window.location.href.includes("Home.aspx") && !window.location.href.includes("home.aspx"))
+{ 
+if( window.location.href.includes(".aspx")){
+var div= document.getElementById('backDiv');
+	div.removeAttribute("hidden");}
+else{
+var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+}
+else{
+
+
+	var div1= document.getElementById('backDiv');
+	div1.setAttribute("hidden","true");}
+    });
+
+
+  
+    $(window).scroll(function () {
+
+        if ($('div.banner2').length) {
+
+            if ($(window).scrollTop() >= 265) {
+                $('#menubar').css("position", "fixed");
+                $('#menubar').css("width", "240px");
+                $('#menubar').css("margin-top", "-281px");
+                $('.content_area').css("margin-left", "252px");
+
+                $('.sidebar_nav').css("position", "fixed");
+                $('.sidebar_nav').css("margin-top", "-200px");
+                $('.sidebar_nav').css("width", "236px");
+
+
+             
+
+            }
+
+            else {
+                $('#menubar').css("position", "");
+                $('#menubar').css("width", "");
+                $('#menubar').css("margin-top", "");
+                $('.content_area').css("margin-left", "");
+
+                $('.sidebar_nav').css("position", "");
+                $('.sidebar_nav').css("margin-top", "");
+                $('.sidebar_nav').css("width", "");
+
+
+
+         
+            }
+
+        }
+
+        else if ($(window).scrollTop() >= 185) {
+            $('#menubar').css("position", "fixed");
+            $('#menubar').css("width", "240px");
+            $('#menubar').css("margin-top", "-200px");
+            $('.content_area').css("margin-left", "252px");
+
+            $('.sidebar_nav').css("position", "fixed");
+            $('.sidebar_nav').css("margin-top", "-200px");
+            $('.sidebar_nav').css("width", "236px");
+
+
+          
+		var treeheight=0;
+		if($('#treeYear').height()>0){treeheight=$('#treeYear').height();}
+	    	if($(window).scrollTop() >= $('#example-min').height()-treeheight)
+		{			 
+			$('#menubar').css("position", "absolute");
+            		
+			$('#menubar').css("margin-top", "");
+			$('#menubar').css("top", $('#example-min').height()+100-treeheight +"px");
+		}
+		else{$('#menubar').css("position", "fixed"); $('#menubar').css("top", "");}
+		
+        }
+
+        else {
+            $('#menubar').css("position", "");
+            $('#menubar').css("width", "");
+            $('#menubar').css("margin-top", "");
+            $('.content_area').css("margin-left", "");
+
+            $('.sidebar_nav').css("position", "");
+            $('.sidebar_nav').css("margin-top", "");
+            $('.sidebar_nav').css("width", "");
+
+
+       
+        }
+     
+
+       
+    });
+	
+      
+    $(document).ready(function () {
+	
+	
+		  $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#maskWN').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+		
+		 $('#maskWN').click(function () {
+            $(this).hide();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('.window').hide();
+
+        });
+
+        
+
+        //if close button is clicked
+        $('.window .close').click(function (e) {
+            //Cancel the link behavior
+            e.preventDefault();
+            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+            $('#mask').hide();
+            $('.window').hide();
+            var scroll = $(window).scrollTop();
+            $("html").scrollTop(scroll);
+        });
+
+        //if mask is clicked
+        $('#mask').click(function () {
+            $(this).hide();
+            $('.window').hide();
+        });
+        $('#feedbackbtn').click(function () {
+            var id = '#dialog';
+
+            //Get the screen height and width
+            var maskHeight = $(document).height();
+            var maskWidth = $(window).width();
+
+            //Set heigth and width to mask to fill up the whole screen
+            
+            $('#mask').css({ 'width': '100%', 'height': '100%', 'position': 'fixed' });
+
+            //transition effect
+            $('#mask').fadeIn(500);
+            $('#mask').fadeTo("slow", 0.9);
+
+            //Get the window height and width
+            var winH = $(window).height();
+            var winW = $(window).width();
+
+            //Set the popup window to center
+            $(id).css('top', winH / 2 - $(id).height() / 2);
+            $(id).css('left', winW / 2 - $(id).width() / 2);
+
+            //transition effect
+            $(id).fadeIn(2000);
+        });
+
+        $('.submit').click(function () {
+            var Name = $("[id*=txtFeedbackName]").val();
+            var Email = $("[id*=txtFeedbackEmail]").val();
+            var Comments = $("[id*=txtFeedbackComments]").val();
+            if (Name == "") {
+
+                alert("Please enter your name");
+                $("[id*=txtFeedbackName]").focus();
+                return false;
+            }
+            else if (Email == "") {
+                alert("Please enter your email");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+            else if (Email != "" && !ValidateEmail(Email)) {
+                alert("Please enter a valid email address");
+                $("[id*=txtFeedbackEmail]").focus();
+                return false;
+            }
+
+            else if (Comments == "") {
+
+                alert("Please enter some comments");
+                $("[id*=txtFeedbackComments]").focus();
+                return false;
+            }
+
+            else {
+                $('[id*=Button1]').attr('disabled', 'disabled');
+
+                var param = { Name: Name, EmailID: Email, Comments: Comments };
+                $.ajax({
+                    type: "POST",
+                    url: "../Home.aspx/SaveFeedback",
+                    data: JSON.stringify(param),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+
+                    success: function (response) {
+
+                        if (response.d == "0") {
+                            alert("Thank you for your feedback");
+                            $.cookie('feedback_Cookie', 'Yes', { expires: 365, path: '/' });
+                            $('#mask').hide();
+                            $('.window').hide();
+                            $('[id*=Button1]').removeAttr('disabled');
+                            $("[id*=txtFeedbackName]").val("");
+                            $("[id*=txtFeedbackEmail]").val("");
+                            $("[id*=txtFeedbackComments]").val("");
+                        }
+                        else {
+                            alert("Please try again");
+                            $('[id*=Button1]').removeAttr('disabled');
+
+
+                        }
+
+                    }
+                });
+            }
+
+        });
+
+        function ValidateEmail(email) {
+            var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+            return expr.test(email);
+        };
+
+       
+
+        $('a.style1').each(function () {
+
+            var $this = $(this);
+            var aHref = $this.attr('class');
+            $this.attr('class', aHref.replace('style1', 'links'));
+        });
+
+		
+   });
+
+  function isExternal(url) {
+	if(url){url=url.toLowerCase();
+       if(url=='#' || url=='javascript:void(0);' || url.includes('javascript')||url=='' )
+	{ return false;} 
+	else{//return (url.indexOf("rbi.org.in")==-1)
+	
+	if(url.indexOf("www.rbi.org.in")==-1 || url.indexOf("https://rbi.org.in")==-1)
+		{	
+			if(url.indexOf("rbi.org.in")==-1)		
+    				return "external";
+			else if(url.indexOf("www.rbi.org.in")==-1 && url.indexOf(".rbi.org.in")>0 && url.indexOf("rbidocs.rbi.org.in")==-1)
+				{return "subdomain";}
+			else if(url.indexOf("financialeducation")>0 || url.indexOf("commonperson")>0 || url.indexOf("/rekyc/")>0 || url.indexOf("rbi90years")>0 ){
+				return "subsite";}
+			
+		}
+	
+	}}
+    }
+    document.addEventListener("click", function () {
+	linkMessage();
+        
+    });
+function linkMessage(){
+	if (event.target.tagName.toLowerCase() === "a") {
+            if (isExternal(event.target.href)=="external") {
+
+                if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+            }
+	    if (isExternal(event.target.href)=="subdomain") {
+	    	 if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+		if (isExternal(event.target.href)=="subsite") {
+	    	 if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    return;
+                }
+                else {
+                   
+                    event.preventDefault();
+                    return;
+                }
+	    }
+        }
+	else if (event.target.tagName.toLowerCase() === "img") {
+		$(event.target).preventDefault;		
+		if($(event.target).parent('a').length){
+			 if (isExternal($(event.target).parent('a').prop('href'))==="external") {
+                		if (confirm("You are being redirected to an external website that opens in a new tab. Please note that Reserve Bank of India will not be held responsible for external websites content in any manner.")) {
+                    		return;
+               		 }
+
+                	else {                   
+                    		event.preventDefault();
+                    		return;
+                	}}
+			if (isExternal($(event.target).parent('a').prop('href'))==="subdomain") {
+                		if (confirm("You are being redirected to a subdomain that will open in a new browser tab. The subdomain may have a different header, footer, and navigation structure from the main website. Continue?")) {
+                    		return;
+               		 	}
+
+                		else {                   
+                    		event.preventDefault();
+                    		return;
+                		}
+			}
+			if (isExternal(event.target.href)=="subsite") {
+	    	 	if (confirm("You are being redirected to a subsite that will open in a new browser tab. The subsite may have a different header, footer, and navigation structure from the main website. Some design elements and links may vary from the primary site experience. Continue?")) {
+                    	return;
+                	}
+                	else {
+                   
+                    		event.preventDefault();
+                    	return;
+                	}
+	    		}
+	}}
+	const link = event.target.closest('a[target="_blank"]');
+	if(link){ 
+		event.preventDefault();
+		if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+			window.open(link.href,"_blank");
+		}
+	}
+		if (event.target.tagName.toLowerCase() === "button") {
+		if($(event.target).parent('a').length>0){
+			const link1 = event.target.closest('a[target="_blank"]');
+		if(link1){
+			event.preventDefault();
+			if(confirm("This link will open in a new browser tab. Do you want to continue?")){
+				window.open(link.href,"_blank");
+			}
+		}
+		}
+	}
+}
+
+</script>
+<script >
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61369961-1', 'auto');
+  ga('send', 'pageview');
+
+document.querySelectorAll('table.tablebg').forEach(table => {
+    const anchors = table.querySelectorAll('a[href^="#"]:not([href="#"])');
+
+    const hasInPageAnchorsInThisTableOnly = Array.from(anchors).some(a => {
+        // Find the closest table ancestor of this anchor
+        const closestTable = a.closest('table');
+    
+        // Only count it if it belongs to the current table (not a nested one)
+        return closestTable === table;
+    });
+
+    if (!hasInPageAnchorsInThisTableOnly) {
+        table.setAttribute('role', 'presentation');
+    } else {
+        table.removeAttribute('role'); 
+    }
+});
+$('.brd-ptable1').attr('role','presentation');
+$('html').attr('lang', 'en');
+document.querySelectorAll('br').forEach(br => {br.setAttribute('aria-hidden','true');});
+$('#doublescroll').children('table').filter(':first').attr("role", "presentation");
+$('.page_title').nextAll('table').first().attr("role", "presentation");
+
+
+
+document.addEventListener('DOMContentLoaded', function(){
+$('.tableheader b').each(function () {
+		var curEle= $(this);
+           $(curEle).replaceWith("<h2 class='dop_header'>"+$(curEle).html()+"</h2>")
+        });
+ });
+
+//  tooltip 
+var TooltipManager = {
+    _tip: null, // Create the tooltip element once 
+init: function() {
+    if (!this._tip) {
+    
+        this._tip = $('<div id="js-custom-tooltip"></div>').css({
+            "position": "absolute", "background": '#ffffca', "color":"#000", "padding": "2px 5px", "border-radius": "0px", "font-size": "11px","font-family":"Sans-serif", "z-index": "10000", "pointer-events": "none","border":"1px solid #767676", "box-shadow":"2px 2px 3px rgba(0,0,0,0.2)","white-space":"nowrap"
+        }).appendTo('body');
+        
+    }
+}, 
+show: function(element, text) {
+    this.init(); 
+var $el = $(element); // Update text and position 
+    
+this._tip.text(text).show();
+var pos = $el.offset(); 
+this._tip.css({
+    top: pos.top + this._tip.outerHeight()  + "px", // Show above 
+    left: pos.left + ($el.outerWidth() / 2) - (this._tip.outerWidth() / 2) + "px"
+});
+    }, hide: function() { if (this._tip) this._tip.hide(); }
+}; // Apply to all elements that have a ToolTip (ToolTip renders as 'title') 
+$(document).ready(function() {
+   
+    $('body').on('focusin', 'input, button, a, select, textarea, img', function() {
+        var title = $(this).attr('title'); if (title) {
+    
+            
+      
+            TooltipManager.show(this, title);
+        }
+    }).on('focusout', 'input, button, a, select, textarea, img', function() { 
+       
+            TooltipManager.hide();
+       
+    }); // Dismiss on Escape key
+    $(document).keyup(function(e) { if (e.key === "Escape") TooltipManager.hide(); });
+});
+
+//breadcrumb current page announce
+$(document).ready(function(){
+
+const breadcrumbList = document.querySelector('.breadcrumbs');
+
+    if (breadcrumbList) {
+        const listItems = breadcrumbList.querySelectorAll('li');
+    
+        if (listItems.length > 0) {
+            
+            const lastItem = $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).last().attr('aria-current', 'page');
+            $('.breadcrumbs li').filter(function(){ return $.trim($(this).text())==="" && $(this).children().length===0;}).attr('role','presentation');
+       		$('.breadcrumbs li').filter(function(){
+			if($(this).children().length!==0)
+			{
+				if($(this).children().text() ===""){}
+			}
+		});
+            const lastLink =lastItem.find('a');
+            if (lastLink) {
+                lastLink.attr('aria-current', 'page');               
+                
+            }
+		if($('.breadcrumbs li').last().find('a').length>0)
+		{			
+			const $a = $('.breadcrumbs li').last().find('a');
+			$('<span>',{class: $a.attr('class'), text: $a.text()}).replaceAll($a).attr('aria-current', 'page');
+		}
+		
+		if($('.breadcrumbs li').last().find('span').length>0)
+		{
+			
+			if($('.breadcrumbs li').last().find('span')[0].innerText==='')
+			{
+				$('.breadcrumbs li').last().find('span').removeAttr('aria-current');				
+			}
+			else{
+				$('.breadcrumbs li').last().find('span').filter(function(){ return $(this).attr('role')!=='presentation';}).last().attr('aria-current', 'page');					
+			}		
+		}
+		$('.breadcrumbs li').filter(function(){ return $.trim($(this).text())!=="";}).removeAttr('role','presentation');
+        }
+    }
+});
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+setLetterSpace(false);//]]>
+</script>
+</form>
+    <script type="text/javascript" src="/js/plugins.js"></script>
+    <script type="text/javascript" src="/js/script.js"></script>
+    <script type="text/javascript" src="/js/Scroll.js"></script>
+    <script type="text/javascript" language="javascript">
+
+        DoubleScrollWithTree(document.getElementById('doublescroll'));
+        function GetYear(year) {
+            document.getElementById("hdnYear").value = year;
+            document.getElementById("btn").click();
+        }
+        function hideshow(divArchive) {
+            if (!document.getElementById(divArchive))
+                return
+            if (document.getElementById(divArchive).style.display == "block")
+                document.getElementById(divArchive).style.display = "none"
+            else
+                document.getElementById(divArchive).style.display = "block"
+        }
+        function SetTreeStyles() {
+            var strYear = document.getElementById("hdnYear").value;
+            var ArcYear = parseInt(document.getElementById("btn").value) - 9;
+
+
+            if (strYear != "") {
+                var toDay = new Date();
+                document.getElementById(strYear).setAttribute("class", "year active");
+                document.getElementById(strYear).style.display = "block";
+                if (toDay.getFullYear() - 9 > parseInt(strYear)) { document.getElementById("divArchiveSub").style.display = "block" }
+            }
+        }
+    </script>
+</body>
+</html>
+<script id="f5_cspm">(function(){var f5_cspm={f5_p:'IFHFNEPDDJBCBNHNJBOOABPGJAMGLNKAMAMOFJLDHHJLNPNKLCMFBLAKACEDKNBBGJOBKLDBAAANBKEEDHDAFOLIAAFENPDBAJFDIFCKJAJMAADDCFMBOIKNJOGGMMBA',setCharAt:function(str,index,chr){if(index>str.length-1)return str;return str.substr(0,index)+chr+str.substr(index+1);},get_byte:function(str,i){var s=(i/16)|0;i=(i&15);s=s*32;return((str.charCodeAt(i+16+s)-65)<<4)|(str.charCodeAt(i+s)-65);},set_byte:function(str,i,b){var s=(i/16)|0;i=(i&15);s=s*32;str=f5_cspm.setCharAt(str,(i+16+s),String.fromCharCode((b>>4)+65));str=f5_cspm.setCharAt(str,(i+s),String.fromCharCode((b&15)+65));return str;},set_latency:function(str,latency){latency=latency&0xffff;str=f5_cspm.set_byte(str,40,(latency>>8));str=f5_cspm.set_byte(str,41,(latency&0xff));str=f5_cspm.set_byte(str,35,2);return str;},wait_perf_data:function(){try{var wp=window.performance.timing;if(wp.loadEventEnd>0){var res=wp.loadEventEnd-wp.navigationStart;if(res<60001){var cookie_val=f5_cspm.set_latency(f5_cspm.f5_p,res);window.document.cookie='f5avr0947018921aaaaaaaaaaaaaaaa_cspm_='+encodeURIComponent(cookie_val)+';path=/;'+'';}
+return;}}
+catch(err){return;}
+setTimeout(f5_cspm.wait_perf_data,100);return;},go:function(){var chunk=window.document.cookie.split(/\s*;\s*/);for(var i=0;i<chunk.length;++i){var pair=chunk[i].split(/\s*=\s*/);if(pair[0]=='f5_cspm'&&pair[1]=='1234')
+{var d=new Date();d.setTime(d.getTime()-1000);window.document.cookie='f5_cspm=;expires='+d.toUTCString()+';path=/;'+';';setTimeout(f5_cspm.wait_perf_data,100);}}}}
+f5_cspm.go();}());</script>

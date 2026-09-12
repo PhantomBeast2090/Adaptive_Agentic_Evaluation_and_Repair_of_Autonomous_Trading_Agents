@@ -5,10 +5,10 @@
 
 ## 1. Acquisition status
 
-- Acquired and auditable datasets: **8**
-- Acquired mandatory market/macro datasets: **7**
+- Acquired and auditable datasets: **9**
+- Acquired mandatory market/macro datasets: **8**
 - Acquired support/calendar artifacts: **1**
-- Pending/unavailable datasets: **6**
+- Pending/unavailable datasets: **5**
 - Artifact read errors: **0**
 - Pending datasets:
   - `crude_oil_brent_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
@@ -84,35 +84,6 @@ Alternative (FBIL):
 
 Expected CSV columns:
   Date | Yield (%) | [optional: Price, Security ID]
-
-  - `rbi_policy_rate_events`: pending_manual_download — [rbi_policy_rate_events] Acquisition from RBI DBIE / RBI website failed: RBI policy rate data requires web navigation through DBIE. Manual download is required to ensure accurate announcement dates are captured (not just effective dates).
-
-Manual download instructions:
-
-RBI Policy Rate Manual Download:
-
-Option A — RBI DBIE (preferred):
-  1. Visit: https://dbie.rbi.org.in/
-  2. Navigate: Financial Sector → Monetary Policy → Key Policy Rates
-  3. Select: Repo Rate (and optionally: Reverse Repo, MSF Rate, CRR, SLR)
-  4. Download as CSV
-  5. Place at: data/raw/india/macro/rbi_policy_rate.csv
-
-Option B — RBI Handbook of Statistics:
-  1. Visit: https://www.rbi.org.in/Scripts/AnnualPublications.aspx?head=Handbook+of+Statistics+on+Indian+Economy
-  2. Find the monetary policy table
-  3. Download relevant tables
-
-CRITICAL: Each record must include:
-  - effective_date (when rate took effect)
-  - announcement_date (when RBI published the decision)
-  - rate_type (e.g. REPO, REVERSE_REPO, MSF)
-  - rate_pct (rate in percentage, e.g. 6.5)
-  - [optional] stance (accommodative, neutral, withdrawal of accommodation)
-
-If the source only provides effective dates, record both effective_date and
-announcement_date as the same value and flag in notes that announcement dates
-were not separately captured.
 
 
 ## 2. Dataset-by-dataset coverage
@@ -427,9 +398,7 @@ were not separately captured.
 - Unique dates: 25
 - Duplicate timestamps: not applicable (category membership)
 - Duplicate identifier pairs: 0
-- Temporal gaps above threshold: 17
 - Note: Repeated dates are evaluated with identifier columns; date repetition alone is not treated as a duplicate record.
-- Note: INFO: 17 gap(s) detected. First: (datetime.date(2026, 1, 1), datetime.date(2026, 1, 15))
 - Note: Repeated dates are legitimate market-segment membership; duplicate records are evaluated by `(market_segment, trading_date)`.
 
 - Source: `RBI`
@@ -467,6 +436,88 @@ were not separately captured.
 - Temporal gaps above threshold: 5
 - Calendar: 0 non-trading observations; 0 heuristic trading days absent (UNAVAILABLE:nse_trading_holidays_2026.json)
 - Note: INFO: 5 gap(s) detected. First: (datetime.date(2023, 3, 24), datetime.date(2023, 4, 7))
+
+- Source: `RBI`
+- Raw artifacts: `62 annual files`
+  - `data/raw/india/macro/rbi_handbook_2025-26_table40_policy_rates.xlsx`: `7ac18abb846add2e7aace7cb7ec262318616b60f1f0b1e1631511dd1522d160e`
+  - `data/raw/india/macro/policy/rbi_annual_policy_2011-05-03_aps030511.pdf`: `46a27fe710049ec9d02235dd97f9ad182046475a610220b65d0f28868c9ad39e`
+  - `data/raw/india/macro/policy/rbi_annual_report_2019-20_id1297.html`: `361a9cc47922ea11b6c8e87374c216ac3e39b302e0a6dc6173229d1c3f096734`
+  - `data/raw/india/macro/policy/rbi_annual_report_2020-21_id1316.html`: `ffd011d14077ba79df77836bd8065efa6f53a20841d9a0d0ea4140a5b2daef8e`
+  - `data/raw/india/macro/policy/rbi_annual_report_2022-23_id1374.html`: `196a17d1734f40748189ab021b83c90bb045c4790c506a505fd20d4bde1a5a2e`
+  - `data/raw/india/macro/policy/rbi_annual_report_2024-25_id1473.html`: `530f268c05384af92d21885ffb9f9e707c52a1af62fd14681480fbc584edf183`
+  - `data/raw/india/macro/policy/rbi_ar_2009-10_monetary_ch982.html`: `c8096d0740204690a35eb40c9d0f32450b69689fccf4deca892e05c7569e6f9e`
+  - `data/raw/india/macro/policy/rbi_ar_2010-11_monetary_ch1000.html`: `d6fcaf5fd55ca6f1e7bba5fbc47ea3b6d9d1674fd8fd7aea9b1c49c1b552773b`
+  - `data/raw/india/macro/policy/rbi_ar_2011-12_monetary_ch1040.html`: `a9cb8de5d35532153809b0589c32ac5eb07beb0835182443d853ce5f686b2262`
+  - `data/raw/india/macro/policy/rbi_ar_2012-13_monetary_ch1081.html`: `6aa387dbd2e0867dbdf59e2b56cd300a2cca7997ceee94ed3c1a8ab58ba89a1e`
+  - `data/raw/india/macro/policy/rbi_ar_2013-14_monetary_ch1121.html`: `37834d2f7e992cd33fa16b33a03e09ca3d186214c78b7875c4a3324c5ddb6a4e`
+  - `data/raw/india/macro/policy/rbi_ar_2014-15_monetary_ch1149.html`: `de6dba0a4cd6692a901cded577dd4f4dcd082a483115357572e8d84c2466d713`
+  - `data/raw/india/macro/policy/rbi_ar_2015-16_monetary_ch1176.html`: `c18e833bb1e044f9a66d96b7098e23a16f60d97ddf83961d9dcb7f1fa54c7abe`
+  - `data/raw/india/macro/policy/rbi_ar_2016-17_monetary_ch1203.html`: `e9dfac9dff82d573bc75685b818f33c8116fa3affe39ab27950e5599e8a6b3b0`
+  - `data/raw/india/macro/policy/rbi_ar_2017-18_monetary_ch1230.html`: `96321d30b2bf22cdd183187f38693f807169924fc2d245c74896bb37d0f8fffd`
+  - `data/raw/india/macro/policy/rbi_ar_2018-19_monetary_ch1258.html`: `1245d13bb292af30cb6e56b17ca8551bbb7cbbbeaae53d814a45c2c1032e7e8d`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_2007-08_annex823.html`: `a265f24ed43423dbed1e6b3946143fd3421eed49b6adba2ae8d3601296e3a536`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_2008-09_annex907.html`: `0b220e4ba30830698c463d502c7dfc173bd5824604c84fb699145730475b712e`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_2014-15_annex1158.html`: `8bc81ba1c79d1e4244810bb585db94f21782603cf7edae3800728b7588fcfbb1`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_2015-16_annex1185.html`: `7f5fda745e3f166bbbf633e8a12dc3052a7aaada656820a05a6674841df78416`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_2016-17_annex1212.html`: `024196f226c4dbc45e9f5401f81e02e9965f980c3cbab56ee197169360ba8e3a`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_2017-18_annex1240.html`: `bd0ed31b44caa66db1616b514784a13dc65a97cf1f820a9a4646a8500e066448`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_2018-19_annex1268.html`: `270c69f30c965f0914ec4bc23a751045e25f38e34792767d11a879605e4bb686`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_2020-21_annex1326.html`: `bd75a445c661bad4c2cb66af9b4cbc4296998e6f0dd799efc37b2a632d791e7c`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_2022-23_annex1384.html`: `8d95fb9b015660393f8611b2b48a0f39abf35af7412d0999e1cf74cb1d4beee0`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_2023-24_annex1413.html`: `db91506b6b28b0d6d17df2d7ad955b6c9f586da9b6480dbc015244fd7c3b4cdf`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_2024-25_annex1443.html`: `654785ce6909da9044a748656f07419ee541cc76df78c9a0af9c7c10e427cbc5`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_covid2_annex1327.html`: `1d0bfe91c185e2c7bd1d8370e91b69408cae0e098e100bedadc611ee2bda79cf`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_covid3_annex1385.html`: `61468318a948e9a876125c7df21c4dbe10edc11356096329cbb2358622eb6c25`
+  - `data/raw/india/macro/policy/rbi_ar_chronology_covid_annex1298.html`: `cf6038d2ded3a5b22905f8eaf5d31afdddb0277196f3ebc6559e0d7adf2bc791`
+  - `data/raw/india/macro/policy/rbi_fqr_2011-07-26_id6631.html`: `965bc218b57ba440623866fd57a7957e7b71d4d3a029b12fb46e1e06e4c4329b`
+  - `data/raw/india/macro/policy/rbi_gov_statement_2020-04-17_id3853.html`: `d676a5737bbfa5ccb7a675615acb5a82e179af89cc80d0d1f8587a9f9965e46b`
+  - `data/raw/india/macro/policy/rbi_gov_statement_2020-05-22_id3859.html`: `af4756d43312deaf54b50821861a64134e170862b17944103685c392218f6d67`
+  - `data/raw/india/macro/policy/rbi_gov_statement_2022-05-04_pr154mpc.pdf`: `99b8e4f1c679c83e23b9c5f1eaf372e1f726c6ba6ab026fbd81b250182af0fa0`
+  - `data/raw/india/macro/policy/rbi_gov_statement_2022-06-08_pr333.pdf`: `9c515e882224eea72f2dbf51f9e006dd49c80e77a9327dad939e5022755d8568`
+  - `data/raw/india/macro/policy/rbi_mcir_2011-01-25_id13156.html`: `7f18be1015c94d675b406dd315ec3334e6059e8b465a912f4dc70bfffe030f70`
+  - `data/raw/india/macro/policy/rbi_mpc_minutes_2019-08-07_prid47941.html`: `0580e716ecd94d9aab7df7a3394eb224184111e268da8dbfdddd691ec2f984c8`
+  - `data/raw/india/macro/policy/rbi_mpc_minutes_2022-06-08_prid53904.html`: `b20d98de6e6f90a3dcbdc030cf5fcad2a9c2296eed4eea999f0e4807e4e97556`
+  - `data/raw/india/macro/policy/rbi_mpc_minutes_2022-08-05_prid54236.html`: `591dde41b93948e3f095d8513eb57811b9b45e6b9a65c96fc8c2b3cbe72f3720`
+  - `data/raw/india/macro/policy/rbi_mpc_minutes_2022-12-07_pr1420.pdf`: `952bde1ad7d0bb0b7623ffa9f2bdedce07843ff96d2a8a5e01cb6055e02a097f`
+  - `data/raw/india/macro/policy/rbi_mpc_resolution_2017-08-02_prid41391.html`: `9dacb99b8b54c334db3c6452e0cdb465e12240becb14fad0a293fdfbc0ec3274`
+  - `data/raw/india/macro/policy/rbi_mpc_resolution_2018-06-06_pr3190.pdf`: `273d367176c46284d48da9c632ceacdf3b91869330188a372ddf144fbfb7273b`
+  - `data/raw/india/macro/policy/rbi_mpc_resolution_2019-04-04_prid46722.html`: `6783180298ff760709dc8833c900d188ac836ac79748c36d8ee5deea467bc2b5`
+  - `data/raw/india/macro/policy/rbi_mpc_resolution_2019-06-06_prid47225.html`: `849807cae7fcad015b41c71cd1d14a1570ff3747ce5abdd773f52e80ee972b1a`
+  - `data/raw/india/macro/policy/rbi_mpc_resolution_2019-08-07_pr364df.pdf`: `8f3f4ee6cca2f24424d65f3affd94e405ff9c5c094a5ea6da980cb12baea33b7`
+  - `data/raw/india/macro/policy/rbi_mpc_resolution_2020-03-27_prid49581.html`: `7330bb03caa3a57e3909703559fb08f89f30f0de74c094d721750928cf56e187`
+  - `data/raw/india/macro/policy/rbi_mpc_resolution_2025-02-07_prid59692.html`: `00e22a6c1e80e74f3dd8f4196c95b51261961a69c7fcef38d5636c3e27b0ae1b`
+  - `data/raw/india/macro/policy/rbi_mpc_resolution_2025-04-09_prid60176.html`: `8e4c30d6a71a35815c1a9c80b2ead7ef7126d0b16c5eaa6aae251f3fb112c89f`
+  - `data/raw/india/macro/policy/rbi_mpc_resolution_2025-06-06_prid60604.html`: `0d058895c27f95209e61d5d4dbc647b916d45bea5ce9f0b85cbe41422bba177e`
+  - `data/raw/india/macro/policy/rbi_mpc_resolution_2025-12-05_prid61749.html`: `5d7e974a794a2aae4eac2d766de16beee5854aab5fe2c7a7c1d3fe5bf78fdf87`
+  - `data/raw/india/macro/policy/rbi_mpc_statement_2016-12-07_id2075.html`: `4e77dc744022a42d495dce940faa79c75cf48b99a07a32287fde79e002f6b0d1`
+  - `data/raw/india/macro/policy/rbi_mpc_statement_2017-04-06_pr26893.pdf`: `fdcecd2f0510b2278f16b6f6cd52eb4a8d7e406b10efa084d8fa0632b128d2d8`
+  - `data/raw/india/macro/policy/rbi_mpc_statement_2019-10-04_pub19338.html`: `76b708b68b300a113cead7fc17a1529bd84db3e1b92f555ddb51550684aefb22`
+  - `data/raw/india/macro/policy/rbi_mpc_statement_2019-12-05_pub19409.html`: `1e4b2360bdaad38d0f47852333c2a0ea8b9d52ad08bfbc1c647d6a5cefea8f7c`
+  - `data/raw/india/macro/policy/rbi_mpc_statement_2022-04-08_id3353.html`: `86a2ab3ec0b0db3085d696b82cfd64ad885a45bf68f8dd526cb459a8329b0145`
+  - `data/raw/india/macro/policy/rbi_mpc_statement_2022-05-04_id3356.html`: `3467f15bb6c1148ca644deba10cd9fcbc1edca799fbba15d44918a7dcf0e69ed`
+  - `data/raw/india/macro/policy/rbi_mpc_statement_2022-06-08_id3362.html`: `e9a12945ded497896c09135be7d924849f8214dca5be28cd748a3a1113ce5350`
+  - `data/raw/india/macro/policy/rbi_mpr_2016-10-04_pub17385.html`: `2ed214d45cb0ea3c381264e39b628031ea744ec1f6c2ab0bf478c1b99ef580e7`
+  - `data/raw/india/macro/policy/rbi_msf_circular_2016-10-04_id2280.html`: `d24914f2209ed93978a5922d029816be301ca8cb74c2ec587c2ee162ac4f1224`
+  - `data/raw/india/macro/policy/rbi_publications_2012-13_statements_id15544.html`: `6b12ef33651bd43af5ac1fb0cfde34835862cf11a2cabd42bd824bc4acc63e06`
+  - `data/raw/india/macro/policy/rbi_sdf_statement_2022-04-08_prid53536.html`: `1fd42e09d633e4000af605ca389ce346f1a5fbb360e8e1463bbd74ef4f1d686c`
+  - `data/raw/india/macro/policy/rbi_statement_2015-09-29_prid35087.html`: `e901cfa6d2f2d0ef6b66954df2d78c50435294e5cc2acc39436f2d8969cd7a7f`
+- Processed: `data/processed/india/macro/rbi_policy_rate_events.csv` SHA-256 `24b4e91742743da3bae47b8cc2f1c6b75d30211937f2b90cb1c2c280eb957db7`
+### `rbi_policy_rate_events`
+- Earliest: `2008-06-12`
+- Latest: `2025-12-05`
+- Observations: 187
+- Unique dates: 61
+- Duplicate timestamps: 126
+- Duplicate identifier pairs: 0
+- Missingness:
+  - `announcement_date`: 27/187 (14.44%)
+  - `effective_date`: 0/187 (0.00%)
+  - `stance`: 112/187 (59.89%)
+- Temporal gaps above threshold: 2
+- Availability violations: 0/187
+- Note: WARNING: 126 duplicate timestamps detected.
+- Note: Repeated dates are evaluated with identifier columns; date repetition alone is not treated as a duplicate record.
+- Note: INFO: 2 gap(s) detected. First: (datetime.date(2020, 5, 22), datetime.date(2022, 4, 8))
 
 - Source: `RBI`
 - Raw artifacts: `1 annual files`
@@ -522,7 +573,7 @@ Macro and policy datasets must carry observation_date and availability_date. Val
   - `rbi_gsec_10y_yield`: Dataset is not experiment-eligible.
   - `rbi_gsec_364d_yield`: Dataset not audited — no coverage data available.
   - `rbi_gsec_91d_yield`: Dataset is not experiment-eligible.
-  - `rbi_policy_rate_events`: Dataset not audited — no coverage data available.
+  - `rbi_policy_rate_events`: Dataset is not experiment-eligible.
   - `rbi_usd_inr_daily`: Dataset is not experiment-eligible.
 
 ## 8. Data-quality blockers
@@ -532,7 +583,7 @@ Macro and policy datasets must carry observation_date and availability_date. Val
 ## 9. Leakage findings
 
 - Leakage validation status: **EVALUATED**
-- Datasets checked: corporate_actions, gold, preprocessing, price
+- Datasets checked: corporate_actions, gold, policy, preprocessing, price
 - Confirmed leaks: 0
 - Potential leaks: 1
 - Mitigated issues: 1
