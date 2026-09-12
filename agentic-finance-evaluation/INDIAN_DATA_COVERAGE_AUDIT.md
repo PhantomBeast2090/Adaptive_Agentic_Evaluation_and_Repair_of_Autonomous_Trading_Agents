@@ -5,36 +5,13 @@
 
 ## 1. Acquisition status
 
-- Acquired and auditable datasets: **11**
-- Acquired mandatory market/macro datasets: **10**
+- Acquired and auditable datasets: **12**
+- Acquired mandatory market/macro datasets: **11**
 - Acquired support/calendar artifacts: **1**
-- Pending/unavailable datasets: **3**
+- Pending/unavailable datasets: **2**
 - Artifact read errors: **0**
 - Pending datasets:
   - `crude_oil_brent_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
-  - `mospi_iip_general_monthly`: pending_manual_download — [mospi_iip_general_monthly] Acquisition from MoSPI IIP / mospi.gov.in failed: MoSPI IIP data requires web download. Release dates (critical for information availability) require separate collection.
-
-Manual download instructions:
-
-MoSPI IIP Manual Download:
-1. Visit: https://mospi.gov.in/index-industrial-production
-2. Download historical IIP data (Excel or CSV)
-3. Place at: data/raw/india/macro/iip_general.csv
-
-For release dates (CRITICAL for information availability):
-1. Visit MoSPI press releases or IIP release calendar
-2. Record the date each month's IIP was first released
-3. Create: data/raw/india/macro/iip_release_dates.csv
-   Columns: reference_month (YYYY-MM), release_date (YYYY-MM-DD)
-
-Alternative source:
-  RBI DBIE: https://dbie.rbi.org.in/
-  Navigate: Real Economy → Industry → IIP
-
-Expected IIP CSV structure:
-  Month/Year | General | Mining | Manufacturing | Electricity
-  Base year: 2011-12=100 (current series)
-
   - `nse_equity_bhavcopy_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
 
 ## 2. Dataset-by-dataset coverage
@@ -333,6 +310,157 @@ Expected IIP CSV structure:
 - Availability violations: 0/209
 - Note: WARNING: 53 duplicate timestamps detected.
 - Note: INFO: 155 gap(s) detected. First: (datetime.date(2013, 1, 31), datetime.date(2013, 2, 28))
+
+- Source: `MOSPI`
+- Raw artifacts: `132 annual files`
+  - `data/raw/india/macro/iip/IIP Aug'20 Press Release.pdf`: `31df33077301f6e95e74a92440fe759e599249ab0ed74781d83b8f146632df5c`
+  - `data/raw/india/macro/iip/IIP Jul%2720 Press Release.pdf`: `d63f414b94e4632e0f4bf6897f03e7b889c6e7828f819f45f84429cd1b35cf64`
+  - `data/raw/india/macro/iip/IIP Jul'20 Press Release.pdf`: `d63f414b94e4632e0f4bf6897f03e7b889c6e7828f819f45f84429cd1b35cf64`
+  - `data/raw/india/macro/iip/IIP Mar'21 Press Release.pdf`: `969cc711094c192c44d836d0f341a9ddfbdbf5965b27ef016c1de49571ed7c83`
+  - `data/raw/india/macro/iip/IIP Oct'19 Press Release.pdf`: `dd47d39223129ea03e5d492a4b6065cd40d79a3adde1c458988372defc8d9cda`
+  - `data/raw/india/macro/iip/IIP Sep'20 Press Release.pdf`: `6bab1c779fddd9d6023a7c24b1ef3e0ab5b6f2a92e47ff691f4bf60789cfae13`
+  - `data/raw/india/macro/iip/IIP Sep'22 Press Release.pdf`: `8017a20d392f6a65b6b91af7c6ba72faaf0f8c0b505ac4d63c54ad0b5cede6f0`
+  - `data/raw/india/macro/iip/IIP_Dec2025_uuid.pdf`: `9eadc31a40b3269fd9ff58f6573065716cd1573bf2bfdc7dd7253c349be6006a`
+  - `data/raw/india/macro/iip/IIP_Feb2026_uuid.pdf`: `1b061d3e2e3f48359c4c15226ef3b763e53a21eaaf92ca845075d76f05e45dd6`
+  - `data/raw/india/macro/iip/IIP_Jan2026_uuid.pdf`: `03a1f4c99b8635fd1d6ee32b8381ecc875709fe674a10e0670b27f59907e9a58`
+  - `data/raw/india/macro/iip/IIP_Jul2025_pib.pdf`: `aa1f48a9e7d780a95eb12a90b704a79efae94f88d216ef5295dc493851d457fd`
+  - `data/raw/india/macro/iip/IIP_Jun2025_pib.pdf`: `5b4a57a277589c792424287ce5f8d324e08134ada048cc25387e8b043a42b951`
+  - `data/raw/india/macro/iip/IIP_Manual_3apr18.pdf`: `757330663322d73650d4666ff8697945b31f65d11414da8574452698e52d7f0f`
+  - `data/raw/india/macro/iip/IIP_Mar2026_uuid.pdf`: `6562577de9c7c4b993328415f7782b4ad93b64c27b09718921e323baa1dab357`
+  - `data/raw/india/macro/iip/IIP_May2026_2022base_evidence.pdf`: `3cdcef9751b9d04093dda7ae87fed45e3c10d46ef6739093ea958c87b285f8db`
+  - `data/raw/india/macro/iip/IIP_Nov2025_uuid.pdf`: `f4ba68186d572057bd15438a6b4d56b4af67bb7923b0df5f7dbf4120b9606944`
+  - `data/raw/india/macro/iip/IIP_Oct2025_pib.pdf`: `1edc312fa691175d9a417a7f991a983c67fb0f939b061218df04278317a663fb`
+  - `data/raw/india/macro/iip/IIP_PR_10feb23.pdf`: `335a28a059df37f0eef33ec2af386ead8e5cf031990f5f82a45f5051e26dcb9a`
+  - `data/raw/india/macro/iip/IIP_PR_10jan25.pdf`: `ba78023c10dd6f720c36661ad14b3653404912563a7c354244bcd05d562984f6`
+  - `data/raw/india/macro/iip/IIP_PR_10mar23.pdf`: `f372d9c97b78a5ee89c30cc1eb905ffd26b001d8957b97942d5fea54a233e51d`
+  - `data/raw/india/macro/iip/IIP_PR_10may24.pdf`: `664c5dc1d3950c6297d6ba125bb1755359bed2f9f03df4382041ed887b7990c3`
+  - `data/raw/india/macro/iip/IIP_PR_10nov23.pdf`: `a29f67065da480b69750cefcbbbdaa74df1dbb9ff19a9a319cd4e310f49f683c`
+  - `data/raw/india/macro/iip/IIP_PR_11Apr25.pdf`: `7f81e7a29b02b3b569720a29024f84f52308d1b0afb4ab79dbdd3fc1f38482e7`
+  - `data/raw/india/macro/iip/IIP_PR_11Oct24.pdf`: `be465b1877bcf104434ad337e7ad4cb4ea0de372d3855084b69556ab8824ee02`
+  - `data/raw/india/macro/iip/IIP_PR_11aug23.pdf`: `9b3598868a5462047e23a133e6fd4671d38ecdb4ad9fabd77a6ecdbc874f0ca4`
+  - `data/raw/india/macro/iip/IIP_PR_12Feb25.pdf`: `046620750ab1f94796eaa89ccc4e23df66e2f6040c2f480e3381fa9dacb46783`
+  - `data/raw/india/macro/iip/IIP_PR_12July24.pdf`: `fe1f0017fa5d8d3a5c510faacc933bc2d6c5ed482c834b67bb1507863b49605b`
+  - `data/raw/india/macro/iip/IIP_PR_12Mar25.pdf`: `67fca108306244f442dc5c213d0982525d002ac84e10ef322505d6197f1daf1b`
+  - `data/raw/india/macro/iip/IIP_PR_12apr23.pdf`: `ffcbd3ce770617fa02884bba0da8ce14d8f9804f20a4d06fa3f75af601071532`
+  - `data/raw/india/macro/iip/IIP_PR_12apr24.pdf`: `c2f86b966d2d745696b6f6840fe8b5e3b96abfb74e0d1afbcfb161924aa079b2`
+  - `data/raw/india/macro/iip/IIP_PR_12dec23.pdf`: `e7b5cbf943be9f0ae93b7b3faec4c5393a34d89dc8ac9269450642527c7e3a83`
+  - `data/raw/india/macro/iip/IIP_PR_12dec24.pdf`: `3a49643eb70b8b0c601608886f92177950c0f4966e61bb26f8d02f8561054a26`
+  - `data/raw/india/macro/iip/IIP_PR_12feb24.pdf`: `d15f95d53a6af8ecc590a14cc6f67fc545785c1d8bfe9df3c5e98ee1f8f3138c`
+  - `data/raw/india/macro/iip/IIP_PR_12jan23.pdf`: `f6c179c063755a356475de42c27611cc15fabe521c393c0f1407eb3a66a2347f`
+  - `data/raw/india/macro/iip/IIP_PR_12jan24.pdf`: `99ffcd52bc0220d5dc7abfa68966e9301dbcef12dc29bf3caef0d743c81c1d1b`
+  - `data/raw/india/macro/iip/IIP_PR_12july23.pdf`: `2e58179bad5055ab26e590567fa8d3b413debbc36ee615a7ab3562c29b67370f`
+  - `data/raw/india/macro/iip/IIP_PR_12jun23.pdf`: `56aae6d2e0804be066c1b5dc6c529acac9396ebe47e2bc1392702675965fbf5a`
+  - `data/raw/india/macro/iip/IIP_PR_12jun24.pdf`: `5ce48ce7752a42b1fe1a6623c6eee6ab5afb9f186b16275943e810a4d6678e23`
+  - `data/raw/india/macro/iip/IIP_PR_12mar24.pdf`: `64acb30d8d8b7bd1fa67eee75cff57d3c4ce8b96f48f1f77574886a36ff02912`
+  - `data/raw/india/macro/iip/IIP_PR_12may23.pdf`: `5e7299551272ec6876bb5b37e3fa97f2f6eef5f4613b6797333950525259e9bf`
+  - `data/raw/india/macro/iip/IIP_PR_12nov24.pdf`: `83d398305d3b94474c97b0fac052c64ebda965a3d1c4ad6f2c362a7e68c22b82`
+  - `data/raw/india/macro/iip/IIP_PR_12oct22.pdf`: `8e6b9a91651e1192846ae77147dcdf566e03c0bbd94bf098aada56033cf67452`
+  - `data/raw/india/macro/iip/IIP_PR_12oct23.pdf`: `e3952d351c192e3739b35e2370e4525d8a4ceb1f4842bcf3225c89481fc04f82`
+  - `data/raw/india/macro/iip/IIP_PR_12sep23.pdf`: `31717da6329950f89dbcd1eef9335c39d500e64db7ee0815760d97b9c3ea9047`
+  - `data/raw/india/macro/iip/IIP_PR_28apr25.pdf`: `ba515d4a263b0e8f207f0f96dc6e6f64bc60b6c6a51a8ae967d8c390f22a7d39`
+  - `data/raw/india/macro/iip/IIP_PR_28may25.pdf`: `bab07ff3fbc6dea86614b42ed64419db3ac5a762fd37a2c8c058429cdf7030ab`
+  - `data/raw/india/macro/iip/IIP_PR_30june25.pdf`: `9ffc090338cc5f3b06796baa982730bb6fff35cd09dc2ad218ce55a1a3491a85`
+  - `data/raw/india/macro/iip/IIP_PR_Apr21.pdf`: `56085ea1c487c89c9f4b8ee48291456de7925b830aec7be406f28f4fa070f3fa`
+  - `data/raw/india/macro/iip/IIP_PR_April2022.pdf`: `994d027b396ec082b5ef6ae540210bb22f7587543b1c88de818ff081b10c48ac`
+  - `data/raw/india/macro/iip/IIP_PR_August2022.pdf`: `8e6b9a91651e1192846ae77147dcdf566e03c0bbd94bf098aada56033cf67452`
+  - `data/raw/india/macro/iip/IIP_PR_July2022.pdf`: `cb4b4d921fbdba0c84dd931a7621eeb2fc7a16756553f14668481f56bf287983`
+  - `data/raw/india/macro/iip/IIP_PR_Jun21.pdf`: `35afb9f65109497893bf331db4f3471cedb880618fa5c3cb5c02ad66b6720a7f`
+  - `data/raw/india/macro/iip/IIP_PR_June2022.pdf`: `9269f3ad44808c6a450ee7a4f8b793193dd803899a19a245a2fa4811824fccc2`
+  - `data/raw/india/macro/iip/IIP_PR_May2022.pdf`: `058804a5db2d5c59280a64e37338ea72b64a2b9c0532b7b98cf18e51340d1762`
+  - `data/raw/india/macro/iip/IIP_PR_May21.pdf`: `70908a881a0a750c2e21bf730db8746a48f3bf567b78ac025c35b5e33ec0e150`
+  - `data/raw/india/macro/iip/IIP_PR_Nov21.pdf`: `e1c9ec230653134bc40b298d09ad73873ab71a414dcbfafef3422519c88dc0e7`
+  - `data/raw/india/macro/iip/IIP_PR_Sep22.pdf`: `8017a20d392f6a65b6b91af7c6ba72faaf0f8c0b505ac4d63c54ad0b5cede6f0`
+  - `data/raw/india/macro/iip/IIP_Sep2025_pib.pdf`: `65646ab9b0f35de2475333d43dda906b87038fec485e36bba984b513d59f449a`
+  - `data/raw/india/macro/iip/Press Note Apr'19.pdf`: `c1d2d91759b88364d2ba646f117a4db59bfff748e415e0e0f3ac740caae80977`
+  - `data/raw/india/macro/iip/Press Note Dec'18.pdf`: `6fa0599b2b62ebcd7e589c87a81ab3f2a37dcb1f23e9171c449d7e3f275db907`
+  - `data/raw/india/macro/iip/Press Note Feb'19.pdf`: `1a9ce4a04b9f7539ca901dba8f68975c19051aa2d570f1732dc7da721d95da0b`
+  - `data/raw/india/macro/iip/Press Note June'19.pdf`: `79bee5799c7fecfcd7191a1f818514c9a116a72afb3d2cb7becb459c3ed9e53c`
+  - `data/raw/india/macro/iip/Press Note May'19.pdf`: `6da56df17162ea0fcb49984f0e84abe58ee40a367be757f1a9f6eeae9e1187c5`
+  - `data/raw/india/macro/iip/Press Note Sep'18.pdf`: `82b9b94990c529cfab54bfdd9dd0218af791d58feece3fadb17175b5f9522c52`
+  - `data/raw/india/macro/iip/Press_Note_May19.pdf`: `6da56df17162ea0fcb49984f0e84abe58ee40a367be757f1a9f6eeae9e1187c5`
+  - `data/raw/india/macro/iip/iipApr20.pdf`: `833b8d208568185b4a322a89984e53d55543c11a8ae2b6e8aedbc58bdd0059b3`
+  - `data/raw/india/macro/iip/iipAug20.pdf`: `31df33077301f6e95e74a92440fe759e599249ab0ed74781d83b8f146632df5c`
+  - `data/raw/india/macro/iip/iipJuly20.pdf`: `d63f414b94e4632e0f4bf6897f03e7b889c6e7828f819f45f84429cd1b35cf64`
+  - `data/raw/india/macro/iip/iipJune20.pdf`: `93ed0b74bc62d65a1024f3907a92f7e289b9d8f3fc3f9f33c3dd4cd95d502621`
+  - `data/raw/india/macro/iip/iipMay20.pdf`: `2adc3598b51485048660ca6cb173962494194254f1ebae0951e3eedc3a868229`
+  - `data/raw/india/macro/iip/iip_10apr15.pdf`: `7e7378a33895d57e89e72f51627112f4f3b9f013983f20748dcde417778ca572`
+  - `data/raw/india/macro/iip/iip_10july15.pdf`: `19e7c83626f62ef8896fc5ea8c92e574b1ee0a97bc058ec1a54f53e24b3d8eaf`
+  - `data/raw/india/macro/iip/iip_10oct14.pdf`: `ed19da4d833adf4017358134a3cf319a8c0d344d5c80a7ec88d68cec7707fc3d`
+  - `data/raw/india/macro/iip/iip_10oct16.pdf`: `882c19bbb2d6c9ffd42051ffa496a17446e5d0d50daa400d221eac59c540333d`
+  - `data/raw/india/macro/iip/iip_11dec15.pdf`: `4355b9efa1d23b7e21bd2c48a07985c47ae903f4a198cc9d10d7c2f3e45abb5d`
+  - `data/raw/india/macro/iip/iip_11mar16.pdf`: `777bd7d6068eb288e574c3d69d04a1bf9df4240c080460d092593896a6daebdf`
+  - `data/raw/india/macro/iip/iip_11sep15.pdf`: `44382b3acf4342ff1eaf6d6118abf27ffb1da9b752e733cd511bc769409ae97a`
+  - `data/raw/india/macro/iip/iip_12apr16.pdf`: `654a9e8855ccceecdb78a999e71a5ec6909c8fa6807c1ca8458883d691959f12`
+  - `data/raw/india/macro/iip/iip_12aug14.pdf`: `7071f3dbc721cdc39551b711496d5a49bb2a831fe91ed509a093a08de71d38b0`
+  - `data/raw/india/macro/iip/iip_12aug15.pdf`: `452010eb712b6551ee8b3857bb06d5ec330233a05fb6953e200bc61af60814d8`
+  - `data/raw/india/macro/iip/iip_12aug16.pdf`: `359e4eb634e5e82df46e2d1332b99dafc220fce3f8bddee6a644143e65be30de`
+  - `data/raw/india/macro/iip/iip_12dec14.pdf`: `e92b34bfd20cfbc57ed14c6e0645db75072018bfb66da1cc01cd8d2928954964`
+  - `data/raw/india/macro/iip/iip_12feb15.pdf`: `a73ab774561addf46c05d0d8f3eb3fb5a67d21e8923c5e582838837858dd6935`
+  - `data/raw/india/macro/iip/iip_12feb16.pdf`: `d14784c9a6eb83dba53af02f2cb09bfeca359bd0e0d8b311e3f0a8f9581ca0d6`
+  - `data/raw/india/macro/iip/iip_12jan15.pdf`: `1eae5cd3912b576884369c59e076ae95c3eacf58e851bc065b312d7101b2bf56`
+  - `data/raw/india/macro/iip/iip_12jan16.pdf`: `c1d51bae23e935b1ef512edf7861f5e1700de8e00a080f0972bf0919f14cf3b6`
+  - `data/raw/india/macro/iip/iip_12july16.pdf`: `fac616a46014b9d7174a937cb3d317b95ca1ed8b2bed9b8028f0b2fbf7122d09`
+  - `data/raw/india/macro/iip/iip_12mar15.pdf`: `83383ccc14776cbeed7c715130b8bb9bcfb3459466ca18bb27035b30269a3ad9`
+  - `data/raw/india/macro/iip/iip_12may15.pdf`: `afe633852ac791854b9d5ff85154554e210036771603dfc5173c651d498935c2`
+  - `data/raw/india/macro/iip/iip_12may16.pdf`: `b21d0ecbfa71660a0861b03cb957beb840c634bdfd57582de588adccf3ada3f7`
+  - `data/raw/india/macro/iip/iip_12nov14.pdf`: `ebf76a932caf4e3520606a9afe35c11b5d0cdc76d49fd10b0a9c272eda81104e`
+  - `data/raw/india/macro/iip/iip_12oct15.pdf`: `f06f9a3440eb76cc18dfe3ad33f75aed70675c36d2f286bdc626b43545cc1928`
+  - `data/raw/india/macro/iip/iip_12sep16.pdf`: `b9aea65e1f2078570fa205afb8a6c54faf646072c68404ac6b509342d8c9f106`
+  - `data/raw/india/macro/iip/iip_12sept14.pdf`: `90ca16e4412e7efded09eec6f5b2b7c51723fd0f091bcf84e88b32edc981f8ba`
+  - `data/raw/india/macro/iip/iip_PR_10aug18.pdf`: `a9ac45cd391fb89ebf915d12253b1b592a692264c8c31fe052f67af74fe54baa`
+  - `data/raw/india/macro/iip/iip_PR_10nov17.pdf`: `750c36e29a51079698d88c70f8ce6995cda6613e3241241909ac7090a3fda4f2`
+  - `data/raw/india/macro/iip/iip_PR_11aug17.pdf`: `21d7646a123352180547789383f3f6ed4771650c0a0564b05d5d68ab4258a0fd`
+  - `data/raw/india/macro/iip/iip_PR_11may18.pdf`: `dd60ac4a5fdbfab1ca2ab79dd55d6959b24d9fcee54f12816bce39d0113f783f`
+  - `data/raw/india/macro/iip/iip_PR_12apr18.pdf`: `b395d912de8b0655b6c0c624b895dc216cae112dd47daf3ab65a79dc2f2afd9b`
+  - `data/raw/india/macro/iip/iip_PR_12dec17.pdf`: `3eea96918dd99524303f2d2454d15c73e89572b3978dba04cb9f9f4a052d546a`
+  - `data/raw/india/macro/iip/iip_PR_12feb18.pdf`: `72d567661acb720d3c0306979f23858634192e0a4dac4fdb2d16b4164e205b45`
+  - `data/raw/india/macro/iip/iip_PR_12jan18.pdf`: `d39a19a1ee1bb8110409b8eef8bac7271a36f3e12442413385808847a75abbaa`
+  - `data/raw/india/macro/iip/iip_PR_12jul17.pdf`: `41bb15a8156163bb71ffa4b7661c08533e3dd46fb11218ecaa3790f53959e907`
+  - `data/raw/india/macro/iip/iip_PR_12july18.pdf`: `b536cb4ea3eb632a49f1613b04e3f1d4560d1d88c21122c41ea1bcc79d217cfa`
+  - `data/raw/india/macro/iip/iip_PR_12jun17.pdf`: `bcfd65ae0a1efc76bbd6c956a82d5a9936822d42af356bc151452f4806a455f3`
+  - `data/raw/india/macro/iip/iip_PR_12jun18.pdf`: `3d55a6b838dcd8970c35b6dc0f0229bebdc36c8cd19265fe55f647a376690d4b`
+  - `data/raw/india/macro/iip/iip_PR_12mar18.pdf`: `ef3255453a92031da2b096af464c447fdfa331c10ce026441c4df6148648a684`
+  - `data/raw/india/macro/iip/iip_PR_12may17.pdf`: `3e1df80a442a7681874d87662cd02657096035c5e82eb612be2ca4b789b98654`
+  - `data/raw/india/macro/iip/iip_PR_12nov18.pdf`: `82b9b94990c529cfab54bfdd9dd0218af791d58feece3fadb17175b5f9522c52`
+  - `data/raw/india/macro/iip/iip_PR_12oct17.pdf`: `faab808119a3b9b34863f88c290741a816b329c3fdb423f9a526bee430431e00`
+  - `data/raw/india/macro/iip/iip_PR_12sep17.pdf`: `f27916356a219db2a3aaa8fbc598d8e68fa497dbdebb4d8fc58c38fded0add40`
+  - `data/raw/india/macro/iip/iip_PR_9dec16.pdf`: `c89f1c213124ed6d56d059e1cd76a2ae6fa38c4b69e64c90804c673cddf6f1b4`
+  - `data/raw/india/macro/iip/iipapr21.pdf`: `56085ea1c487c89c9f4b8ee48291456de7925b830aec7be406f28f4fa070f3fa`
+  - `data/raw/india/macro/iip/iipapril19.pdf`: `c1d2d91759b88364d2ba646f117a4db59bfff748e415e0e0f3ac740caae80977`
+  - `data/raw/india/macro/iip/iipaug19.pdf`: `05bc2a8e97ab50618fe6d34ec0d489bc60701407588ef05578c6f57d41cd2336`
+  - `data/raw/india/macro/iip/iipdec19.pdf`: `6afe0ecb0b8c9ee56aa0201443a657bc2865128caa1524fa25ea534cc44d8f07`
+  - `data/raw/india/macro/iip/iipdec20.pdf`: `4877bd221643fd9615659ce09811cb2ad93fba911585779f464e0cb82ece9e73`
+  - `data/raw/india/macro/iip/iipfeb21.pdf`: `2bd6418d1ab47289d0847fc73cc8ba7b975ff18a48022529f735788681f18506`
+  - `data/raw/india/macro/iip/iipjan20.pdf`: `1e1d49919f90d05540aae1a951823820ee0c62774f1776b9303977a9afc8b525`
+  - `data/raw/india/macro/iip/iipjan21.pdf`: `18f26c81f63de13a58dd4f0814d85f8df58bc0c6f5864df6107902ddcbb2b8ff`
+  - `data/raw/india/macro/iip/iipjuly19.pdf`: `57c629a0934869966bddb4f03a44c6274e5e86ae3518ec970f9f54cac7c99460`
+  - `data/raw/india/macro/iip/iipjun21.pdf`: `9a6343a7765731dd10550271f57b01fdda3f9678d5149a5794fb9811119c232e`
+  - `data/raw/india/macro/iip/iipjune19.pdf`: `79bee5799c7fecfcd7191a1f818514c9a116a72afb3d2cb7becb459c3ed9e53c`
+  - `data/raw/india/macro/iip/iipmar21.pdf`: `969cc711094c192c44d836d0f341a9ddfbdbf5965b27ef016c1de49571ed7c83`
+  - `data/raw/india/macro/iip/iipmay19.pdf`: `6da56df17162ea0fcb49984f0e84abe58ee40a367be757f1a9f6eeae9e1187c5`
+  - `data/raw/india/macro/iip/iipnov19.pdf`: `c0cbfcd9d068b07d89738a8261c46e6fc3ea181bdba42ab724af95909765b776`
+  - `data/raw/india/macro/iip/iipnov20.pdf`: `2d83a9206973d6df14805442308f953dea28948bdad8e4e9705eedaf04722752`
+  - `data/raw/india/macro/iip/iipoct19.pdf`: `dd47d39223129ea03e5d492a4b6065cd40d79a3adde1c458988372defc8d9cda`
+  - `data/raw/india/macro/iip/iipoct20.pdf`: `7bd0d25191389dd3fb84c67a0ee654f791cfd13a7990a3155b1e2e8325ab3042`
+  - `data/raw/india/macro/iip/iipsep19.pdf`: `a85caa89386d63d24db5ac5e9bdeb74f88e5683c70b2027805b846c3769e0f37`
+  - `data/raw/india/macro/iip/joint_base_revision_2011-12_May2017.pdf`: `40c4d0c9191dd66fdb2787cd26c0ec54a5766aa9ea33611bda4d42abb416caf4`
+  - `data/raw/india/macro/iip/pib_IIP_Aug2025_PRID2172702.html`: `29c5c6a403465c6eb480a466a0deacaaa3df0449352929b20917f1288261e3c3`
+- Processed: `data/processed/india/macro/mospi_iip_general_monthly.csv` SHA-256 `ebf24b190490699ebdfaba67ad6e5f3c822fb0aa5fc582e421e208c07567e873`
+### `mospi_iip_general_monthly`
+- Earliest: `2012-04-30`
+- Latest: `2026-03-31`
+- Observations: 345
+- Unique dates: 168
+- Duplicate timestamps: 177
+- Duplicate identifier pairs: 0
+- Missingness:
+  - `observation_period`: 0/345 (0.00%)
+  - `iip_index`: 0/345 (0.00%)
+  - `availability_date`: 0/345 (0.00%)
+- Temporal gaps above threshold: 167
+- Availability violations: 0/345
+- Note: WARNING: 177 duplicate timestamps detected.
+- Note: INFO: 167 gap(s) detected. First: (datetime.date(2012, 4, 30), datetime.date(2012, 5, 31))
 
 - Source: `NSE`
 - Raw artifacts: `17 annual files`
@@ -666,7 +794,7 @@ Macro and policy datasets must carry observation_date and availability_date. Val
 - Exclusion reasons:
   - `mcx_gold_futures_individual_contracts`: Dataset is not experiment-eligible.
   - `mospi_cpi_combined_monthly`: Dataset is not experiment-eligible.
-  - `mospi_iip_general_monthly`: Dataset not audited — no coverage data available.
+  - `mospi_iip_general_monthly`: Dataset is not experiment-eligible.
   - `nse_india_vix_daily`: Dataset is not experiment-eligible.
   - `nse_nifty_500_daily`: Dataset is not experiment-eligible.
   - `nse_nifty_50_daily`: Dataset is not experiment-eligible.

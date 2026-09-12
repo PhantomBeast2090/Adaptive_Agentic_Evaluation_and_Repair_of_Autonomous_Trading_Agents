@@ -1,0 +1,346 @@
+observation_period,observation_date,availability_date,iip_index,vintage_status,revision_version,availability_basis,source,source_files
+2012-04,2012-04-30,2017-05-12,99.3,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2012-05,2012-05-31,2017-05-12,105.0,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2012-06,2012-06-30,2017-05-12,102.3,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2012-07,2012-07-31,2017-05-12,101.5,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2012-08,2012-08-31,2017-05-12,99.9,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2012-09,2012-09-30,2017-05-12,98.9,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2012-10,2012-10-31,2017-05-12,103.6,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2012-11,2012-11-30,2017-05-12,98.3,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2012-12,2012-12-31,2017-05-12,107.2,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-01,2013-01-31,2017-05-12,107.3,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-02,2013-02-28,2017-05-12,101.3,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-03,2013-03-31,2017-05-12,115.1,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-04,2013-04-30,2017-05-12,102.6,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-05,2013-05-31,2017-05-12,106.1,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-06,2013-06-30,2017-05-12,101.3,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-07,2013-07-31,2017-05-12,104.7,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-08,2013-08-31,2017-05-12,104.3,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-09,2013-09-30,2017-05-12,105.8,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-10,2013-10-31,2017-05-12,105.7,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-11,2013-11-30,2017-05-12,101.9,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2013-12,2013-12-31,2017-05-12,110.9,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-01,2014-01-31,2017-05-12,112.4,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-02,2014-02-28,2017-05-12,106.7,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-03,2014-03-31,2017-05-12,118.6,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-04,2014-04-30,2017-05-12,106.8,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-05,2014-05-31,2017-05-12,111.0,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-06,2014-06-30,2017-05-12,109.7,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-07,2014-07-31,2017-05-12,110.4,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-08,2014-08-31,2017-05-12,108.1,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-09,2014-09-30,2017-05-12,110.3,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-10,2014-10-31,2017-05-12,106.0,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-11,2014-11-30,2017-05-12,109.6,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2014-12,2014-12-31,2017-05-12,115.4,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-01,2015-01-31,2017-05-12,114.5,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-02,2015-02-28,2017-05-12,110.1,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-03,2015-03-31,2017-05-12,121.3,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-04,2015-04-30,2017-05-12,107.4,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-05,2015-05-31,2017-05-12,113.1,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-06,2015-06-30,2017-05-12,110.8,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-07,2015-07-31,2017-05-12,111.9,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-08,2015-08-31,2017-05-12,112.0,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-09,2015-09-30,2017-05-12,112.6,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-10,2015-10-31,2017-05-12,115.5,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-11,2015-11-30,2017-05-12,110.3,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2015-12,2015-12-31,2017-05-12,119.4,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-01,2016-01-31,2017-05-12,119.5,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-02,2016-02-29,2017-05-12,118.3,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-03,2016-03-31,2017-05-12,128.0,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-04,2016-04-30,2017-05-12,114.4,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-04,2016-04-30,2017-11-10,113.7,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2016-05,2016-05-31,2017-05-12,122.2,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-05,2016-05-31,2017-11-10,121.3,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2016-06,2016-06-30,2017-05-12,120.7,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-06,2016-06-30,2017-11-10,119.7,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2016-07,2016-07-31,2017-05-12,117.7,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-07,2016-07-31,2017-11-10,116.8,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2016-08,2016-08-31,2017-05-12,117.5,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-08,2016-08-31,2017-11-10,116.5,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2016-09,2016-09-30,2017-05-12,119.0,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-09,2016-09-30,2017-11-10,118.2,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2016-10,2016-10-31,2017-05-12,121.2,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-10,2016-10-31,2017-11-10,120.3,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2016-11,2016-11-30,2017-05-12,116.6,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-11,2016-11-30,2017-11-10,115.9,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2016-12,2016-12-31,2017-05-12,122.5,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2016-12,2016-12-31,2017-11-10,121.7,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2017-01,2017-01-31,2017-05-12,124.1,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2017-01,2017-01-31,2017-11-10,123.1,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2017-02,2017-02-28,2017-05-12,120.5,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2017-02,2017-02-28,2017-11-10,119.2,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2017-03,2017-03-31,2017-05-12,131.5,back_series,0,mospi_back_series_2017,MOSPI,iip_PR_12may17.pdf
+2017-03,2017-03-31,2017-11-10,133.2,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2017-04,2017-04-30,2017-06-12,117.9,quick,0,mospi_press_release,MOSPI,iip_PR_12jun17.pdf
+2017-04,2017-04-30,2017-11-10,117.3,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2017-05,2017-05-31,2017-07-12,124.3,quick,0,mospi_press_release,MOSPI,iip_PR_12jul17.pdf
+2017-05,2017-05-31,2017-11-10,124.8,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2017-06,2017-06-30,2017-08-11,119.6,quick,0,mospi_press_release,MOSPI,iip_PR_11aug17.pdf
+2017-06,2017-06-30,2017-11-10,119.3,final,2,mospi_press_release,MOSPI,iip_PR_10nov17.pdf
+2017-07,2017-07-31,2017-09-12,118.2,quick,0,mospi_press_release,MOSPI,iip_PR_12sep17.pdf
+2017-07,2017-07-31,2017-11-10,117.9,republished,1,mospi_statement_republication,MOSPI,iip_PR_10nov17.pdf
+2017-07,2017-07-31,2017-12-12,118.0,final,2,mospi_press_release,MOSPI,iip_PR_12dec17.pdf
+2017-08,2017-08-31,2017-10-12,121.5,quick,0,mospi_press_release,MOSPI,iip_PR_12oct17.pdf
+2017-08,2017-08-31,2017-11-10,121.7,first_revision,1,mospi_press_release,MOSPI,iip_PR_10nov17.pdf
+2017-08,2017-08-31,2018-01-12,122.1,final,2,mospi_press_release,MOSPI,iip_PR_12jan18.pdf
+2017-09,2017-09-30,2017-11-10,122.7,quick,0,mospi_press_release,MOSPI,iip_PR_10nov17.pdf
+2017-09,2017-09-30,2017-12-12,123.1,first_revision,1,mospi_press_release,MOSPI,iip_PR_12dec17.pdf
+2017-09,2017-09-30,2018-02-12,123.1,final,2,mospi_press_release,MOSPI,iip_PR_12feb18.pdf
+2017-10,2017-10-31,2017-12-12,123.0,quick,0,mospi_press_release,MOSPI,iip_PR_12dec17.pdf
+2017-10,2017-10-31,2018-01-12,122.7,first_revision,1,mospi_press_release,MOSPI,iip_PR_12jan18.pdf
+2017-10,2017-10-31,2018-03-12,122.5,republished,2,mospi_statement_republication,MOSPI,iip_PR_12mar18.pdf
+2017-11,2017-11-30,2018-01-12,125.6,quick,0,mospi_press_release,MOSPI,iip_PR_12jan18.pdf
+2017-11,2017-11-30,2018-02-12,126.1,first_revision,1,mospi_press_release,MOSPI,iip_PR_12feb18.pdf
+2017-11,2017-11-30,2018-04-12,125.8,final,2,mospi_press_release,MOSPI,iip_PR_12apr18.pdf
+2017-12,2017-12-31,2018-02-12,130.3,quick,0,mospi_press_release,MOSPI,iip_PR_12feb18.pdf
+2017-12,2017-12-31,2018-03-12,130.3,first_revision,1,mospi_press_release,MOSPI,iip_PR_12mar18.pdf
+2017-12,2017-12-31,2018-05-11,130.6,final,2,mospi_press_release,MOSPI,iip_PR_11may18.pdf
+2018-01,2018-01-31,2018-03-12,132.3,quick,0,mospi_press_release,MOSPI,iip_PR_12mar18.pdf
+2018-01,2018-01-31,2018-04-12,132.2,first_revision,1,mospi_press_release,MOSPI,iip_PR_12apr18.pdf
+2018-02,2018-02-28,2018-04-12,127.7,quick,0,mospi_press_release,MOSPI,iip_PR_12apr18.pdf
+2018-02,2018-02-28,2018-05-11,127.5,first_revision,1,mospi_press_release,MOSPI,iip_PR_11may18.pdf
+2018-02,2018-02-28,2018-07-12,127.4,final,2,mospi_press_release,MOSPI,iip_PR_12july18.pdf
+2018-03,2018-03-31,2018-05-11,139.0,quick,0,mospi_press_release,MOSPI,iip_PR_11may18.pdf
+2018-03,2018-03-31,2018-06-12,139.3,first_revision,1,mospi_press_release,MOSPI,iip_PR_12jun18.pdf
+2018-03,2018-03-31,2018-08-10,140.3,final,2,mospi_press_release,MOSPI,iip_PR_10aug18.pdf
+2018-04,2018-04-30,2018-06-12,123.0,quick,0,mospi_press_release,MOSPI,iip_PR_12jun18.pdf
+2018-04,2018-04-30,2018-07-12,122.9,first_revision,1,mospi_press_release,MOSPI,iip_PR_12july18.pdf
+2018-04,2018-04-30,2018-11-12,122.6,republished,2,mospi_statement_republication,MOSPI,Press Note Sep'18.pdf
+2018-05,2018-05-31,2018-07-12,128.8,quick,0,mospi_press_release,MOSPI,iip_PR_12july18.pdf
+2018-05,2018-05-31,2018-08-10,129.7,first_revision,1,mospi_press_release,MOSPI,iip_PR_10aug18.pdf
+2018-05,2018-05-31,2018-11-12,129.6,republished,2,mospi_statement_republication,MOSPI,Press Note Sep'18.pdf
+2018-06,2018-06-30,2018-08-10,127.7,quick,0,mospi_press_release,MOSPI,iip_PR_10aug18.pdf
+2018-06,2018-06-30,2018-11-12,127.7,final,2,mospi_press_release,MOSPI,Press Note Sep'18.pdf;iip_PR_12nov18.pdf
+2018-07,2018-07-31,2018-11-12,125.7,republished,0,mospi_statement_republication,MOSPI,Press Note Sep'18.pdf
+2018-08,2018-08-31,2018-11-12,127.8,first_revision,1,mospi_press_release,MOSPI,Press Note Sep'18.pdf;iip_PR_12nov18.pdf
+2018-08,2018-08-31,2019-02-12,128.0,republished,1,mospi_statement_republication,MOSPI,Press Note Dec'18.pdf
+2018-09,2018-09-30,2018-11-12,128.6,quick,0,mospi_press_release,MOSPI,Press Note Sep'18.pdf;iip_PR_12nov18.pdf
+2018-09,2018-09-30,2019-02-12,128.8,final,2,mospi_press_release,MOSPI,Press Note Dec'18.pdf
+2018-10,2018-10-31,2019-02-12,132.8,republished,0,mospi_statement_republication,MOSPI,Press Note Dec'18.pdf
+2018-11,2018-11-30,2019-02-12,126.2,first_revision,1,mospi_press_release,MOSPI,Press Note Dec'18.pdf
+2018-11,2018-11-30,2019-04-12,126.1,final,2,mospi_press_release,MOSPI,Press Note Feb'19.pdf
+2018-12,2018-12-31,2019-02-12,133.7,quick,0,mospi_press_release,MOSPI,Press Note Dec'18.pdf
+2018-12,2018-12-31,2019-04-12,134.0,republished,1,mospi_statement_republication,MOSPI,Press Note Feb'19.pdf
+2018-12,2018-12-31,2019-06-12,133.9,republished,1,mospi_statement_republication,MOSPI,Press Note Apr'19.pdf
+2019-01,2019-01-31,2019-04-12,134.2,first_revision,1,mospi_press_release,MOSPI,Press Note Feb'19.pdf
+2019-01,2019-01-31,2019-06-12,134.4,final,2,mospi_press_release,MOSPI,Press Note Apr'19.pdf;iipapril19.pdf
+2019-02,2019-02-28,2019-04-12,127.5,quick,0,mospi_press_release,MOSPI,Press Note Feb'19.pdf
+2019-02,2019-02-28,2019-07-12,127.6,final,2,mospi_press_release,MOSPI,Press Note May'19.pdf;Press_Note_May19.pdf;iipmay19.pdf
+2019-03,2019-03-31,2019-06-12,140.8,first_revision,1,mospi_press_release,MOSPI,Press Note Apr'19.pdf;iipapril19.pdf
+2019-03,2019-03-31,2019-08-09,144.1,final,2,mospi_press_release,MOSPI,Press Note June'19.pdf;iipjune19.pdf
+2019-04,2019-04-30,2019-06-12,126.8,quick,0,mospi_press_release,MOSPI,Press Note Apr'19.pdf;iipapril19.pdf
+2019-04,2019-04-30,2019-07-12,127.9,first_revision,1,mospi_press_release,MOSPI,Press Note May'19.pdf;Press_Note_May19.pdf;iipmay19.pdf
+2019-04,2019-04-30,2019-09-12,126.5,final,2,mospi_press_release,MOSPI,iipjuly19.pdf
+2019-05,2019-05-31,2019-07-12,133.6,quick,0,mospi_press_release,MOSPI,Press Note May'19.pdf;Press_Note_May19.pdf;iipmay19.pdf
+2019-05,2019-05-31,2019-08-09,135.5,first_revision,1,mospi_press_release,MOSPI,Press Note June'19.pdf;iipjune19.pdf
+2019-05,2019-05-31,2019-10-11,135.4,final,2,mospi_press_release,MOSPI,iipaug19.pdf
+2019-06,2019-06-30,2019-08-09,130.2,quick,0,mospi_press_release,MOSPI,Press Note June'19.pdf;iipjune19.pdf
+2019-06,2019-06-30,2019-09-12,129.2,first_revision,1,mospi_press_release,MOSPI,iipjuly19.pdf
+2019-06,2019-06-30,2019-11-11,129.3,final,2,mospi_press_release,MOSPI,iipsep19.pdf
+2019-07,2019-07-31,2019-09-12,131.1,quick,0,mospi_press_release,MOSPI,iipjuly19.pdf
+2019-07,2019-07-31,2019-10-11,131.5,first_revision,1,mospi_press_release,MOSPI,iipaug19.pdf
+2019-07,2019-07-31,2019-12-12,131.8,final,2,mospi_press_release,MOSPI,IIP Oct'19 Press Release.pdf;iipoct19.pdf
+2019-08,2019-08-31,2019-10-11,126.6,quick,0,mospi_press_release,MOSPI,iipaug19.pdf
+2019-08,2019-08-31,2019-11-11,126.2,first_revision,1,mospi_press_release,MOSPI,iipsep19.pdf
+2019-08,2019-08-31,2020-01-10,126.2,final,2,mospi_press_release,MOSPI,iipnov19.pdf
+2019-09,2019-09-30,2019-11-11,123.3,quick,0,mospi_press_release,MOSPI,iipsep19.pdf
+2019-09,2019-09-30,2019-12-12,123.2,first_revision,1,mospi_press_release,MOSPI,IIP Oct'19 Press Release.pdf;iipoct19.pdf
+2019-09,2019-09-30,2020-02-12,122.9,final,2,mospi_press_release,MOSPI,iipdec19.pdf
+2019-10,2019-10-31,2019-12-12,127.7,quick,0,mospi_press_release,MOSPI,IIP Oct'19 Press Release.pdf;iipoct19.pdf
+2019-10,2019-10-31,2020-01-10,127.5,first_revision,1,mospi_press_release,MOSPI,iipnov19.pdf
+2019-10,2019-10-31,2020-03-12,124.0,final,2,mospi_press_release,MOSPI,iipjan20.pdf
+2019-11,2019-11-30,2020-01-10,128.4,quick,0,mospi_press_release,MOSPI,iipnov19.pdf
+2019-11,2019-11-30,2020-02-12,128.4,first_revision,1,mospi_press_release,MOSPI,iipdec19.pdf
+2019-11,2019-11-30,2020-06-12,128.8,republished,2,mospi_statement_republication,MOSPI,iipApr20.pdf
+2019-12,2019-12-31,2020-02-12,133.5,quick,0,mospi_press_release,MOSPI,iipdec19.pdf
+2019-12,2019-12-31,2020-03-12,134.0,first_revision,1,mospi_press_release,MOSPI,iipjan20.pdf
+2019-12,2019-12-31,2020-06-12,134.5,republished,2,mospi_statement_republication,MOSPI,iipApr20.pdf
+2020-01,2020-01-31,2020-03-12,137.1,quick,0,mospi_press_release,MOSPI,iipjan20.pdf
+2020-01,2020-01-31,2020-06-12,137.4,final,2,mospi_press_release,MOSPI,iipApr20.pdf
+2020-02,2020-02-29,2020-06-12,133.5,republished,0,mospi_statement_republication,MOSPI,iipApr20.pdf
+2020-02,2020-02-29,2020-07-10,134.2,final,2,mospi_press_release,MOSPI,iipMay20.pdf
+2020-03,2020-03-31,2020-06-12,117.7,first_revision,1,mospi_press_release,MOSPI,iipApr20.pdf
+2020-03,2020-03-31,2020-08-11,117.2,final,2,mospi_press_release,MOSPI,iipJune20.pdf
+2020-04,2020-04-30,2020-06-12,56.3,quick,0,mospi_press_release,MOSPI,iipApr20.pdf
+2020-04,2020-04-30,2020-07-10,53.6,first_revision,1,mospi_press_release,MOSPI,iipMay20.pdf
+2020-04,2020-04-30,2020-09-11,54.0,final,2,mospi_press_release,MOSPI,IIP Jul%2720 Press Release.pdf;IIP Jul'20 Press Release.pdf;iipJuly20.pdf
+2020-05,2020-05-31,2020-07-10,88.4,quick,0,mospi_press_release,MOSPI,iipMay20.pdf
+2020-05,2020-05-31,2020-08-11,89.5,first_revision,1,mospi_press_release,MOSPI,iipJune20.pdf
+2020-05,2020-05-31,2020-10-12,90.2,final,2,mospi_press_release,MOSPI,IIP Aug'20 Press Release.pdf;iipAug20.pdf
+2020-06,2020-06-30,2020-08-11,107.8,quick,0,mospi_press_release,MOSPI,iipJune20.pdf
+2020-06,2020-06-30,2020-09-11,108.9,first_revision,1,mospi_press_release,MOSPI,IIP Jul%2720 Press Release.pdf;IIP Jul'20 Press Release.pdf;iipJuly20.pdf
+2020-06,2020-06-30,2020-11-12,107.9,final,2,mospi_press_release,MOSPI,IIP Sep'20 Press Release.pdf
+2020-07,2020-07-31,2020-09-11,118.1,quick,0,mospi_press_release,MOSPI,IIP Jul%2720 Press Release.pdf;IIP Jul'20 Press Release.pdf;iipJuly20.pdf
+2020-07,2020-07-31,2020-10-12,117.6,first_revision,1,mospi_press_release,MOSPI,IIP Aug'20 Press Release.pdf;iipAug20.pdf
+2020-07,2020-07-31,2020-12-11,117.9,final,2,mospi_press_release,MOSPI,iipoct20.pdf
+2020-08,2020-08-31,2020-10-12,116.1,quick,0,mospi_press_release,MOSPI,IIP Aug'20 Press Release.pdf;iipAug20.pdf
+2020-08,2020-08-31,2020-11-12,116.9,first_revision,1,mospi_press_release,MOSPI,IIP Sep'20 Press Release.pdf
+2020-08,2020-08-31,2021-01-12,117.2,republished,2,mospi_statement_republication,MOSPI,iipnov20.pdf
+2020-09,2020-09-30,2020-11-12,123.2,quick,0,mospi_press_release,MOSPI,IIP Sep'20 Press Release.pdf
+2020-09,2020-09-30,2020-12-11,123.5,first_revision,1,mospi_press_release,MOSPI,iipoct20.pdf
+2020-09,2020-09-30,2021-02-12,124.1,final,2,mospi_press_release,MOSPI,iipdec20.pdf
+2020-10,2020-10-31,2020-12-11,128.5,quick,0,mospi_press_release,MOSPI,iipoct20.pdf
+2020-10,2020-10-31,2021-01-12,129.2,first_revision,1,mospi_press_release,MOSPI,iipnov20.pdf
+2020-10,2020-10-31,2021-03-12,129.6,republished,2,mospi_statement_republication,MOSPI,iipjan21.pdf
+2020-11,2020-11-30,2021-01-12,126.3,quick,0,mospi_press_release,MOSPI,iipnov20.pdf
+2020-11,2020-11-30,2021-02-12,126.1,first_revision,1,mospi_press_release,MOSPI,iipdec20.pdf
+2020-11,2020-11-30,2021-04-12,126.7,final,2,mospi_press_release,MOSPI,iipfeb21.pdf
+2020-12,2020-12-31,2021-02-12,135.9,quick,0,mospi_press_release,MOSPI,iipdec20.pdf
+2020-12,2020-12-31,2021-03-12,136.6,first_revision,1,mospi_press_release,MOSPI,iipjan21.pdf
+2020-12,2020-12-31,2021-05-12,137.4,final,2,mospi_press_release,MOSPI,IIP Mar'21 Press Release.pdf;iipmar21.pdf
+2021-01,2021-01-31,2021-03-12,135.2,quick,0,mospi_press_release,MOSPI,iipjan21.pdf
+2021-01,2021-01-31,2021-04-12,136.2,first_revision,1,mospi_press_release,MOSPI,iipfeb21.pdf
+2021-01,2021-01-31,2021-06-11,136.6,republished,2,mospi_statement_republication,MOSPI,IIP_PR_Apr21.pdf
+2021-02,2021-02-28,2021-04-12,129.4,quick,0,mospi_press_release,MOSPI,iipfeb21.pdf
+2021-02,2021-02-28,2021-05-12,129.6,first_revision,1,mospi_press_release,MOSPI,IIP Mar'21 Press Release.pdf;iipmar21.pdf
+2021-02,2021-02-28,2021-07-12,129.9,final,2,mospi_press_release,MOSPI,IIP_PR_May21.pdf
+2021-03,2021-03-31,2021-05-12,143.4,quick,0,mospi_press_release,MOSPI,IIP Mar'21 Press Release.pdf;iipmar21.pdf
+2021-03,2021-03-31,2021-06-11,145.5,first_revision,1,mospi_press_release,MOSPI,IIP_PR_Apr21.pdf;iipapr21.pdf
+2021-03,2021-03-31,2021-08-12,145.6,final,2,mospi_press_release,MOSPI,IIP_PR_Jun21.pdf;iipjun21.pdf
+2021-04,2021-04-30,2021-06-11,126.6,quick,0,mospi_press_release,MOSPI,IIP_PR_Apr21.pdf;iipapr21.pdf
+2021-04,2021-04-30,2021-07-12,126.7,first_revision,1,mospi_press_release,MOSPI,IIP_PR_May21.pdf
+2021-04,2021-04-30,2022-01-12,126.1,republished,2,mospi_statement_republication,MOSPI,IIP_PR_Nov21.pdf
+2021-05,2021-05-31,2021-07-12,116.6,quick,0,mospi_press_release,MOSPI,IIP_PR_May21.pdf
+2021-05,2021-05-31,2021-08-12,116.0,first_revision,1,mospi_press_release,MOSPI,IIP_PR_Jun21.pdf;iipjun21.pdf
+2021-05,2021-05-31,2022-01-12,115.1,republished,2,mospi_statement_republication,MOSPI,IIP_PR_Nov21.pdf
+2021-06,2021-06-30,2021-08-12,122.6,quick,0,mospi_press_release,MOSPI,IIP_PR_Jun21.pdf;iipjun21.pdf
+2021-06,2021-06-30,2022-01-12,122.8,republished,1,mospi_statement_republication,MOSPI,IIP_PR_Nov21.pdf
+2021-07,2021-07-31,2022-01-12,131.5,republished,0,mospi_statement_republication,MOSPI,IIP_PR_Nov21.pdf
+2021-08,2021-08-31,2022-01-12,132.4,final,2,mospi_press_release,MOSPI,IIP_PR_Nov21.pdf
+2021-09,2021-09-30,2022-01-12,128.2,republished,0,mospi_statement_republication,MOSPI,IIP_PR_Nov21.pdf
+2021-09,2021-09-30,2022-06-10,129.5,republished,1,mospi_statement_republication,MOSPI,IIP_PR_April2022.pdf
+2021-10,2021-10-31,2022-01-12,134.8,first_revision,1,mospi_press_release,MOSPI,IIP_PR_Nov21.pdf
+2021-10,2021-10-31,2022-06-10,135.0,republished,1,mospi_statement_republication,MOSPI,IIP_PR_April2022.pdf
+2021-11,2021-11-30,2022-01-12,128.5,quick,0,mospi_press_release,MOSPI,IIP_PR_Nov21.pdf
+2021-11,2021-11-30,2022-06-10,128.0,republished,1,mospi_statement_republication,MOSPI,IIP_PR_April2022.pdf
+2021-12,2021-12-31,2022-06-10,138.8,republished,0,mospi_statement_republication,MOSPI,IIP_PR_April2022.pdf
+2022-01,2022-01-31,2022-06-10,139.3,final,2,mospi_press_release,MOSPI,IIP_PR_April2022.pdf
+2022-02,2022-02-28,2022-06-10,131.8,republished,0,mospi_statement_republication,MOSPI,IIP_PR_April2022.pdf
+2022-02,2022-02-28,2022-07-12,131.4,republished,0,mospi_statement_republication,MOSPI,IIP_PR_May2022.pdf
+2022-03,2022-03-31,2022-06-10,148.8,first_revision,1,mospi_press_release,MOSPI,IIP_PR_April2022.pdf
+2022-03,2022-03-31,2022-08-12,148.8,final,2,mospi_press_release,MOSPI,IIP_PR_June2022.pdf
+2022-04,2022-04-30,2022-06-10,135.1,quick,0,mospi_press_release,MOSPI,IIP_PR_April2022.pdf
+2022-04,2022-04-30,2022-07-12,134.6,final,2,mospi_press_release,MOSPI,IIP_PR_May2022.pdf
+2022-04,2022-04-30,2022-09-12,134.5,final,2,mospi_press_release,MOSPI,IIP_PR_July2022.pdf
+2022-05,2022-05-31,2022-07-12,137.7,quick,0,mospi_press_release,MOSPI,IIP_PR_May2022.pdf
+2022-05,2022-05-31,2022-08-12,137.7,first_revision,1,mospi_press_release,MOSPI,IIP_PR_June2022.pdf
+2022-05,2022-05-31,2022-10-12,137.8,final,2,mospi_press_release,MOSPI,IIP_PR_12oct22.pdf;IIP_PR_August2022.pdf
+2022-06,2022-06-30,2022-08-12,137.9,quick,0,mospi_press_release,MOSPI,IIP_PR_June2022.pdf
+2022-06,2022-06-30,2022-09-12,138.4,first_revision,1,mospi_press_release,MOSPI,IIP_PR_July2022.pdf
+2022-06,2022-06-30,2022-11-11,138.3,final,2,mospi_press_release,MOSPI,IIP Sep'22 Press Release.pdf;IIP_PR_Sep22.pdf
+2022-07,2022-07-31,2022-09-12,134.6,quick,0,mospi_press_release,MOSPI,IIP_PR_July2022.pdf
+2022-07,2022-07-31,2022-10-12,134.4,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12oct22.pdf;IIP_PR_August2022.pdf
+2022-08,2022-08-31,2022-10-12,131.3,quick,0,mospi_press_release,MOSPI,IIP_PR_12oct22.pdf;IIP_PR_August2022.pdf
+2022-08,2022-08-31,2022-11-11,131.5,first_revision,1,mospi_press_release,MOSPI,IIP Sep'22 Press Release.pdf;IIP_PR_Sep22.pdf
+2022-08,2022-08-31,2023-01-12,131.5,final,2,mospi_press_release,MOSPI,IIP_PR_12jan23.pdf
+2022-09,2022-09-30,2022-11-11,133.5,quick,0,mospi_press_release,MOSPI,IIP Sep'22 Press Release.pdf;IIP_PR_Sep22.pdf
+2022-09,2022-09-30,2023-01-12,134.0,republished,1,mospi_statement_republication,MOSPI,IIP_PR_12jan23.pdf
+2022-09,2022-09-30,2023-02-10,133.8,final,2,mospi_press_release,MOSPI,IIP_PR_10feb23.pdf
+2022-10,2022-10-31,2023-01-12,129.3,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12jan23.pdf
+2022-10,2022-10-31,2023-03-10,129.5,final,2,mospi_press_release,MOSPI,IIP_PR_10mar23.pdf
+2022-11,2022-11-30,2023-01-12,137.1,quick,0,mospi_press_release,MOSPI,IIP_PR_12jan23.pdf
+2022-11,2022-11-30,2023-02-10,137.4,first_revision,1,mospi_press_release,MOSPI,IIP_PR_10feb23.pdf
+2022-11,2022-11-30,2023-04-12,137.7,final,2,mospi_press_release,MOSPI,IIP_PR_12apr23.pdf
+2022-12,2022-12-31,2023-02-10,144.7,quick,0,mospi_press_release,MOSPI,IIP_PR_10feb23.pdf
+2022-12,2022-12-31,2023-03-10,145.3,first_revision,1,mospi_press_release,MOSPI,IIP_PR_10mar23.pdf
+2022-12,2022-12-31,2023-05-12,145.9,final,2,mospi_press_release,MOSPI,IIP_PR_12may23.pdf
+2023-01,2023-01-31,2023-03-10,146.5,quick,0,mospi_press_release,MOSPI,IIP_PR_10mar23.pdf
+2023-01,2023-01-31,2023-04-12,146.9,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12apr23.pdf
+2023-01,2023-01-31,2023-06-12,147.4,final,2,mospi_press_release,MOSPI,IIP_PR_12jun23.pdf
+2023-02,2023-02-28,2023-04-12,138.7,quick,0,mospi_press_release,MOSPI,IIP_PR_12apr23.pdf
+2023-02,2023-02-28,2023-05-12,139.0,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12may23.pdf
+2023-02,2023-02-28,2023-07-12,139.3,final,2,mospi_press_release,MOSPI,IIP_PR_12july23.pdf
+2023-03,2023-03-31,2023-05-12,150.5,quick,0,mospi_press_release,MOSPI,IIP_PR_12may23.pdf
+2023-03,2023-03-31,2023-06-12,151.4,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12jun23.pdf
+2023-03,2023-03-31,2023-08-11,151.7,final,2,mospi_press_release,MOSPI,IIP_PR_11aug23.pdf
+2023-04,2023-04-30,2023-06-12,140.2,quick,0,mospi_press_release,MOSPI,IIP_PR_12jun23.pdf
+2023-04,2023-04-30,2023-07-12,140.5,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12july23.pdf
+2023-04,2023-04-30,2023-09-12,140.7,final,2,mospi_press_release,MOSPI,IIP_PR_12sep23.pdf
+2023-05,2023-05-31,2023-07-12,145.0,quick,0,mospi_press_release,MOSPI,IIP_PR_12july23.pdf
+2023-05,2023-05-31,2023-08-11,145.1,first_revision,1,mospi_press_release,MOSPI,IIP_PR_11aug23.pdf
+2023-05,2023-05-31,2023-10-12,145.6,final,2,mospi_press_release,MOSPI,IIP_PR_12oct23.pdf
+2023-06,2023-06-30,2023-08-11,143.4,quick,0,mospi_press_release,MOSPI,IIP_PR_11aug23.pdf
+2023-06,2023-06-30,2023-09-12,143.5,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12sep23.pdf
+2023-06,2023-06-30,2023-11-10,143.9,final,2,mospi_press_release,MOSPI,IIP_PR_10nov23.pdf
+2023-07,2023-07-31,2023-09-12,142.0,quick,0,mospi_press_release,MOSPI,IIP_PR_12sep23.pdf
+2023-07,2023-07-31,2023-10-12,142.5,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12oct23.pdf
+2023-07,2023-07-31,2023-12-12,142.7,final,2,mospi_press_release,MOSPI,IIP_PR_12dec23.pdf
+2023-08,2023-08-31,2023-10-12,145.1,quick,0,mospi_press_release,MOSPI,IIP_PR_12oct23.pdf
+2023-08,2023-08-31,2023-11-10,145.1,first_revision,1,mospi_press_release,MOSPI,IIP_PR_10nov23.pdf
+2023-08,2023-08-31,2024-01-12,145.8,final,2,mospi_press_release,MOSPI,IIP_PR_12jan24.pdf
+2023-09,2023-09-30,2023-11-10,141.6,quick,0,mospi_press_release,MOSPI,IIP_PR_10nov23.pdf
+2023-09,2023-09-30,2023-12-12,142.1,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12dec23.pdf
+2023-09,2023-09-30,2024-02-12,142.3,final,2,mospi_press_release,MOSPI,IIP_PR_12feb24.pdf
+2023-10,2023-10-31,2023-12-12,144.7,quick,0,mospi_press_release,MOSPI,IIP_PR_12dec23.pdf
+2023-10,2023-10-31,2024-01-12,144.5,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12jan24.pdf
+2023-10,2023-10-31,2024-03-12,144.9,final,2,mospi_press_release,MOSPI,IIP_PR_12mar24.pdf
+2023-11,2023-11-30,2024-01-12,141.0,quick,0,mospi_press_release,MOSPI,IIP_PR_12jan24.pdf
+2023-11,2023-11-30,2024-02-12,141.0,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12feb24.pdf
+2023-11,2023-11-30,2024-04-12,141.1,final,2,mospi_press_release,MOSPI,IIP_PR_12apr24.pdf
+2023-12,2023-12-31,2024-02-12,151.5,quick,0,mospi_press_release,MOSPI,IIP_PR_12feb24.pdf
+2023-12,2023-12-31,2024-03-12,152.1,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12mar24.pdf
+2023-12,2023-12-31,2024-05-10,152.3,final,2,mospi_press_release,MOSPI,IIP_PR_10may24.pdf
+2024-01,2024-01-31,2024-03-12,153.0,quick,0,mospi_press_release,MOSPI,IIP_PR_12mar24.pdf
+2024-01,2024-01-31,2024-04-12,153.5,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12apr24.pdf
+2024-01,2024-01-31,2024-06-12,153.6,final,2,mospi_press_release,MOSPI,IIP_PR_12jun24.pdf
+2024-02,2024-02-29,2024-04-12,147.2,quick,0,mospi_press_release,MOSPI,IIP_PR_12apr24.pdf
+2024-02,2024-02-29,2024-05-10,147.1,first_revision,1,mospi_press_release,MOSPI,IIP_PR_10may24.pdf
+2024-02,2024-02-29,2024-07-12,147.1,final,2,mospi_press_release,MOSPI,IIP_PR_12July24.pdf
+2024-03,2024-03-31,2024-05-10,159.2,quick,0,mospi_press_release,MOSPI,IIP_PR_10may24.pdf
+2024-03,2024-03-31,2024-06-12,159.9,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12jun24.pdf
+2024-03,2024-03-31,2024-10-11,160.0,republished,2,mospi_statement_republication,MOSPI,IIP_PR_11Oct24.pdf
+2024-04,2024-04-30,2024-06-12,147.7,quick,0,mospi_press_release,MOSPI,IIP_PR_12jun24.pdf
+2024-04,2024-04-30,2024-07-12,147.7,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12July24.pdf
+2024-04,2024-04-30,2024-10-11,148.0,republished,2,mospi_statement_republication,MOSPI,IIP_PR_11Oct24.pdf
+2024-05,2024-05-31,2024-07-12,154.2,quick,0,mospi_press_release,MOSPI,IIP_PR_12July24.pdf
+2024-05,2024-05-31,2024-10-11,154.7,final,2,mospi_press_release,MOSPI,IIP_PR_11Oct24.pdf
+2024-06,2024-06-30,2024-10-11,150.7,republished,0,mospi_statement_republication,MOSPI,IIP_PR_11Oct24.pdf
+2024-06,2024-06-30,2024-11-12,151.0,final,2,mospi_press_release,MOSPI,IIP_PR_12nov24.pdf
+2024-07,2024-07-31,2024-10-11,149.4,first_revision,1,mospi_press_release,MOSPI,IIP_PR_11Oct24.pdf
+2024-07,2024-07-31,2024-12-12,149.8,final,2,mospi_press_release,MOSPI,IIP_PR_12dec24.pdf
+2024-08,2024-08-31,2024-10-11,145.6,quick,0,mospi_press_release,MOSPI,IIP_PR_11Oct24.pdf
+2024-08,2024-08-31,2024-11-12,145.7,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12nov24.pdf
+2024-08,2024-08-31,2025-01-10,145.8,final,2,mospi_press_release,MOSPI,IIP_PR_10jan25.pdf
+2024-09,2024-09-30,2024-11-12,146.7,quick,0,mospi_press_release,MOSPI,IIP_PR_12nov24.pdf
+2024-09,2024-09-30,2024-12-12,146.7,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12dec24.pdf
+2024-09,2024-09-30,2025-02-12,146.9,final,2,mospi_press_release,MOSPI,IIP_PR_12Feb25.pdf
+2024-10,2024-10-31,2024-12-12,149.9,quick,0,mospi_press_release,MOSPI,IIP_PR_12dec24.pdf
+2024-10,2024-10-31,2025-01-10,150.2,first_revision,1,mospi_press_release,MOSPI,IIP_PR_10jan25.pdf
+2024-10,2024-10-31,2025-03-12,150.3,final,2,mospi_press_release,MOSPI,IIP_PR_12Mar25.pdf
+2024-11,2024-11-30,2025-01-10,148.4,quick,0,mospi_press_release,MOSPI,IIP_PR_10jan25.pdf
+2024-11,2024-11-30,2025-02-12,148.1,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12Feb25.pdf
+2024-11,2024-11-30,2025-04-11,148.1,final,2,mospi_press_release,MOSPI,IIP_PR_11Apr25.pdf
+2024-12,2024-12-31,2025-02-12,157.2,quick,0,mospi_press_release,MOSPI,IIP_PR_12Feb25.pdf
+2024-12,2024-12-31,2025-03-12,157.7,first_revision,1,mospi_press_release,MOSPI,IIP_PR_12Mar25.pdf
+2024-12,2024-12-31,2025-04-28,158.0,final,2,mospi_press_release,MOSPI,IIP_PR_28apr25.pdf
+2025-01,2025-01-31,2025-03-12,161.3,quick,0,mospi_press_release,MOSPI,IIP_PR_12Mar25.pdf
+2025-01,2025-01-31,2025-04-11,161.6,first_revision,1,mospi_press_release,MOSPI,IIP_PR_11Apr25.pdf
+2025-01,2025-01-31,2025-04-28,161.6,final,2,mospi_press_release,MOSPI,IIP_PR_28apr25.pdf
+2025-02,2025-02-28,2025-04-11,151.3,quick,0,mospi_press_release,MOSPI,IIP_PR_11Apr25.pdf
+2025-02,2025-02-28,2025-04-28,151.1,final,2,mospi_press_release,MOSPI,IIP_PR_28apr25.pdf
+2025-03,2025-03-31,2025-04-28,164.8,quick,0,mospi_press_release,MOSPI,IIP_PR_28apr25.pdf
+2025-03,2025-03-31,2025-05-28,166.3,final,2,mospi_press_release,MOSPI,IIP_PR_28may25.pdf
+2025-04,2025-04-30,2025-05-28,152.0,quick,0,mospi_press_release,MOSPI,IIP_PR_28may25.pdf
+2025-04,2025-04-30,2025-06-30,151.8,final,2,mospi_press_release,MOSPI,IIP_PR_30june25.pdf
+2025-05,2025-05-31,2025-06-30,156.6,quick,0,mospi_press_release,MOSPI,IIP_PR_30june25.pdf
+2025-05,2025-05-31,2025-07-28,157.6,final,2,mospi_press_release,MOSPI,IIP_Jun2025_pib.pdf
+2025-06,2025-06-30,2025-07-28,153.3,quick,0,mospi_press_release,MOSPI,IIP_Jun2025_pib.pdf
+2025-06,2025-06-30,2025-08-28,153.3,final,2,mospi_press_release,MOSPI,IIP_Jul2025_pib.pdf
+2025-07,2025-07-31,2025-08-28,155.0,quick,0,mospi_press_release,MOSPI,IIP_Jul2025_pib.pdf
+2025-07,2025-07-31,2025-09-29,156.2,final,2,pib_posting,MOSPI,IIP_Sep2025_pib.pdf;pib_IIP_Aug2025_PRID2172702.html
+2025-07,2025-07-31,2025-10-28,156.2,republished,1,mospi_statement_republication,MOSPI,IIP_Sep2025_pib.pdf
+2025-08,2025-08-31,2025-09-29,151.7,quick,0,pib_posting,MOSPI,pib_IIP_Aug2025_PRID2172702.html
+2025-08,2025-08-31,2025-10-28,151.8,final,2,mospi_press_release,MOSPI,IIP_Sep2025_pib.pdf
+2025-09,2025-09-30,2025-10-28,152.8,quick,0,mospi_press_release,MOSPI,IIP_Sep2025_pib.pdf
+2025-09,2025-09-30,2025-12-01,153.7,final,2,mospi_embargo_line,MOSPI,IIP_Oct2025_pib.pdf
+2025-10,2025-10-31,2025-12-01,150.9,quick,0,mospi_embargo_line,MOSPI,IIP_Oct2025_pib.pdf
+2025-10,2025-10-31,2025-12-29,151.1,final,2,mospi_press_release,MOSPI,IIP_Nov2025_uuid.pdf
+2025-11,2025-11-30,2025-12-29,158.0,quick,0,mospi_press_release,MOSPI,IIP_Nov2025_uuid.pdf
+2025-11,2025-11-30,2026-01-28,158.7,final,2,mospi_press_release,MOSPI,IIP_Dec2025_uuid.pdf
+2025-12,2025-12-31,2026-01-28,170.3,quick,0,mospi_press_release,MOSPI,IIP_Dec2025_uuid.pdf
+2025-12,2025-12-31,2026-03-02,170.7,final,2,mospi_press_release,MOSPI,IIP_Jan2026_uuid.pdf
+2026-01,2026-01-31,2026-03-02,169.4,quick,0,mospi_press_release,MOSPI,IIP_Jan2026_uuid.pdf
+2026-01,2026-01-31,2026-03-30,169.9,final,2,mospi_press_release,MOSPI,IIP_Feb2026_uuid.pdf
+2026-02,2026-02-28,2026-03-30,159.0,quick,0,mospi_press_release,MOSPI,IIP_Feb2026_uuid.pdf
+2026-02,2026-02-28,2026-04-28,158.8,final,2,mospi_press_release,MOSPI,IIP_Mar2026_uuid.pdf
+2026-03,2026-03-31,2026-04-28,173.2,quick,0,mospi_press_release,MOSPI,IIP_Mar2026_uuid.pdf
