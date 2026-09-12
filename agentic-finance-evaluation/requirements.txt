@@ -13,4 +13,5 @@ jupyter
 pytest
 yfinance
 openpyxl
+xlrd
 pypdf

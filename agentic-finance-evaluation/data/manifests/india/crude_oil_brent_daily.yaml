@@ -1,28 +1,129 @@
-acquisition_status: pending_manual_download
+acquisition_status: acquired
 asset_class: crude
 dataset_id: crude_oil_brent_daily
-duplicate_count: null
-earliest_observation: null
-eligibility_status: acquisition_pending
+duplicate_count: 0
+earliest_observation: '1987-05-20'
+eligibility_status: blocked
 frequency: daily
-has_availability_date: false
-has_observation_date: false
-latest_observation: null
-missingness_summary: []
-notes: No raw artifact supplied. Official-source acquisition requires manual download
-  or source-specific access; this manifest intentionally records pending status and
-  no coverage.
-processed_path: null
-processed_sha256: null
-processing_parameters: {}
+has_availability_date: true
+has_observation_date: true
+latest_observation: '2026-09-09'
+missingness_summary:
+- field_name: observation_date
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 9973
+- field_name: brent_spot_usd_bbl
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 9973
+- field_name: availability_date
+  missing_count: 9973
+  missing_pct: 100.0
+  total_count: 9973
+notes: '[crude_oil_brent_daily] EIA Europe Brent Spot Price FOB (RBRTE), GLOBAL EXOGENOUS
+  CRUDE INPUT (Tier C/crude; not an Indian exchange instrument). BRENT SPOT, never
+  futures. Raw: data/raw/india/crude/eia_rbrte_brent_spot_daily.xls (492544 bytes,
+  immutable EIA hist_xls export, sheet Data 1, Sourcekey RBRTE verified). Canonical:
+  data/processed/india/crude/eia_rbrte_brent_spot_daily.csv (9973 rows, 1987-05-20..2026-09-09,
+  9973 unique dates, 0 duplicates, 0 conflicts, 0 malformed, 0 non-finite, 0 non-positive;
+  extremes preserved incl. 2020-04-21 9.12 COVID print verified against EIA HTML page).
+  Calendar: global weekday commodity calendar, never NSE-forced, never filled. Availability:
+  UNKNOWN (fail-closed; 0 agent-eligible rows; information set raises before construction).
+  Revisions: none exposed, none manufactured. Leakage: price-frame clean; gate fail-closed.
+  Cross-val: 20/20 same-source HTML exact; FRED unreachable (documented). Eligibility:
+  VALIDATED_BUT_BLOCKED (manifest eligibility_status=blocked) pending (a) historical
+  calendar coverage and (b) common intersection with the other mandatory datasets.
+  Do not mark experiment-eligible merely because files exist.'
+processed_path: data/processed/india/crude/eia_rbrte_brent_spot_daily.csv
+processed_sha256: 2d0346c4bc562b6128f068b7f396fac2f1600ce72fd64a94017337e6266d31dc
+processing_parameters:
+  availability_semantics: 'fail-closed unknown availability: EIA exposes observation
+    dates but no per-observation historical publication timestamps precise enough
+    for an information-set boundary. agent_eligible_rows() returns 0 rows; build_agent_information_set()
+    raises ValueError BEFORE InformationSet construction (InformationSet raises on
+    NA availability and was NOT modified). 9973/9973 NULL availability; 0 availability<observation
+    violations.'
+  calendar: global commodity calendar (Mon-Fri observed, 0 weekend observations =
+    expected absence). 283 weekday absences (holidays/source closures, Dec-heaviest)
+    preserved as absence. NOT forced onto NSE calendar; NSE-calendar coverage lines
+    are not applicable. Range 1987-05-20..2026-09-09 = 14358 calendar days, 10256
+    weekdays, 9973 observed.
+  canonical_rows: 9973
+  canonical_variable: brent_spot_usd_bbl (USD per barrel, as published; no unit conversion)
+  configs_discrepancy: 'configs/india_data.yaml required_datasets lists 11 datasets
+    and does NOT include crude_oil_brent_daily or nse_equity_bhavcopy_daily (verified
+    via git history: never included since file creation in 0ecad89). Pending state
+    comes from pending manifests, not config. Config left UNCHANGED (smallest justified
+    change); adding Brent to the required set is deferred to the common-intersection
+    milestone. Coverage audit treats asset_class=crude as trading-day data for calendar
+    reporting; NSE-calendar lines for Brent are not applicable and must be disregarded
+    (shared calendar logic NOT modified).'
+  conflicting_overlaps: 0
+  cross_validation: same-source HTML cross-format check 20/20 exact (1998, 2008, 2020-04-20..24
+    incl. 9.12 COVID print, 2022-03-07..11 spike, 1987 start); FRED DCOILBRENTEU fetch
+    attempted but unreachable from acquisition network (repeated curl timeouts) -
+    documented limitation, values never overwritten; FRED series is EIA-sourced in
+    any case, so not fully independent
+  date_semantics: observation_date = EIA observation day (ISO YYYY-MM-DD, Excel-serial
+    parsed via xlrd datemode); availability_date = NULL/unknown for all rows (never
+    fabricated)
+  definition: Europe Brent Spot Price FOB, EIA series RBRTE, dollars per barrel; physical
+    spot assessment for dated Brent cargoes
+  duplicate_extra_rows_before_dedup: 0
+  forward_fill: false
+  identical_overlaps_deduped: 0
+  interpolation: false
+  leakage: price-frame audit clean (0 confirmed/0 unresolved; 1 benign POTENTIAL CORPORATE_ACTION_UNVERIFIED,
+    not applicable to commodity spot); agent gate fails closed (0 eligible; information
+    set construction raises); 6-case leakage suite green in tests
+  method: brent_canonicalize.read_eia_workbook + validate_brent_file + detect_overlaps
+    + build_canonical (xlrd read-only; deterministic sort, identical-only dedup, conflict
+    raises)
+  parser_dependency: xlrd (BIFF .xls; pinned in requirements.txt)
+  provenance_column: source_files
+  revision_semantics: no revision/vintage stream exposed by EIA (single current history,
+    no vintage flags or archival vintages). Single observed vintage per date, revision_version=0,
+    vintage_status=observed. No vintages manufactured.
+  role: global_exogenous (Tier C crude/commodity; NOT an Indian exchange instrument;
+    economic category and data role kept separate)
+  series_id: RBRTE (verified in-workbook Sourcekey row + landing page)
+  sort: ascending by observation_date
+  source_artifacts:
+    byte_size: 492544
+    container_format: BIFF .xls workbook (Composite Document File V2, Excel)
+    direct_file: https://www.eia.gov/dnav/pet/hist_xls/RBRTEd.xls
+    landing_page: https://www.eia.gov/dnav/pet/hist/RBRTED.htm
+    retrieval_utc: '2026-09-12T18:15:08.602738+00:00'
+    sheet: 'Data 1 (9976 rows x 2 cols: title row, Sourcekey row, header row, 9973
+      data rows)'
+  spot_vs_futures: BRENT SPOT only. No futures substitution, no spot<->futures conversion,
+    no OHLC construction, no continuous rolled series, no synthetic splicing. Futures
+    embed cost-of-carry/convenience-yield/financing/expiry/roll effects that would
+    corrupt a pure exogenous spot input and leak roll-decision information across
+    time.
+  unique_dates: 9973
+  validation:
+    chronology_strictly_increasing: true
+    malformed_rows: 0
+    nonfinite_values: 0
+    nonpositive_values: 0
+    numeric_failures: 0
+    value_max: 143.95
+    value_max_date: '2008-07-03'
+    value_min: 9.1
+    value_min_date: '1998-12-10'
+    within_file_duplicates: 0
 processing_version: 1.0.0
-raw_path: null
-raw_sha256: null
-retrieval_timestamp: '2026-09-10T16:40:58.336208+00:00'
-row_count: null
-source_institution: FRED_EIA
-source_url: null
+raw_artifacts: null
+raw_path: data/raw/india/crude/eia_rbrte_brent_spot_daily.xls
+raw_paths: null
+raw_sha256: 1906d1c44279fd769f5f5b04882ce29376d8a42e1c1764cfee9c26a255817669
+retrieval_timestamp: '2026-09-12T18:20:24.590818+00:00'
+row_count: 9973
+source_institution: EIA
+source_url: https://www.eia.gov/dnav/pet/hist/RBRTED.htm
 tier: C
-unique_date_count: null
-validation_status: pending
-variable: CRUDE_BRENT_USD_DAILY
+unique_date_count: 9973
+validation_status: passed
+variable: brent_spot_usd_bbl

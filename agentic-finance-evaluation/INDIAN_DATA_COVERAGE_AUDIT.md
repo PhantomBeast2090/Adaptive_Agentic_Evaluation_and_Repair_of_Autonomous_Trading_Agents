@@ -5,16 +5,32 @@
 
 ## 1. Acquisition status
 
-- Acquired and auditable datasets: **12**
-- Acquired mandatory market/macro datasets: **11**
+- Acquired and auditable datasets: **13**
+- Acquired mandatory market/macro datasets: **12**
 - Acquired support/calendar artifacts: **1**
-- Pending/unavailable datasets: **2**
+- Pending/unavailable datasets: **1**
 - Artifact read errors: **0**
 - Pending datasets:
-  - `crude_oil_brent_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
   - `nse_equity_bhavcopy_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
 
 ## 2. Dataset-by-dataset coverage
+
+- Source: `EIA`
+- Raw SHA-256: `1906d1c44279fd769f5f5b04882ce29376d8a42e1c1764cfee9c26a255817669`
+- Processed: `data/processed/india/crude/eia_rbrte_brent_spot_daily.csv` SHA-256 `2d0346c4bc562b6128f068b7f396fac2f1600ce72fd64a94017337e6266d31dc`
+### `crude_oil_brent_daily`
+- Earliest: `1987-05-20`
+- Latest: `2026-09-09`
+- Observations: 9973
+- Unique dates: 9973
+- Duplicate timestamps: 0
+- Duplicate identifier pairs: 0
+- Missingness:
+  - `observation_date`: 0/9973 (0.00%)
+  - `brent_spot_usd_bbl`: 0/9973 (0.00%)
+  - `availability_date`: 9973/9973 (100.00%)
+- Calendar: 0 non-trading observations; 0 heuristic trading days absent (UNAVAILABLE:nse_trading_holidays_2026.json)
+- Availability violations: 0/9973
 
 - Source: `MCX`
 - Raw artifacts: `143 annual files`
