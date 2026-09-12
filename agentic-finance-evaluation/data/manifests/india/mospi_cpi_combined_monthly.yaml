@@ -1,42 +1,688 @@
-acquisition_status: pending_manual_download
+acquisition_status: acquired
 asset_class: macro
 dataset_id: mospi_cpi_combined_monthly
-duplicate_count: null
-earliest_observation: null
-eligibility_status: acquisition_pending
+duplicate_count: 0
+earliest_observation: '2013-01'
+eligibility_status: blocked
 frequency: monthly
-has_availability_date: false
-has_observation_date: false
-latest_observation: null
-missingness_summary: []
-notes: "[mospi_cpi_combined_monthly] Acquisition from MoSPI CPI / mospi.gov.in failed:\
-  \ MoSPI CPI data requires web download from mospi.gov.in. Automated download is\
-  \ not reliably possible. Release dates (critical for information availability) require\
-  \ separate collection from press release archives.\n\nManual download instructions:\n\
-  \nMoSPI CPI Manual Download:\n1. Visit: https://mospi.gov.in/consumer-price-indices-cpi\n\
-  2. Download the \"CPI Data\" historical table (Excel or CSV)\n3. Place at: data/raw/india/macro/cpi_combined.csv\n\
-  \nFor release dates (CRITICAL for information availability):\n1. Visit: https://mospi.gov.in/press-release-consumer-price-index\n\
-  2. Extract the date each month's CPI was released\n3. Or use: https://www.rbi.org.in/scripts/Bs_PressReleaseDisplay.aspx\n\
-  \   (filter by CPI press releases)\n4. Create a CSV with columns: reference_month,\
-  \ release_date\n   reference_month format: YYYY-MM (e.g. 2024-01 for January 2024)\n\
-  \   release_date format: YYYY-MM-DD\n5. Place at: data/raw/india/macro/cpi_release_dates.csv\n\
-  \nAlternative automated source (secondary):\n  RBI DBIE also carries CPI data:\n\
-  \  https://dbie.rbi.org.in/ \u2192 Price and Monetary \u2192 Consumer Price Index\n\
-  \  HOWEVER: DBIE may not include individual release dates.\n  Use MoSPI as the primary\
-  \ source.\n\nExpected CPI CSV structure:\n  Month/Year | CPI_Combined (General)\
-  \ | CPI_Urban | CPI_Rural | ...\n  OR: Month | Year | CPI | [sub-indices]\n  Base\
-  \ year: 2012=100 for the new series\n"
-processed_path: null
-processed_sha256: null
-processing_parameters: {}
+has_availability_date: true
+has_observation_date: true
+latest_observation: '2025-12'
+missingness_summary:
+- field_name: observation_period
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 209
+- field_name: cpi_index
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 209
+- field_name: availability_date
+  missing_count: 20
+  missing_pct: 9.569377990430622
+  total_count: 209
+notes: '[mospi_cpi_combined_monthly] MoSPI/NSO All-India CPI Combined General index, base 2012=100,
+  index-only (no YoY inflation column; derivable later), January 2013 to December 2025 (156 months, homogeneous
+  2012-base window). Raw evidence: 111 files under data/raw/india/macro/cpi/ — 106 MoSPI press-release PDFs (82
+  base-2012 releases spanning 2015-2025 plus the Jan-2026 first-2024-base release carrying Dec-2025 FINAL 2012-base
+  values, and 24 base-2010 releases kept as pre-homogeneous semantic evidence whose values are never canonicalized),
+  4 PIB-mirrored MoSPI releases for Jul-Oct 2025 (MoSPI UUID URLs unrecoverable; mirrored content identical), and
+  1 PIB release page (HTML) for Aug-2025 with official Posted-On timestamp. Values backbone: Annexure VI time series
+  in CPI_Dec2025.pdf (156 months). Canonical rows=209: 82 provisional (rev 0), 82 final (rev 1, kept per-evidence so a
+  month retains its final even without a release of its own, e.g. 2020-02 from the March-2020 release), 2 imputed
+  Apr/May-2020 lockdown values published 2020-07-13 (rev 0), 23 revision-back-series 2013-01..2014-11 with documented
+  2015-02-12 revision-release availability (contemporaneous releases were base-2010; Dec-2014 additionally carries a
+  final vintage from the Jan-2015 revision release; never silently back-dated beyond the sourced revision release), 20
+  final_series_only backbone rows with NULL availability (agent-ineligible, fail-closed). 0 value conflicts (finals match Annexure VI within 0.011; provisionals within
+  0.6). Genuine revisions preserved (e.g. Jan-2025 prov 193.5 -> final 193.4; Jul-2025 prov 196.0 -> final 196.1). Known
+  residual notes: Mar-2020 final never published (no Apr-2020 release; Annexure VI 148.6 vs prov 148.7 documented, prov retained);
+  Jun-2019 present in MoSPI series (142.9; RBI workbook omission not replicated); Dec-2025 final 198.0 equals provisional;
+  Sep/Nov/Dec-2022 dual-upload PDFs deduplicated (identical content, provenance merged). Release-time embargoes (5:30pm/4pm)
+  recorded at date granularity only; no intraday precision invented. RBI workbook Monthly CPI 2012-col cross-check: 98 overlap
+  months, max abs diff 0.1 (Mar-2020 case above), corroborating MoSPI values. Leakage: InformationSet boundary verified
+  (availability <= t, latest eligible vintage); 6-case leakage suite green. Calendar: monthly periods need no trading calendar;
+  common intersection still incomplete. Eligibility: VALIDATED_BUT_BLOCKED pending (a) historical calendar coverage and (b)
+  common intersection. Do not mark experiment-eligible merely because files exist.'
+processed_path: data/processed/india/macro/mospi_cpi_combined_monthly.csv
+processed_sha256: 8e31219acc55c2e6c3c5fe7dc594defd61d96bc3121ec8bf05cdbec2ee738d56
+processing_parameters:
+  agent_information_gate: cpi_canonicalize.build_agent_information_set exposes only rows with verified availability_date and
+    vintage_status in provisional/final/revision_back_series/imputed (189 of 209 rows covering 136 of 156 months); the 20
+    final_series_only rows remain in canonical evidence with NULL availability but are machine-excluded from any agent-facing
+    InformationSet; fails closed when nothing is eligible
+  annexure_backbone: Annexure VI All-India General CPI (Base 2012=100) Since January 2013 in CPI_Dec2025.pdf (13 year-rows x 12 = 156 months)
+  availability_semantics: availability_date = verified MoSPI release (Dated header) date; pib_posting for Aug-2025 vintages (PIB Posted-On 2025-09-12);
+    2015-02-12 revision-release date for 2013-2014 back-series (sourced from cpi_pr_12feb15t.pdf Dated header + base-revision statement, documented interpretation);
+    NULL with basis unverified where unrecoverable (agent-ineligible)
+  base_year: 2012=100 (revised series, methodology per Jan-2015 base-revision release cpi_pr_12feb15t.pdf)
+  canonical_rows: 209
+  conflicting_overlaps: 0
+  date_semantics: observation_period YYYY-MM; observation_date = month-end (technical representation, never an availability claim);
+    availability_date = verified publication/release date (date granularity; embargo times not converted to intraday precision)
+  definition: All-India CPI Combined General index (all groups), base 2012=100; index-only canonical variable cpi_index
+  duplicate_reuploads_merged:
+  - '2022-09: CPI_PR_12oct22.pdf + CPI_PR_September_2022.pdf (identical values, provenance merged)'
+  - '2022-11: CPI Press Release November 2022.pdf + CPI_PR_November_2022.pdf (identical values, provenance merged)'
+  - '2022-12: CPI_PR_12jan23.pdf + CPI_PR_December_2022.pdf (identical values, provenance merged)'
+  excluded_non_homogeneous_base_file_count: 24
+  excluded_non_homogeneous_base_files:
+  - data/raw/india/macro/cpi/cpi_pr_12jan15m.pdf
+  - data/raw/india/macro/cpi/cpi_pr_13oct14m.pdf
+  - data/raw/india/macro/cpi/t4_12apr13.pdf
+  - data/raw/india/macro/cpi/t4_12aug13.pdf
+  - data/raw/india/macro/cpi/t4_12dec12.pdf
+  - data/raw/india/macro/cpi/t4_12dec13.pdf
+  - data/raw/india/macro/cpi/t4_12feb13.pdf
+  - data/raw/india/macro/cpi/t4_12feb14.pdf
+  - data/raw/india/macro/cpi/t4_12jun13.pdf
+  - data/raw/india/macro/cpi/t4_12mar13.pdf
+  - data/raw/india/macro/cpi/t4_12mar14.pdf
+  - data/raw/india/macro/cpi/t4_12nov12.pdf
+  - data/raw/india/macro/cpi/t4_12nov13.pdf
+  - data/raw/india/macro/cpi/t4_12sep13.pdf
+  - data/raw/india/macro/cpi/t4_13jan14.pdf
+  - data/raw/india/macro/cpi/t4_13may13.pdf
+  - data/raw/india/macro/cpi/t4_14jan13.pdf
+  - data/raw/india/macro/cpi/t4_14oct13.pdf
+  - data/raw/india/macro/cpi/t4_18apr12.pdf
+  - data/raw/india/macro/cpi/t4_18jan12.pdf
+  - data/raw/india/macro/cpi/t4_18may12.pdf
+  - data/raw/india/macro/cpi/t4_18sep12.pdf
+  - data/raw/india/macro/cpi/t4_21aug12.pdf
+  - data/raw/india/macro/cpi/t4_21feb12.pdf
+  forward_fill: false
+  homogeneous_window: 2013-01..2025-12 (156 months); 2011-2012 back series and 2010-base old series excluded without rescaling; 2024-base series (from Jan-2026) excluded without splicing
+  identical_overlaps_deduped: 3 ref-months (provenance merged, values identical)
+  imputed_lockdown_months:
+  - '2020-04: 151.4 imputed, published 2020-07-13 (June-2020 release Annex II)'
+  - '2020-05: 150.9 imputed, published 2020-07-13 (June-2020 release Annex II)'
+  interpolation: false
+  leakage: InformationSet boundary verified (availability <= t, latest eligible vintage per period); 6-case leakage suite green
+  method: mospi_press_release_reconciliation_with_annexure_vi_backbone
+  provenance_column: source_files
+  release_completeness: 136 of 156 observation months with verified release timing (87%); 20 backbone-only months NULL (agent-ineligible)
+  revision_back_series_months: 23 (2013-01..2014-11, availability 2015-02-12; Dec-2014 carries final vintage from Jan-2015 revision release)
+  row_arithmetic: 82 provisional + 82 final + 2 imputed + 23 revision_back_series + 20 final_series_only = 209 canonical rows over 156 periods
+  series: All-India CPI Combined General Index (Base 2012=100)
+  sort: ascending by observation_date, then revision_version
+  supporting_dec2025_final: CPI_Jan2026_first2024base.pdf carries Dec-2025 FINAL 2012-base Combined 198.0 (released 2026-02-12)
+  validation:
+    malformed_rows: 0
+    nonpositive_values: 0
+    numeric_failures: 0
+    unparseable_value_tables: 0
+  vintage_counts:
+    final: 82
+    final_series_only: 20
+    imputed: 2
+    provisional: 82
+    revision_back_series: 23
+  vintage_model: provisional rev 0 (reference-month release) -> final rev 1 (next-month release); imputed rev 0; single-vintage months keep observed status without fabricated counterparts
 processing_version: 1.0.0
+raw_artifacts:
+- byte_size: 318441
+  path: data/raw/india/macro/cpi/CPI Press Release April 2022.pdf
+  row_count: null
+  sha256: 53076424eddc7f5ab4b80aba2233d905359ac8441a98126612c265f14154441f
+- byte_size: 332425
+  path: data/raw/india/macro/cpi/CPI Press Release August 2020.pdf
+  row_count: null
+  sha256: 648bf1f7e52b17d74115e1ce3f62136bc167307f87def829178e1e1713add08c
+- byte_size: 318584
+  path: data/raw/india/macro/cpi/CPI Press Release December 2020.pdf
+  row_count: null
+  sha256: 05cf2b12b5d317b504e199795e0d425847a252bb6def62863f627c80db97be7f
+- byte_size: 187607
+  path: data/raw/india/macro/cpi/CPI Press Release February 2021.pdf
+  row_count: null
+  sha256: e47b0589efeeb9c5e699f9f323d2e05f5cf1ff8c84f78f11f3dc035408f6eb3a
+- byte_size: 318425
+  path: data/raw/india/macro/cpi/CPI Press Release February 2022.pdf
+  row_count: null
+  sha256: 871236372c0cd78cebe6f1b90340d715f9daeeba8996228e8455adf0e749ef28
+- byte_size: 187374
+  path: data/raw/india/macro/cpi/CPI Press Release January 2021.pdf
+  row_count: null
+  sha256: 7efeb024ffd9116b8fe06cfa15da963d0a4ae3679e44aa856923ae40a4fe8252
+- byte_size: 317933
+  path: data/raw/india/macro/cpi/CPI Press Release January 2022.pdf
+  row_count: null
+  sha256: a709bee9b008ded83afeb94c389626f65668b800a18d0b3ceca4ae551ebe1aef
+- byte_size: 177226
+  path: data/raw/india/macro/cpi/CPI Press Release July 2020.pdf
+  row_count: null
+  sha256: 2933e54e1885dc57cdab79d369dfd851bef1b455473b34a214cbd95569e1d038
+- byte_size: 318843
+  path: data/raw/india/macro/cpi/CPI Press Release July 2022.pdf
+  row_count: null
+  sha256: bf9d5d91bae29f5988999e2be7b23289a2602c7b1c36145047952789d14133db
+- byte_size: 153716
+  path: data/raw/india/macro/cpi/CPI Press Release June 2020.pdf
+  row_count: null
+  sha256: 8062b898943f3adae29f4c43d088a2c81944e78ff2e4c40de438fcb71ba443dd
+- byte_size: 318168
+  path: data/raw/india/macro/cpi/CPI Press Release March 2022.pdf
+  row_count: null
+  sha256: d43e5fb374b5c32e36026b24b1c464099ac8c0cb54bc994505c6c459cea1047f
+- byte_size: 318065
+  path: data/raw/india/macro/cpi/CPI Press Release May 2022.pdf
+  row_count: null
+  sha256: e8af0c0454b9a07e016db4d56ec0926386aad11d334e73f7e8cf47f9078d8b02
+- byte_size: 318208
+  path: data/raw/india/macro/cpi/CPI Press Release November 2021.pdf
+  row_count: null
+  sha256: 1448697b42e3073da97bd82074b42fda2b59417c504132f837e0507e3a0622b8
+- byte_size: 355363
+  path: data/raw/india/macro/cpi/CPI Press Release November 2022.pdf
+  row_count: null
+  sha256: 58270c280dd6d5624bfb9952aeed93283a7a4bf6541e944fba2dd3b50ab0bd2f
+- byte_size: 319209
+  path: data/raw/india/macro/cpi/CPI Press Release October 2022.pdf
+  row_count: null
+  sha256: be8db0893a2f6b756c71ca54cc587ab2cd004c42dfdec9841ac044f2a2b62037
+- byte_size: 1294068
+  path: data/raw/india/macro/cpi/CPI_Aug2025_pib.pdf
+  row_count: null
+  sha256: 4445e7cb9fcf00cf2de4ef88692dc4560adefff208f2ad755085f070217672e3
+- byte_size: 947686
+  path: data/raw/india/macro/cpi/CPI_Dec2025.pdf
+  row_count: null
+  sha256: e00e487b37b100055014a59929d3ecff13e461c13d009b022e0402c23d05c61e
+- byte_size: 720906
+  path: data/raw/india/macro/cpi/CPI_Jan2026_first2024base.pdf
+  row_count: null
+  sha256: cd4d8fd861a43f4467237813bc6e9a943bf56b471d1baefae9ba1d3d240a00bb
+- byte_size: 745018
+  path: data/raw/india/macro/cpi/CPI_Jul2025_pib.pdf
+  row_count: null
+  sha256: a125f6d62e4fc15460064f06b7352edd1d8a408952a080f91b9e03ef60b50e32
+- byte_size: 592669
+  path: data/raw/india/macro/cpi/CPI_Nov2025.pdf
+  row_count: null
+  sha256: 211e99fe4f9bfea9d85cfaedb2b058dccc23bdd56f7043db3b87741fc716b731
+- byte_size: 637593
+  path: data/raw/india/macro/cpi/CPI_Oct2025_pib.pdf
+  row_count: null
+  sha256: 40446ee26bf59b7cd82767be0b2bc03089ffa10a4683144b3495099a89761c17
+- byte_size: 412650
+  path: data/raw/india/macro/cpi/CPI_PR_12Feb25.pdf
+  row_count: null
+  sha256: d47d36da8ba33c3493cc387cbeeec23e6ddff7a8bfd62067f81e59b58fb02643
+- byte_size: 321422
+  path: data/raw/india/macro/cpi/CPI_PR_12Jan24.pdf
+  row_count: null
+  sha256: 5464104ff7e79be60b121db7cb086e391ecac2bea900744384c3dee3b3e49df1
+- byte_size: 560369
+  path: data/raw/india/macro/cpi/CPI_PR_12Jun25.pdf
+  row_count: null
+  sha256: 7870ccfb3d2997eece4f20d86207d473207b5e6b2fa3cb9014d01a45d378d0be
+- byte_size: 321569
+  path: data/raw/india/macro/cpi/CPI_PR_12Mar24.pdf
+  row_count: null
+  sha256: f2819f36558292742a97670a1412e940c38e94573989befbd825daf9dcb7fabe
+- byte_size: 450228
+  path: data/raw/india/macro/cpi/CPI_PR_12Mar25.pdf
+  row_count: null
+  sha256: c8bf2d33080bac78e686011f381e5078478a3327ebecb6152b1d2a8b93fdbb3d
+- byte_size: 320979
+  path: data/raw/india/macro/cpi/CPI_PR_12apr23.pdf
+  row_count: null
+  sha256: fdc885dc0e9524ba5a5517e11accdfe58fc2249aeef10bc62411fe4ef9daa813
+- byte_size: 321284
+  path: data/raw/india/macro/cpi/CPI_PR_12apr24.pdf
+  row_count: null
+  sha256: 902c0b27acc0962e7468208169470a8a223eb3ec8fa155aa3708ace26e905650
+- byte_size: 420584
+  path: data/raw/india/macro/cpi/CPI_PR_12aug24.pdf
+  row_count: null
+  sha256: 4fa4c4420cd12bbfb933134bc6f1c8d61f5057b64dacd1b44114500aec63e461
+- byte_size: 537126
+  path: data/raw/india/macro/cpi/CPI_PR_12dec17.pdf
+  row_count: null
+  sha256: c0e40df84ba872c9fb97f918f55fcd583a4304b5d800943d65d0d34849ae2beb
+- byte_size: 321513
+  path: data/raw/india/macro/cpi/CPI_PR_12dec23.pdf
+  row_count: null
+  sha256: 49dda40e90d3d520d0fffaf6a855a5394a96726445afd6e4fc4f1722f505b805
+- byte_size: 490402
+  path: data/raw/india/macro/cpi/CPI_PR_12dec24.pdf
+  row_count: null
+  sha256: 71b5a646031fb5bfa03ba2fb6709f581ce111c658fb9d8a5c86aca2316ae4f7d
+- byte_size: 536916
+  path: data/raw/india/macro/cpi/CPI_PR_12feb18m.pdf
+  row_count: null
+  sha256: b35151ed85a83929fb1f80b7fc0404b77e6bac13873307fc18e6619b4a4daac6
+- byte_size: 625445
+  path: data/raw/india/macro/cpi/CPI_PR_12feb24.pdf
+  row_count: null
+  sha256: 855656c7b7bbe95074007ce82cc98b11cf36a315a82a48f4493f9b84cac4e31a
+- byte_size: 189479
+  path: data/raw/india/macro/cpi/CPI_PR_12jan23.pdf
+  row_count: null
+  sha256: 9d0cfefc536f8f007cb2ad4e7db754f9088bdc8eb599c8cbe2b095101a90bed0
+- byte_size: 321164
+  path: data/raw/india/macro/cpi/CPI_PR_12july23.pdf
+  row_count: null
+  sha256: 32a2a29da57615c7e5d13e8d10750c03a7b5e6fe5830c0976015845fb014088f
+- byte_size: 267464
+  path: data/raw/india/macro/cpi/CPI_PR_12july24.pdf
+  row_count: null
+  sha256: 09c1c693c8015384753095898e8bcf42de762b3c096b803ccd26e5c6cb5a8c38
+- byte_size: 457093
+  path: data/raw/india/macro/cpi/CPI_PR_12jun17m.pdf
+  row_count: null
+  sha256: b738a364a1237255003e92e2d092f59ff0c943c5ddce681a19cdfc53cf9192e6
+- byte_size: 535611
+  path: data/raw/india/macro/cpi/CPI_PR_12jun18t.pdf
+  row_count: null
+  sha256: af3a7a3beb2f3fa869e0d1d0a56d09afc15fed0012eca7f8c8ae8e09f6f32dfe
+- byte_size: 321420
+  path: data/raw/india/macro/cpi/CPI_PR_12jun23.pdf
+  row_count: null
+  sha256: d9f16e7a69b0db23a79df741024d49ea4637bd8c676e23256f4500055b122dc9
+- byte_size: 534400
+  path: data/raw/india/macro/cpi/CPI_PR_12mar18m.pdf
+  row_count: null
+  sha256: 538ce46493ee47487b4cb7eaa2708d47924644b7e02b4f1e979fbda16c878067
+- byte_size: 318189
+  path: data/raw/india/macro/cpi/CPI_PR_12nov21.pdf
+  row_count: null
+  sha256: ee98074d5ec308ffc4c87852de49f2bdb5e212b6569a3fe88ecb4563fd98d9ed
+- byte_size: 444124
+  path: data/raw/india/macro/cpi/CPI_PR_12nov24.pdf
+  row_count: null
+  sha256: d9da3559f2099f6183ac6b917eb1fb5426671931f6f5e798f88b1db103eeb50e
+- byte_size: 319590
+  path: data/raw/india/macro/cpi/CPI_PR_12oct22.pdf
+  row_count: null
+  sha256: 927382767937b5ece555be5bf3942ab2dc5aacd5dfa1782a0b2427c26f9e61f3
+- byte_size: 321423
+  path: data/raw/india/macro/cpi/CPI_PR_12oct23.pdf
+  row_count: null
+  sha256: 3d94d226ef31672227a362ca37c53f9c69232acbd7f94c3ebfd8fd276aba4160
+- byte_size: 537350
+  path: data/raw/india/macro/cpi/CPI_PR_12sep17t.pdf
+  row_count: null
+  sha256: cc2f6e48e0952f3cf09766fc28175a938e973bf0393076e204d0bd3bf54b73c6
+- byte_size: 321835
+  path: data/raw/india/macro/cpi/CPI_PR_12sep23.pdf
+  row_count: null
+  sha256: 9def0fe644e450d2dce9dfe38dd5735ac25876b39fa1a2310ab14f0ef902a9a8
+- byte_size: 408800
+  path: data/raw/india/macro/cpi/CPI_PR_12sep24.pdf
+  row_count: null
+  sha256: 26a40f6924247ff2f8d2da5d358a1e55dbab00b379df4295b90a5b17b25a2661
+- byte_size: 436109
+  path: data/raw/india/macro/cpi/CPI_PR_13Jan25.pdf
+  row_count: null
+  sha256: 4056f07c6d2fa0777c821a66b5d6c60b51db8a62d0bfb628a70c2c755a9bf336
+- byte_size: 458734
+  path: data/raw/india/macro/cpi/CPI_PR_13May25.pdf
+  row_count: null
+  sha256: 8bf05fae7f88ff0ae6a5e800ce4039fa4cbe9bf600cb89198067be1584d6d623
+- byte_size: 483783
+  path: data/raw/india/macro/cpi/CPI_PR_13aug18m.pdf
+  row_count: null
+  sha256: 363fede2ecfe6125b9f17f04b70526d8676f8c507b035231a2704e025aee4866
+- byte_size: 536004
+  path: data/raw/india/macro/cpi/CPI_PR_13feb17m.pdf
+  row_count: null
+  sha256: 4d31cd9f239e5be8690c77e51ee32b5c7e2fd4622869f56a6460d90d5f144f51
+- byte_size: 321380
+  path: data/raw/india/macro/cpi/CPI_PR_13feb23.pdf
+  row_count: null
+  sha256: 57e190a0ef45f5ac86e5b7d0f7be30860f6260900329a20a07f9e044e4f2bd9b
+- byte_size: 377465
+  path: data/raw/india/macro/cpi/CPI_PR_13may24.pdf
+  row_count: null
+  sha256: 8e1120e7c20271b03fa855d959aa956c1fef6e3c1bf353befb2bb0f0366ed08b
+- byte_size: 627869
+  path: data/raw/india/macro/cpi/CPI_PR_13nov23.pdf
+  row_count: null
+  sha256: 92ab6837254f7169f31a11440ccab3a95ff5875cf750bd93192d2b16b92de57e
+- byte_size: 319087
+  path: data/raw/india/macro/cpi/CPI_PR_13sep21.pdf
+  row_count: null
+  sha256: f4d1ce3bdf12e92fa75a788ed8396b17ed70dff9672b4c1a6c9db27143f554df
+- byte_size: 1097923
+  path: data/raw/india/macro/cpi/CPI_PR_14Jun25.pdf
+  row_count: null
+  sha256: a9e5f7105c57d5d01dbbd4c38426ca3970cb784ee338004351ce64f9310c3370
+- byte_size: 536584
+  path: data/raw/india/macro/cpi/CPI_PR_14aug17m.pdf
+  row_count: null
+  sha256: 9c216d71dd44b59afab0cd1ec6bd0e74a414042f8a15c460b13e5d2fc81611d0
+- byte_size: 321073
+  path: data/raw/india/macro/cpi/CPI_PR_14aug23.pdf
+  row_count: null
+  sha256: 440ea4791953c49fdc5ed2cd3e4d9d1be5a80636cc1ef6571409f64e23b348fc
+- byte_size: 481746
+  path: data/raw/india/macro/cpi/CPI_PR_14mar17t.pdf
+  row_count: null
+  sha256: dbd6f0ba1c9a7dc2b3695265012a698831491ff8f2bd85282120502074e6ecf6
+- byte_size: 535327
+  path: data/raw/india/macro/cpi/CPI_PR_14may18.pdf
+  row_count: null
+  sha256: a7cbf8913571d4c6fc5d6707ae31385abfe386ba9150f86da7d3f6e4b746c9f6
+- byte_size: 429173
+  path: data/raw/india/macro/cpi/CPI_PR_14oct24.pdf
+  row_count: null
+  sha256: 77d256241db25c198f59d936fdf2da87f353b951bf0d7630025a041f9c649287
+- byte_size: 643948
+  path: data/raw/india/macro/cpi/CPI_PR_15Apr25.pdf
+  row_count: null
+  sha256: 3fcecdd0256e88b8011b540d1f0f425444d47baace1a82e0dd043e80324c6f5b
+- byte_size: 189479
+  path: data/raw/india/macro/cpi/CPI_PR_December_2022.pdf
+  row_count: null
+  sha256: 9d0cfefc536f8f007cb2ad4e7db754f9088bdc8eb599c8cbe2b095101a90bed0
+- byte_size: 355363
+  path: data/raw/india/macro/cpi/CPI_PR_November_2022.pdf
+  row_count: null
+  sha256: 58270c280dd6d5624bfb9952aeed93283a7a4bf6541e944fba2dd3b50ab0bd2f
+- byte_size: 319590
+  path: data/raw/india/macro/cpi/CPI_PR_September_2022.pdf
+  row_count: null
+  sha256: 927382767937b5ece555be5bf3942ab2dc5aacd5dfa1782a0b2427c26f9e61f3
+- byte_size: 734077
+  path: data/raw/india/macro/cpi/CPI_Sep2025_pib.pdf
+  row_count: null
+  sha256: 075c6f4f4f4ed939d039786441b8a4ed7265d9aeb75b377b79cf382cbb916763
+- byte_size: 306179
+  path: data/raw/india/macro/cpi/Press Statement_0.pdf
+  row_count: null
+  sha256: 97ed1155df0d19abc34b29ff0db91f36a325c095b69dc8d64552d95a628d7971
+- byte_size: 307227
+  path: data/raw/india/macro/cpi/Press Statement_1.pdf
+  row_count: null
+  sha256: d01a665f944fea29922736aa288bdc64b1324ec75635be096a355d75495c3a84
+- byte_size: 306298
+  path: data/raw/india/macro/cpi/Press Statement_3.pdf
+  row_count: null
+  sha256: fdfe458f6afbd3abbbd3c28746ebe56d3277ca617adbdce3c278551591f1ce10
+- byte_size: 306029
+  path: data/raw/india/macro/cpi/Press Statement_4.pdf
+  row_count: null
+  sha256: 36acbe5d36c03eadc09f539cc60986b0b5dfd7b6936a180e1231a64dd1e57427
+- byte_size: 482067
+  path: data/raw/india/macro/cpi/cpi_pr_12apr16t.pdf
+  row_count: null
+  sha256: 7bc46f76de8fdda89b72ea3cb7aa284a33c561018d0fbbdfb29cd491c9c429ff
+- byte_size: 471770
+  path: data/raw/india/macro/cpi/cpi_pr_12dec15m.pdf
+  row_count: null
+  sha256: 7336d8ab37df5a04dcf1c0b6ce6cb44f26c043396e4265c91518242515867414
+- byte_size: 302499
+  path: data/raw/india/macro/cpi/cpi_pr_12feb15t.pdf
+  row_count: null
+  sha256: 03290e0c5e47df65ee4882d8371334f7ff45d74cda1d0063aee073ecc319e6c4
+- byte_size: 340115
+  path: data/raw/india/macro/cpi/cpi_pr_12jan15m.pdf
+  row_count: null
+  sha256: 45d066e3866cdc7ca1fe848c3cab01772075503a32c488cde80428611159b0bb
+- byte_size: 474627
+  path: data/raw/india/macro/cpi/cpi_pr_12jan16t.pdf
+  row_count: null
+  sha256: 27381a6d6ebc5a9c30e86b072979307eefb2e766d847c59b14e1201e13d43a38
+- byte_size: 458322
+  path: data/raw/india/macro/cpi/cpi_pr_12july16t.pdf
+  row_count: null
+  sha256: feb2c5962796715feffb64ea579ce82a8c0b5ef5114de57b03494562f09a1eb5
+- byte_size: 469721
+  path: data/raw/india/macro/cpi/cpi_pr_12may15t.pdf
+  row_count: null
+  sha256: 0652c8335dfef6a3dcfe5294cf67df29c263a145333fba825867eb36dd44695e
+- byte_size: 527754
+  path: data/raw/india/macro/cpi/cpi_pr_12oct15m.pdf
+  row_count: null
+  sha256: 1994237d26aab788a28c8213e28a794e7a8fadff99a0ee9fd5a69557b4d0d0e0
+- byte_size: 484502
+  path: data/raw/india/macro/cpi/cpi_pr_12sept16m.pdf
+  row_count: null
+  sha256: 3250698d3806ee074776285f814797e3ecb01c2d1cc83f8e35f20b12454eac84
+- byte_size: 526704
+  path: data/raw/india/macro/cpi/cpi_pr_13apr15m.pdf
+  row_count: null
+  sha256: 0b0b1b2765c88979c214ae8ec8fb299ceb9794489072cc85bbb96255d82a5513
+- byte_size: 617297
+  path: data/raw/india/macro/cpi/cpi_pr_13jan20.pdf
+  row_count: null
+  sha256: 4d055d013dc1d90ce6d2e805891e020328ef5e715f71f982f82618b9a72f48aa
+- byte_size: 527503
+  path: data/raw/india/macro/cpi/cpi_pr_13july15m.pdf
+  row_count: null
+  sha256: 70c2d5fc90debafb67d04c78f538e9e89cabb4ca55937b93da1f2c89f17ccad9
+- byte_size: 299432
+  path: data/raw/india/macro/cpi/cpi_pr_13mar20.pdf
+  row_count: null
+  sha256: 413b373f3fa030c89af9e12afcb3607d7ef2c50282c93f6ae442f69b997f3c6a
+- byte_size: 270949
+  path: data/raw/india/macro/cpi/cpi_pr_13oct14m.pdf
+  row_count: null
+  sha256: bc5e9bd9feee040138e400b25f16af23c4f77ef9da81fd96811e3b575ffae732
+- byte_size: 397792
+  path: data/raw/india/macro/cpi/cpi_pr_14mar16m.pdf
+  row_count: null
+  sha256: 6b6d9eea764d0c3915d09f83daadc4003e5611cd00461560cb305c8eef209299
+- byte_size: 475853
+  path: data/raw/india/macro/cpi/cpi_pr_14sep15m.pdf
+  row_count: null
+  sha256: 043a5ab63dba6953d6476e56ed9d27a327ada0ac80a594cabf1167e66c5bfce0
+- byte_size: 536227
+  path: data/raw/india/macro/cpi/cpi_pr_15nov16t.pdf
+  row_count: null
+  sha256: 20a04a3566de3656ef1af0784cf4c3c6e78007adecf1c630df4b69aecf4c3941
+- byte_size: 3070281
+  path: data/raw/india/macro/cpi/pib_CPI_Aug2025_PRID2165974.html
+  row_count: null
+  sha256: 1e5e863a1a26b48775deb084a9a1317ebe6286fe6af405b1e79334d0ee5188f2
+- byte_size: 377296
+  path: data/raw/india/macro/cpi/t4_12apr13.pdf
+  row_count: null
+  sha256: 022f6f919e82a522fb4b8759d1f855479b35c7cf66f0bae83c6b988df8b7ada9
+- byte_size: 375113
+  path: data/raw/india/macro/cpi/t4_12aug13.pdf
+  row_count: null
+  sha256: e2b97317f4133fb2dbe0035b5d44726fb7a9f62e37a1c14c9984c4a975983bd5
+- byte_size: 372781
+  path: data/raw/india/macro/cpi/t4_12dec12.pdf
+  row_count: null
+  sha256: 3440802ab9dc1c200985fac75204933081d7e369208a2e48056f1299bf79084b
+- byte_size: 373601
+  path: data/raw/india/macro/cpi/t4_12dec13.pdf
+  row_count: null
+  sha256: a93e022a5e45d5871fc14fe586f6a0068ec745b57881c7b6990a19303978e579
+- byte_size: 373609
+  path: data/raw/india/macro/cpi/t4_12feb13.pdf
+  row_count: null
+  sha256: 5000e5b8b2054994ef2722b41c0d90e651b9f6192550a36318a0526db7d225ac
+- byte_size: 375951
+  path: data/raw/india/macro/cpi/t4_12feb14.pdf
+  row_count: null
+  sha256: 24f30fc0d3693e0203d09fee494c39a2187956f8435cc7f75934a2740fafd2c8
+- byte_size: 374577
+  path: data/raw/india/macro/cpi/t4_12jun13.pdf
+  row_count: null
+  sha256: 6e56b1fb470a40cb7a3fd5429439058eca4d13304ba5a7cceb30b6232b4abd32
+- byte_size: 373566
+  path: data/raw/india/macro/cpi/t4_12mar13.pdf
+  row_count: null
+  sha256: 9de9f873688415d810690d96d5bd0f02f4c0f9a670f6bb74550ba6fb1cfd9d0f
+- byte_size: 376253
+  path: data/raw/india/macro/cpi/t4_12mar14.pdf
+  row_count: null
+  sha256: 0a4dc8986793ec5b88919c79cf951bb4b14e1665d68f9db405716dba4d490bfe
+- byte_size: 372764
+  path: data/raw/india/macro/cpi/t4_12nov12.pdf
+  row_count: null
+  sha256: eb417078168aa9569e42af6add89db820559135a3a8daa219f93d39e8157c7e2
+- byte_size: 374500
+  path: data/raw/india/macro/cpi/t4_12nov13.pdf
+  row_count: null
+  sha256: a88976925a03cc881cf98c8b449e952dcb49888b0b7e773c349185ac73ba63f8
+- byte_size: 299336
+  path: data/raw/india/macro/cpi/t4_12sep13.pdf
+  row_count: null
+  sha256: 731227b8b488303794dd80503ff5d3ccffc6916bad18bd99da73c4a286f0024b
+- byte_size: 298448
+  path: data/raw/india/macro/cpi/t4_13jan14.pdf
+  row_count: null
+  sha256: fa839265b84d0475ada184f3d2b9880ac566a7f385d309276a917aec905717f6
+- byte_size: 374507
+  path: data/raw/india/macro/cpi/t4_13may13.pdf
+  row_count: null
+  sha256: 6504da5c5775aad47e9d07d874bec3d51c3a900d1648d7b28d664663c4a3a7ea
+- byte_size: 373609
+  path: data/raw/india/macro/cpi/t4_14jan13.pdf
+  row_count: null
+  sha256: 5000e5b8b2054994ef2722b41c0d90e651b9f6192550a36318a0526db7d225ac
+- byte_size: 374281
+  path: data/raw/india/macro/cpi/t4_14oct13.pdf
+  row_count: null
+  sha256: 939fe42d0d339be46211d444d4fee406de82d7f82cc86f8ffb5b96500492d36c
+- byte_size: 43490
+  path: data/raw/india/macro/cpi/t4_18apr12.pdf
+  row_count: null
+  sha256: bd0ae6144aa8d869e545c22b432bcd5007c94304e9c81a1eb55516b67264627e
+- byte_size: 39761
+  path: data/raw/india/macro/cpi/t4_18jan12.pdf
+  row_count: null
+  sha256: efa420c4fcaf37674df653ac180ba3ac275c6a31f4640e630c33ab7bdfd4684d
+- byte_size: 43573
+  path: data/raw/india/macro/cpi/t4_18may12.pdf
+  row_count: null
+  sha256: d5e97271664d83fc6296035e72b563202b9a6fc235df24b5888a2d988898733d
+- byte_size: 43659
+  path: data/raw/india/macro/cpi/t4_18sep12.pdf
+  row_count: null
+  sha256: 2601b503e4ed0970708bdb28b2b48406c0236ba0c4bcc7ed5810388968c5dcde
+- byte_size: 43623
+  path: data/raw/india/macro/cpi/t4_21aug12.pdf
+  row_count: null
+  sha256: 0050ff17d8f7c8d510c977e62ac8ae096bd5d358bb610d3a45bcd71002d8fb4b
+- byte_size: 36994
+  path: data/raw/india/macro/cpi/t4_21feb12.pdf
+  row_count: null
+  sha256: 2f9259acdae10f5df49f70d27066685a1545dc491c24b42cd39d08b4bc503078
 raw_path: null
+raw_paths:
+- data/raw/india/macro/cpi/CPI Press Release April 2022.pdf
+- data/raw/india/macro/cpi/CPI Press Release August 2020.pdf
+- data/raw/india/macro/cpi/CPI Press Release December 2020.pdf
+- data/raw/india/macro/cpi/CPI Press Release February 2021.pdf
+- data/raw/india/macro/cpi/CPI Press Release February 2022.pdf
+- data/raw/india/macro/cpi/CPI Press Release January 2021.pdf
+- data/raw/india/macro/cpi/CPI Press Release January 2022.pdf
+- data/raw/india/macro/cpi/CPI Press Release July 2020.pdf
+- data/raw/india/macro/cpi/CPI Press Release July 2022.pdf
+- data/raw/india/macro/cpi/CPI Press Release June 2020.pdf
+- data/raw/india/macro/cpi/CPI Press Release March 2022.pdf
+- data/raw/india/macro/cpi/CPI Press Release May 2022.pdf
+- data/raw/india/macro/cpi/CPI Press Release November 2021.pdf
+- data/raw/india/macro/cpi/CPI Press Release November 2022.pdf
+- data/raw/india/macro/cpi/CPI Press Release October 2022.pdf
+- data/raw/india/macro/cpi/CPI_Aug2025_pib.pdf
+- data/raw/india/macro/cpi/CPI_Dec2025.pdf
+- data/raw/india/macro/cpi/CPI_Jan2026_first2024base.pdf
+- data/raw/india/macro/cpi/CPI_Jul2025_pib.pdf
+- data/raw/india/macro/cpi/CPI_Nov2025.pdf
+- data/raw/india/macro/cpi/CPI_Oct2025_pib.pdf
+- data/raw/india/macro/cpi/CPI_PR_12Feb25.pdf
+- data/raw/india/macro/cpi/CPI_PR_12Jan24.pdf
+- data/raw/india/macro/cpi/CPI_PR_12Jun25.pdf
+- data/raw/india/macro/cpi/CPI_PR_12Mar24.pdf
+- data/raw/india/macro/cpi/CPI_PR_12Mar25.pdf
+- data/raw/india/macro/cpi/CPI_PR_12apr23.pdf
+- data/raw/india/macro/cpi/CPI_PR_12apr24.pdf
+- data/raw/india/macro/cpi/CPI_PR_12aug24.pdf
+- data/raw/india/macro/cpi/CPI_PR_12dec17.pdf
+- data/raw/india/macro/cpi/CPI_PR_12dec23.pdf
+- data/raw/india/macro/cpi/CPI_PR_12dec24.pdf
+- data/raw/india/macro/cpi/CPI_PR_12feb18m.pdf
+- data/raw/india/macro/cpi/CPI_PR_12feb24.pdf
+- data/raw/india/macro/cpi/CPI_PR_12jan23.pdf
+- data/raw/india/macro/cpi/CPI_PR_12july23.pdf
+- data/raw/india/macro/cpi/CPI_PR_12july24.pdf
+- data/raw/india/macro/cpi/CPI_PR_12jun17m.pdf
+- data/raw/india/macro/cpi/CPI_PR_12jun18t.pdf
+- data/raw/india/macro/cpi/CPI_PR_12jun23.pdf
+- data/raw/india/macro/cpi/CPI_PR_12mar18m.pdf
+- data/raw/india/macro/cpi/CPI_PR_12nov21.pdf
+- data/raw/india/macro/cpi/CPI_PR_12nov24.pdf
+- data/raw/india/macro/cpi/CPI_PR_12oct22.pdf
+- data/raw/india/macro/cpi/CPI_PR_12oct23.pdf
+- data/raw/india/macro/cpi/CPI_PR_12sep17t.pdf
+- data/raw/india/macro/cpi/CPI_PR_12sep23.pdf
+- data/raw/india/macro/cpi/CPI_PR_12sep24.pdf
+- data/raw/india/macro/cpi/CPI_PR_13Jan25.pdf
+- data/raw/india/macro/cpi/CPI_PR_13May25.pdf
+- data/raw/india/macro/cpi/CPI_PR_13aug18m.pdf
+- data/raw/india/macro/cpi/CPI_PR_13feb17m.pdf
+- data/raw/india/macro/cpi/CPI_PR_13feb23.pdf
+- data/raw/india/macro/cpi/CPI_PR_13may24.pdf
+- data/raw/india/macro/cpi/CPI_PR_13nov23.pdf
+- data/raw/india/macro/cpi/CPI_PR_13sep21.pdf
+- data/raw/india/macro/cpi/CPI_PR_14Jun25.pdf
+- data/raw/india/macro/cpi/CPI_PR_14aug17m.pdf
+- data/raw/india/macro/cpi/CPI_PR_14aug23.pdf
+- data/raw/india/macro/cpi/CPI_PR_14mar17t.pdf
+- data/raw/india/macro/cpi/CPI_PR_14may18.pdf
+- data/raw/india/macro/cpi/CPI_PR_14oct24.pdf
+- data/raw/india/macro/cpi/CPI_PR_15Apr25.pdf
+- data/raw/india/macro/cpi/CPI_PR_December_2022.pdf
+- data/raw/india/macro/cpi/CPI_PR_November_2022.pdf
+- data/raw/india/macro/cpi/CPI_PR_September_2022.pdf
+- data/raw/india/macro/cpi/CPI_Sep2025_pib.pdf
+- data/raw/india/macro/cpi/Press Statement_0.pdf
+- data/raw/india/macro/cpi/Press Statement_1.pdf
+- data/raw/india/macro/cpi/Press Statement_3.pdf
+- data/raw/india/macro/cpi/Press Statement_4.pdf
+- data/raw/india/macro/cpi/cpi_pr_12apr16t.pdf
+- data/raw/india/macro/cpi/cpi_pr_12dec15m.pdf
+- data/raw/india/macro/cpi/cpi_pr_12feb15t.pdf
+- data/raw/india/macro/cpi/cpi_pr_12jan15m.pdf
+- data/raw/india/macro/cpi/cpi_pr_12jan16t.pdf
+- data/raw/india/macro/cpi/cpi_pr_12july16t.pdf
+- data/raw/india/macro/cpi/cpi_pr_12may15t.pdf
+- data/raw/india/macro/cpi/cpi_pr_12oct15m.pdf
+- data/raw/india/macro/cpi/cpi_pr_12sept16m.pdf
+- data/raw/india/macro/cpi/cpi_pr_13apr15m.pdf
+- data/raw/india/macro/cpi/cpi_pr_13jan20.pdf
+- data/raw/india/macro/cpi/cpi_pr_13july15m.pdf
+- data/raw/india/macro/cpi/cpi_pr_13mar20.pdf
+- data/raw/india/macro/cpi/cpi_pr_13oct14m.pdf
+- data/raw/india/macro/cpi/cpi_pr_14mar16m.pdf
+- data/raw/india/macro/cpi/cpi_pr_14sep15m.pdf
+- data/raw/india/macro/cpi/cpi_pr_15nov16t.pdf
+- data/raw/india/macro/cpi/pib_CPI_Aug2025_PRID2165974.html
+- data/raw/india/macro/cpi/t4_12apr13.pdf
+- data/raw/india/macro/cpi/t4_12aug13.pdf
+- data/raw/india/macro/cpi/t4_12dec12.pdf
+- data/raw/india/macro/cpi/t4_12dec13.pdf
+- data/raw/india/macro/cpi/t4_12feb13.pdf
+- data/raw/india/macro/cpi/t4_12feb14.pdf
+- data/raw/india/macro/cpi/t4_12jun13.pdf
+- data/raw/india/macro/cpi/t4_12mar13.pdf
+- data/raw/india/macro/cpi/t4_12mar14.pdf
+- data/raw/india/macro/cpi/t4_12nov12.pdf
+- data/raw/india/macro/cpi/t4_12nov13.pdf
+- data/raw/india/macro/cpi/t4_12sep13.pdf
+- data/raw/india/macro/cpi/t4_13jan14.pdf
+- data/raw/india/macro/cpi/t4_13may13.pdf
+- data/raw/india/macro/cpi/t4_14jan13.pdf
+- data/raw/india/macro/cpi/t4_14oct13.pdf
+- data/raw/india/macro/cpi/t4_18apr12.pdf
+- data/raw/india/macro/cpi/t4_18jan12.pdf
+- data/raw/india/macro/cpi/t4_18may12.pdf
+- data/raw/india/macro/cpi/t4_18sep12.pdf
+- data/raw/india/macro/cpi/t4_21aug12.pdf
+- data/raw/india/macro/cpi/t4_21feb12.pdf
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T17:20:51.344324+00:00'
-row_count: null
+retrieval_timestamp: '2026-09-12T16:03:10.029690+00:00'
+row_count: 209
 source_institution: MOSPI
-source_url: null
+source_url: https://mospi.gov.in/consumer-price-indices-cpi
 tier: C
-unique_date_count: null
-validation_status: pending
+unique_date_count: 156
+validation_status: passed
 variable: CPI_COMBINED_MONTHLY

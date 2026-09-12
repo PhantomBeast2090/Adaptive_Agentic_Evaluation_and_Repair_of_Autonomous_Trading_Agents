@@ -5,43 +5,13 @@
 
 ## 1. Acquisition status
 
-- Acquired and auditable datasets: **10**
-- Acquired mandatory market/macro datasets: **9**
+- Acquired and auditable datasets: **11**
+- Acquired mandatory market/macro datasets: **10**
 - Acquired support/calendar artifacts: **1**
-- Pending/unavailable datasets: **4**
+- Pending/unavailable datasets: **3**
 - Artifact read errors: **0**
 - Pending datasets:
   - `crude_oil_brent_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
-  - `mospi_cpi_combined_monthly`: pending_manual_download — [mospi_cpi_combined_monthly] Acquisition from MoSPI CPI / mospi.gov.in failed: MoSPI CPI data requires web download from mospi.gov.in. Automated download is not reliably possible. Release dates (critical for information availability) require separate collection from press release archives.
-
-Manual download instructions:
-
-MoSPI CPI Manual Download:
-1. Visit: https://mospi.gov.in/consumer-price-indices-cpi
-2. Download the "CPI Data" historical table (Excel or CSV)
-3. Place at: data/raw/india/macro/cpi_combined.csv
-
-For release dates (CRITICAL for information availability):
-1. Visit: https://mospi.gov.in/press-release-consumer-price-index
-2. Extract the date each month's CPI was released
-3. Or use: https://www.rbi.org.in/scripts/Bs_PressReleaseDisplay.aspx
-   (filter by CPI press releases)
-4. Create a CSV with columns: reference_month, release_date
-   reference_month format: YYYY-MM (e.g. 2024-01 for January 2024)
-   release_date format: YYYY-MM-DD
-5. Place at: data/raw/india/macro/cpi_release_dates.csv
-
-Alternative automated source (secondary):
-  RBI DBIE also carries CPI data:
-  https://dbie.rbi.org.in/ → Price and Monetary → Consumer Price Index
-  HOWEVER: DBIE may not include individual release dates.
-  Use MoSPI as the primary source.
-
-Expected CPI CSV structure:
-  Month/Year | CPI_Combined (General) | CPI_Urban | CPI_Rural | ...
-  OR: Month | Year | CPI | [sub-indices]
-  Base year: 2012=100 for the new series
-
   - `mospi_iip_general_monthly`: pending_manual_download — [mospi_iip_general_monthly] Acquisition from MoSPI IIP / mospi.gov.in failed: MoSPI IIP data requires web download. Release dates (critical for information availability) require separate collection.
 
 Manual download instructions:
@@ -233,6 +203,136 @@ Expected IIP CSV structure:
 - Calendar: 495 non-trading observations; 0 heuristic trading days absent (UNAVAILABLE:nse_trading_holidays_2026.json)
 - Note: WARNING: 23293 duplicate timestamps detected.
 - Note: Repeated dates are evaluated with identifier columns; date repetition alone is not treated as a duplicate record.
+
+- Source: `MOSPI`
+- Raw artifacts: `111 annual files`
+  - `data/raw/india/macro/cpi/CPI Press Release April 2022.pdf`: `53076424eddc7f5ab4b80aba2233d905359ac8441a98126612c265f14154441f`
+  - `data/raw/india/macro/cpi/CPI Press Release August 2020.pdf`: `648bf1f7e52b17d74115e1ce3f62136bc167307f87def829178e1e1713add08c`
+  - `data/raw/india/macro/cpi/CPI Press Release December 2020.pdf`: `05cf2b12b5d317b504e199795e0d425847a252bb6def62863f627c80db97be7f`
+  - `data/raw/india/macro/cpi/CPI Press Release February 2021.pdf`: `e47b0589efeeb9c5e699f9f323d2e05f5cf1ff8c84f78f11f3dc035408f6eb3a`
+  - `data/raw/india/macro/cpi/CPI Press Release February 2022.pdf`: `871236372c0cd78cebe6f1b90340d715f9daeeba8996228e8455adf0e749ef28`
+  - `data/raw/india/macro/cpi/CPI Press Release January 2021.pdf`: `7efeb024ffd9116b8fe06cfa15da963d0a4ae3679e44aa856923ae40a4fe8252`
+  - `data/raw/india/macro/cpi/CPI Press Release January 2022.pdf`: `a709bee9b008ded83afeb94c389626f65668b800a18d0b3ceca4ae551ebe1aef`
+  - `data/raw/india/macro/cpi/CPI Press Release July 2020.pdf`: `2933e54e1885dc57cdab79d369dfd851bef1b455473b34a214cbd95569e1d038`
+  - `data/raw/india/macro/cpi/CPI Press Release July 2022.pdf`: `bf9d5d91bae29f5988999e2be7b23289a2602c7b1c36145047952789d14133db`
+  - `data/raw/india/macro/cpi/CPI Press Release June 2020.pdf`: `8062b898943f3adae29f4c43d088a2c81944e78ff2e4c40de438fcb71ba443dd`
+  - `data/raw/india/macro/cpi/CPI Press Release March 2022.pdf`: `d43e5fb374b5c32e36026b24b1c464099ac8c0cb54bc994505c6c459cea1047f`
+  - `data/raw/india/macro/cpi/CPI Press Release May 2022.pdf`: `e8af0c0454b9a07e016db4d56ec0926386aad11d334e73f7e8cf47f9078d8b02`
+  - `data/raw/india/macro/cpi/CPI Press Release November 2021.pdf`: `1448697b42e3073da97bd82074b42fda2b59417c504132f837e0507e3a0622b8`
+  - `data/raw/india/macro/cpi/CPI Press Release November 2022.pdf`: `58270c280dd6d5624bfb9952aeed93283a7a4bf6541e944fba2dd3b50ab0bd2f`
+  - `data/raw/india/macro/cpi/CPI Press Release October 2022.pdf`: `be8db0893a2f6b756c71ca54cc587ab2cd004c42dfdec9841ac044f2a2b62037`
+  - `data/raw/india/macro/cpi/CPI_Aug2025_pib.pdf`: `4445e7cb9fcf00cf2de4ef88692dc4560adefff208f2ad755085f070217672e3`
+  - `data/raw/india/macro/cpi/CPI_Dec2025.pdf`: `e00e487b37b100055014a59929d3ecff13e461c13d009b022e0402c23d05c61e`
+  - `data/raw/india/macro/cpi/CPI_Jan2026_first2024base.pdf`: `cd4d8fd861a43f4467237813bc6e9a943bf56b471d1baefae9ba1d3d240a00bb`
+  - `data/raw/india/macro/cpi/CPI_Jul2025_pib.pdf`: `a125f6d62e4fc15460064f06b7352edd1d8a408952a080f91b9e03ef60b50e32`
+  - `data/raw/india/macro/cpi/CPI_Nov2025.pdf`: `211e99fe4f9bfea9d85cfaedb2b058dccc23bdd56f7043db3b87741fc716b731`
+  - `data/raw/india/macro/cpi/CPI_Oct2025_pib.pdf`: `40446ee26bf59b7cd82767be0b2bc03089ffa10a4683144b3495099a89761c17`
+  - `data/raw/india/macro/cpi/CPI_PR_12Feb25.pdf`: `d47d36da8ba33c3493cc387cbeeec23e6ddff7a8bfd62067f81e59b58fb02643`
+  - `data/raw/india/macro/cpi/CPI_PR_12Jan24.pdf`: `5464104ff7e79be60b121db7cb086e391ecac2bea900744384c3dee3b3e49df1`
+  - `data/raw/india/macro/cpi/CPI_PR_12Jun25.pdf`: `7870ccfb3d2997eece4f20d86207d473207b5e6b2fa3cb9014d01a45d378d0be`
+  - `data/raw/india/macro/cpi/CPI_PR_12Mar24.pdf`: `f2819f36558292742a97670a1412e940c38e94573989befbd825daf9dcb7fabe`
+  - `data/raw/india/macro/cpi/CPI_PR_12Mar25.pdf`: `c8bf2d33080bac78e686011f381e5078478a3327ebecb6152b1d2a8b93fdbb3d`
+  - `data/raw/india/macro/cpi/CPI_PR_12apr23.pdf`: `fdc885dc0e9524ba5a5517e11accdfe58fc2249aeef10bc62411fe4ef9daa813`
+  - `data/raw/india/macro/cpi/CPI_PR_12apr24.pdf`: `902c0b27acc0962e7468208169470a8a223eb3ec8fa155aa3708ace26e905650`
+  - `data/raw/india/macro/cpi/CPI_PR_12aug24.pdf`: `4fa4c4420cd12bbfb933134bc6f1c8d61f5057b64dacd1b44114500aec63e461`
+  - `data/raw/india/macro/cpi/CPI_PR_12dec17.pdf`: `c0e40df84ba872c9fb97f918f55fcd583a4304b5d800943d65d0d34849ae2beb`
+  - `data/raw/india/macro/cpi/CPI_PR_12dec23.pdf`: `49dda40e90d3d520d0fffaf6a855a5394a96726445afd6e4fc4f1722f505b805`
+  - `data/raw/india/macro/cpi/CPI_PR_12dec24.pdf`: `71b5a646031fb5bfa03ba2fb6709f581ce111c658fb9d8a5c86aca2316ae4f7d`
+  - `data/raw/india/macro/cpi/CPI_PR_12feb18m.pdf`: `b35151ed85a83929fb1f80b7fc0404b77e6bac13873307fc18e6619b4a4daac6`
+  - `data/raw/india/macro/cpi/CPI_PR_12feb24.pdf`: `855656c7b7bbe95074007ce82cc98b11cf36a315a82a48f4493f9b84cac4e31a`
+  - `data/raw/india/macro/cpi/CPI_PR_12jan23.pdf`: `9d0cfefc536f8f007cb2ad4e7db754f9088bdc8eb599c8cbe2b095101a90bed0`
+  - `data/raw/india/macro/cpi/CPI_PR_12july23.pdf`: `32a2a29da57615c7e5d13e8d10750c03a7b5e6fe5830c0976015845fb014088f`
+  - `data/raw/india/macro/cpi/CPI_PR_12july24.pdf`: `09c1c693c8015384753095898e8bcf42de762b3c096b803ccd26e5c6cb5a8c38`
+  - `data/raw/india/macro/cpi/CPI_PR_12jun17m.pdf`: `b738a364a1237255003e92e2d092f59ff0c943c5ddce681a19cdfc53cf9192e6`
+  - `data/raw/india/macro/cpi/CPI_PR_12jun18t.pdf`: `af3a7a3beb2f3fa869e0d1d0a56d09afc15fed0012eca7f8c8ae8e09f6f32dfe`
+  - `data/raw/india/macro/cpi/CPI_PR_12jun23.pdf`: `d9f16e7a69b0db23a79df741024d49ea4637bd8c676e23256f4500055b122dc9`
+  - `data/raw/india/macro/cpi/CPI_PR_12mar18m.pdf`: `538ce46493ee47487b4cb7eaa2708d47924644b7e02b4f1e979fbda16c878067`
+  - `data/raw/india/macro/cpi/CPI_PR_12nov21.pdf`: `ee98074d5ec308ffc4c87852de49f2bdb5e212b6569a3fe88ecb4563fd98d9ed`
+  - `data/raw/india/macro/cpi/CPI_PR_12nov24.pdf`: `d9da3559f2099f6183ac6b917eb1fb5426671931f6f5e798f88b1db103eeb50e`
+  - `data/raw/india/macro/cpi/CPI_PR_12oct22.pdf`: `927382767937b5ece555be5bf3942ab2dc5aacd5dfa1782a0b2427c26f9e61f3`
+  - `data/raw/india/macro/cpi/CPI_PR_12oct23.pdf`: `3d94d226ef31672227a362ca37c53f9c69232acbd7f94c3ebfd8fd276aba4160`
+  - `data/raw/india/macro/cpi/CPI_PR_12sep17t.pdf`: `cc2f6e48e0952f3cf09766fc28175a938e973bf0393076e204d0bd3bf54b73c6`
+  - `data/raw/india/macro/cpi/CPI_PR_12sep23.pdf`: `9def0fe644e450d2dce9dfe38dd5735ac25876b39fa1a2310ab14f0ef902a9a8`
+  - `data/raw/india/macro/cpi/CPI_PR_12sep24.pdf`: `26a40f6924247ff2f8d2da5d358a1e55dbab00b379df4295b90a5b17b25a2661`
+  - `data/raw/india/macro/cpi/CPI_PR_13Jan25.pdf`: `4056f07c6d2fa0777c821a66b5d6c60b51db8a62d0bfb628a70c2c755a9bf336`
+  - `data/raw/india/macro/cpi/CPI_PR_13May25.pdf`: `8bf05fae7f88ff0ae6a5e800ce4039fa4cbe9bf600cb89198067be1584d6d623`
+  - `data/raw/india/macro/cpi/CPI_PR_13aug18m.pdf`: `363fede2ecfe6125b9f17f04b70526d8676f8c507b035231a2704e025aee4866`
+  - `data/raw/india/macro/cpi/CPI_PR_13feb17m.pdf`: `4d31cd9f239e5be8690c77e51ee32b5c7e2fd4622869f56a6460d90d5f144f51`
+  - `data/raw/india/macro/cpi/CPI_PR_13feb23.pdf`: `57e190a0ef45f5ac86e5b7d0f7be30860f6260900329a20a07f9e044e4f2bd9b`
+  - `data/raw/india/macro/cpi/CPI_PR_13may24.pdf`: `8e1120e7c20271b03fa855d959aa956c1fef6e3c1bf353befb2bb0f0366ed08b`
+  - `data/raw/india/macro/cpi/CPI_PR_13nov23.pdf`: `92ab6837254f7169f31a11440ccab3a95ff5875cf750bd93192d2b16b92de57e`
+  - `data/raw/india/macro/cpi/CPI_PR_13sep21.pdf`: `f4d1ce3bdf12e92fa75a788ed8396b17ed70dff9672b4c1a6c9db27143f554df`
+  - `data/raw/india/macro/cpi/CPI_PR_14Jun25.pdf`: `a9e5f7105c57d5d01dbbd4c38426ca3970cb784ee338004351ce64f9310c3370`
+  - `data/raw/india/macro/cpi/CPI_PR_14aug17m.pdf`: `9c216d71dd44b59afab0cd1ec6bd0e74a414042f8a15c460b13e5d2fc81611d0`
+  - `data/raw/india/macro/cpi/CPI_PR_14aug23.pdf`: `440ea4791953c49fdc5ed2cd3e4d9d1be5a80636cc1ef6571409f64e23b348fc`
+  - `data/raw/india/macro/cpi/CPI_PR_14mar17t.pdf`: `dbd6f0ba1c9a7dc2b3695265012a698831491ff8f2bd85282120502074e6ecf6`
+  - `data/raw/india/macro/cpi/CPI_PR_14may18.pdf`: `a7cbf8913571d4c6fc5d6707ae31385abfe386ba9150f86da7d3f6e4b746c9f6`
+  - `data/raw/india/macro/cpi/CPI_PR_14oct24.pdf`: `77d256241db25c198f59d936fdf2da87f353b951bf0d7630025a041f9c649287`
+  - `data/raw/india/macro/cpi/CPI_PR_15Apr25.pdf`: `3fcecdd0256e88b8011b540d1f0f425444d47baace1a82e0dd043e80324c6f5b`
+  - `data/raw/india/macro/cpi/CPI_PR_December_2022.pdf`: `9d0cfefc536f8f007cb2ad4e7db754f9088bdc8eb599c8cbe2b095101a90bed0`
+  - `data/raw/india/macro/cpi/CPI_PR_November_2022.pdf`: `58270c280dd6d5624bfb9952aeed93283a7a4bf6541e944fba2dd3b50ab0bd2f`
+  - `data/raw/india/macro/cpi/CPI_PR_September_2022.pdf`: `927382767937b5ece555be5bf3942ab2dc5aacd5dfa1782a0b2427c26f9e61f3`
+  - `data/raw/india/macro/cpi/CPI_Sep2025_pib.pdf`: `075c6f4f4f4ed939d039786441b8a4ed7265d9aeb75b377b79cf382cbb916763`
+  - `data/raw/india/macro/cpi/Press Statement_0.pdf`: `97ed1155df0d19abc34b29ff0db91f36a325c095b69dc8d64552d95a628d7971`
+  - `data/raw/india/macro/cpi/Press Statement_1.pdf`: `d01a665f944fea29922736aa288bdc64b1324ec75635be096a355d75495c3a84`
+  - `data/raw/india/macro/cpi/Press Statement_3.pdf`: `fdfe458f6afbd3abbbd3c28746ebe56d3277ca617adbdce3c278551591f1ce10`
+  - `data/raw/india/macro/cpi/Press Statement_4.pdf`: `36acbe5d36c03eadc09f539cc60986b0b5dfd7b6936a180e1231a64dd1e57427`
+  - `data/raw/india/macro/cpi/cpi_pr_12apr16t.pdf`: `7bc46f76de8fdda89b72ea3cb7aa284a33c561018d0fbbdfb29cd491c9c429ff`
+  - `data/raw/india/macro/cpi/cpi_pr_12dec15m.pdf`: `7336d8ab37df5a04dcf1c0b6ce6cb44f26c043396e4265c91518242515867414`
+  - `data/raw/india/macro/cpi/cpi_pr_12feb15t.pdf`: `03290e0c5e47df65ee4882d8371334f7ff45d74cda1d0063aee073ecc319e6c4`
+  - `data/raw/india/macro/cpi/cpi_pr_12jan15m.pdf`: `45d066e3866cdc7ca1fe848c3cab01772075503a32c488cde80428611159b0bb`
+  - `data/raw/india/macro/cpi/cpi_pr_12jan16t.pdf`: `27381a6d6ebc5a9c30e86b072979307eefb2e766d847c59b14e1201e13d43a38`
+  - `data/raw/india/macro/cpi/cpi_pr_12july16t.pdf`: `feb2c5962796715feffb64ea579ce82a8c0b5ef5114de57b03494562f09a1eb5`
+  - `data/raw/india/macro/cpi/cpi_pr_12may15t.pdf`: `0652c8335dfef6a3dcfe5294cf67df29c263a145333fba825867eb36dd44695e`
+  - `data/raw/india/macro/cpi/cpi_pr_12oct15m.pdf`: `1994237d26aab788a28c8213e28a794e7a8fadff99a0ee9fd5a69557b4d0d0e0`
+  - `data/raw/india/macro/cpi/cpi_pr_12sept16m.pdf`: `3250698d3806ee074776285f814797e3ecb01c2d1cc83f8e35f20b12454eac84`
+  - `data/raw/india/macro/cpi/cpi_pr_13apr15m.pdf`: `0b0b1b2765c88979c214ae8ec8fb299ceb9794489072cc85bbb96255d82a5513`
+  - `data/raw/india/macro/cpi/cpi_pr_13jan20.pdf`: `4d055d013dc1d90ce6d2e805891e020328ef5e715f71f982f82618b9a72f48aa`
+  - `data/raw/india/macro/cpi/cpi_pr_13july15m.pdf`: `70c2d5fc90debafb67d04c78f538e9e89cabb4ca55937b93da1f2c89f17ccad9`
+  - `data/raw/india/macro/cpi/cpi_pr_13mar20.pdf`: `413b373f3fa030c89af9e12afcb3607d7ef2c50282c93f6ae442f69b997f3c6a`
+  - `data/raw/india/macro/cpi/cpi_pr_13oct14m.pdf`: `bc5e9bd9feee040138e400b25f16af23c4f77ef9da81fd96811e3b575ffae732`
+  - `data/raw/india/macro/cpi/cpi_pr_14mar16m.pdf`: `6b6d9eea764d0c3915d09f83daadc4003e5611cd00461560cb305c8eef209299`
+  - `data/raw/india/macro/cpi/cpi_pr_14sep15m.pdf`: `043a5ab63dba6953d6476e56ed9d27a327ada0ac80a594cabf1167e66c5bfce0`
+  - `data/raw/india/macro/cpi/cpi_pr_15nov16t.pdf`: `20a04a3566de3656ef1af0784cf4c3c6e78007adecf1c630df4b69aecf4c3941`
+  - `data/raw/india/macro/cpi/pib_CPI_Aug2025_PRID2165974.html`: `1e5e863a1a26b48775deb084a9a1317ebe6286fe6af405b1e79334d0ee5188f2`
+  - `data/raw/india/macro/cpi/t4_12apr13.pdf`: `022f6f919e82a522fb4b8759d1f855479b35c7cf66f0bae83c6b988df8b7ada9`
+  - `data/raw/india/macro/cpi/t4_12aug13.pdf`: `e2b97317f4133fb2dbe0035b5d44726fb7a9f62e37a1c14c9984c4a975983bd5`
+  - `data/raw/india/macro/cpi/t4_12dec12.pdf`: `3440802ab9dc1c200985fac75204933081d7e369208a2e48056f1299bf79084b`
+  - `data/raw/india/macro/cpi/t4_12dec13.pdf`: `a93e022a5e45d5871fc14fe586f6a0068ec745b57881c7b6990a19303978e579`
+  - `data/raw/india/macro/cpi/t4_12feb13.pdf`: `5000e5b8b2054994ef2722b41c0d90e651b9f6192550a36318a0526db7d225ac`
+  - `data/raw/india/macro/cpi/t4_12feb14.pdf`: `24f30fc0d3693e0203d09fee494c39a2187956f8435cc7f75934a2740fafd2c8`
+  - `data/raw/india/macro/cpi/t4_12jun13.pdf`: `6e56b1fb470a40cb7a3fd5429439058eca4d13304ba5a7cceb30b6232b4abd32`
+  - `data/raw/india/macro/cpi/t4_12mar13.pdf`: `9de9f873688415d810690d96d5bd0f02f4c0f9a670f6bb74550ba6fb1cfd9d0f`
+  - `data/raw/india/macro/cpi/t4_12mar14.pdf`: `0a4dc8986793ec5b88919c79cf951bb4b14e1665d68f9db405716dba4d490bfe`
+  - `data/raw/india/macro/cpi/t4_12nov12.pdf`: `eb417078168aa9569e42af6add89db820559135a3a8daa219f93d39e8157c7e2`
+  - `data/raw/india/macro/cpi/t4_12nov13.pdf`: `a88976925a03cc881cf98c8b449e952dcb49888b0b7e773c349185ac73ba63f8`
+  - `data/raw/india/macro/cpi/t4_12sep13.pdf`: `731227b8b488303794dd80503ff5d3ccffc6916bad18bd99da73c4a286f0024b`
+  - `data/raw/india/macro/cpi/t4_13jan14.pdf`: `fa839265b84d0475ada184f3d2b9880ac566a7f385d309276a917aec905717f6`
+  - `data/raw/india/macro/cpi/t4_13may13.pdf`: `6504da5c5775aad47e9d07d874bec3d51c3a900d1648d7b28d664663c4a3a7ea`
+  - `data/raw/india/macro/cpi/t4_14jan13.pdf`: `5000e5b8b2054994ef2722b41c0d90e651b9f6192550a36318a0526db7d225ac`
+  - `data/raw/india/macro/cpi/t4_14oct13.pdf`: `939fe42d0d339be46211d444d4fee406de82d7f82cc86f8ffb5b96500492d36c`
+  - `data/raw/india/macro/cpi/t4_18apr12.pdf`: `bd0ae6144aa8d869e545c22b432bcd5007c94304e9c81a1eb55516b67264627e`
+  - `data/raw/india/macro/cpi/t4_18jan12.pdf`: `efa420c4fcaf37674df653ac180ba3ac275c6a31f4640e630c33ab7bdfd4684d`
+  - `data/raw/india/macro/cpi/t4_18may12.pdf`: `d5e97271664d83fc6296035e72b563202b9a6fc235df24b5888a2d988898733d`
+  - `data/raw/india/macro/cpi/t4_18sep12.pdf`: `2601b503e4ed0970708bdb28b2b48406c0236ba0c4bcc7ed5810388968c5dcde`
+  - `data/raw/india/macro/cpi/t4_21aug12.pdf`: `0050ff17d8f7c8d510c977e62ac8ae096bd5d358bb610d3a45bcd71002d8fb4b`
+  - `data/raw/india/macro/cpi/t4_21feb12.pdf`: `2f9259acdae10f5df49f70d27066685a1545dc491c24b42cd39d08b4bc503078`
+- Processed: `data/processed/india/macro/mospi_cpi_combined_monthly.csv` SHA-256 `8e31219acc55c2e6c3c5fe7dc594defd61d96bc3121ec8bf05cdbec2ee738d56`
+### `mospi_cpi_combined_monthly`
+- Earliest: `2013-01-31`
+- Latest: `2025-12-31`
+- Observations: 209
+- Unique dates: 156
+- Duplicate timestamps: 53
+- Duplicate identifier pairs: 0
+- Missingness:
+  - `observation_period`: 0/209 (0.00%)
+  - `cpi_index`: 0/209 (0.00%)
+  - `availability_date`: 20/209 (9.57%)
+- Temporal gaps above threshold: 155
+- Availability violations: 0/209
+- Note: WARNING: 53 duplicate timestamps detected.
+- Note: INFO: 155 gap(s) detected. First: (datetime.date(2013, 1, 31), datetime.date(2013, 2, 28))
 
 - Source: `NSE`
 - Raw artifacts: `17 annual files`
@@ -565,7 +665,7 @@ Macro and policy datasets must carry observation_date and availability_date. Val
 - Limiting datasets: none
 - Exclusion reasons:
   - `mcx_gold_futures_individual_contracts`: Dataset is not experiment-eligible.
-  - `mospi_cpi_combined_monthly`: Dataset not audited — no coverage data available.
+  - `mospi_cpi_combined_monthly`: Dataset is not experiment-eligible.
   - `mospi_iip_general_monthly`: Dataset not audited — no coverage data available.
   - `nse_india_vix_daily`: Dataset is not experiment-eligible.
   - `nse_nifty_500_daily`: Dataset is not experiment-eligible.
@@ -583,7 +683,7 @@ Macro and policy datasets must carry observation_date and availability_date. Val
 ## 9. Leakage findings
 
 - Leakage validation status: **EVALUATED**
-- Datasets checked: corporate_actions, gold, policy, preprocessing, price
+- Datasets checked: corporate_actions, gold, macro, policy, preprocessing, price
 - Confirmed leaks: 0
 - Potential leaks: 1
 - Mitigated issues: 1

@@ -1,0 +1,210 @@
+observation_period,observation_date,availability_date,cpi_index,vintage_status,revision_version,availability_basis,source,source_files
+2013-01,2013-01-31,2015-02-12,104.6,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2013-02,2013-02-28,2015-02-12,105.3,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2013-03,2013-03-31,2015-02-12,105.5,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2013-04,2013-04-30,2015-02-12,106.1,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2013-05,2013-05-31,2015-02-12,106.9,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2013-06,2013-06-30,2015-02-12,109.3,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2013-07,2013-07-31,2015-02-12,111.0,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2013-08,2013-08-31,2015-02-12,112.4,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2013-09,2013-09-30,2015-02-12,113.7,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2013-10,2013-10-31,2015-02-12,114.8,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2013-11,2013-11-30,2015-02-12,116.3,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2013-12,2013-12-31,2015-02-12,114.5,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-01,2014-01-31,2015-02-12,113.6,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-02,2014-02-28,2015-02-12,113.6,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-03,2014-03-31,2015-02-12,114.2,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-04,2014-04-30,2015-02-12,115.1,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-05,2014-05-31,2015-02-12,115.8,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-06,2014-06-30,2015-02-12,116.7,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-07,2014-07-31,2015-02-12,119.2,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-08,2014-08-31,2015-02-12,120.3,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-09,2014-09-30,2015-02-12,120.1,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-10,2014-10-31,2015-02-12,120.1,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-11,2014-11-30,2015-02-12,120.1,revision_back_series,0,revision_back_series_2015,MOSPI,CPI_Dec2025.pdf;cpi_pr_12feb15t.pdf
+2014-12,2014-12-31,2015-02-12,119.4,final,1,mospi_press_release,MOSPI,cpi_pr_12feb15t.pdf
+2015-01,2015-01-31,2015-02-12,119.4,provisional,0,mospi_press_release,MOSPI,cpi_pr_12feb15t.pdf
+2015-02,2015-02-28,2015-04-13,119.7,final,1,mospi_press_release,MOSPI,cpi_pr_13apr15m.pdf
+2015-03,2015-03-31,2015-04-13,120.1,provisional,0,mospi_press_release,MOSPI,cpi_pr_13apr15m.pdf
+2015-03,2015-03-31,2015-05-12,120.2,final,1,mospi_press_release,MOSPI,cpi_pr_12may15t.pdf
+2015-04,2015-04-30,2015-05-12,120.7,provisional,0,mospi_press_release,MOSPI,cpi_pr_12may15t.pdf
+2015-05,2015-05-31,2015-07-13,121.6,final,1,mospi_press_release,MOSPI,cpi_pr_13july15m.pdf
+2015-06,2015-06-30,2015-07-13,123.0,provisional,0,mospi_press_release,MOSPI,cpi_pr_13july15m.pdf
+2015-07,2015-07-31,2015-09-14,123.6,final,1,mospi_press_release,MOSPI,cpi_pr_14sep15m.pdf
+2015-08,2015-08-31,2015-09-14,124.7,provisional,0,mospi_press_release,MOSPI,cpi_pr_14sep15m.pdf
+2015-08,2015-08-31,2015-10-12,124.8,final,1,mospi_press_release,MOSPI,cpi_pr_12oct15m.pdf
+2015-09,2015-09-30,2015-10-12,125.4,provisional,0,mospi_press_release,MOSPI,cpi_pr_12oct15m.pdf
+2015-10,2015-10-31,2015-12-14,126.1,final,1,mospi_press_release,MOSPI,cpi_pr_12dec15m.pdf
+2015-11,2015-11-30,2015-12-14,126.6,provisional,0,mospi_press_release,MOSPI,cpi_pr_12dec15m.pdf
+2015-11,2015-11-30,2016-01-12,126.6,final,1,mospi_press_release,MOSPI,cpi_pr_12jan16t.pdf
+2015-12,2015-12-31,2016-01-12,126.1,provisional,0,mospi_press_release,MOSPI,cpi_pr_12jan16t.pdf
+2016-01,2016-01-31,2016-03-14,126.3,final,1,mospi_press_release,MOSPI,cpi_pr_14mar16m.pdf
+2016-02,2016-02-29,2016-03-14,125.9,provisional,0,mospi_press_release,MOSPI,cpi_pr_14mar16m.pdf
+2016-02,2016-02-29,2016-04-12,126.0,final,1,mospi_press_release,MOSPI,cpi_pr_12apr16t.pdf
+2016-03,2016-03-31,2016-04-12,126.0,provisional,0,mospi_press_release,MOSPI,cpi_pr_12apr16t.pdf
+2016-04,2016-04-30,,127.3,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2016-05,2016-05-31,2016-07-12,128.6,final,1,mospi_press_release,MOSPI,cpi_pr_12july16t.pdf
+2016-06,2016-06-30,2016-07-12,130.1,provisional,0,mospi_press_release,MOSPI,cpi_pr_12july16t.pdf
+2016-07,2016-07-31,2016-09-12,131.1,final,1,mospi_press_release,MOSPI,cpi_pr_12sept16m.pdf
+2016-08,2016-08-31,2016-09-12,131.1,provisional,0,mospi_press_release,MOSPI,cpi_pr_12sept16m.pdf
+2016-09,2016-09-30,2016-11-15,130.9,final,1,mospi_press_release,MOSPI,cpi_pr_15nov16t.pdf
+2016-10,2016-10-31,2016-11-15,131.4,provisional,0,mospi_press_release,MOSPI,cpi_pr_15nov16t.pdf
+2016-11,2016-11-30,,131.2,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2016-12,2016-12-31,2017-02-13,130.4,final,1,mospi_press_release,MOSPI,CPI_PR_13feb17m.pdf
+2017-01,2017-01-31,2017-02-13,130.3,provisional,0,mospi_press_release,MOSPI,CPI_PR_13feb17m.pdf
+2017-01,2017-01-31,2017-03-14,130.3,final,1,mospi_press_release,MOSPI,CPI_PR_14mar17t.pdf
+2017-02,2017-02-28,2017-03-14,130.6,provisional,0,mospi_press_release,MOSPI,CPI_PR_14mar17t.pdf
+2017-03,2017-03-31,,130.9,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2017-04,2017-04-30,2017-06-12,131.1,final,1,mospi_press_release,MOSPI,CPI_PR_12jun17m.pdf
+2017-05,2017-05-31,2017-06-12,131.4,provisional,0,mospi_press_release,MOSPI,CPI_PR_12jun17m.pdf
+2017-06,2017-06-30,2017-08-14,132.0,final,1,mospi_press_release,MOSPI,CPI_PR_14aug17m.pdf
+2017-07,2017-07-31,2017-08-14,134.2,provisional,0,mospi_press_release,MOSPI,CPI_PR_14aug17m.pdf
+2017-07,2017-07-31,2017-09-12,134.2,final,1,mospi_press_release,MOSPI,CPI_PR_12sep17t.pdf
+2017-08,2017-08-31,2017-09-12,135.5,provisional,0,mospi_press_release,MOSPI,CPI_PR_12sep17t.pdf
+2017-09,2017-09-30,,135.2,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2017-10,2017-10-31,2017-12-12,136.1,final,1,mospi_press_release,MOSPI,CPI_PR_12dec17.pdf
+2017-11,2017-11-30,2017-12-12,137.6,provisional,0,mospi_press_release,MOSPI,CPI_PR_12dec17.pdf
+2017-12,2017-12-31,2018-02-12,137.2,final,1,mospi_press_release,MOSPI,CPI_PR_12feb18m.pdf
+2018-01,2018-01-31,2018-02-12,136.9,provisional,0,mospi_press_release,MOSPI,CPI_PR_12feb18m.pdf
+2018-01,2018-01-31,2018-03-12,136.9,final,1,mospi_press_release,MOSPI,CPI_PR_12mar18m.pdf
+2018-02,2018-02-28,2018-03-12,136.4,provisional,0,mospi_press_release,MOSPI,CPI_PR_12mar18m.pdf
+2018-03,2018-03-31,2018-05-14,136.5,final,1,mospi_press_release,MOSPI,CPI_PR_14may18.pdf
+2018-04,2018-04-30,2018-05-14,137.1,provisional,0,mospi_press_release,MOSPI,CPI_PR_14may18.pdf
+2018-04,2018-04-30,2018-06-12,137.1,final,1,mospi_press_release,MOSPI,CPI_PR_12jun18t.pdf
+2018-05,2018-05-31,2018-06-12,137.8,provisional,0,mospi_press_release,MOSPI,CPI_PR_12jun18t.pdf
+2018-06,2018-06-30,2018-08-13,138.5,final,1,mospi_press_release,MOSPI,CPI_PR_13aug18m.pdf
+2018-07,2018-07-31,2018-08-13,139.8,provisional,0,mospi_press_release,MOSPI,CPI_PR_13aug18m.pdf
+2018-08,2018-08-31,,140.4,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2018-09,2018-09-30,,140.2,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2018-10,2018-10-31,,140.7,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2018-11,2018-11-30,,140.8,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2018-12,2018-12-31,,140.1,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2019-01,2019-01-31,,139.6,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2019-02,2019-02-28,,139.9,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2019-03,2019-03-31,,140.4,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2019-04,2019-04-30,2019-06-12,141.2,final,1,mospi_press_release,MOSPI,Press Statement_3.pdf
+2019-05,2019-05-31,2019-06-12,142.0,provisional,0,mospi_press_release,MOSPI,Press Statement_3.pdf
+2019-06,2019-06-30,2019-08-13,142.9,final,1,mospi_press_release,MOSPI,Press Statement_0.pdf
+2019-07,2019-07-31,2019-08-13,144.2,provisional,0,mospi_press_release,MOSPI,Press Statement_0.pdf
+2019-07,2019-07-31,2019-09-12,144.2,final,1,mospi_press_release,MOSPI,Press Statement_4.pdf
+2019-08,2019-08-31,2019-09-12,144.9,provisional,0,mospi_press_release,MOSPI,Press Statement_4.pdf
+2019-08,2019-08-31,2019-10-14,145.0,final,1,mospi_press_release,MOSPI,Press Statement_1.pdf
+2019-09,2019-09-30,2019-10-14,145.8,provisional,0,mospi_press_release,MOSPI,Press Statement_1.pdf
+2019-10,2019-10-31,,147.2,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2019-11,2019-11-30,2020-01-13,148.6,final,1,mospi_press_release,MOSPI,cpi_pr_13jan20.pdf
+2019-12,2019-12-31,2020-01-13,150.4,provisional,0,mospi_press_release,MOSPI,cpi_pr_13jan20.pdf
+2020-01,2020-01-31,,150.2,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2020-02,2020-02-29,2020-04-13,149.1,final,1,mospi_press_release,MOSPI,cpi_pr_13mar20.pdf
+2020-03,2020-03-31,2020-04-13,148.7,provisional,0,mospi_press_release,MOSPI,cpi_pr_13mar20.pdf
+2020-04,2020-04-30,2020-07-13,151.4,imputed,0,mospi_press_release,MOSPI,CPI Press Release June 2020.pdf
+2020-05,2020-05-31,2020-07-13,150.9,imputed,0,mospi_press_release,MOSPI,CPI Press Release June 2020.pdf
+2020-06,2020-06-30,2020-07-13,151.6,provisional,0,mospi_press_release,MOSPI,CPI Press Release June 2020.pdf
+2020-06,2020-06-30,2020-08-13,151.8,final,1,mospi_press_release,MOSPI,CPI Press Release July 2020.pdf
+2020-07,2020-07-31,2020-08-13,154.2,provisional,0,mospi_press_release,MOSPI,CPI Press Release July 2020.pdf
+2020-07,2020-07-31,2020-09-14,153.9,final,1,mospi_press_release,MOSPI,CPI Press Release August 2020.pdf
+2020-08,2020-08-31,2020-09-14,154.7,provisional,0,mospi_press_release,MOSPI,CPI Press Release August 2020.pdf
+2020-09,2020-09-30,,156.4,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2020-10,2020-10-31,,158.4,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2020-11,2020-11-30,2021-01-12,158.9,final,1,mospi_press_release,MOSPI,CPI Press Release December 2020.pdf
+2020-12,2020-12-31,2021-01-12,157.3,provisional,0,mospi_press_release,MOSPI,CPI Press Release December 2020.pdf
+2020-12,2020-12-31,2021-02-12,157.3,final,1,mospi_press_release,MOSPI,CPI Press Release January 2021.pdf
+2021-01,2021-01-31,2021-02-12,156.3,provisional,0,mospi_press_release,MOSPI,CPI Press Release January 2021.pdf
+2021-01,2021-01-31,2021-03-12,156.3,final,1,mospi_press_release,MOSPI,CPI Press Release February 2021.pdf
+2021-02,2021-02-28,2021-03-12,156.6,provisional,0,mospi_press_release,MOSPI,CPI Press Release February 2021.pdf
+2021-03,2021-03-31,,156.8,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2021-04,2021-04-30,,157.8,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2021-05,2021-05-31,,160.4,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2021-06,2021-06-30,,161.3,final_series_only,0,unverified,MOSPI,CPI_Dec2025.pdf
+2021-07,2021-07-31,2021-09-13,162.5,final,1,mospi_press_release,MOSPI,CPI_PR_13sep21.pdf
+2021-08,2021-08-31,2021-09-13,162.9,provisional,0,mospi_press_release,MOSPI,CPI_PR_13sep21.pdf
+2021-09,2021-09-30,2021-11-12,163.2,final,1,mospi_press_release,MOSPI,CPI_PR_12nov21.pdf
+2021-10,2021-10-31,2021-11-12,165.5,provisional,0,mospi_press_release,MOSPI,CPI_PR_12nov21.pdf
+2021-10,2021-10-31,2021-12-13,165.5,final,1,mospi_press_release,MOSPI,CPI Press Release November 2021.pdf
+2021-11,2021-11-30,2021-12-13,166.7,provisional,0,mospi_press_release,MOSPI,CPI Press Release November 2021.pdf
+2021-12,2021-12-31,2022-02-14,166.2,final,1,mospi_press_release,MOSPI,CPI Press Release January 2022.pdf
+2022-01,2022-01-31,2022-02-14,165.7,provisional,0,mospi_press_release,MOSPI,CPI Press Release January 2022.pdf
+2022-01,2022-01-31,2022-03-14,165.7,final,1,mospi_press_release,MOSPI,CPI Press Release February 2022.pdf
+2022-02,2022-02-28,2022-03-14,166.1,provisional,0,mospi_press_release,MOSPI,CPI Press Release February 2022.pdf
+2022-02,2022-02-28,2022-04-12,166.1,final,1,mospi_press_release,MOSPI,CPI Press Release March 2022.pdf
+2022-03,2022-03-31,2022-04-12,167.7,provisional,0,mospi_press_release,MOSPI,CPI Press Release March 2022.pdf
+2022-03,2022-03-31,2022-05-12,167.7,final,1,mospi_press_release,MOSPI,CPI Press Release April 2022.pdf
+2022-04,2022-04-30,2022-05-12,170.1,provisional,0,mospi_press_release,MOSPI,CPI Press Release April 2022.pdf
+2022-04,2022-04-30,2022-06-13,170.1,final,1,mospi_press_release,MOSPI,CPI Press Release May 2022.pdf
+2022-05,2022-05-31,2022-06-13,171.7,provisional,0,mospi_press_release,MOSPI,CPI Press Release May 2022.pdf
+2022-06,2022-06-30,2022-08-12,172.6,final,1,mospi_press_release,MOSPI,CPI Press Release July 2022.pdf
+2022-07,2022-07-31,2022-08-12,173.4,provisional,0,mospi_press_release,MOSPI,CPI Press Release July 2022.pdf
+2022-08,2022-08-31,2022-10-12,174.3,final,1,mospi_press_release,MOSPI,CPI_PR_12oct22.pdf;CPI_PR_September_2022.pdf
+2022-09,2022-09-30,2022-10-12,175.3,provisional,0,mospi_press_release,MOSPI,CPI_PR_12oct22.pdf;CPI_PR_September_2022.pdf
+2022-09,2022-09-30,2022-11-14,175.3,final,1,mospi_press_release,MOSPI,CPI Press Release October 2022.pdf
+2022-10,2022-10-31,2022-11-14,176.7,provisional,0,mospi_press_release,MOSPI,CPI Press Release October 2022.pdf
+2022-10,2022-10-31,2022-12-12,176.7,final,1,mospi_press_release,MOSPI,CPI Press Release November 2022.pdf;CPI_PR_November_2022.pdf
+2022-11,2022-11-30,2022-12-12,176.5,provisional,0,mospi_press_release,MOSPI,CPI Press Release November 2022.pdf;CPI_PR_November_2022.pdf
+2022-11,2022-11-30,2023-01-12,176.5,final,1,mospi_press_release,MOSPI,CPI_PR_12jan23.pdf;CPI_PR_December_2022.pdf
+2022-12,2022-12-31,2023-01-12,175.7,provisional,0,mospi_press_release,MOSPI,CPI_PR_12jan23.pdf;CPI_PR_December_2022.pdf
+2022-12,2022-12-31,2023-02-13,175.7,final,1,mospi_press_release,MOSPI,CPI_PR_13feb23.pdf
+2023-01,2023-01-31,2023-02-13,176.5,provisional,0,mospi_press_release,MOSPI,CPI_PR_13feb23.pdf
+2023-02,2023-02-28,2023-04-12,176.8,final,1,mospi_press_release,MOSPI,CPI_PR_12apr23.pdf
+2023-03,2023-03-31,2023-04-12,177.2,provisional,0,mospi_press_release,MOSPI,CPI_PR_12apr23.pdf
+2023-04,2023-04-30,2023-06-12,178.1,final,1,mospi_press_release,MOSPI,CPI_PR_12jun23.pdf
+2023-05,2023-05-31,2023-06-12,179.0,provisional,0,mospi_press_release,MOSPI,CPI_PR_12jun23.pdf
+2023-05,2023-05-31,2023-07-12,179.1,final,1,mospi_press_release,MOSPI,CPI_PR_12july23.pdf
+2023-06,2023-06-30,2023-07-12,180.9,provisional,0,mospi_press_release,MOSPI,CPI_PR_12july23.pdf
+2023-06,2023-06-30,2023-08-14,181.0,final,1,mospi_press_release,MOSPI,CPI_PR_14aug23.pdf
+2023-07,2023-07-31,2023-08-14,186.3,provisional,0,mospi_press_release,MOSPI,CPI_PR_14aug23.pdf
+2023-07,2023-07-31,2023-09-12,186.3,final,1,mospi_press_release,MOSPI,CPI_PR_12sep23.pdf
+2023-08,2023-08-31,2023-09-12,186.2,provisional,0,mospi_press_release,MOSPI,CPI_PR_12sep23.pdf
+2023-08,2023-08-31,2023-10-12,186.2,final,1,mospi_press_release,MOSPI,CPI_PR_12oct23.pdf
+2023-09,2023-09-30,2023-10-12,184.1,provisional,0,mospi_press_release,MOSPI,CPI_PR_12oct23.pdf
+2023-09,2023-09-30,2023-11-13,184.1,final,1,mospi_press_release,MOSPI,CPI_PR_13nov23.pdf
+2023-10,2023-10-31,2023-11-13,185.3,provisional,0,mospi_press_release,MOSPI,CPI_PR_13nov23.pdf
+2023-10,2023-10-31,2023-12-12,185.3,final,1,mospi_press_release,MOSPI,CPI_PR_12dec23.pdf
+2023-11,2023-11-30,2023-12-12,186.3,provisional,0,mospi_press_release,MOSPI,CPI_PR_12dec23.pdf
+2023-11,2023-11-30,2024-01-12,186.3,final,1,mospi_press_release,MOSPI,CPI_PR_12Jan24.pdf
+2023-12,2023-12-31,2024-01-12,185.7,provisional,0,mospi_press_release,MOSPI,CPI_PR_12Jan24.pdf
+2023-12,2023-12-31,2024-02-12,185.7,final,1,mospi_press_release,MOSPI,CPI_PR_12feb24.pdf
+2024-01,2024-01-31,2024-02-12,185.5,provisional,0,mospi_press_release,MOSPI,CPI_PR_12feb24.pdf
+2024-01,2024-01-31,2024-03-12,185.5,final,1,mospi_press_release,MOSPI,CPI_PR_12Mar24.pdf
+2024-02,2024-02-29,2024-03-12,185.8,provisional,0,mospi_press_release,MOSPI,CPI_PR_12Mar24.pdf
+2024-02,2024-02-29,2024-04-12,185.8,final,1,mospi_press_release,MOSPI,CPI_PR_12apr24.pdf
+2024-03,2024-03-31,2024-04-12,185.8,provisional,0,mospi_press_release,MOSPI,CPI_PR_12apr24.pdf
+2024-03,2024-03-31,2024-05-13,185.8,final,1,mospi_press_release,MOSPI,CPI_PR_13may24.pdf
+2024-04,2024-04-30,2024-05-13,186.7,provisional,0,mospi_press_release,MOSPI,CPI_PR_13may24.pdf
+2024-05,2024-05-31,2024-07-12,187.7,final,1,mospi_press_release,MOSPI,CPI_PR_12july24.pdf
+2024-06,2024-06-30,2024-07-12,190.2,provisional,0,mospi_press_release,MOSPI,CPI_PR_12july24.pdf
+2024-06,2024-06-30,2024-08-12,190.2,final,1,mospi_press_release,MOSPI,CPI_PR_12aug24.pdf
+2024-07,2024-07-31,2024-08-12,192.9,provisional,0,mospi_press_release,MOSPI,CPI_PR_12aug24.pdf
+2024-07,2024-07-31,2024-09-12,193.0,final,1,mospi_press_release,MOSPI,CPI_PR_12sep24.pdf
+2024-08,2024-08-31,2024-09-12,193.0,provisional,0,mospi_press_release,MOSPI,CPI_PR_12sep24.pdf
+2024-08,2024-08-31,2024-10-14,193.0,final,1,mospi_press_release,MOSPI,CPI_PR_14oct24.pdf
+2024-09,2024-09-30,2024-10-14,194.2,provisional,0,mospi_press_release,MOSPI,CPI_PR_14oct24.pdf
+2024-09,2024-09-30,2024-11-12,194.2,final,1,mospi_press_release,MOSPI,CPI_PR_12nov24.pdf
+2024-10,2024-10-31,2024-11-12,196.8,provisional,0,mospi_press_release,MOSPI,CPI_PR_12nov24.pdf
+2024-10,2024-10-31,2024-12-12,196.8,final,1,mospi_press_release,MOSPI,CPI_PR_12dec24.pdf
+2024-11,2024-11-30,2024-12-12,196.5,provisional,0,mospi_press_release,MOSPI,CPI_PR_12dec24.pdf
+2024-11,2024-11-30,2025-01-13,196.5,final,1,mospi_press_release,MOSPI,CPI_PR_13Jan25.pdf
+2024-12,2024-12-31,2025-01-13,195.4,provisional,0,mospi_press_release,MOSPI,CPI_PR_13Jan25.pdf
+2024-12,2024-12-31,2025-02-12,195.4,final,1,mospi_press_release,MOSPI,CPI_PR_12Feb25.pdf
+2025-01,2025-01-31,2025-02-12,193.5,provisional,0,mospi_press_release,MOSPI,CPI_PR_12Feb25.pdf
+2025-01,2025-01-31,2025-03-12,193.4,final,1,mospi_press_release,MOSPI,CPI_PR_12Mar25.pdf
+2025-02,2025-02-28,2025-03-12,192.5,provisional,0,mospi_press_release,MOSPI,CPI_PR_12Mar25.pdf
+2025-02,2025-02-28,2025-04-15,192.5,final,1,mospi_press_release,MOSPI,CPI_PR_15Apr25.pdf
+2025-03,2025-03-31,2025-04-15,192.0,provisional,0,mospi_press_release,MOSPI,CPI_PR_15Apr25.pdf
+2025-03,2025-03-31,2025-05-13,192.0,final,1,mospi_press_release,MOSPI,CPI_PR_13May25.pdf
+2025-04,2025-04-30,2025-05-13,192.6,provisional,0,mospi_press_release,MOSPI,CPI_PR_13May25.pdf
+2025-04,2025-04-30,2025-06-12,192.6,final,1,mospi_press_release,MOSPI,CPI_PR_12Jun25.pdf
+2025-05,2025-05-31,2025-06-12,193.0,provisional,0,mospi_press_release,MOSPI,CPI_PR_12Jun25.pdf
+2025-05,2025-05-31,2025-07-14,193.0,final,1,mospi_press_release,MOSPI,CPI_PR_14Jun25.pdf
+2025-06,2025-06-30,2025-07-14,194.2,provisional,0,mospi_press_release,MOSPI,CPI_PR_14Jun25.pdf
+2025-06,2025-06-30,2025-08-12,194.2,final,1,mospi_press_release,MOSPI,CPI_Jul2025_pib.pdf
+2025-07,2025-07-31,2025-08-12,196.0,provisional,0,mospi_press_release,MOSPI,CPI_Jul2025_pib.pdf
+2025-07,2025-07-31,2025-09-12,196.1,final,1,pib_posting,MOSPI,pib_CPI_Aug2025_PRID2165974.html
+2025-08,2025-08-31,2025-09-12,197.0,provisional,0,pib_posting,MOSPI,pib_CPI_Aug2025_PRID2165974.html
+2025-08,2025-08-31,2025-10-13,197.0,final,1,mospi_press_release,MOSPI,CPI_Sep2025_pib.pdf
+2025-09,2025-09-30,2025-10-13,197.2,provisional,0,mospi_press_release,MOSPI,CPI_Sep2025_pib.pdf
+2025-09,2025-09-30,2025-11-12,197.0,final,1,mospi_press_release,MOSPI,CPI_Oct2025_pib.pdf
+2025-10,2025-10-31,2025-11-12,197.3,provisional,0,mospi_press_release,MOSPI,CPI_Oct2025_pib.pdf
+2025-10,2025-10-31,2025-12-12,197.3,final,1,mospi_press_release,MOSPI,CPI_Nov2025.pdf
+2025-11,2025-11-30,2025-12-12,197.9,provisional,0,mospi_press_release,MOSPI,CPI_Nov2025.pdf
+2025-11,2025-11-30,2026-01-12,197.9,final,1,mospi_press_release,MOSPI,CPI_Dec2025.pdf
+2025-12,2025-12-31,2026-01-12,198.0,provisional,0,mospi_press_release,MOSPI,CPI_Dec2025.pdf
+2025-12,2025-12-31,2026-02-12,198.0,final,1,mospi_press_release,MOSPI,CPI_Jan2026_first2024base.pdf
