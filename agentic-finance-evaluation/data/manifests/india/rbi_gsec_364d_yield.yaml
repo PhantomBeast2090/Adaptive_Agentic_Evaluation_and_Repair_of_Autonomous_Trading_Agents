@@ -1,39 +1,137 @@
-acquisition_status: pending_manual_download
+acquisition_status: acquired
 asset_class: fixed_income
 dataset_id: rbi_gsec_364d_yield
-duplicate_count: null
-earliest_observation: null
-eligibility_status: acquisition_pending
-frequency: daily
+duplicate_count: 0
+earliest_observation: '2017-10-13'
+eligibility_status: blocked
+frequency: weekly
 has_availability_date: false
-has_observation_date: false
-latest_observation: null
-missingness_summary: []
-notes: "[rbi_gsec_364d_yield] Acquisition from RBI DBIE (364D yield) failed: DBIE\
-  \ automated fetch failed: HTTPSConnectionPool(host='dbie.rbi.org.in', port=443):\
-  \ Max retries exceeded with url: /DBIE/dbie.rbi?site=export&seriesId=BSR1:BISQ:A:A:4:0:WT.TBILL_364D&format=CSV\
-  \ (Caused by SSLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED]\
-  \ certificate verify failed: Hostname mismatch, certificate is not valid for 'dbie.rbi.org.in'.\
-  \ (_ssl.c:1081)\"))). RBI DBIE requires authenticated session or API key. Manual\
-  \ download required.\n\nManual download instructions:\n\nRBI/DBIE 364D Yield Manual\
-  \ Download:\n1. Visit: https://dbie.rbi.org.in/DBIE/dbie.rbi?site=statistics\n2.\
-  \ Navigate: Financial Markets \u2192 Government Securities Market (or Money Market\
-  \ for T-Bills)\n3. Find series for 364D yield/rate\n4. Select maximum date range\n\
-  5. Download as CSV\n6. Place at: data/raw/india/fixed_income/tbill_364d.csv\n\n\
-  Alternative (FBIL):\n  https://www.fbil.org.in/#/home  \u2192 Benchmark Rates \u2192\
-  \ FBIL T-Bill Rates\n  (For T-Bills only; G-Sec rates remain from RBI/DBIE)\n\n\
-  Expected CSV columns:\n  Date | Yield (%) | [optional: Price, Security ID]\n"
-processed_path: null
-processed_sha256: null
-processing_parameters: {}
+has_observation_date: true
+latest_observation: '2026-09-04'
+missingness_summary:
+- field_name: observation_date
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 459
+- field_name: tenor
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 459
+- field_name: yield_pct
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 459
+notes: '[rbi_gsec_364d_yield] RBI ''50 Macroeconomic Indicators'' workbook, Weekly
+  sheet, exact series ''364-Day Treasury Bill (Primary) Yield (%)'' (465 Friday weeks,
+  2017-10-13 to 2026-09-04). Raw workbook is immutable evidence under data/raw/india/fixed_income/,
+  shared with the 10Y and 91D milestones (same bytes/SHA; explicitly recorded as a shared
+  artifact, not a new acquisition). Definition: 364-day GoI Treasury Bill primary-market
+  auction cut-off (implicit YTM) yield in % p.a.; weekly event frequency (week-ending
+  Friday publication row). No secondary-market or SGL-transaction substitution. Total
+  raw rows=465; canonical rows=459 after excluding 6 RBI ''-'' placeholder weeks with
+  documented reasons: 2024-09-20 (RBI non-observation placeholder (''-'' in source);
+  2024-09-27 (RBI non-observation placeholder (''-'' in source); 2026-01-02 (RBI non-observation
+  placeholder (''-'' in source); 2026-03-27 (RBI non-observation placeholder (''-''
+  in source); 2026-04-03 (RBI non-observation placeholder (''-'' in source); 2026-06-05
+  (RBI non-observation placeholder (''-'' in source). No cause beyond the source placeholder
+  is invented. Conflicting overlaps=0 (single source); schema validation: header exact,
+  0 malformed/null rows, 0 numeric failures, 0 non-positive yields, 0 within-file duplicates,
+  all Periods Fridays. Gaps above weekly cadence only at excluded weeks (14-day x2,
+  21-day x2); never filled or interpolated. Canonical dataset is ascending by observation
+  date, duplicate-free, tenor 364D, with per-observation source_files provenance; weekly
+  event observations never converted to daily. Leakage: price-frame audit clean (0 confirmed,
+  0 unresolved); no publication_date supplied so none recorded. Agent boundary is the
+  observation (week-ending) date; future yields must remain inaccessible; evaluation labels
+  may use future internally without leaking. Calendar: authoritative NSE holiday artifact
+  covers 2026 only; historical calendar completeness cannot be established and must not
+  be inferred from weekdays; coverage audit reports calendar UNAVAILABLE. Eligibility:
+  VALIDATED_BUT_BLOCKED (manifest eligibility_status=blocked) pending (a) historical calendar
+  coverage and (b) common intersection with the other mandatory datasets. Do not mark
+  experiment-eligible merely because files exist.'
+processed_path: data/processed/india/market/rbi_tbill_364d_weekly.csv
+processed_sha256: 82798c0dfa16d95dd44056483227097f127664421fc25d0e87f0971337030d6b
+processing_parameters:
+  calendar_coverage: 2026-only; 2017-2025 calendar-unavailable
+  canonical_rows: 459
+  conflicting_overlaps: 0
+  daily_resampling: false
+  date_parsing: RBI datetime Period to ISO YYYY-MM-DD (all week-ending Fridays)
+  date_semantics: event-frequency observation date ('observation_date' = week-ending
+    Friday of auction week) per the Indian Data Contract; has_observation_date=true
+    reflects the fixed-income observation_date field; no availability_date supplied
+  definition: primary-market auction cut-off (implicit YTM), % p.a.; weekly event
+    frequency
+  duplicate_extra_rows_before_dedup: 0
+  excluded_invalid_rows:
+  - date: '2024-09-20'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  - date: '2024-09-27'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  - date: '2026-01-02'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  - date: '2026-03-27'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  - date: '2026-04-03'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  - date: '2026-06-05'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  excluded_placeholder_weeks:
+  - '2024-09-20'
+  - '2024-09-27'
+  - '2026-01-02'
+  - '2026-03-27'
+  - '2026-04-03'
+  - '2026-06-05'
+  forward_fill: false
+  gaps: 7-day x454, 14-day x2, 21-day x2 (only at excluded placeholder weeks)
+  identical_overlaps_deduped: 0
+  interpolation: false
+  leakage: price-frame clean (0 confirmed/0 unresolved); boundary at observation date
+  method: extract_rbi_weekly_tbill_series_sort_ascending_exclude_placeholders
+  provenance_column: source_files
+  row_arithmetic: total_raw_rows (465) - excluded placeholders (6) - duplicate extras
+    (0) = canonical_rows (459)
+  series: 364-Day Treasury Bill (Primary) Yield (%)
+  sheet: Weekly
+  sort: ascending by observation date (raw workbook descending)
+  source_files_count: 1
+  tenor: 364D
+  total_raw_rows: 465
+  unique_dates: 459
+  validation:
+    malformed_rows: 0
+    nonpositive_yields: 0
+    numeric_failures: 0
+    within_file_duplicates: 0
+  workbook: 50 Macroeconomic Indicators.xlsx (shared artifact with rbi_gsec_10y_yield
+    and rbi_gsec_91d_yield; same SHA)
 processing_version: 1.0.0
+raw_artifacts:
+- byte_size: 103038
+  path: data/raw/india/fixed_income/50 Macroeconomic Indicators.xlsx
+  row_count: 465
+  sha256: 1072bfe9347c6c510c495d2d0894dc6e3931b23775a68faab5c74391f52e679d
 raw_path: null
+raw_paths:
+- data/raw/india/fixed_income/50 Macroeconomic Indicators.xlsx
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T17:20:51.340122+00:00'
-row_count: null
+retrieval_timestamp: '2026-09-12T15:00:41.482135+00:00'
+row_count: 459
 source_institution: RBI
-source_url: null
+source_url: https://www.rbi.org.in/
 tier: A
-unique_date_count: null
-validation_status: pending
+unique_date_count: 459
+validation_status: passed
 variable: GSEC_364D_YIELD
