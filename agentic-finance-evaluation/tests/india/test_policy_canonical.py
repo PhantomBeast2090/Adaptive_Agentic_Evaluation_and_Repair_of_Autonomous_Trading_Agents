@@ -284,8 +284,90 @@ def test_coverage_calculations():
     df = pd.read_csv(CANONICAL_PATH)
     assert df["effective_date"].nunique() == 61
     assert df["rate_type"].nunique() == 5
-    assert df["decision_id"].nunique() >= 61
+    # Authoritative decision-group count is 62: one group per announcement
+    # (D-prefixed), plus effective-date fallback groups (U-prefixed) where
+    # no announcement evidence exists. Verified against the dataset itself.
+    assert df["decision_id"].nunique() == 62
     counts = df["rate_type"].value_counts().to_dict()
     assert counts == {
         "REPO": 56, "REVERSE_REPO": 42, "MSF": 41, "BANK_RATE": 37, "SDF": 11,
     }
+
+
+# 19. unverified-event enforcement (remain in evidence, barred from agents)
+def test_unverified_events_barred_from_agent_set():
+    from src.india.policy_canonicalize import (
+        AGENT_ELIGIBLE_STATUSES,
+        agent_eligible_events,
+        build_agent_information_set,
+    )
+
+    df = pd.read_csv(CANONICAL_PATH)
+    unverified = df[df["reconciliation_status"] == "announcement_unverified"]
+    # Still present in canonical evidence with availability fallback.
+    assert len(unverified) == 27
+    assert unverified["announcement_date"].isna().all()
+    assert (
+        unverified["availability_basis"]
+        == "effective_date_fallback_announcement_unverified"
+    ).all()
+    # Marked experiment-ineligible: excluded by the machine-enforced gate.
+    eligible = agent_eligible_events(df)
+    assert len(eligible) == 160
+    assert set(eligible["reconciliation_status"]) <= AGENT_ELIGIBLE_STATUSES
+    merged = eligible.merge(
+        unverified[["effective_date", "rate_type"]],
+        on=["effective_date", "rate_type"],
+        how="inner",
+    )
+    assert merged.empty
+    # The agent-facing InformationSet exposes eligible events only.
+    info = build_agent_information_set(df)
+    visible = info.information_available_at("2026-06-01")
+    assert len(visible) == 160
+    # An unfiltered set would leak the 27 unverified events at/after their
+    # fallback dates, which is exactly what the gate prevents.
+    assert len(visible) == len(df) - len(unverified)
+
+
+# 20. genuine conflict through reconcile_events blocks (not silently resolved)
+def test_genuine_conflict_blocks_reconciliation():
+    from datetime import date as _date
+
+    from src.india.policy_canonicalize import BackboneEvent, ResolutionEvidence
+
+    backbone = [
+        BackboneEvent(
+            effective_date=_date(2019, 10, 4), rate_type="REPO",
+            rate_pct=5.15, sheet="T_40(ii)",
+        ),
+        BackboneEvent(
+            effective_date=_date(2020, 3, 27), rate_type="REPO",
+            rate_pct=4.40, sheet="T_40(ii)",
+        ),
+    ]
+    conflicting = ResolutionEvidence(
+        source_file="synthetic_conflicting_resolution.html",
+        page_date=_date(2020, 3, 27),
+        meeting_start=None,
+        meeting_end=_date(2020, 3, 27),
+        announcement_date=_date(2020, 3, 27),
+        announcement_basis="page_date_header",
+        levels={"REPO": 4.40},
+        # Table-implied change is -75 bps; the source claims -10 bps.
+        change_bps_stated=-10,
+        stance="accommodative",
+        effective_words="with immediate effect",
+    )
+    canonical, blocked = reconcile_events(
+        backbone, [], [conflicting], "synthetic_backbone.xlsx"
+    )
+    assert len(blocked) == 1
+    assert blocked[0]["rate_type"] == "REPO"
+    assert blocked[0]["effective_date"] == "2020-03-27"
+    assert "disagrees" in blocked[0]["reason"]
+    conflicted = [e for e in canonical if e.effective_date == _date(2020, 3, 27)]
+    assert len(conflicted) == 1
+    # Preserved in evidence but flagged, never silently resolved.
+    assert conflicted[0].reconciliation_status == "change_conflict"
+    assert conflicted[0].announcement_date == _date(2020, 3, 27)

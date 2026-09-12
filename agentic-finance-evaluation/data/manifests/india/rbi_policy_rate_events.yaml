@@ -46,10 +46,17 @@ notes: "[rbi_policy_rate_events] Dual-source RBI policy-rate events: Handbook Ta
   \ InformationSet boundary verified (nothing visible before availability_date). Calendar:\
   \ event dates need no trading calendar; common intersection still incomplete. Eligibility:\
   \ VALIDATED_BUT_BLOCKED pending (a) historical calendar coverage and (b) common\
-  \ intersection. Do not mark experiment-eligible merely because files exist."
+  \ intersection. Agent-facing use additionally requires the build_agent_information_set\
+  \ gate (160 eligible of 187 events). Do not mark experiment-eligible merely because\
+  \ files exist."
 processed_path: data/processed/india/macro/rbi_policy_rate_events.csv
 processed_sha256: 24b4e91742743da3bae47b8cc2f1c6b75d30211937f2b90cb1c2c280eb957db7
 processing_parameters:
+  agent_information_gate: policy_canonicalize.build_agent_information_set exposes
+    only rows with reconciliation_status in {verified, announcement_cross_checked}
+    (160 of 187); the 27 announcement_unverified events remain in canonical evidence
+    with effective-date fallback availability but are machine-excluded from any agent-facing
+    InformationSet; fails closed when nothing is eligible
   backbone: rbi_handbook_2025-26_table40_policy_rates.xlsx (Handbook 2025-26, Table
     40 id=23865; Table 43 in 2024-25 id=23217; Table 44 in 2022-23 id=21141)
   backbone_rows: 107
@@ -63,6 +70,7 @@ processing_parameters:
   date_semantics: announcement_date = public decision date (never inferred); effective_date
     = Table date; availability_date = announcement if known else effective fallback
     flagged
+  decision_groups: 62
   decisions: 62
   evidence_files_count: 61
   excluded_invalid_rows: []

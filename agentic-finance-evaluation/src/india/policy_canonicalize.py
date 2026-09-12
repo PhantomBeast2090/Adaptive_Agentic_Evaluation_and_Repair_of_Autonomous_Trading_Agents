@@ -1129,3 +1129,52 @@ def build_canonical_frame(events: List[CanonicalEvent]) -> pd.DataFrame:
         ["effective_date", "rate_type"]
     ).reset_index(drop=True)
     return frame[CANONICAL_COLUMNS]
+
+
+# ---------------------------------------------------------------------------
+# Agent-facing information gate (machine-enforced)
+# ---------------------------------------------------------------------------
+
+#: Reconciliation statuses permitted in an experiment-eligible agent-facing
+#: information set. Events with any other status (notably
+#: ``announcement_unverified``) remain in canonical evidence for
+#: provenance and audit but MUST NOT be exposed to the agent.
+AGENT_ELIGIBLE_STATUSES = frozenset({"verified", "announcement_cross_checked"})
+
+
+def agent_eligible_events(frame: pd.DataFrame) -> pd.DataFrame:
+    """Return only the canonical rows eligible for agent-facing use.
+
+    Rows whose reconciliation status is not in AGENT_ELIGIBLE_STATUSES
+    (e.g. announcement_unverified pre-2016 events whose availability is
+    an effective-date fallback) are excluded here, never deleted from
+    the canonical dataset itself.
+    """
+    eligible = frame[
+        frame["reconciliation_status"].isin(AGENT_ELIGIBLE_STATUSES)
+    ].copy()
+    return eligible.reset_index(drop=True)
+
+
+def build_agent_information_set(frame: pd.DataFrame):
+    """Build an InformationSet containing only agent-eligible events.
+
+    Fails closed (ValueError) when no eligible events exist. Policy
+    availability may legitimately precede effectiveness (announced one
+    day before effective), so the set is constructed with
+    allow_pre_observation=True per the Indian Data Contract's policy
+    semantics.
+    """
+    from src.india.information_set import InformationSet
+
+    eligible = agent_eligible_events(frame)
+    if eligible.empty:
+        raise ValueError(
+            "No agent-eligible policy events: every row is blocked "
+            "(e.g. announcement_unverified)."
+        )
+    vintages = eligible.rename(columns={"rate_type": "variable"})[
+        ["variable", "observation_date", "availability_date", "rate_pct"]
+    ].copy()
+    vintages["revision_version"] = 0
+    return InformationSet(vintages, allow_pre_observation=True)
