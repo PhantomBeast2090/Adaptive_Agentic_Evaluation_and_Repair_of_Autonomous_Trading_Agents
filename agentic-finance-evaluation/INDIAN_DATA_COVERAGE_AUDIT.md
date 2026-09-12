@@ -5,10 +5,10 @@
 
 ## 1. Acquisition status
 
-- Acquired and auditable datasets: **6**
-- Acquired mandatory market/macro datasets: **5**
+- Acquired and auditable datasets: **7**
+- Acquired mandatory market/macro datasets: **6**
 - Acquired support/calendar artifacts: **1**
-- Pending/unavailable datasets: **8**
+- Pending/unavailable datasets: **7**
 - Artifact read errors: **0**
 - Pending datasets:
   - `crude_oil_brent_daily`: pending_manual_download — No raw artifact supplied. Official-source acquisition requires manual download or source-specific access; this manifest intentionally records pending status and no coverage.
@@ -107,25 +107,6 @@ RBI/DBIE 364D Yield Manual Download:
 4. Select maximum date range
 5. Download as CSV
 6. Place at: data/raw/india/fixed_income/tbill_364d.csv
-
-Alternative (FBIL):
-  https://www.fbil.org.in/#/home  → Benchmark Rates → FBIL T-Bill Rates
-  (For T-Bills only; G-Sec rates remain from RBI/DBIE)
-
-Expected CSV columns:
-  Date | Yield (%) | [optional: Price, Security ID]
-
-  - `rbi_gsec_91d_yield`: pending_manual_download — [rbi_gsec_91d_yield] Acquisition from RBI DBIE (91D yield) failed: DBIE automated fetch failed: HTTPSConnectionPool(host='dbie.rbi.org.in', port=443): Max retries exceeded with url: /DBIE/dbie.rbi?site=export&seriesId=BSR1:BISQ:A:A:4:0:WT.TBILL_91D&format=CSV (Caused by SSLError(SSLCertVerificationError(1, "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'dbie.rbi.org.in'. (_ssl.c:1081)"))). RBI DBIE requires authenticated session or API key. Manual download required.
-
-Manual download instructions:
-
-RBI/DBIE 91D Yield Manual Download:
-1. Visit: https://dbie.rbi.org.in/DBIE/dbie.rbi?site=statistics
-2. Navigate: Financial Markets → Government Securities Market (or Money Market for T-Bills)
-3. Find series for 91D yield/rate
-4. Select maximum date range
-5. Download as CSV
-6. Place at: data/raw/india/fixed_income/tbill_91d.csv
 
 Alternative (FBIL):
   https://www.fbil.org.in/#/home  → Benchmark Rates → FBIL T-Bill Rates
@@ -335,6 +316,25 @@ were not separately captured.
 
 - Source: `RBI`
 - Raw artifacts: `1 annual files`
+  - `data/raw/india/fixed_income/50 Macroeconomic Indicators.xlsx`: `1072bfe9347c6c510c495d2d0894dc6e3931b23775a68faab5c74391f52e679d`
+- Processed: `data/processed/india/market/rbi_tbill_91d_weekly.csv` SHA-256 `6ab7fff49cfb47a530839db2c485ea4b895eb62a00df169deea258e2d818d445`
+### `rbi_gsec_91d_yield`
+- Earliest: `2017-10-13`
+- Latest: `2026-09-04`
+- Observations: 458
+- Unique dates: 458
+- Duplicate timestamps: 0
+- Duplicate identifier pairs: 0
+- Missingness:
+  - `observation_date`: 0/458 (0.00%)
+  - `tenor`: 0/458 (0.00%)
+  - `yield_pct`: 0/458 (0.00%)
+- Temporal gaps above threshold: 5
+- Calendar: 0 non-trading observations; 0 heuristic trading days absent (UNAVAILABLE:nse_trading_holidays_2026.json)
+- Note: INFO: 5 gap(s) detected. First: (datetime.date(2023, 3, 24), datetime.date(2023, 4, 7))
+
+- Source: `RBI`
+- Raw artifacts: `1 annual files`
   - `data/raw/india/currency/BankWise.xls`: `4b2b6cd815a53357ebdb3d72cc4728a80922fa5f57bafc26495d6dc3600a5068`
 - Processed: `data/processed/india/market/rbi_usd_inr_daily.csv` SHA-256 `878d4e0ecd080e8d4700a7d1e947301db904f9b38f4b8f21149d51da668aff6b`
 ### `rbi_usd_inr_daily`
@@ -386,7 +386,7 @@ Macro and policy datasets must carry observation_date and availability_date. Val
   - `nse_nifty_50_daily`: Dataset is not experiment-eligible.
   - `rbi_gsec_10y_yield`: Dataset is not experiment-eligible.
   - `rbi_gsec_364d_yield`: Dataset not audited — no coverage data available.
-  - `rbi_gsec_91d_yield`: Dataset not audited — no coverage data available.
+  - `rbi_gsec_91d_yield`: Dataset is not experiment-eligible.
   - `rbi_policy_rate_events`: Dataset not audited — no coverage data available.
   - `rbi_usd_inr_daily`: Dataset is not experiment-eligible.
 

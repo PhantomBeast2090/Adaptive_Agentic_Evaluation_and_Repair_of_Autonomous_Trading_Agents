@@ -1,39 +1,146 @@
-acquisition_status: pending_manual_download
+acquisition_status: acquired
 asset_class: fixed_income
 dataset_id: rbi_gsec_91d_yield
-duplicate_count: null
-earliest_observation: null
-eligibility_status: acquisition_pending
-frequency: daily
+duplicate_count: 0
+earliest_observation: '2017-10-13'
+eligibility_status: blocked
+frequency: weekly
 has_availability_date: false
-has_observation_date: false
-latest_observation: null
-missingness_summary: []
-notes: "[rbi_gsec_91d_yield] Acquisition from RBI DBIE (91D yield) failed: DBIE automated\
-  \ fetch failed: HTTPSConnectionPool(host='dbie.rbi.org.in', port=443): Max retries\
-  \ exceeded with url: /DBIE/dbie.rbi?site=export&seriesId=BSR1:BISQ:A:A:4:0:WT.TBILL_91D&format=CSV\
-  \ (Caused by SSLError(SSLCertVerificationError(1, \"[SSL: CERTIFICATE_VERIFY_FAILED]\
-  \ certificate verify failed: Hostname mismatch, certificate is not valid for 'dbie.rbi.org.in'.\
-  \ (_ssl.c:1081)\"))). RBI DBIE requires authenticated session or API key. Manual\
-  \ download required.\n\nManual download instructions:\n\nRBI/DBIE 91D Yield Manual\
-  \ Download:\n1. Visit: https://dbie.rbi.org.in/DBIE/dbie.rbi?site=statistics\n2.\
-  \ Navigate: Financial Markets \u2192 Government Securities Market (or Money Market\
-  \ for T-Bills)\n3. Find series for 91D yield/rate\n4. Select maximum date range\n\
-  5. Download as CSV\n6. Place at: data/raw/india/fixed_income/tbill_91d.csv\n\nAlternative\
-  \ (FBIL):\n  https://www.fbil.org.in/#/home  \u2192 Benchmark Rates \u2192 FBIL\
-  \ T-Bill Rates\n  (For T-Bills only; G-Sec rates remain from RBI/DBIE)\n\nExpected\
-  \ CSV columns:\n  Date | Yield (%) | [optional: Price, Security ID]\n"
-processed_path: null
-processed_sha256: null
-processing_parameters: {}
+has_observation_date: true
+latest_observation: '2026-09-04'
+missingness_summary:
+- field_name: observation_date
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 458
+- field_name: tenor
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 458
+- field_name: yield_pct
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 458
+notes: '[rbi_gsec_91d_yield] RBI ''50 Macroeconomic Indicators'' workbook, Weekly
+  sheet, exact series ''91-Day Treasury Bill (Primary) Yield (%)'' (465 Friday weeks,
+  2017-10-13 to 2026-09-04). Raw workbook is immutable evidence under data/raw/india/fixed_income/,
+  shared with the 10Y milestone (same bytes/SHA; explicitly recorded as a shared artifact,
+  not a new acquisition). Definition: 91-day GoI Treasury Bill primary-market auction
+  cut-off (implicit YTM) yield in % p.a.; weekly event frequency (91-day bills auction
+  weekly, Wednesdays; week-ending Friday publication row). No secondary-market or
+  SGL-transaction substitution. Total raw rows=465; canonical rows=458 after excluding
+  7 RBI ''-'' placeholder weeks with documented reasons: 2023-03-31 (RBI non-observation
+  placeholder (''-'' in source); 2024-09-20 (RBI non-observation placeholder (''-''
+  in source); 2024-09-27 (RBI non-observation placeholder (''-'' in source); 2025-02-21
+  (RBI non-observation placeholder (''-'' in source); 2026-01-02 (RBI non-observation
+  placeholder (''-'' in source); 2026-03-27 (RBI non-observation placeholder (''-''
+  in source); 2026-04-03 (RBI non-observation placeholder (''-'' in source). Independently
+  confirmed non-observations include the 25-Mar-2026 and 21-Feb-2025 all-bids-rejected
+  auction weeks; remaining dashes are RBI no-publication weeks with no cause invented.
+  Conflicting overlaps=0 (single source); schema validation: header exact, 0 malformed/null
+  rows, 0 numeric failures, 0 non-positive yields, 0 within-file duplicates, all Periods
+  Fridays. Gaps above weekly cadence only at excluded weeks (14-day x3, 21-day x2);
+  never filled or interpolated. Canonical dataset is ascending by observation date,
+  duplicate-free, tenor 91D, with per-observation source_files provenance; weekly
+  event observations never converted to daily. Leakage: price-frame audit clean (0
+  confirmed, 0 unresolved; 1 POTENTIAL CORPORATE_ACTION_UNVERIFIED not applicable
+  to a T-Bill yield); no publication_date supplied so none recorded. Agent boundary
+  is the observation (week-ending) date; future yields must remain inaccessible; evaluation
+  labels may use future internally without leaking. Calendar: authoritative NSE holiday
+  artifact covers 2026 only; historical calendar completeness cannot be established
+  and must not be inferred from weekdays or Wednesdays; coverage audit reports calendar
+  UNAVAILABLE. Eligibility: VALIDATED_BUT_BLOCKED (manifest eligibility_status=blocked)
+  pending (a) historical calendar coverage and (b) common intersection with the other
+  mandatory datasets. Do not mark experiment-eligible merely because files exist.'
+processed_path: data/processed/india/market/rbi_tbill_91d_weekly.csv
+processed_sha256: 6ab7fff49cfb47a530839db2c485ea4b895eb62a00df169deea258e2d818d445
+processing_parameters:
+  calendar_coverage: 2026-only; 2017-2025 calendar-unavailable
+  canonical_rows: 458
+  conflicting_overlaps: 0
+  daily_resampling: false
+  date_parsing: RBI datetime Period to ISO YYYY-MM-DD (all week-ending Fridays)
+  date_semantics: event-frequency observation date ('observation_date' = week-ending
+    Friday of auction week) per the Indian Data Contract; has_observation_date=true
+    reflects the fixed-income observation_date field; no availability_date supplied
+  definition: primary-market auction cut-off (implicit YTM), % p.a.; weekly event
+    frequency
+  duplicate_extra_rows_before_dedup: 0
+  excluded_invalid_rows:
+  - date: '2023-03-31'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  - date: '2024-09-20'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  - date: '2024-09-27'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  - date: '2025-02-21'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  - date: '2026-01-02'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  - date: '2026-03-27'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  - date: '2026-04-03'
+    reason: RBI non-observation placeholder ('-' in source; no auction observation
+      published)
+    source_file: 50 Macroeconomic Indicators.xlsx#Weekly
+  excluded_placeholder_weeks:
+  - '2023-03-31'
+  - '2024-09-20'
+  - '2024-09-27'
+  - '2025-02-21'
+  - '2026-01-02'
+  - '2026-03-27'
+  - '2026-04-03'
+  forward_fill: false
+  gaps: 7-day x452, 14-day x3, 21-day x2 (only at excluded placeholder weeks)
+  identical_overlaps_deduped: 0
+  interpolation: false
+  leakage: price-frame clean (0 confirmed/0 unresolved); boundary at observation date
+  method: extract_rbi_weekly_tbill_series_sort_ascending_exclude_placeholders
+  provenance_column: source_files
+  row_arithmetic: total_raw_rows (465) - excluded placeholders (7) - duplicate extras
+    (0) = canonical_rows (458)
+  series: 91-Day Treasury Bill (Primary) Yield (%)
+  sheet: Weekly
+  sort: ascending by observation date (raw workbook descending)
+  source_files_count: 1
+  tenor: 91D
+  total_raw_rows: 465
+  unique_dates: 458
+  validation:
+    malformed_rows: 0
+    nonpositive_yields: 0
+    numeric_failures: 0
+    within_file_duplicates: 0
+  workbook: 50 Macroeconomic Indicators.xlsx (shared artifact with rbi_gsec_10y_yield;
+    same SHA)
 processing_version: 1.0.0
+raw_artifacts:
+- byte_size: 103038
+  path: data/raw/india/fixed_income/50 Macroeconomic Indicators.xlsx
+  row_count: 465
+  sha256: 1072bfe9347c6c510c495d2d0894dc6e3931b23775a68faab5c74391f52e679d
 raw_path: null
+raw_paths:
+- data/raw/india/fixed_income/50 Macroeconomic Indicators.xlsx
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T17:20:51.188206+00:00'
-row_count: null
+retrieval_timestamp: '2026-09-12T05:02:31.161642+00:00'
+row_count: 458
 source_institution: RBI
-source_url: null
+source_url: https://www.rbi.org.in/
 tier: A
-unique_date_count: null
-validation_status: pending
+unique_date_count: 458
+validation_status: passed
 variable: GSEC_91D_YIELD
