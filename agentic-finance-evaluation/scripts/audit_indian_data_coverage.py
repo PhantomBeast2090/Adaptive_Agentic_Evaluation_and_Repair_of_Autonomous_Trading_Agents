@@ -264,7 +264,13 @@ def run_audit(base_dir: Path) -> str:
             has_availability_date=bool(manifest.get("has_availability_date")),
             allow_pre_observation=manifest.get("asset_class") == "policy",
             calendar=calendar,
-            identifier_cols=["market_segment"] if manifest.get("asset_class") == "calendar" else None,
+            identifier_cols=(
+                ["market_segment"]
+                if manifest.get("asset_class") == "calendar"
+                else ["contract_symbol", "expiry_date"]
+                if manifest.get("asset_class") == "gold"
+                else None
+            ),
         )
         acquired.append({"manifest": manifest, "result": result, "df": df})
 

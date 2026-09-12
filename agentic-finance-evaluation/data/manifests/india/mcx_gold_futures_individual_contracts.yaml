@@ -1,42 +1,849 @@
-acquisition_status: pending_manual_download
+acquisition_status: acquired
 asset_class: gold
 dataset_id: mcx_gold_futures_individual_contracts
-duplicate_count: null
-earliest_observation: null
-eligibility_status: acquisition_pending
+duplicate_count: 0
+earliest_observation: '2003-11-10'
+eligibility_status: blocked
 frequency: daily
 has_availability_date: false
 has_observation_date: false
-latest_observation: null
-missingness_summary: []
-notes: "[mcx_gold_futures_individual_contracts] Acquisition from MCX Historical Data\
-  \ failed: No MCX gold futures CSV files found in data/raw/india/gold/. MCX requires\
-  \ individual contract downloads per month/year via their website. Automated bulk\
-  \ download is not available without a data vendor subscription.\n\nManual download\
-  \ instructions:\n\nMCX Gold Futures Manual Download Instructions:\n\nFor EACH contract\
-  \ month:\n1. Visit: https://www.mcxindia.com/market-data/historical-data\n2. Select:\
-  \ Commodity = GOLD (or GOLDM for mini)\n3. In the contract dropdown, select a specific\
-  \ month/year\n4. Set date range = contract full trading period\n5. Click \"Get Data\"\
-  \ \u2192 Download as CSV\n6. Name the file: mcx_gold_<CONTRACTSYMBOL>.csv\n   Example:\
-  \ mcx_gold_GOLDFEB2024.csv\n7. Place at: data/raw/india/gold/\n\nRepeat for all\
-  \ contracts in the desired history window.\n\nFor bulk historical data (alternative):\n\
-  \  MCX data vendor services may provide bulk downloads.\n  Quantsapp, Traders Carnival,\
-  \ NSE Data Analytics may have MCX data.\n  If using a secondary source, document\
-  \ it in the manifest.\n\nExpected CSV columns per file:\n  Date | Open | High |\
-  \ Low | Close | Volume | Open Interest | Value (Lakhs)\n  [optional: Expiry Date\
-  \ | Contract Symbol]\n\nIMPORTANT: Each file = one contract. Do NOT manually concatenate\
-  \ contracts.\nThe roll methodology will be designed separately after coverage audit.\n"
-processed_path: null
-processed_sha256: null
-processing_parameters: {}
+latest_observation: '2026-09-11'
+missingness_summary:
+- field_name: trade_date
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 29646
+- field_name: contract_symbol
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 29646
+- field_name: expiry_date
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 29646
+- field_name: close
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 29646
+- field_name: volume
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 29646
+- field_name: open_interest
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 29646
+- field_name: turnover
+  missing_count: 0
+  missing_pct: 0.0
+  total_count: 29646
+notes: "[mcx_gold_futures_individual_contracts] Official MCX Bhav Copy commodity-wise\
+  \ GOLD FUTCOM exports (143 files, 141 unique expiry contracts, trade dates 2003-11-10\
+  \ to 2026-09-11, expiries 13FEB2004 to 05AUG2027). Raw files immutable under data/raw/india/gold/\
+  \ (UTF-8, no BOM, header Date..Open Interest(Lots), dates 'DD Mon YYYY', expiries\
+  \ 'DDMMMYYYY', descending; every row Instrument=FUTCOM Symbol=GOLD; no __MACOSX\
+  \ sidecars present). Total raw rows=29916; canonical rows=29646 across 141 contracts\
+  \ after deduplicating 270 proven identical (trade_date, expiry) observations from\
+  \ 2 byte-duplicate file pairs; 0 excluded, 0 conflicts. OHLC classification (preserved,\
+  \ never deleted): ok=19659; no_trade_ohlc_null=9933 (zero-volume sessions with published\
+  \ Close, null OHLC); expiry_close_outside_range=49 (trade_date==expiry, Close outside\
+  \ traded range \u2014 MCX expiry-day closing determination, exact MCX semantics\
+  \ unestablished); close_outside_range=5 (marginal non-expiry deviations <0.15%).\
+  \ settlement_price null throughout (no separate MCX settlement field; Close never\
+  \ mapped into it). Units preserved as supplied: volume=Volume(Lots), turnover=Value(Lacs,\
+  \ INR lacs), open_interest=Lots, prices=MCX-quoted levels; Volume(In 000's) display\
+  \ strings and Previous Close retained only in raw. Acquisition gap: no 05APR2026\
+  \ expiry (05FEB2026 -> 05JUN2026, 120 days); MCX live interface is bot-protected\
+  \ (403) so exposure cannot be checked programmatically \u2014 recorded as acquisition-coverage\
+  \ question, cause not invented. User-reported 147 vs 143 CSVs present in evidence:\
+  \ only the 143 staged files are claimed. No continuous series constructed, no roll\
+  \ applied, no back-adjustment; roll methodology explicitly deferred to a separate\
+  \ milestone. Leakage: gold-branch audit clean (0 confirmed, 0 unresolved; GOLD_ROLL_NOT_CONSTRUCTED\
+  \ mitigated; 1 POTENTIAL corporate-action note N/A to futures); agent boundary is\
+  \ trade_date<=t; no availability_date exists; future contracts/returns never enter\
+  \ observations. Calendar: 2026-only NSE artifact is not a commodity calendar; historical\
+  \ calendar completeness unestablished; coverage audit calendar UNAVAILABLE. Eligibility:\
+  \ VALIDATED_BUT_BLOCKED pending (a) historical calendar coverage, (b) common intersection,\
+  \ (c) separately-audited continuous-series methodology if experiments ever need\
+  \ one. Do not mark experiment-eligible merely because files exist."
+processed_path: data/processed/india/instruments/mcx_gold_futures_individual_contracts.csv
+processed_sha256: 3106a2266c9ed01cf8eaafd158ca00eecbdcb7f416a6746b8d525460d9930d6d
+processing_parameters:
+  acquisition: official MCX Bhav Copy Commodity Wise Instrument FUTCOM Commodity GOLD
+    per-expiry CSV (143 files staged; user-reported 147 not evidenced)
+  back_adjust: false
+  byte_duplicate_file_pairs:
+  - - BhavCopyCommodiyWise_01012003 - 2026-09-12T171249.888.csv
+    - BhavCopyCommodiyWise_01012003 - 2026-09-12T171255.138.csv
+  - - BhavCopyCommodiyWise_01012003 - 2026-09-12T171341.987.csv
+    - BhavCopyCommodiyWise_01012024.csv
+  calendar_coverage: unavailable (no authoritative commodity calendar)
+  canonical_rows: 29646
+  conflicting_overlaps: 0
+  continuous_series: false
+  date_semantics: native trade_date per observation; has_observation_date=false (no
+    macro-style pair); no availability_date
+  duplicate_extra_observations_before_dedup: 270
+  excluded_invalid_rows: []
+  expiry_coverage: 13FEB2004 to 05AUG2027
+  forward_fill: false
+  identical_overlaps_deduped: 270
+  interpolation: false
+  leakage: gold-branch clean (0 confirmed/0 unresolved; roll-not-constructed mitigated)
+  method: concatenate_mcx_bhavcopy_preserve_contracts_dedup_identical_natural_keys
+  missing_expiry_question: 05APR2026 absent (05FEB2026 -> 05JUN2026); MCX exposure
+    unverifiable (403); cause not invented
+  no_trade_sessions_preserved: 9933
+  ohlc_classification:
+    close_outside_range: 5
+    expiry_close_outside_range: 49
+    no_trade_ohlc_null: 9933
+    ok: 19659
+  provenance_column: source_files
+  roll: NOT constructed; methodology deferred to a separate milestone
+  settlement_price: null (not supplied; Close never mapped)
+  sort: ascending (trade_date, contract_symbol); raw files descending
+  source_files_count: 143
+  total_raw_rows: 29916
+  trade_date_coverage: 2003-11-10 to 2026-09-11
+  unique_contracts: 141
+  unique_natural_keys: 29646
+  units:
+    open_interest: Lots
+    prices: MCX-quoted levels as supplied
+    turnover: Value(Lacs, INR lacs)
+    volume: Volume(Lots)
+  validation:
+    expiry_before_trade: 0
+    malformed_rows: 0
+    nonpositive: 0
+    numeric_failures: 0
+    within_file_duplicates: 0
 processing_version: 1.0.0
+raw_artifacts:
+- byte_size: 11020
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (1).csv
+  row_count: 75
+  sha256: d542195877bab59220f0c5e8661c911ad83e478445eb24cd5ad72c99540cad1a
+- byte_size: 19485
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (10).csv
+  row_count: 131
+  sha256: ba361c0baa4a60e8bcdfbb975bba82e9b69ed85736e02253e9a7ff60597f5bb7
+- byte_size: 33663
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (100).csv
+  row_count: 250
+  sha256: 8a3db75017295219fb122fd3f41dae8b6aa2ca2322412a6eb3cd97bdb7930f6a
+- byte_size: 22830
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (11).csv
+  row_count: 153
+  sha256: bb56837550ca846fd087452f2f1956bd1a372a90ab120f55cce0cce314cc9a02
+- byte_size: 19080
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (12).csv
+  row_count: 126
+  sha256: 441f6b2e3d0a1067674d6120856113c3267a6c7987ee4e90b2c4e4887cdad2f4
+- byte_size: 17766
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (13).csv
+  row_count: 117
+  sha256: 94930a4bdf4487cc5d33a5a6c8f72c75274d9259ff86b2caf4335f3696e29e97
+- byte_size: 22965
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (14).csv
+  row_count: 153
+  sha256: 9abd457f7f2900b265d04bd38087b38a13796417938a0c89ff426ef94d9dfdd1
+- byte_size: 23150
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (15).csv
+  row_count: 154
+  sha256: 0509d61468e42ca7c74182a074f57bd0809807b0b3c28d4ba25f2b9cbaca50f6
+- byte_size: 23200
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (16).csv
+  row_count: 154
+  sha256: ccad4d834877d42ce19339c6c5256d09be102afd42a3770e4ab9783f5261ef5d
+- byte_size: 23026
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (17).csv
+  row_count: 153
+  sha256: 4f98816d8cc94511920dff38179ddc42e9c762133fcc3b8166bca54e7c6b9976
+- byte_size: 22939
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (18).csv
+  row_count: 153
+  sha256: bc17a2f2485fb9c2f5253796328180a943e2841e38cec37cc58ca13f4b93d981
+- byte_size: 22710
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (19).csv
+  row_count: 152
+  sha256: 4780828551f7738f3fb505afc7bb906e6015a54ac8a32e155bcf373608357c2a
+- byte_size: 12100
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (2).csv
+  row_count: 82
+  sha256: f86a68644468261d4d51f36eee7958f98d4c84cd4f42d679f20b690b2c690def
+- byte_size: 22609
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (20).csv
+  row_count: 151
+  sha256: f84a28b7b086cbe823e50cf19110dcecced9dbfc06d806240ee4890953c64389
+- byte_size: 23020
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (21).csv
+  row_count: 153
+  sha256: 5faa5f7141ce49129d7ff10f983724a8cad579e26fba36513423f7bf3a12891c
+- byte_size: 22861
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (22).csv
+  row_count: 153
+  sha256: 8de1d63a734d6041bce1d64cc0f75d6653848be5fc91dc5a2db22ae32f423376
+- byte_size: 23055
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (23).csv
+  row_count: 153
+  sha256: 487bbe704dfd8259e5f9716d6087214edfbaf0d5f1555d8ce62c6626b9ab849c
+- byte_size: 23104
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (24).csv
+  row_count: 152
+  sha256: 70c9c05fa04604dbe5db436d4525bde82c1c8341ef15601f86a9a05b7d3b7fdb
+- byte_size: 23436
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (25).csv
+  row_count: 152
+  sha256: 34e07ec15a7dcee5ec50dfb4f83c042914f0fc6f396f74c09c14460b3f61ae06
+- byte_size: 29484
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (26).csv
+  row_count: 196
+  sha256: 213bbefbdde9d7413a0d2531373945cab34e18433ba73641d329d7913d0de098
+- byte_size: 37025
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (27).csv
+  row_count: 248
+  sha256: 3e80a5f4f6281de57fd9ef0da958a574c85eb9a656c407a88403ee8875723808
+- byte_size: 44426
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (28).csv
+  row_count: 298
+  sha256: 925f7cc31bcffa39cc8e64daed84c878fd65596ccdef09c8a1c3e33bfc782c07
+- byte_size: 44319
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (29).csv
+  row_count: 298
+  sha256: dccd284de691036b636a97ae8ecea96b4deadc01d89b2971e2712395074c9018
+- byte_size: 18766
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (3).csv
+  row_count: 129
+  sha256: 70e67d463da9e90f9db5c107acaeb51c80393b8458e0b9501993225fac13cd5d
+- byte_size: 37566
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (30).csv
+  row_count: 256
+  sha256: 94e977d185e771daef5ddcc64560eef2da3401f0d0072e8ca4f6b4a7d5cfe0f5
+- byte_size: 37490
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (31).csv
+  row_count: 255
+  sha256: 372fc41e4a130c7a54609ec564916d4d9b44c5da908af86adb542e0b2f324889
+- byte_size: 30545
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (32).csv
+  row_count: 203
+  sha256: 4f85ff15180cc10f58dce57bd053c72df4985dd8f3eba855977f6b489575d3df
+- byte_size: 30683
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (33).csv
+  row_count: 203
+  sha256: 4961a466424cb06a8b81c685cf59286d7f23541320105b1dd13035598ec2eff6
+- byte_size: 30539
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (34).csv
+  row_count: 202
+  sha256: 6136e97ffe77e993832615180fb2e6ce0f07470c2252e84c8ff4c8713473ab5f
+- byte_size: 30012
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (35).csv
+  row_count: 204
+  sha256: f20e867d19419105e392634d8a5d20288d26bc8959be43c223f43e3d41a48699
+- byte_size: 30164
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (36).csv
+  row_count: 205
+  sha256: 2be722df13a25dd47f827a0283806ce3d30e99225536cd418bc838c60fef9b07
+- byte_size: 30419
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (37).csv
+  row_count: 202
+  sha256: 6d6e45807ee8d68e9f6becd3e463e3e826feda0097292d7b70ae10970f18f7e2
+- byte_size: 30840
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (38).csv
+  row_count: 204
+  sha256: 33cb656fdaf3c0efa08e4e286eaa827e7c497103a583546f0ce8b7f9001c663a
+- byte_size: 31006
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (39).csv
+  row_count: 204
+  sha256: 009e0fc09e5124d1dcbf1f41b808d49dc36ee63129f9743523b100a91949087f
+- byte_size: 12592
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (4).csv
+  row_count: 84
+  sha256: 8292b647b6eaa0351c7df0aaaad754a8141057b1e44a59938e56865f02cee6be
+- byte_size: 30925
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (40).csv
+  row_count: 203
+  sha256: dbec39f5d8743cd41772ee27f4692a3b2860b72c2130720e54f9f24bedc3b914
+- byte_size: 31765
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (41).csv
+  row_count: 206
+  sha256: e8fb7784fc35bc2c0f953c87de8601ac9cff39633ad0ee426ba00b9fe11e57ab
+- byte_size: 31682
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (42).csv
+  row_count: 206
+  sha256: 0eec714925e74a04b481b4270a501e5a97edb81dacae6c47bf13e5e253cd8279
+- byte_size: 31466
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (43).csv
+  row_count: 204
+  sha256: 540c651459dc73f14739199789578ee3c23f9124cacc2de3736733288dbf42fe
+- byte_size: 31553
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (44).csv
+  row_count: 204
+  sha256: 5e820273bad843365c062d4763617464ae360cabc0895b0ec40338dea07b476f
+- byte_size: 31715
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (45).csv
+  row_count: 205
+  sha256: 937dee1790eced680b1f136fd3c0e4bdf22da0e7598c3591fcd91fb259f0dab8
+- byte_size: 31596
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (46).csv
+  row_count: 204
+  sha256: a9417d147318148eebcab81446c47624c1dd3b327ce950c13b4a103f9f43fac5
+- byte_size: 31964
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (47).csv
+  row_count: 206
+  sha256: c9389d65e025d061b9b68111e82fc872cf19a5b69667b12a01edd65f940bedcc
+- byte_size: 32126
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (48).csv
+  row_count: 208
+  sha256: eb0165da711b158cf87f2f79081330e59bea7e7b28e842c37c6182e28d673242
+- byte_size: 31726
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (49).csv
+  row_count: 206
+  sha256: f6a95bd8f503cb47d0228aff4a1f6b3bc36f6c82a86fb810f4ac5239edde565f
+- byte_size: 18015
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (5).csv
+  row_count: 122
+  sha256: 164d31025447c0a46c56f79eedd0db616fa49f9710727da80bcf3e57e01f7342
+- byte_size: 31325
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (50).csv
+  row_count: 206
+  sha256: bf8ade430d59b22de81956d4ec8d6fa081271682d60f3203a06de2512c2ffc7b
+- byte_size: 31541
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (51).csv
+  row_count: 206
+  sha256: 2d4e3251caf07c1477fe64611047fdbe604b679e1de45641d33de26370699a2b
+- byte_size: 31532
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (52).csv
+  row_count: 205
+  sha256: f2fed4a9682816710730694ab1eb1da3f48e8e89008391750519a0e4239cb2ba
+- byte_size: 31717
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (53).csv
+  row_count: 206
+  sha256: e58116ac6b0b3eeffcb4400d29f6381ee7c12ddef6b4455bc49b2e2b5bbe1f9c
+- byte_size: 31668
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (54).csv
+  row_count: 206
+  sha256: bee6195683d1b2cd6525d82b62649302918bae4c5fe54f39236597c4d6be390f
+- byte_size: 31310
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (55).csv
+  row_count: 204
+  sha256: 728b9f3121b035cccda20708f16c7c4425e425d6b35ff216db0d5165e27ac9ac
+- byte_size: 31351
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (56).csv
+  row_count: 204
+  sha256: 35d2da6c18bbb6df05ad4984c5b4b2a12f66deaeae629991feee5b6b4cc5b569
+- byte_size: 31461
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (57).csv
+  row_count: 204
+  sha256: 4075f4f13dfdecc636f3909883e51ba8cab7cfe1c3c94c457c71d1a3cc5c2184
+- byte_size: 31089
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (58).csv
+  row_count: 203
+  sha256: ae4d0deb67ecbb29236c932ecb4e56bbc57f1f31a3d8f6750f9568535a466c26
+- byte_size: 31329
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (59).csv
+  row_count: 207
+  sha256: efd2215a72c9ba37faa7821eb67c4e805970e1a1f30e76cb32b34c972e3be806
+- byte_size: 14772
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (6).csv
+  row_count: 99
+  sha256: b6bef72dd25b25852c57a783bc26933f267f85b57f97eef23ae64659b5abb8b0
+- byte_size: 27176
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (60).csv
+  row_count: 185
+  sha256: fdc30dba3d771577dbea4e07ca464e054d43c229573bc5fbcf763b0bc72e4d06
+- byte_size: 33500
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (61).csv
+  row_count: 235
+  sha256: 4703c18ae5399f438c58c416e8e5b543a203a684754690fb8018e39516a2c49c
+- byte_size: 35470
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (62).csv
+  row_count: 248
+  sha256: e753c18999fc77b99e74f4f3c52dd1ec1d4dae08992eab34d8a6200b9a91455e
+- byte_size: 34308
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (63).csv
+  row_count: 240
+  sha256: cc8f844d2a05d42b58c5bc57cb33cb72c97aa71c1d593e16b9ee0bea34fff159
+- byte_size: 32862
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (64).csv
+  row_count: 227
+  sha256: a210da6886decec25035c12841ec9d1968c2058ef28fadf15335521ad740f944
+- byte_size: 31900
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (65).csv
+  row_count: 220
+  sha256: 1140a7fba75f2a22fca27bc81ee33c35168b242532e0da786ab21ccb053f3aa4
+- byte_size: 28727
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (66).csv
+  row_count: 212
+  sha256: 3424c13c459fb345dc190e914701659066bf1879c9f1532eb50e84dc8b337c75
+- byte_size: 19618
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (67).csv
+  row_count: 134
+  sha256: ff2bc65674f74c9baf44313d2bece07cf7a1557adb171c6d3d9689cf7eccb2b9
+- byte_size: 24983
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (68).csv
+  row_count: 174
+  sha256: 8af2f4f4deb7b755f2ec79bf82fe0f87efd019ff7d2c520f07b94657474fd67d
+- byte_size: 30455
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (69).csv
+  row_count: 217
+  sha256: e309681887281a9162b1b794cda0b3a057e10aff7ebc29ea6c79682d58a9b380
+- byte_size: 17301
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (7).csv
+  row_count: 117
+  sha256: 94f40a937aa12ec389bc52b2e777707bbe98d8aac2c1b226f3482b0a3b8e14b5
+- byte_size: 33880
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (70).csv
+  row_count: 250
+  sha256: 94b0da6e732f1ea5d907806aaab3967e1b07039b1f09d34bc4d32b94a103b9f9
+- byte_size: 34344
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (71).csv
+  row_count: 251
+  sha256: 9ca8d4a026992574c40fcc4a09d9e3d65e7cf831cf612d13ccd8303ef0283ffb
+- byte_size: 34075
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (72).csv
+  row_count: 252
+  sha256: ca9459673d9e25ed91f689cc77f03a868e6c6801d1e02277513fe2e16d93be50
+- byte_size: 34356
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (73).csv
+  row_count: 250
+  sha256: d9624c338faa497881f569bd2150ea1c5688faac01466fd6f1ff1dcb6e061609
+- byte_size: 34817
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (74).csv
+  row_count: 250
+  sha256: fbc11609483a0ceff150d61387a8e96dd7a646d4d37dbbdfd73aac1acc6ed2f8
+- byte_size: 34981
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (75).csv
+  row_count: 251
+  sha256: 03fbf0f8d65d6ad9106058d59190ce84a84bb0d3873bcc9bab0bf9cd186ce96e
+- byte_size: 35226
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (76).csv
+  row_count: 250
+  sha256: 1fed2e0d98a3c80feb60b8cefb1bfd9fb0b94447cc92add5f257772ad2c368b8
+- byte_size: 35053
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (77).csv
+  row_count: 251
+  sha256: d8cb5bbd3e849c9e7aa0ccb3f66edcd94481fb0f43db2d5fa2680cba5acb6fe6
+- byte_size: 35066
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (78).csv
+  row_count: 252
+  sha256: f776551fc80f8f84f37aa81b1f8d42e83e4cd1b26ec35df23b8b84ccbc6d5332
+- byte_size: 34992
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (79).csv
+  row_count: 252
+  sha256: 30aa04be310d4b85b933c53e6cf808b2fe95c2b6e8e9d87470723a8b6681c109
+- byte_size: 19296
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (8).csv
+  row_count: 131
+  sha256: c9b457d3e5a3d7941f7cb85273194c1ca7a2ddd189c0bf9b9e3d68da7b373670
+- byte_size: 36194
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (80).csv
+  row_count: 251
+  sha256: 56e2fa8f1084231a370c4497b314e126a26c714e2b93e48e1ad5af3691149f4e
+- byte_size: 34420
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (81).csv
+  row_count: 253
+  sha256: bcab78f9e0cbe21e3df64524bc3798ddf19428a65715c15a8c10b29486f335ba
+- byte_size: 33567
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (82).csv
+  row_count: 251
+  sha256: 2c9354e069415117997dbaca81b84c0a0659c294b33357868598a8f245b5f256
+- byte_size: 33842
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (83).csv
+  row_count: 249
+  sha256: 71e37aa0fd60e3583e98c317c117d0ea84fec152a322b3cb1ceea83959946481
+- byte_size: 34135
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (84).csv
+  row_count: 248
+  sha256: 5fec4816b953e6964cb8b50e28ba1a0ec16701c718e60e4897a610a7cc819ad1
+- byte_size: 33632
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (85).csv
+  row_count: 249
+  sha256: e6bb7c19178b8b9d3a9abc42e8d65c5cb97a0a997f8a8e19fdc4411b328fd461
+- byte_size: 34144
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (86).csv
+  row_count: 248
+  sha256: e00596241bec901055bb87be0b499f6ea580afc47f89ec58a7b9bc8709fd8eec
+- byte_size: 33771
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (87).csv
+  row_count: 249
+  sha256: 98297142cbecdc7a54eebc1c891781b8185c598d0f12d592235b2c3574786eb3
+- byte_size: 33434
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (88).csv
+  row_count: 249
+  sha256: da2215c1aa333360d86cf7b554f1a2892b5556fdbe05d2849da8ec7adb2ab722
+- byte_size: 33815
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (89).csv
+  row_count: 248
+  sha256: 754f43a1e3020efeef5c2429d4a0fa631f433a058a39be34f47259233f174510
+- byte_size: 15274
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (9).csv
+  row_count: 102
+  sha256: 54dc4e9b09c50f0e45afca8a340de22d53a7cfe0d6681ac10e8eea9029149506
+- byte_size: 33761
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (90).csv
+  row_count: 249
+  sha256: e2b64ac9d917f339f28f1a80e4bb1dcbe5760ab67e0b516d5c2d10173a1ed902
+- byte_size: 33958
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (91).csv
+  row_count: 252
+  sha256: 72caaff5d9adf7f942ed59a67e19ba67f5f91a8facdede775096faa2037e359c
+- byte_size: 33664
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (92).csv
+  row_count: 247
+  sha256: 6505ff39ac66516a7f36c2dab123c5a233818a56dfc6d5722048b225d8e0bf8c
+- byte_size: 33975
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (93).csv
+  row_count: 249
+  sha256: ffe93124ebcd7335ee8c31d66be1c73fcdcbe3340cef71b534c39ab54b91ca30
+- byte_size: 33793
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (94).csv
+  row_count: 249
+  sha256: d46128436a2a489375f33082f6f855dff255639c25939c36b284057629594949
+- byte_size: 34498
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (95).csv
+  row_count: 250
+  sha256: 8a2ff252d5264a1d84b6bacd666adeaa809753d1ed3292f98a73b91544fee6f2
+- byte_size: 34246
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (96).csv
+  row_count: 250
+  sha256: f0ad52318bcdfd9ffbf8baec3d88fea25871efac389d347c3b2b0da0737c8941
+- byte_size: 33387
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (97).csv
+  row_count: 250
+  sha256: b81b8a17f8f656466d88d6b1f8a9ad64602b1728ab38f4a9621daecd051a91f9
+- byte_size: 33802
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (98).csv
+  row_count: 250
+  sha256: a601c0a8691216e50b492c4cb6fed827d021f74abf387d89f4a61ff6400889c0
+- byte_size: 33813
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 (99).csv
+  row_count: 250
+  sha256: b304031014a19be53a27ebc8b2f7fa2ed9c7607c2dba741fc4e194c24a9b458f
+- byte_size: 34206
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T170947.839.csv
+  row_count: 251
+  sha256: 540d41f00710cff7c764249edf3c084cac51c6a875122b0b9967c57ece9a3fb3
+- byte_size: 33654
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171010.048.csv
+  row_count: 249
+  sha256: b3dd99c8d9b41421b3609f85de5d3c5452c60a438e2768628d010e1b13a1a38b
+- byte_size: 33380
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171015.932.csv
+  row_count: 250
+  sha256: 3c23baeeab97468ed3211ef3f01847bfe710a3058f99655f163e6c5dde9ac223
+- byte_size: 33596
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171020.973.csv
+  row_count: 251
+  sha256: f2a0510d524c0dcbfefa4eb773096f14319cf49226e6682bd0d53690d26edaca
+- byte_size: 33575
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171027.024.csv
+  row_count: 251
+  sha256: 61c3d251503b19352214d6fca4e8a1ab8eac75f9fb060a81309098d3a43c67c0
+- byte_size: 33592
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171032.931.csv
+  row_count: 251
+  sha256: 7e2bd09d4e02f66c588f10fc2c3e464c3e94328f1b9f3a04b38dde221965dc39
+- byte_size: 33556
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171037.582.csv
+  row_count: 250
+  sha256: e881e56ba0c43310abb56f9f6dd44221f91760279e6e07464ee58188aaf0803c
+- byte_size: 33770
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171041.815.csv
+  row_count: 252
+  sha256: b6dfc4bce2b6f1e0d1546947f6f76022a32aff2089325c2e710c707564a73f3f
+- byte_size: 33900
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171046.115.csv
+  row_count: 252
+  sha256: 17396aaa3b3e43311b4145350f8f590447309b63679e3ef02c9c75b5ef838acc
+- byte_size: 33787
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171050.489.csv
+  row_count: 251
+  sha256: f714e1b3b86d22c3e4db04fccdcd5043c2b575ddf93fd5429d0891555785c2b7
+- byte_size: 33756
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171054.857.csv
+  row_count: 253
+  sha256: 82488d73b1116defef0952e686a7e962ca89aab1fa5210c2f7649403792b5bbb
+- byte_size: 33232
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171059.730.csv
+  row_count: 249
+  sha256: 89474fd7390a911626721c04139a883aac588ad9c34e6c574feb6fadaa166310
+- byte_size: 33664
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171105.924.csv
+  row_count: 250
+  sha256: 617cb5e16093fc9a8c3ef33db821ad53971ff9329b6f8ec5014001842a11ae55
+- byte_size: 33488
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171116.106.csv
+  row_count: 250
+  sha256: dd596cddf14686ebdbcc971ea101d0dd3136eefd2a7c4d7e62a3a01949e9ae85
+- byte_size: 34157
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171121.807.csv
+  row_count: 251
+  sha256: 53ee2c9ab46b835cef5b86d834ae122a12267361062913497752bb112324fe6f
+- byte_size: 33554
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171126.731.csv
+  row_count: 250
+  sha256: ab160cfd1e5bd8f9afa4c781055e5a32a2bcfa0e823653bfb79b08116a6d9315
+- byte_size: 33884
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171131.272.csv
+  row_count: 252
+  sha256: a3dd90e79af061a4aeccf490dc5b6f4d37b4b41213fe4f39289b69dcc854a3a9
+- byte_size: 33572
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171135.988.csv
+  row_count: 250
+  sha256: 7b68bb95c903be88d41e985c22747f2c252ba5301b21b667734fb64ef04f55e4
+- byte_size: 34000
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171140.955.csv
+  row_count: 250
+  sha256: 0202a900fcceeb5706caf92d358168aefbf1d778a51129411dd2aa972f7da1ea
+- byte_size: 33595
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171147.514.csv
+  row_count: 249
+  sha256: 62afdc78c69e30c703d6c9d204a6d284bdcee6221144efb91960d77f889915e7
+- byte_size: 33597
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171153.005.csv
+  row_count: 251
+  sha256: 834c1410dcabe35e196fe81a65ce20c58b2976f9e8797b30265be648f822bf7b
+- byte_size: 33832
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171158.196.csv
+  row_count: 250
+  sha256: 67b50e85df7d50f977b53495e3ac2c862b963458dbed5b2acecc7e42c899adea
+- byte_size: 24052
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171203.025.csv
+  row_count: 168
+  sha256: 569cafbaa3b5e5be6e2bc631b9a5fff75e1cb49d5e6c9574a70ddeca5aedde7e
+- byte_size: 29431
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171208.501.csv
+  row_count: 209
+  sha256: 7606660997337611877b560385bb62a7e8753ebcd31e1147ac582f62ab6bf376
+- byte_size: 34316
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171213.034.csv
+  row_count: 249
+  sha256: 41302adecda28fb31f0483de202046a6d7f66dcf4d052a1727527690ea0ea1e3
+- byte_size: 34633
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171218.178.csv
+  row_count: 252
+  sha256: 2afe9d0f65cdd4b97047f1c820248dd1ee60128be2d0e85b7965a413ec18962a
+- byte_size: 34573
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171224.751.csv
+  row_count: 252
+  sha256: a153e5dd48f9b234786d69c032a7da53cd9226f5edeb91839d691f66d86444c5
+- byte_size: 34361
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171229.626.csv
+  row_count: 251
+  sha256: 2ab86929aa294b0f4abcaaad2ef6d23a8b935143fe22eb245b7357822b9d88aa
+- byte_size: 34729
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171234.311.csv
+  row_count: 251
+  sha256: b9b699debb0ec6e09d9e314872a23a2946065e9d35532fc7ab46e2b45615fc4d
+- byte_size: 34903
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171238.480.csv
+  row_count: 249
+  sha256: 158224ccdc41a5e4c4267873d60a79c6cc3deccfad4c4fe827e36bd8eb6429b8
+- byte_size: 36206
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171243.130.csv
+  row_count: 252
+  sha256: 5ca26138716a9903d819395592f87c98a0f544a0feb6c8003fb196c42f4a599b
+- byte_size: 36218
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171249.888.csv
+  row_count: 250
+  sha256: 544d11185f370f37bafbc1187e3e8de104faa9c930e3ef6548ca1acf37d023ab
+- byte_size: 36218
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171255.138.csv
+  row_count: 250
+  sha256: 544d11185f370f37bafbc1187e3e8de104faa9c930e3ef6548ca1acf37d023ab
+- byte_size: 37001
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171300.763.csv
+  row_count: 251
+  sha256: 3ad511a66eb74cd85707bc7dc02fb32154710a6586db29149a814bbecb88714b
+- byte_size: 36792
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171305.554.csv
+  row_count: 250
+  sha256: 18ab1d8ac5bda6a7bf98a62b475a394f71dc403987be9c2091aeb65216f1d356
+- byte_size: 32912
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171311.289.csv
+  row_count: 235
+  sha256: afe603b284e5a3d6543c4fb6878c0341f31ce4f09d57e886dd431f8ae0bd1718
+- byte_size: 26178
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171318.155.csv
+  row_count: 192
+  sha256: a9a2f53e05c664fd775bfe5fe85e4e223343471d17e88cf47a6771b22954ac40
+- byte_size: 19513
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171324.064.csv
+  row_count: 149
+  sha256: 18e6c4ca89d1b13c2da4ff41a81e064ea516fdf2107b24e2bfcfe912b7326a99
+- byte_size: 13282
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171332.380.csv
+  row_count: 107
+  sha256: d2c638aacb8332c6a2a1802f18143dbb6804c626053a35fb290de9c2ca72a7d3
+- byte_size: 7905
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171337.154.csv
+  row_count: 64
+  sha256: 3bb752e1ad4299fdfcd103f04a25b7f5c5bd57d53b0a5d659b46c0f206edbd37
+- byte_size: 2581
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171341.987.csv
+  row_count: 20
+  sha256: cc1d1e03e100b2bef812a9077a90178da951f6c0f9ea5b39f7eadac0b9c0dd8e
+- byte_size: 8522
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012003.csv
+  row_count: 58
+  sha256: ddef4adb6b60d2f68229764431fc6542545cd9ed6b2a32ab65c5244d7746a723
+- byte_size: 2581
+  path: data/raw/india/gold/BhavCopyCommodiyWise_01012024.csv
+  row_count: 20
+  sha256: cc1d1e03e100b2bef812a9077a90178da951f6c0f9ea5b39f7eadac0b9c0dd8e
 raw_path: null
+raw_paths:
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (1).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (10).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (100).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (11).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (12).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (13).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (14).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (15).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (16).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (17).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (18).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (19).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (2).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (20).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (21).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (22).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (23).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (24).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (25).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (26).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (27).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (28).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (29).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (3).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (30).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (31).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (32).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (33).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (34).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (35).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (36).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (37).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (38).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (39).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (4).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (40).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (41).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (42).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (43).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (44).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (45).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (46).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (47).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (48).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (49).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (5).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (50).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (51).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (52).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (53).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (54).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (55).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (56).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (57).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (58).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (59).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (6).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (60).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (61).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (62).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (63).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (64).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (65).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (66).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (67).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (68).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (69).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (7).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (70).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (71).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (72).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (73).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (74).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (75).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (76).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (77).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (78).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (79).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (8).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (80).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (81).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (82).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (83).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (84).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (85).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (86).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (87).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (88).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (89).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (9).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (90).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (91).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (92).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (93).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (94).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (95).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (96).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (97).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (98).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 (99).csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T170947.839.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171010.048.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171015.932.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171020.973.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171027.024.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171032.931.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171037.582.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171041.815.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171046.115.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171050.489.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171054.857.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171059.730.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171105.924.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171116.106.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171121.807.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171126.731.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171131.272.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171135.988.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171140.955.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171147.514.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171153.005.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171158.196.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171203.025.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171208.501.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171213.034.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171218.178.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171224.751.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171229.626.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171234.311.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171238.480.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171243.130.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171249.888.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171255.138.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171300.763.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171305.554.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171311.289.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171318.155.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171324.064.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171332.380.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171337.154.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003 - 2026-09-12T171341.987.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012003.csv
+- data/raw/india/gold/BhavCopyCommodiyWise_01012024.csv
 raw_sha256: null
-retrieval_timestamp: '2026-09-10T17:20:51.348130+00:00'
-row_count: null
+retrieval_timestamp: '2026-09-12T11:53:01.778745+00:00'
+row_count: 29646
 source_institution: MCX
-source_url: null
+source_url: https://www.mcxindia.com/market-data/historical-data
 tier: A
-unique_date_count: null
-validation_status: pending
+unique_date_count: 6353
+validation_status: passed
 variable: MCX_GOLD_FUTURES_DAILY
