@@ -7,6 +7,23 @@ date set from:
     start_date / end_date
     decision-timing policy (how decision_timestamp is derived per date)
 
+Layer separation (never collapsed):
+
+    CALENDAR: session/trading eligibility (SessionResolver). Applies ONLY
+        to assets with requires_calendar=True (exchange-traded venues).
+        Publication/event assets (CPI, IIP, policy, G-Sec, Brent) set
+        requires_calendar=False and are gated on observation existence +
+        availability/PIT only; they are never forced through an
+        exchange-session calendar.
+    TEMPORAL ELIGIBILITY: information availability relative to the
+        caller-supplied decision timestamp (temporal_eligibility).
+    VINTAGE SELECTION: which version of an observation is visible. Done
+        UPSTREAM via InformationSet or an explicit availability_policy;
+        this layer only consumes the resulting effective availability.
+    EXPERIMENT INTERSECTION (here): derives the date set after applying
+        the experiment's explicitly declared calendar + observation +
+        availability policies.
+
 For every date in [start, end] the derivation records exactly one reason:
 
     OK               every required asset has an observation AND is
@@ -47,7 +64,23 @@ REASON_CODES = (
 
 @dataclass(frozen=True)
 class AssetRequirement:
-    """One required asset and how to test it for a date."""
+    """One required asset and how to test it for a date.
+
+    ``requires_calendar`` declares explicitly whether the venue's
+    market-session calendar gates this asset. It is NEVER inferred from
+    asset class, venue name, calendar-row presence, weekdays, source, or
+    missing observations:
+
+    - requires_calendar=True (default, backward compatible): exchange-traded
+      assets (NSE equity/indices, MCX). The SessionResolver gate applies
+      exactly as before (CONFLICT->CONSTRAINT_FAIL, UNKNOWN->CAL_UNKNOWN,
+      CLOSED->CAL_CLOSED, OPEN/SPECIAL->continue).
+    - requires_calendar=False: publication/event/source-calendar assets
+      (CPI, IIP, policy events, G-Sec series, Brent). The resolver is NOT
+      consulted, no CAL_UNKNOWN is produced for the venue, and no
+      OPEN/CLOSED is inferred. Observation-existence and strict
+      availability/PIT checks still apply unchanged.
+    """
 
     asset_id: str
     venue: str
@@ -62,6 +95,10 @@ class AssetRequirement:
     # Optional observation-period mapping for monthly assets: trading date ->
     # owning observation key. When None, key == trading date ISO string.
     observation_key: Optional[Callable[[date], Optional[str]]] = None
+    # Explicit calendar applicability. Default True preserves the legacy
+    # behavior for exchange-traded requirements; publication-based assets
+    # must explicitly opt out with requires_calendar=False.
+    requires_calendar: bool = True
 
 
 @dataclass(frozen=True)
@@ -123,39 +160,49 @@ def derive_intersection(
         decision_timestamp = decision_policy(day)
         day_excluded: Optional[ExcludedDate] = None
         for req in requirements:
-            # 1. Calendar gate for the required venue.
-            resolution = resolver.resolve(req.venue, day)
-            if resolution.market_status == "CONFLICT":
-                day_excluded = ExcludedDate(
-                    day, "CONSTRAINT_FAIL", req.asset_id, req.venue,
-                    "CONFLICT", "", "Conflicting calendar evidence.",
-                )
-                break
-            if resolution.market_status == "UNKNOWN":
-                day_excluded = ExcludedDate(
-                    day, "CAL_UNKNOWN", req.asset_id, req.venue,
-                    "UNKNOWN", "", "No calendar evidence for venue/date.",
-                )
-                break
-            if require_open_calendar and resolution.market_status == "CLOSED":
-                day_excluded = ExcludedDate(
-                    day, "CAL_CLOSED", req.asset_id, req.venue,
-                    resolution.session_type, "", "Venue closed/holiday.",
-                )
-                break
-            if require_open_calendar and resolution.market_status == "HALF_DAY":
-                day_excluded = ExcludedDate(
-                    day, "CONSTRAINT_FAIL", req.asset_id, req.venue,
-                    "HALF_DAY", "",
-                    "Half-day session has no approved handling in this policy.",
-                )
-                break
+            # 1. Calendar gate for the required venue (only when the asset
+            # explicitly requires session-calendar gating). Publication /
+            # event assets (requires_calendar=False) skip the resolver
+            # entirely: no CAL_UNKNOWN, no OPEN/CLOSED inference.
+            if req.requires_calendar:
+                resolution = resolver.resolve(req.venue, day)
+            else:
+                resolution = None
+            if resolution is not None:
+                if resolution.market_status == "CONFLICT":
+                    day_excluded = ExcludedDate(
+                        day, "CONSTRAINT_FAIL", req.asset_id, req.venue,
+                        "CONFLICT", "", "Conflicting calendar evidence.",
+                    )
+                    break
+                if resolution.market_status == "UNKNOWN":
+                    day_excluded = ExcludedDate(
+                        day, "CAL_UNKNOWN", req.asset_id, req.venue,
+                        "UNKNOWN", "", "No calendar evidence for venue/date.",
+                    )
+                    break
+                if require_open_calendar and resolution.market_status == "CLOSED":
+                    day_excluded = ExcludedDate(
+                        day, "CAL_CLOSED", req.asset_id, req.venue,
+                        resolution.session_type, "", "Venue closed/holiday.",
+                    )
+                    break
+                if require_open_calendar and resolution.market_status == "HALF_DAY":
+                    day_excluded = ExcludedDate(
+                        day, "CONSTRAINT_FAIL", req.asset_id, req.venue,
+                        "HALF_DAY", "",
+                        "Half-day session has no approved handling in this policy.",
+                    )
+                    break
+                calendar_state = resolution.market_status
+            else:
+                calendar_state = "SKIPPED"
             # 2. Observation gate.
             key = req.observation_key(day) if req.observation_key else day.isoformat()
             if key is None or key not in req.observation_dates:
                 day_excluded = ExcludedDate(
                     day, "OBS_MISSING", req.asset_id, req.venue,
-                    resolution.market_status, "",
+                    calendar_state, "",
                     f"No observation for key {key}.",
                 )
                 break
@@ -173,7 +220,7 @@ def derive_intersection(
                     "INFO_UNAVAILABLE", "CONSTRAINT_FAIL") else "INFO_UNAVAILABLE"
                 day_excluded = ExcludedDate(
                     day, code, req.asset_id, req.venue,
-                    resolution.market_status,
+                    calendar_state,
                     "NULL" if availability is None else str(availability),
                     verdict.detail,
                 )
@@ -198,6 +245,13 @@ def derive_intersection(
     )
 
 
+AVAILABILITY_POLICIES = (
+    "earliest_available",
+    "latest_available",
+    "explicit",
+)
+
+
 def build_requirement_from_frame(
     *,
     asset_id: str,
@@ -206,15 +260,36 @@ def build_requirement_from_frame(
     observation_col: str,
     availability_col: Optional[str] = None,
     allow_pre_observation: bool = False,
+    requires_calendar: bool = True,
+    availability_policy: Optional[str] = None,
 ) -> AssetRequirement:
     """Build an AssetRequirement from a canonical dataframe.
 
     observation_dates holds ISO date keys present in the frame.
-    availability_by_date holds the *minimum* (earliest) non-null
-    availability per observation key so multi-vintage assets gate on first
-    availability; experiments needing latest-vintage semantics should apply
-    InformationSet upstream and pass the resulting availability map.
+
+    Vintage policy (never silent). When several distinct non-null
+    availability values exist for one observation key (multi-vintage
+    assets such as CPI/IIP), the caller must choose explicitly:
+
+    - "earliest_available": earliest non-null availability per key
+      ("when did this information first become available?").
+    - "latest_available": latest non-null availability per key. Use only
+      when the experiment explicitly wants the latest vintage.
+    - "explicit" (or None, the default): NO aggregation is performed. A
+      single distinct availability per key works as-is; multiple distinct
+      values raise ValueError naming the key. The caller must then either
+      pick a policy above or supply an already-vintage-filtered mapping
+      directly via AssetRequirement (e.g. from InformationSet upstream:
+      raw canonical dataset -> vintage selection / InformationSet ->
+      effective availability -> experiment intersection).
+
+    NULL-only keys stay NULL and remain strict-PIT-ineligible.
     """
+    if availability_policy is not None and availability_policy not in AVAILABILITY_POLICIES:
+        raise ValueError(
+            f"Unknown availability_policy {availability_policy!r}; "
+            f"expected one of {AVAILABILITY_POLICIES}."
+        )
     obs = pd.to_datetime(frame[observation_col], errors="coerce").dt.date
     keys = {d.isoformat() for d in obs.dropna().unique()}
     avail_map: Dict[str, object] = {}
@@ -224,16 +299,30 @@ def build_requirement_from_frame(
         tmp = tmp[tmp["k"] != "NaT"]
         grouped = tmp.groupby("k")["a"]
         for key, group in grouped:
-            non_null = group.dropna()
-            avail_map[str(key)] = (
-                non_null.min().date().isoformat() if len(non_null) else None
-            )
+            non_null = group.dropna().drop_duplicates()
+            if len(non_null) == 0:
+                avail_map[str(key)] = None
+            elif len(non_null) == 1:
+                avail_map[str(key)] = non_null.iloc[0].date().isoformat()
+            elif availability_policy == "earliest_available":
+                avail_map[str(key)] = non_null.min().date().isoformat()
+            elif availability_policy == "latest_available":
+                avail_map[str(key)] = non_null.max().date().isoformat()
+            else:
+                raise ValueError(
+                    "Multiple availability vintages exist for observation "
+                    f"key {str(key)!r}; explicit availability_policy is "
+                    "required ('earliest_available' or 'latest_available'), "
+                    "or pass an already-vintage-filtered availability "
+                    "mapping via AssetRequirement."
+                )
     return AssetRequirement(
         asset_id=asset_id,
         venue=req_venue(venue),
         observation_dates=frozenset(keys),
         availability_by_date=avail_map,
         allow_pre_observation=allow_pre_observation,
+        requires_calendar=requires_calendar,
     )
 
 
