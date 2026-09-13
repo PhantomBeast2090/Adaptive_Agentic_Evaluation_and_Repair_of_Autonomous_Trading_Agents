@@ -147,6 +147,23 @@ def _required_dataset_ids(base_dir: Path) -> list[str]:
     return [str(item) for item in config.get("required_datasets", [])]
 
 
+def _identifier_cols(asset_class: Any) -> list[str] | None:
+    """Identifier grain per asset class (dates repeat legitimately in
+    security/contract/policy datasets; duplicates are evaluated on the
+    identifier grain, never on bare dates)."""
+    if asset_class == "calendar":
+        return ["market_segment"]
+    if asset_class == "gold":
+        return ["contract_symbol", "expiry_date"]
+    if asset_class == "equity":
+        # Security x date grain: repeated dates across securities are
+        # legitimate; duplicates are evaluated on (date, symbol, series).
+        return ["symbol", "series"]
+    if asset_class == "policy":
+        return ["rate_type"]
+    return None
+
+
 def _markdown_result(result: Any, *, calendar_membership: bool = False) -> list[str]:
     duplicate_timestamps = (
         "not applicable (category membership)"
@@ -255,18 +272,7 @@ def run_audit(base_dir: Path) -> str:
         is_event_based = frequency == "event_based"
         frequency = {"daily": "daily", "monthly": "monthly"}.get(frequency)
         is_trading = manifest.get("asset_class") not in {"macro", "policy", "calendar"}
-        if manifest.get("asset_class") == "calendar":
-            identifier_cols: list[str] | None = ["market_segment"]
-        elif manifest.get("asset_class") == "gold":
-            identifier_cols = ["contract_symbol", "expiry_date"]
-        elif manifest.get("asset_class") == "equity":
-            # Security x date grain: repeated dates across securities are
-            # legitimate; duplicates are evaluated on (date, symbol, series).
-            identifier_cols = ["symbol", "series"]
-        elif manifest.get("asset_class") == "policy":
-            identifier_cols = ["rate_type"]
-        else:
-            identifier_cols = None
+        identifier_cols = _identifier_cols(manifest.get("asset_class"))
         result = auditor.audit_dataset(
             dataset_id=dataset_id,
             df=df,
@@ -303,6 +309,9 @@ def run_audit(base_dir: Path) -> str:
     session_dates = set().union(*observed_dates) if observed_dates else None
     auditor_session_dates = session_dates
     # Re-run availability-aware usability against the actual candidate sessions.
+    # The re-run must preserve the identifier grain (and policy semantics);
+    # otherwise it would overwrite the stored result with a bare-date
+    # evaluation and misrepresent identifier coverage.
     if auditor_session_dates:
         for item in acquired:
             manifest = item["manifest"]
@@ -321,7 +330,9 @@ def run_audit(base_dir: Path) -> str:
                     is_trading_day_data=manifest.get("asset_class")
                     not in {"macro", "policy", "calendar"},
                     has_availability_date=True,
+                    allow_pre_observation=manifest.get("asset_class") == "policy",
                     calendar=calendar,
+                    identifier_cols=_identifier_cols(manifest.get("asset_class")),
                     session_dates=auditor_session_dates,
                 )
     intersection = auditor.compute_common_intersection(

@@ -65,9 +65,10 @@ processing_parameters:
     requested date); availability_date = NULL/unknown for all rows (never fabricated).
   definition: NSE Capital Market daily bhavcopy, security x trading-date grain; exchange-reported
     OHLCV + delivery where published; unadjusted.
-  delivery: DELIV_QTY/DELIV_PER from sec_bhav only; UDiFF exposes no delivery fields
-    (coverage ends at regime level, documented); 0 delivery violations (dqty<=qty,
-    0<=pct<=100).
+  delivery: DELIV_QTY/DELIV_PER from sec_bhav (the canonical source), which
+    continues to provide delivery fields throughout the acquired period to present;
+    UDiFF exposes no delivery fields, so delivery has no cross-regime mirror in
+    the overlap era; 0 delivery violations (dqty<=qty, 0<=pct<=100).
   discontinuities:
     abs_ret_gte_20pct: 4038
     bands:
@@ -153,9 +154,9 @@ processing_parameters:
     sec_bhav on shared dates; raw-preserved, out of sec_bhav-sourced canonical scope
     with explicit counts.
   regimes:
-    sec_bhav: later CM bhavcopy CSV; served 2019-09-30..present (still parallel-published;
-      discontinuation narrative refuted by live evidence); 15 cols; NO ISIN; HAS delivery;
-      canonical OHLCV source.
+    sec_bhav: later CM bhavcopy CSV; served 2019-09-30..present (the sec_bhav
+      archive endpoint remains accessible and was observed serving data in parallel
+      with UDiFF); 15 cols; NO ISIN; HAS delivery; canonical OHLCV source.
     udiff: CM-UDiFF Common Bhavcopy Final zipped CSV; served 2024-01-01..present;
       35 cols; HAS ISIN/FinInstrmId; NO delivery; cross-regime validation mirror +
       same-day ISIN attach.

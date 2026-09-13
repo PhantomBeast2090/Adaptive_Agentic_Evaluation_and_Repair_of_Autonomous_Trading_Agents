@@ -9,9 +9,9 @@ per artifact, never assumed):
 
   Regime ``sec_bhav`` (later CM bhavcopy CSV):
     https://archives.nseindia.com/products/content/sec_bhavdata_full_DDMMYYYY.csv
-    Served span observed: 2019-09-30 .. present (still published in parallel
-    with UDiFF; the "discontinued 08-Jul-2024" narrative does not hold for
-    this endpoint — evidence in the acquisition index).
+    Served span observed: 2019-09-30 .. present (the sec_bhav archive
+    endpoint remains accessible and was observed serving data in parallel
+    with UDiFF — evidence in the acquisition index).
     Schema (15 cols, stable 2019..present, NO ISIN):
       SYMBOL, SERIES, DATE1 (DD-Mon-YYYY), PREV_CLOSE, OPEN_PRICE,
       HIGH_PRICE, LOW_PRICE, LAST_PRICE, CLOSE_PRICE, AVG_PRICE,
