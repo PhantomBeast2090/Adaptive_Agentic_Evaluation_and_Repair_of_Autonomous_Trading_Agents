@@ -303,6 +303,70 @@ class LeakageAuditor:
                 )]
             return []
 
+    def check_decision_timestamp_eligibility(
+        self,
+        df: pd.DataFrame,
+        decision_timestamp: object,
+        availability_col: str = "availability_date",
+        strict: bool = True,
+    ) -> List[LeakageViolation]:
+        """Additive gate: no row may be exposed before its availability date.
+
+        Thin wrapper over ``src.india.temporal_eligibility`` so leakage
+        reports can audit a concrete experiment decision timestamp without
+        duplicating PIT logic. NULL/unknown availability under strict PIT
+        is UNRESOLVED (blocks use); exposure before availability is
+        CONFIRMED leakage.
+        """
+        from src.india.temporal_eligibility import eligible_frame
+
+        if availability_col not in df.columns:
+            return [LeakageViolation(
+                "MISSING_AVAILABILITY_DATE",
+                "UNRESOLVED",
+                f"Missing {availability_col}; decision-timestamp eligibility "
+                "cannot be audited.",
+            )]
+        availability = pd.to_datetime(df[availability_col], errors="coerce", utc=True)
+        decision = pd.to_datetime(decision_timestamp, errors="coerce", utc=True)
+        if pd.isna(decision):
+            return [LeakageViolation(
+                "UNRESOLVED_DECISION_TIMESTAMP",
+                "UNRESOLVED",
+                "Decision timestamp is missing/unparseable.",
+            )]
+        violations: List[LeakageViolation] = []
+        unknown = availability.isna()
+        if unknown.any():
+            if strict:
+                violations.append(LeakageViolation(
+                    "UNKNOWN_AVAILABILITY_STRICT_PIT",
+                    "UNRESOLVED",
+                    f"{int(unknown.sum())} rows have unknown availability and "
+                    "strict PIT blocks their exposure.",
+                    affected_rows=int(unknown.sum()),
+                ))
+        early = availability.notna() & (availability > decision)
+        if early.any():
+            violations.append(LeakageViolation(
+                "EXPOSED_BEFORE_AVAILABILITY",
+                "CONFIRMED",
+                f"{int(early.sum())} rows would be exposed before their "
+                f"availability date at decision {decision.date()}.",
+                affected_rows=int(early.sum()),
+            ))
+        if not violations:
+            eligible = eligible_frame(df, decision_timestamp,
+                                      availability_col=availability_col,
+                                      strict=strict)
+            violations.append(LeakageViolation(
+                "DECISION_TIMESTAMP_ELIGIBLE",
+                "MITIGATED",
+                f"{len(eligible)}/{len(df)} rows eligible at {decision.date()}; "
+                "no pre-availability exposure detected.",
+            ))
+        return violations
+
     # ------------------------------------------------------------------
     # 3. Gold Futures Roll Leakage
     # ------------------------------------------------------------------

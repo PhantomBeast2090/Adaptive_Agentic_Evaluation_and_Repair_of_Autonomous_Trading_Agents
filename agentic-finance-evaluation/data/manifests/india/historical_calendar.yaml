@@ -1,0 +1,117 @@
+acquisition_status: acquired
+asset_class: calendar
+dataset_id: historical_calendar
+duplicate_count: 0
+earliest_observation: '2019-01-01'
+eligibility_status: validated
+frequency: event_based
+has_availability_date: false
+has_observation_date: true
+latest_observation: '2026-12-31'
+missingness_summary: []
+notes: Venue-isolated historical calendar. NSE_CM VERIFIED holidays/specials from
+  12 official circulars + 2026 JSON; DERIVED regular/weekend rows for covered years
+  only; 4 required specials present. MCX 2 DERIVED Muhurat rows; 2024 DR Saturdays
+  correctly absent on MCX. No availability timestamps manufactured.
+processed_path: data/processed/india/calendars/historical_calendar.csv
+processed_sha256: 1f3a1d3057ccff835db4609341c809f5ec08a9ce30a07c7bda4bb84d8dbcc872
+processing_parameters:
+  builder: scripts/build_historical_calendars.py
+  note: NSE_CM 2019-2023/2025-2026 covered; 2024 partial; MCX 2 DERIVED Muhurat rows;
+    RBI/MOSPI/EIA UNKNOWN by design
+  venues:
+  - NSE_CM
+  - MCX
+processing_version: 1.0.0
+raw_artifacts:
+- byte_size: 268650
+  path: data/raw/india/calendars/CMPT61957.pdf
+  row_count: null
+  sha256: 8ccf5af9fa6f7cc5248c39f1791faee402805339f99518cc5e7f296849c7bba0
+- byte_size: 205887
+  path: data/raw/india/calendars/CMTR39612.pdf
+  row_count: null
+  sha256: 3fe8f7356085b75a14efec16e765216d09b99be6f00ff2305d813a864394ab88
+- byte_size: 192477
+  path: data/raw/india/calendars/CMTR42877.pdf
+  row_count: null
+  sha256: 635535e35ddc37e79b188d9f21409210cfdef00f44cde1cb980c4f64ed005eaf
+- byte_size: 75512
+  path: data/raw/india/calendars/CMTR46623.pdf
+  row_count: null
+  sha256: 3c922e234ad2cbe8320cc34507e281477e0ce273ba9ee39d73da2a49d5629add
+- byte_size: 69086
+  path: data/raw/india/calendars/CMTR50050.pdf
+  row_count: null
+  sha256: 5ac9d2034e5dc3bb22632fd1b0e46a2acfae49f71e1126897e7e13bcd52d6803
+- byte_size: 94485
+  path: data/raw/india/calendars/CMTR50560.pdf
+  row_count: null
+  sha256: 731a4f0f3b3633e53ff344ffda23dab0277c4a6608f5a6da8874f931c9be4ead
+- byte_size: 97353
+  path: data/raw/india/calendars/CMTR54757.pdf
+  row_count: null
+  sha256: 035ea9a4178e322549b87c6d72f7fc74c7cec06e2d6074c01ac2a7e6a5a7b621
+- byte_size: 68003
+  path: data/raw/india/calendars/CMTR61518.pdf
+  row_count: null
+  sha256: 8f44e5dab885e081e9809aa41cbc6017309cf35281d29655a219d822e6f31a39
+- byte_size: 96234
+  path: data/raw/india/calendars/CMTR65587.pdf
+  row_count: null
+  sha256: 1e0f85615fbbcde9243dd6cafbbad4d9b581b8d2467fd9e27c0a4fe42a720c7d
+- byte_size: 87867
+  path: data/raw/india/calendars/CMTR70319.pdf
+  row_count: null
+  sha256: 19b7d88003cb05eb8c6abdc8d1bfad5df821a17e4f9ae36f75e327a68a48d258
+- byte_size: 102312
+  path: data/raw/india/calendars/COM54758.pdf
+  row_count: null
+  sha256: 1b9812455478a7221ab82492a2021041affaee5571a80f38729047cf35a94ad1
+- byte_size: 176660
+  path: data/raw/india/calendars/FAOP71777.pdf
+  row_count: null
+  sha256: 5a2079cd78b2e6b536ef0d28300e63b645721bed22cc82a91facf5945f3296ea
+- byte_size: 90333
+  path: data/raw/india/calendars/FAOP72352.pdf
+  row_count: null
+  sha256: 7b282150e8cf7757da6944c682fe810189d2ed86fe6b171094bb4cd4d7f1facb
+- byte_size: 212535
+  path: data/raw/india/calendars/FBIL_REFERENCE_RATE_FINAL.pdf
+  row_count: null
+  sha256: 124c8159445daf7cc6dcb14f8a24c0c91f4071094f71baa25ffaa6d2ecb843f5
+- byte_size: 181045
+  path: data/raw/india/calendars/NEW_timeline_IIP_press_release_17.04.25.pdf
+  row_count: null
+  sha256: 6670021dbf8d31e6a27431af2f5b3d84118dbe44c14111f7d47d99d9cfe830a3
+- byte_size: 34022
+  path: data/raw/india/indices/nse_trading_holidays_2026.json
+  row_count: null
+  sha256: 933cf5dc6dd4efe3b8db8ce6ecd6ecb2582929f5e0b4faffdb88e11cf4efdfbe
+raw_path: null
+raw_paths:
+- data/raw/india/calendars/CMPT61957.pdf
+- data/raw/india/calendars/CMTR39612.pdf
+- data/raw/india/calendars/CMTR42877.pdf
+- data/raw/india/calendars/CMTR46623.pdf
+- data/raw/india/calendars/CMTR50050.pdf
+- data/raw/india/calendars/CMTR50560.pdf
+- data/raw/india/calendars/CMTR54757.pdf
+- data/raw/india/calendars/CMTR61518.pdf
+- data/raw/india/calendars/CMTR65587.pdf
+- data/raw/india/calendars/CMTR70319.pdf
+- data/raw/india/calendars/COM54758.pdf
+- data/raw/india/calendars/FAOP71777.pdf
+- data/raw/india/calendars/FAOP72352.pdf
+- data/raw/india/calendars/FBIL_REFERENCE_RATE_FINAL.pdf
+- data/raw/india/calendars/NEW_timeline_IIP_press_release_17.04.25.pdf
+- data/raw/india/indices/nse_trading_holidays_2026.json
+raw_sha256: null
+retrieval_timestamp: '2026-09-13T06:57:32.635699+00:00'
+row_count: 2564
+source_institution: NSE
+source_url: https://www.nseindia.com/resources/exchange-communication-holidays
+tier: B
+unique_date_count: 2562
+validation_status: passed
+variable: HISTORICAL_CALENDAR

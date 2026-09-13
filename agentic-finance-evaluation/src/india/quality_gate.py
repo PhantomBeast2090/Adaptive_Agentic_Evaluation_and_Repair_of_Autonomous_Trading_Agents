@@ -38,7 +38,15 @@ class DatasetQualityGate:
         calendar_valid: bool = True,
         required_fields_valid: bool = True,
         information_available: Optional[bool] = None,
+        calendar_status: str = "VALID",
     ) -> QualityGateResult:
+        """Evaluate experiment-eligibility gates.
+
+        ``calendar_status`` is an additive historical-calendar state in
+        {"VALID", "UNKNOWN", "CONFLICT"}: UNKNOWN/CONFLICT fail the
+        CALENDAR_VALID gate (strict: insufficient evidence blocks use).
+        Default "VALID" preserves legacy single-boolean behavior.
+        """
         failures: List[str] = []
         if manifest.acquisition_status != AcquisitionStatus.ACQUIRED:
             failures.append("ACQUIRED")
@@ -50,7 +58,7 @@ class DatasetQualityGate:
         )
         if not temporal_valid:
             failures.append("TEMPORAL_VALID")
-        if not calendar_valid:
+        if not calendar_valid or calendar_status in ("UNKNOWN", "CONFLICT"):
             failures.append("CALENDAR_VALID")
         if not required_fields_valid:
             failures.append("REQUIRED_FIELDS_VALID")

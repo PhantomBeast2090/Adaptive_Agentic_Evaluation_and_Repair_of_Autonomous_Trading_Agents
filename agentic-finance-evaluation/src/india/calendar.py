@@ -1,10 +1,21 @@
-"""Authoritative NSE trading-calendar support.
+"""Authoritative NSE trading-calendar support (compatibility layer).
 
 The NSE holiday endpoint is the source of truth for dates downloaded into
 ``data/raw/india/indices``.  This module deliberately does not infer movable
 holidays from month/day rules.  If a requested year is not covered by a
 versioned official calendar artifact, callers must report the calendar as
 unavailable rather than treating every weekday as tradable.
+
+DEPRECATION NOTICE (historical-calendar milestone):
+``is_trading_day`` / ``is_likely_indian_trading_day`` / ``expected_trading_days``
+encode a Monday-Friday heuristic. That heuristic is retained ONLY for
+backwards compatibility with the single-year 2026 artifact and MUST NOT
+define historical truth. Historical session questions must go through
+``src.india.historical_calendar.HistoricalCalendar`` +
+``src.india.session_resolver.SessionResolver``, which return explicit
+UNKNOWN for dates without official evidence and correctly preserve
+weekend special sessions (e.g. 2019-10-27, 2020-11-14, 2024-01-20,
+2024-05-18). New code must not call the weekday heuristic for history.
 """
 
 from __future__ import annotations
@@ -90,6 +101,13 @@ class NSETradingCalendar:
         )))
 
     def is_trading_day(self, value: date) -> bool:
+        """Compatibility weekday-minus-holiday predicate (DEPRECATED for history).
+
+        Retained for the versioned 2026 artifact only. Historical session
+        status must be resolved via ``SessionResolver``; this predicate
+        would misclassify weekend special sessions and invent history for
+        uncovered years.
+        """
         return value.weekday() < 5 and value not in self.holidays
 
     def trading_days(self, start: date, end: date) -> set[date]:

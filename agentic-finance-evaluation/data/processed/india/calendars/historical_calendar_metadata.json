@@ -1,0 +1,155 @@
+{
+  "artifacts": [
+    {
+      "byte_size": 205887,
+      "coverage": "NSE CM holidays 2019",
+      "path": "data/raw/india/calendars/CMTR39612.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "3fe8f7356085b75a14efec16e765216d09b99be6f00ff2305d813a864394ab88",
+      "source_url": "https://archives.nseindia.com/content/circulars/CMTR39612.pdf"
+    },
+    {
+      "byte_size": 192477,
+      "coverage": "NSE CM holidays 2020",
+      "path": "data/raw/india/calendars/CMTR42877.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "635535e35ddc37e79b188d9f21409210cfdef00f44cde1cb980c4f64ed005eaf",
+      "source_url": "https://archives.nseindia.com/content/circulars/CMTR42877.pdf"
+    },
+    {
+      "byte_size": 75512,
+      "coverage": "NSE CM holidays 2021",
+      "path": "data/raw/india/calendars/CMTR46623.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "3c922e234ad2cbe8320cc34507e281477e0ce273ba9ee39d73da2a49d5629add",
+      "source_url": "https://archives.nseindia.com/content/circulars/CMTR46623.pdf"
+    },
+    {
+      "byte_size": 69086,
+      "coverage": "NSE Muhurat timings 2021-11-04",
+      "path": "data/raw/india/calendars/CMTR50050.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "5ac9d2034e5dc3bb22632fd1b0e46a2acfae49f71e1126897e7e13bcd52d6803",
+      "source_url": "https://archives.nseindia.com/content/circulars/CMTR50050.pdf"
+    },
+    {
+      "byte_size": 94485,
+      "coverage": "NSE CM holidays 2022",
+      "path": "data/raw/india/calendars/CMTR50560.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "731a4f0f3b3633e53ff344ffda23dab0277c4a6608f5a6da8874f931c9be4ead",
+      "source_url": "https://archives.nseindia.com/content/circulars/CMTR50560.pdf"
+    },
+    {
+      "byte_size": 97353,
+      "coverage": "NSE CM holidays 2023",
+      "path": "data/raw/india/calendars/CMTR54757.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "035ea9a4178e322549b87c6d72f7fc74c7cec06e2d6074c01ac2a7e6a5a7b621",
+      "source_url": "https://archives.nseindia.com/content/circulars/CMTR54757.pdf"
+    },
+    {
+      "byte_size": 102312,
+      "coverage": "NSE commodity-derivatives holidays 2023 (reference only)",
+      "path": "data/raw/india/calendars/COM54758.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "1b9812455478a7221ab82492a2021041affaee5571a80f38729047cf35a94ad1",
+      "source_url": "https://archives.nseindia.com/content/circulars/COM54758.pdf"
+    },
+    {
+      "byte_size": 68003,
+      "coverage": "NSE CM ad-hoc holiday 2024-05-20 elections",
+      "path": "data/raw/india/calendars/CMTR61518.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "8f44e5dab885e081e9809aa41cbc6017309cf35281d29655a219d822e6f31a39",
+      "source_url": "https://nsearchives.nseindia.com/content/circulars/CMTR61518.pdf"
+    },
+    {
+      "byte_size": 96234,
+      "coverage": "NSE CM holidays 2025",
+      "path": "data/raw/india/calendars/CMTR65587.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "1e0f85615fbbcde9243dd6cafbbad4d9b581b8d2467fd9e27c0a4fe42a720c7d",
+      "source_url": "https://archives.nseindia.com/content/circulars/CMTR65587.pdf"
+    },
+    {
+      "byte_size": 87867,
+      "coverage": "NSE Muhurat timings 2025-10-21",
+      "path": "data/raw/india/calendars/CMTR70319.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "19b7d88003cb05eb8c6abdc8d1bfad5df821a17e4f9ae36f75e327a68a48d258",
+      "source_url": "https://nsearchives.nseindia.com/content/circulars/CMTR70319.pdf"
+    },
+    {
+      "byte_size": 176660,
+      "coverage": "NSE F&O holidays 2026 (CM dates corroborated by 2026 JSON)",
+      "path": "data/raw/india/calendars/FAOP71777.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "5a2079cd78b2e6b536ef0d28300e63b645721bed22cc82a91facf5945f3296ea",
+      "source_url": "https://nsearchives.nseindia.com/content/circulars/FAOP71777.pdf"
+    },
+    {
+      "byte_size": 90333,
+      "coverage": "NSE live Budget session 2026-02-01",
+      "path": "data/raw/india/calendars/FAOP72352.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "7b282150e8cf7757da6944c682fe810189d2ed86fe6b171094bb4cd4d7f1facb",
+      "source_url": "https://nsearchives.nseindia.com/content/circulars/FAOP72352.pdf"
+    },
+    {
+      "byte_size": 268650,
+      "coverage": "NCL clearing timings special session 2024-05-18",
+      "path": "data/raw/india/calendars/CMPT61957.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "8ccf5af9fa6f7cc5248c39f1791faee402805339f99518cc5e7f296849c7bba0",
+      "source_url": "https://nsearchives.nseindia.com/content/circulars/CMPT61957.pdf"
+    },
+    {
+      "byte_size": 212535,
+      "coverage": "FBIL reference-rate methodology (schedule rule, no day map)",
+      "path": "data/raw/india/calendars/FBIL_REFERENCE_RATE_FINAL.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "124c8159445daf7cc6dcb14f8a24c0c91f4071094f71baa25ffaa6d2ecb843f5",
+      "source_url": "https://www.fbil.org.in/uploads/FBIL_REFERENCE_RATE_FINAL_fa318d5727.pdf"
+    },
+    {
+      "byte_size": 181045,
+      "coverage": "MoSPI IIP 28th-day schedule from Apr-2025 (schedule rule)",
+      "path": "data/raw/india/calendars/NEW_timeline_IIP_press_release_17.04.25.pdf",
+      "retrieved_at": "2026-09-13T12:30:00+00:00",
+      "sha256": "6670021dbf8d31e6a27431af2f5b3d84118dbe44c14111f7d47d99d9cfe830a3",
+      "source_url": "https://www.mospi.gov.in/sites/default/files/press_release/NEW_timeline_IIP_press_release_17.04.25.pdf"
+    },
+    {
+      "byte_size": 34022,
+      "coverage": "NSE trading holidays 2026 (all segments)",
+      "path": "data/raw/india/indices/nse_trading_holidays_2026.json",
+      "retrieved_at": "2026-09-10T15:05:39+00:00",
+      "sha256": "933cf5dc6dd4efe3b8db8ce6ecd6ecb2582929f5e0b4faffdb88e11cf4efdfbe",
+      "source_url": "https://www.nseindia.com/api/holiday-master?type=trading"
+    }
+  ],
+  "canonical_path": "data/processed/india/calendars/historical_calendar.csv",
+  "canonical_rows": 2564,
+  "canonical_sha256": "1f3a1d3057ccff835db4609341c809f5ec08a9ce30a07c7bda4bb84d8dbcc872",
+  "conflicts": [],
+  "exclusions": [],
+  "mcx_coverage": [
+    "2019-10-27",
+    "2020-11-14",
+    "2"
+  ],
+  "nse_cm_coverage": [
+    "2019-01-01",
+    "2026-12-31",
+    "2562"
+  ],
+  "processing": "scripts/build_historical_calendars.py: regex-parse annual NSE CM PDFs (main table CLOSED VERIFIED; Muhurat weekend SPECIAL VERIFIED), 2026 JSON CM segment, ad-hoc primary circulars, DERIVED specials table; no weekday inference; no observation-derived rows.",
+  "unknown_ranges": [
+    "NSE_CM 1996-01-01..2018-12-31: no official holiday circulars acquired (UNKNOWN by absence).",
+    "NSE_CM 2024-01-01..2024-12-31: base annual circular not acquired; only ad-hoc DERIVED/VERIFIED rows present.",
+    "MCX all years: no official MCX holiday circular acquired (2026 page blocked); only 2 DERIVED Muhurat rows.",
+    "RBI_FX: Mumbai bank-holiday day map not acquired; no daily rows (fully UNKNOWN).",
+    "MOSPI/EIA: no market calendar by design (fully UNKNOWN as market venues)."
+  ]
+}
