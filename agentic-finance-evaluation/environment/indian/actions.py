@@ -16,7 +16,7 @@ explicit session codes below.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Mapping, Optional
 
 from environment.portfolio.accounting import (
     STATUS_EXECUTED_FULL,
@@ -36,6 +36,7 @@ from environment.indian.registry import ASSET_REGISTRY, get_spec
 STATUS_NOOP_UNKNOWN_ASSET = "NOOP_UNKNOWN_ASSET"
 STATUS_NOOP_NON_TRADEABLE_ASSET = "NOOP_NON_TRADEABLE_ASSET"
 STATUS_NOOP_UNKNOWN_INSTRUMENT = "NOOP_UNKNOWN_INSTRUMENT"
+STATUS_NOOP_INSTRUMENT_OUTSIDE_UNIVERSE = "NOOP_INSTRUMENT_OUTSIDE_UNIVERSE"
 STATUS_NOOP_NO_PRICE = "NOOP_NO_PRICE"
 STATUS_NOOP_MARKET_CLOSED = "NOOP_MARKET_CLOSED"
 STATUS_NOOP_UNKNOWN_CALENDAR = "NOOP_UNKNOWN_CALENDAR"
@@ -92,11 +93,24 @@ def _as_quantity(quantity: Any) -> Optional[float]:
     return float(quantity)
 
 
-def validate_orders(orders: Any) -> List[ValidatedOrder]:
+def validate_orders(
+    orders: Any,
+    allowed_instruments: Optional[Mapping[str, Any]] = None,
+) -> List[ValidatedOrder]:
     """Deterministically validate a submitted order list.
 
     Never raises on malformed input: every order yields exactly one
     ValidatedOrder with a reason code. Non-list submissions yield [].
+
+    Pipeline per order: asset exists -> asset tradable -> instrument
+    valid -> instrument in configured universe -> quantity/side valid.
+    ``allowed_instruments`` maps asset_id to the experiment's configured
+    instrument set for that asset (the config universe is the source of
+    truth; it is never inferred from the dataset). When provided, a
+    well-formed instrument outside the set is rejected with
+    NOOP_INSTRUMENT_OUTSIDE_UNIVERSE -- distinguishable from a truly
+    unknown/malformed instrument (NOOP_UNKNOWN_INSTRUMENT). When None,
+    universe enforcement is skipped (legacy direct-call behavior).
     """
     if not isinstance(orders, list):
         return []
@@ -132,6 +146,15 @@ def validate_orders(orders: Any) -> List[ValidatedOrder]:
                                       qty or 0.0, STATUS_NOOP_UNKNOWN_INSTRUMENT,
                                       detail="Equity instrument must be 'SYMBOL:SERIES'."))
             continue
+        if allowed_instruments is not None:
+            allowed = allowed_instruments.get(asset_id)
+            if allowed is not None and str(instrument) not in set(allowed):
+                out.append(ValidatedOrder(
+                    asset_id, str(instrument), "INVALID", qty or 0.0,
+                    STATUS_NOOP_INSTRUMENT_OUTSIDE_UNIVERSE,
+                    detail=f"Instrument {instrument!r} is valid but outside "
+                           "this experiment's configured universe."))
+                continue
         if side not in VALID_SIDES:
             out.append(ValidatedOrder(asset_id, str(instrument),
                                       side if side in ("HOLD",) else "INVALID",

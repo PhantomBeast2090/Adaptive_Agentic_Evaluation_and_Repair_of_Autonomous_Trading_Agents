@@ -23,7 +23,10 @@ from environment.indian.information_lookup import (
 )
 from environment.indian.clock import build_master_grid
 from environment.indian.state import EnvironmentState
-from environment.indian.actions import validate_orders
+from environment.indian.actions import (
+    STATUS_NOOP_INSTRUMENT_OUTSIDE_UNIVERSE,
+    validate_orders,
+)
 from environment.indian.portfolio import MultiAssetPortfolio
 from environment.indian.environment import IndianMultiAssetEnvironment
 
@@ -49,6 +52,7 @@ __all__ = [
     "STATUS_AVAILABLE",
     "build_master_grid",
     "EnvironmentState",
+    "STATUS_NOOP_INSTRUMENT_OUTSIDE_UNIVERSE",
     "validate_orders",
     "MultiAssetPortfolio",
     "IndianMultiAssetEnvironment",

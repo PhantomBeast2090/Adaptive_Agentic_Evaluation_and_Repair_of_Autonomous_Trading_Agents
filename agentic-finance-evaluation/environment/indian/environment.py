@@ -2,11 +2,11 @@
 
 Clock: master grid of NSE_CM OPEN/SPECIAL sessions. At decision date t the
 agent sees market bars strictly before t (observation-lag path) plus macro
-vintages with availability <= t (InformationSet path). Orders submitted at
-t execute at t's session close (next eligible session when t itself cannot
-execute); the portfolio is then marked on closes visible at the next grid
-date. Same-bar closes never enter the decision state, so future prices
-cannot influence actions, rewards, or validation.
+vintages with availability <= t (InformationSet path). Valid orders
+submitted at t execute at t's session close; orders are NOT implicitly
+carried forward. Unknown/closed sessions or missing bars reject the order
+with an explicit NOOP code. Same-bar closes never enter the decision
+state, so future prices cannot influence actions, rewards, or validation.
 
 Reward is portfolio-value change inclusive of transaction costs only. No
 risk-adjusted scoring lives here; that belongs in evaluation.
@@ -57,6 +57,12 @@ class IndianMultiAssetEnvironment:
         for inst in self.gold_universe:
             if not inst:
                 raise ValueError("gold universe instruments must be non-empty")
+        # Configured tradable universe: the experiment's source of truth.
+        # Never inferred from the dataset, never expanded automatically.
+        self.allowed_instruments = {
+            "nse_equity": set(self.equity_universe),
+            "mcx_gold": set(self.gold_universe),
+        }
         self.lookup = InformationLookup(base_dir=base_dir, strict=self.strict)
         self.resolver = load_default_resolver(base_dir)
         self.grid = build_master_grid(
@@ -137,7 +143,7 @@ class IndianMultiAssetEnvironment:
         pre_state = self._state_at(today)
         pre_equity = pre_state.portfolio.total_equity
 
-        validated = validate_orders(orders)
+        validated = validate_orders(orders, self.allowed_instruments)
         validated.sort(key=lambda o: (o.asset_id, o.instrument))
         results: List[OrderResult] = []
         fees = 0.0

@@ -74,12 +74,19 @@ and validation paths.
 
 ## Execution model (explicit)
 
-Decide at session `t` on bars through `t−1` close; execute at `t`'s close
-(or next eligible session); mark on visible closes; terminal row fills at
-the final close. No `close_t == available_at_t == executable_at_t`
-assumption. MCX sessions are UNKNOWN by evidence shortage, so gold
-orders currently resolve NOOP_UNKNOWN_CALENDAR — an honest block, to be
-lifted only by acquiring the MCX holiday map, never by inference.
+Decision at session `t` uses market observations through `t−1`. Valid
+orders execute at session `t` close. Orders are NOT implicitly carried
+forward to a later session. If the current session has an unknown/closed
+calendar or a missing execution price, the order receives the appropriate
+NOOP reason code (`NOOP_UNKNOWN_CALENDAR`, `NOOP_MARKET_CLOSED`,
+`NOOP_NO_PRICE`). No `close_t == available_at_t == executable_at_t`
+assumption. The key causal contract remains: `t−1` close → decision at
+`t` → action submitted → `t` close execution → subsequent state/reward.
+The agent never receives `t`-close, `t`-high, `t`-low, or any other
+same-session future price before submitting its action. MCX sessions are
+UNKNOWN by evidence shortage, so gold orders currently resolve
+`NOOP_UNKNOWN_CALENDAR` — an honest block, to be lifted only by acquiring
+the MCX holiday map, never by inference.
 
 ## Determinism
 
