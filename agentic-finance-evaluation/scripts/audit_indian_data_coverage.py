@@ -259,6 +259,10 @@ def run_audit(base_dir: Path) -> str:
             identifier_cols: list[str] | None = ["market_segment"]
         elif manifest.get("asset_class") == "gold":
             identifier_cols = ["contract_symbol", "expiry_date"]
+        elif manifest.get("asset_class") == "equity":
+            # Security x date grain: repeated dates across securities are
+            # legitimate; duplicates are evaluated on (date, symbol, series).
+            identifier_cols = ["symbol", "series"]
         elif manifest.get("asset_class") == "policy":
             identifier_cols = ["rate_type"]
         else:
