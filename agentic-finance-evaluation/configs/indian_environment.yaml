@@ -1,0 +1,20 @@
+# Multi-asset Indian research environment configuration.
+# All values are explicit experiment policy, not inferred market properties.
+strict_pit: true
+vintage_policy: explicit
+transaction_cost_bps: 5.0
+initial_cash: 100000.0
+# Master decision clock bounds (inclusive). Grid sessions resolve through
+# the canonical HistoricalCalendar (NSE_CM OPEN/SPECIAL only).
+start_date: "2023-05-15"
+end_date: "2023-06-15"
+# Explicit tradable universe. Only these instruments can fill orders;
+# every other asset (including all macro/indicator assets) is rejected
+# with a reason code.
+universe:
+  nse_equity:
+    - "RELIANCE:EQ"
+    - "TCS:EQ"
+    - "INFY:EQ"
+  mcx_gold:
+    - "GOLDAUG2023"
