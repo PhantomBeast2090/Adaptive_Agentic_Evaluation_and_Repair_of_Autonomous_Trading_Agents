@@ -7,9 +7,13 @@ to read its outputs. British English throughout.
 ## 1. Objective
 
 Given the current diagnostic state after interpretation, determine the
-next diagnostic test to propose — deterministically, auditably, and
-without executing anything, inferring anything Bayesian, or ranking any
-hypothesis.
+next diagnostic test to propose — through a deterministic and
+state-conditioned selector, auditably, and without executing anything,
+inferring anything Bayesian, or ranking any hypothesis.
+`select_next_test` is deterministic and state-conditioned: on success it
+records the resulting `SelectionRationale` and `DiagnosticProposal` in
+`DiagnosticState`, so it is state-mutating orchestration, not a pure
+function.
 
 ## 2. Selector boundary
 
@@ -21,12 +25,16 @@ repair, validation, or learning. It imports none of their modules
 
 ## 3. Adaptive definition
 
-Adaptivity here means state-conditioning: the preferred candidate is a
-pure function of the *current* open-hypothesis set, committed
+Adaptivity here means state-conditioning: the preferred candidate is
+determined by the *current* open-hypothesis set, committed
 predictions, executed-test set, and budget state. As results and updates
 change that state, discrimination counts recompute and the preferred
 candidate can change. There is no fixed test order to replay; proving
-this is the job of the adaptivity regression tests.
+this is the job of the adaptivity regression tests. Adaptivity is
+demonstrated not merely by consumed tests disappearing, but by changed
+hypothesis lifecycle state changing candidate discrimination — and
+hence selection — while the candidate tests themselves remain
+registered, unexecuted, and eligible.
 
 ## 4. Candidate eligibility
 
@@ -93,12 +101,16 @@ suggested.
 
 ## 13. Proposal confidence
 
-Structural selection-confidence, defined as 1.0 when the preferred
-candidate separates at least one rival pair and covers every open
-hypothesis under an eligible budget, otherwise
-`coverage / total_open` clamped to [0, 1]. This is confidence in the
-selection rationale — not hypothesis probability, posterior probability,
-or belief in a mechanism.
+Structural selection-confidence. It measures structural support for
+the selected diagnostic test under the selection policy. It is not
+confidence that any hypothesis is true, not a probability, and not a
+posterior. The rule: 0.0 when no hypotheses are open; 0.0 when the
+preferred candidate separates no rival pair (complete coverage without
+discrimination says nothing about separating mechanisms); 1.0 when it
+separates at least one rival pair and covers every open hypothesis
+under an eligible budget; otherwise `coverage / total_open` clamped to
+[0, 1]. This is confidence in the selection rationale — not hypothesis
+probability, posterior probability, or belief in a mechanism.
 
 ## 14. Rationale structure
 
@@ -114,6 +126,10 @@ Same state ⇒ byte-identical rationale, proposal, ordering, selection,
 and ids. Any relevant state change (predictions, results, updates,
 costs, budget) alters the affected identities. Verified by
 determinism tests comparing independently built identical states.
+Candidate analysis (`eligible_candidates`, `candidate_statistics`,
+`selection_key`) is pure and deterministic. Successful selection
+records the resulting SelectionRationale and DiagnosticProposal in
+DiagnosticState.
 
 ## 16. Leakage boundary
 

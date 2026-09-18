@@ -66,4 +66,6 @@ def test_single_open_hypothesis_selects_by_cost_then_id():
     add_prediction(state, "P-B1", "H-1", "T-B", "DECREASE")
     out = select_next_test(state)
     assert out.selected_test_id == "T-B"
-    assert out.confidence == 1.0
+    # Single open hypothesis: D == 0, so no rival separation exists and
+    # structural confidence is 0.0 despite full coverage.
+    assert out.confidence == 0.0

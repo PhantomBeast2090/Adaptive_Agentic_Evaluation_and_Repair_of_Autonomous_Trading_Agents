@@ -75,9 +75,19 @@ def _describe(stats: CandidateStatistics, fallback: bool) -> str:
 def _proposal_confidence(
     stats: CandidateStatistics, total_open: int
 ) -> float:
+    """Structural selection confidence for the preferred candidate.
+
+    It measures structural support for the selected diagnostic test
+    under the selection policy. It is not confidence that any
+    hypothesis is true, not a probability, and not a posterior.
+    Complete coverage without rival discrimination yields 0.0:
+    covering every open hypothesis says nothing about separating them.
+    """
     if total_open <= 0:
         return 0.0
-    if stats.discrimination_pairs > 0 and stats.open_coverage >= total_open:
+    if stats.discrimination_pairs == 0:
+        return 0.0
+    if stats.open_coverage >= total_open:
         return 1.0
     return min(1.0, max(0.0, stats.open_coverage / total_open))
 
@@ -87,8 +97,9 @@ def select_next_test(
 ) -> Union[DiagnosticProposal, NoCandidateResult]:
     """Prefer one eligible candidate test under the current state.
 
-    Records the rationale and proposal in ``state`` on success. Terminal
-    conditions yield a frozen ``NoCandidateResult`` (never an exception,
+    ``select_next_test`` is deterministic and state-conditioned — not a
+    pure function: on success it records the rationale and proposal in
+    ``state``. Terminal conditions yield a frozen ``NoCandidateResult`` (never an exception,
     never a silent default); only wrong-type callers raise ``TypeError``.
     Stopping state is read, never written; budget counts are read, never
     consumed (a proposal is not an execution).

@@ -2,6 +2,7 @@
 
 from evaluation.contracts.hypotheses import HypothesisStatus
 from evaluation.diagnostics.selection import select_next_test
+from evaluation.diagnostics.selection.candidates import candidate_statistics
 
 from ..fixtures import (
     make_hypothesis,
@@ -133,3 +134,94 @@ def test_single_open_hypothesis_adapts_on_closure():
     out = select_next_test(state)
     assert type(out).__name__ == "NoCandidateResult"
     assert out.suggested_stopping is not None
+
+
+def _discrimination(state, test_id):
+    test = next(t for t in state.available_tests if t.test_id == test_id)
+    return candidate_statistics(state, test).discrimination_pairs
+
+
+def _eligible_ids(state):
+    from evaluation.diagnostics.selection.candidates import (
+        eligible_candidates,
+    )
+
+    eligible, _ = eligible_candidates(state)
+    return {t.test_id for t in eligible}
+
+
+def _close_hypothesis_via_vehicle(state, hid, status, uid):
+    from evaluation.diagnostics.contracts.hypothesis_updates import (
+        HypothesisUpdate,
+    )
+
+    prior = state.hypothesis(hid)
+    state.record_result(
+        make_result(
+            result_id="R-9",
+            test=make_costly_test("T-9", 7.0),
+            prediction_ids=("P-9",),
+        )
+    )
+    state.record_update(
+        HypothesisUpdate(
+            update_id=uid,
+            hypothesis_id=hid,
+            prior=prior,
+            prior_fingerprint=prior.fingerprint(),
+            prediction_id="P-9",
+            result_id="R-9",
+            compatibility="SUPPORTS",
+            assessment="Vehicle update closing the hypothesis.",
+            updated=prior.with_status(HypothesisStatus(status)),
+            updated_confidence=prior.confidence,
+            evidence_refs=("R-9",),
+            method="test-fixture",
+            version="v1",
+        )
+    )
+
+
+def test_selection_flips_on_hypothesis_closure_with_tests_eligible():
+    # H-1/H-2/H-3 OPEN; T-1 splits 2-vs-1 (D=2), T-2 unanimous (D=0).
+    # T-2 is cheaper so it wins every tie — isolating discrimination
+    # as the only reason T-1 is preferred first.
+    state = make_state(diagnostic_id="D-STRONG")
+    for hid, mechanism in (
+        ("H-1", "Overreacts to noise bursts."),
+        ("H-2", "Sizes positions unstably under volatility."),
+        ("H-3", "Stale information reuse."),
+    ):
+        state.register_hypothesis(make_hypothesis(hid, mechanism))
+    state.register_test(make_costly_test("T-1", 5.0))
+    state.register_test(make_costly_test("T-2", 1.0))
+    state.register_test(make_costly_test("T-9", 7.0))
+    add_prediction(state, "P-1", "H-1", "T-1", "INCREASE")
+    add_prediction(state, "P-2", "H-2", "T-1", "DECREASE")
+    add_prediction(state, "P-3", "H-3", "T-1", "INCREASE")
+    add_prediction(state, "P-4", "H-1", "T-2", "INCREASE")
+    add_prediction(state, "P-5", "H-2", "T-2", "INCREASE")
+    add_prediction(state, "P-6", "H-3", "T-2", "INCREASE")
+    add_prediction(state, "P-9", "H-2", "T-9", "INCREASE")
+
+    first = select_next_test(state)
+    assert first.selected_test_id == "T-1"
+    assert _discrimination(state, "T-1") == 2
+    assert _discrimination(state, "T-2") == 0
+
+    # Close H-2 through the vehicle test only: T-1 and T-2 are never
+    # executed and stay eligible throughout.
+    _close_hypothesis_via_vehicle(state, "H-2", "SUPPORTED", "U-9")
+    assert state.hypothesis("H-2").status is HypothesisStatus.SUPPORTED
+    # T-9 is consumed by the vehicle result; T-1 and T-2 were never
+    # executed and remain eligible.
+    assert "T-1" in _eligible_ids(state)
+    assert "T-2" in _eligible_ids(state)
+
+    # Only H-1/H-3 remain open and agree on both tests: discrimination
+    # collapses to zero on each, so the cheaper T-2 wins.
+    assert _discrimination(state, "T-1") == 0
+    assert _discrimination(state, "T-2") == 0
+    second = select_next_test(state)
+    assert second.selected_test_id == "T-2"
+    assert second.proposal_id != first.proposal_id
