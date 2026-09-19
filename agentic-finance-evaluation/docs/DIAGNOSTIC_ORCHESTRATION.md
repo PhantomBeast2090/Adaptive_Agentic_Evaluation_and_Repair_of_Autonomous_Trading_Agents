@@ -124,10 +124,15 @@ with its own contracts and safety analysis.
 ## 14. Limitations
 
 Single-test-per-iteration loop (no batching or parallel episodes);
-fixed episode scope per run (window/universe from baseline config);
-failed tests consume budget like completed ones; iteration cap is a
-blind bound, not a convergence proof; trace references require the
-live state or persisted artefacts to resolve fully.
+episode scope must equal the baseline scope: an explicitly supplied
+window/universe is accepted only when it matches the baseline control
+exactly (order-insensitive), otherwise the run is refused before any
+selection or execution. Diagnostic interventions such as
+`universe_restriction` remain explicit experimental factors inside the
+matched episode scope; failed tests consume budget like completed ones;
+iteration cap is a blind bound, not a convergence proof; trace
+references require the live state or persisted artefacts to resolve
+fully.
 
 ## 15. Future E2-F / repair handoff
 

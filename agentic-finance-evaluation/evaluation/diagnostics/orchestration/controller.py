@@ -24,7 +24,7 @@ E2-B through ``invoke_act``.
 
 from __future__ import annotations
 
-from typing import Any, List, Optional, Tuple
+from typing import Any, Dict, List, Mapping, Optional, Tuple
 
 from evaluation.baseline.results import BaselineResult
 from evaluation.contracts.agent import validate_target_agent
@@ -100,22 +100,90 @@ def _check_inputs(
             "diagnostic state already carries a stopping reason; "
             "a run starts from an unstopped state"
         )
+    _resolved_scope(baseline, config)
     return diagnostic_state, baseline, target_agent, config
+
+
+def _normalized_universe(value: object, label: str) -> Dict[str, Tuple[str, ...]]:
+    if not isinstance(value, Mapping):
+        raise TypeError(f"{label} universe must be a mapping")
+    normalized: Dict[str, Tuple[str, ...]] = {}
+    for asset_id, instruments in value.items():
+        if not isinstance(asset_id, str) or not asset_id:
+            raise ValueError(f"{label} universe has an invalid asset id")
+        if isinstance(instruments, str) or not isinstance(
+            instruments, (tuple, list)
+        ):
+            raise TypeError(
+                f"{label} universe[{asset_id!r}] must be a tuple/list "
+                "of instrument strings"
+            )
+        items = tuple(instruments)
+        for item in items:
+            if not isinstance(item, str) or not item:
+                raise ValueError(
+                    f"{label} universe[{asset_id!r}] holds an invalid "
+                    "instrument identifier"
+                )
+        normalized[asset_id] = tuple(sorted(items))
+    return normalized
+
+
+def _resolved_scope(
+    baseline: BaselineResult, config: OrchestrationConfig
+) -> Tuple[Tuple[str, str], Dict[str, Tuple[str, ...]]]:
+    """Resolve the episode scope, requiring baseline equality.
+
+    E2-C interprets diagnostic measurements relative to the baseline
+    control, so a diagnostic episode over a different window or universe
+    would confound intervention effect with scope difference. An
+    explicitly supplied scope must therefore match the baseline scope
+    exactly (instrument membership compared order-insensitively);
+    omission falls back to the baseline scope. Diagnostic interventions
+    such as ``universe_restriction`` remain available as explicit
+    experimental factors inside the matched episode scope.
+    """
+    baseline_window = (
+        baseline.config.start_date,
+        baseline.config.end_date,
+    )
+    baseline_universe = _normalized_universe(
+        baseline.config.universe, "baseline"
+    )
+    if config.window is not None:
+        if tuple(config.window) != tuple(baseline_window):
+            raise ValueError(
+                "orchestration window "
+                f"{tuple(config.window)} does not match baseline window "
+                f"{tuple(baseline_window)}: diagnostic scope must equal "
+                "baseline scope"
+            )
+        window = (config.window[0], config.window[1])
+    else:
+        window = (baseline_window[0], baseline_window[1])
+    if config.universe is not None:
+        effective = _normalized_universe(config.universe, "orchestration")
+        if effective != baseline_universe:
+            raise ValueError(
+                "orchestration universe does not match baseline universe: "
+                "diagnostic scope must equal baseline scope"
+            )
+        universe = {
+            asset_id: list(instruments)
+            for asset_id, instruments in effective.items()
+        }
+    else:
+        universe = {
+            asset_id: list(instruments)
+            for asset_id, instruments in baseline_universe.items()
+        }
+    return window, universe
 
 
 def _episode_scope(
     baseline: BaselineResult, config: OrchestrationConfig, seed: int
 ) -> DiagnosticEpisodeConfig:
-    if config.window is not None:
-        start_date, end_date = config.window
-    else:
-        start_date = baseline.config.start_date
-        end_date = baseline.config.end_date
-    universe = (
-        dict(config.universe)
-        if config.universe is not None
-        else dict(baseline.config.universe)
-    )
+    (start_date, end_date), universe = _resolved_scope(baseline, config)
     return DiagnosticEpisodeConfig(
         start_date=start_date,
         end_date=end_date,

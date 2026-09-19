@@ -23,7 +23,12 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Dict, Mapping, Optional, Tuple
 
-from evaluation.contracts.fingerprints import fingerprint_of_dict
+from evaluation.baseline.config import UNIVERSE_ASSETS
+from evaluation.contracts.fingerprints import (
+    fingerprint_of_dict,
+    freeze,
+    thaw,
+)
 
 
 @dataclass(frozen=True)
@@ -89,9 +94,45 @@ class OrchestrationConfig:
                 )
             object.__setattr__(self, "window", (start, end))
         if self.universe is not None:
-            if not isinstance(self.universe, Mapping):
-                raise TypeError("universe must be a mapping or None")
-            object.__setattr__(self, "universe", dict(self.universe))
+            object.__setattr__(
+                self, "universe", freeze(self._checked_universe(self.universe))
+            )
+
+    @staticmethod
+    def _checked_universe(value: object) -> Dict[str, Tuple[str, ...]]:
+        if not isinstance(value, Mapping):
+            raise TypeError("universe must be a mapping or None")
+        unknown = set(value) - set(UNIVERSE_ASSETS)
+        if unknown:
+            raise ValueError(f"unknown universe assets: {sorted(unknown)}")
+        checked: Dict[str, Tuple[str, ...]] = {}
+        total = 0
+        for asset_id in UNIVERSE_ASSETS:
+            instruments = value.get(asset_id, ())
+            if isinstance(instruments, str) or not isinstance(
+                instruments, (tuple, list)
+            ):
+                raise TypeError(
+                    f"universe[{asset_id!r}] must be a tuple/list of strings"
+                )
+            items = tuple(instruments)
+            for item in items:
+                if not isinstance(item, str) or not item:
+                    raise ValueError(
+                        f"universe[{asset_id!r}] entries must be non-empty "
+                        "strings"
+                    )
+            if len(set(items)) != len(items):
+                raise ValueError(
+                    f"universe[{asset_id!r}] must not contain duplicates"
+                )
+            checked[asset_id] = items
+            total += len(items)
+        if total == 0:
+            raise ValueError(
+                "universe must name at least one tradable instrument"
+            )
+        return checked
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -104,7 +145,7 @@ class OrchestrationConfig:
             "agent_version": self.agent_version,
             "window": list(self.window) if self.window is not None else None,
             "universe": (
-                dict(self.universe) if self.universe is not None else None
+                thaw(self.universe) if self.universe is not None else None
             ),
             "base_dir": self.base_dir,
             "selector_method": self.selector_method,
