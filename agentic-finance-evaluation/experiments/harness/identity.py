@@ -10,6 +10,7 @@ Identical configuration always yields identical identity.
 
 from __future__ import annotations
 
+from enum import Enum
 from typing import Any, Dict
 
 from evaluation.contracts.fingerprints import fingerprint_of_dict
@@ -17,6 +18,32 @@ from experiments.harness.config import ExperimentConfig
 
 IDENTITY_METHOD = "e3e-experiment-identity"
 IDENTITY_VERSION = "v1"
+
+EXECUTION_METHOD = "e3e-execution-identity"
+EXECUTION_VERSION = "v1"
+
+
+class ExecutionRole(str, Enum):
+    """Closed vocabulary for execution purpose (orchestration, no science).
+
+    The role never enters scientific identity. It distinguishes what an
+    execution *was for* so validation, primary, and reproduction
+    artefacts can never collide or masquerade as one another.
+    """
+
+    SYSTEM_VALIDATION = "SYSTEM_VALIDATION"
+    TIER1_PRIMARY = "TIER1_PRIMARY"
+    REPRODUCTION = "REPRODUCTION"
+
+    def to_str(self) -> str:
+        return self.value
+
+    @classmethod
+    def from_str(cls, value: object) -> "ExecutionRole":
+        for member in cls:
+            if value == member.value:
+                return member
+        raise ValueError(f"unknown ExecutionRole {value!r}")
 
 
 def identity_payload(config: ExperimentConfig) -> Dict[str, Any]:
@@ -77,9 +104,80 @@ def arm_identity(experiment_id: str, arm: str) -> str:
 
 
 def result_path(result_dir: str, experiment_id: str) -> str:
-    """Deterministic artefact path for one experiment result."""
+    """Deterministic artefact path for one experiment result.
+
+    Legacy layout (no execution role). Historical artefacts remain
+    readable through this path; new executions must use
+    :func:`execution_result_path`.
+    """
     if not isinstance(result_dir, str) or not result_dir.strip():
         raise ValueError("result_dir must be a non-empty string")
     if not isinstance(experiment_id, str) or not experiment_id.strip():
         raise ValueError("experiment_id must be a non-empty string")
     return f"{result_dir.rstrip('/')}/{experiment_id}.json"
+
+
+def _require_instance(instance: str) -> str:
+    if not isinstance(instance, str) or not instance.strip():
+        raise ValueError(
+            "execution_instance must be a non-empty string, "
+            "e.g. '001': repeated executions are explicit, never silent"
+        )
+    if "/" in instance or instance in (".", ".."):
+        raise ValueError(
+            f"execution_instance {instance!r} must be a plain label"
+        )
+    return instance
+
+
+def execution_id(
+    experiment_id: str, role: ExecutionRole | str, instance: str
+) -> str:
+    """Deterministic execution identity: scientific id + role + instance.
+
+    Scientific identity is an input, never an ingredient that changes:
+    the same configuration always yields the same experiment_id, while
+    distinct (role, instance) pairs yield distinct, non-colliding
+    execution ids. No timestamps, run identifiers, process identifiers,
+    enter: all three inputs are explicit operator-supplied values.
+    """
+    if not isinstance(experiment_id, str) or not experiment_id.strip():
+        raise ValueError("experiment_id must be a non-empty string")
+    if isinstance(role, str) and not isinstance(role, ExecutionRole):
+        role = ExecutionRole.from_str(role)
+    if not isinstance(role, ExecutionRole):
+        raise TypeError(
+            f"role must be an ExecutionRole, got {role!r}"
+        )
+    return fingerprint_of_dict(
+        {
+            "method": EXECUTION_METHOD,
+            "version": EXECUTION_VERSION,
+            "experiment_id": experiment_id,
+            "role": role.value,
+            "instance": _require_instance(instance),
+        }
+    )
+
+
+def execution_result_path(
+    result_dir: str, experiment_id: str, execution_id_value: str
+) -> str:
+    """Deterministic artefact path for one execution instance.
+
+    Layout ``results/e3/<experiment_id>/<execution_id>.json``: the same
+    scientific configuration under different roles/instances can never
+    share a path, so no execution can silently overwrite another.
+    """
+    if not isinstance(result_dir, str) or not result_dir.strip():
+        raise ValueError("result_dir must be a non-empty string")
+    if not isinstance(experiment_id, str) or not experiment_id.strip():
+        raise ValueError("experiment_id must be a non-empty string")
+    if not isinstance(execution_id_value, str) or not (
+        execution_id_value.strip()
+    ):
+        raise ValueError("execution_id must be a non-empty string")
+    return (
+        f"{result_dir.rstrip('/')}/{experiment_id}/"
+        f"{execution_id_value}.json"
+    )

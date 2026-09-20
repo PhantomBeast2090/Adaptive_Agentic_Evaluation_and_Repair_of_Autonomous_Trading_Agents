@@ -160,6 +160,8 @@ def _run(monkeypatch, tmp_path, **overrides):
         benchmark_fingerprint="bench-fp",
         agent_fingerprint="agent-fp",
         base_dir=".",
+        execution_role="TIER1_PRIMARY",
+        execution_instance="001",
     )
 
 
@@ -247,6 +249,8 @@ def test_transcription_mismatch_fails_before_execution(
             benchmark_fingerprint="bench-fp",
             agent_fingerprint="agent-fp",
             base_dir=".",
+            execution_role="TIER1_PRIMARY",
+            execution_instance="001",
         )
     assert fakes.log == []
 
@@ -263,5 +267,7 @@ def test_preflight_failure_blocks_phases(monkeypatch, tmp_path):
             benchmark_fingerprint="bench-fp",
             agent_fingerprint="agent-fp",
             base_dir=".",
+            execution_role="TIER1_PRIMARY",
+            execution_instance="001",
         )
     assert fakes.log == []

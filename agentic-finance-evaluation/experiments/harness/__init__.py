@@ -22,7 +22,10 @@ from experiments.harness.errors import (
     WindowIntegrityError,
 )
 from experiments.harness.identity import (
+    ExecutionRole,
     arm_identity,
+    execution_id,
+    execution_result_path,
     experiment_identity,
     result_path,
 )
@@ -46,6 +49,7 @@ __all__ = [
     "ASSEMBLY_PHASE",
     "ExperimentConfig",
     "ExperimentResult",
+    "ExecutionRole",
     "HarnessError",
     "IntegrityFailure",
     "LineageError",
@@ -62,6 +66,8 @@ __all__ = [
     "arm_identity",
     "assert_same_scope",
     "assert_transition",
+    "execution_id",
+    "execution_result_path",
     "experiment_identity",
     "heldout_scope",
     "require_repair_lineage",

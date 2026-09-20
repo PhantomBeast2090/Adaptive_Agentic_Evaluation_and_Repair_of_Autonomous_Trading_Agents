@@ -629,6 +629,8 @@ def phase_e_assemble(
     baseline_rd: BaselineResult,
     baseline_rh: BaselineResult,
     integrity_notes: Optional[Mapping[str, Any]] = None,
+    execution_role: Any = None,
+    execution_id: Optional[str] = None,
 ) -> ExperimentResult:
     """Verify seal, release once, build deltas, assemble the result."""
     assert_transition("R-H", "ASSEMBLY")
@@ -719,6 +721,8 @@ def phase_e_assemble(
         failure_detail="assembled; Tier-1 analysis belongs downstream",
         integrity_checks=dict(integrity_notes or {}),
         operational={},
+        execution_role=execution_role,
+        execution_id=execution_id,
     )
 
 
@@ -736,16 +740,40 @@ def run_experiment(
     benchmark_fingerprint: str,
     agent_fingerprint: str,
     base_dir: str = ".",
+    execution_role: Any = None,
+    execution_instance: str = "001",
 ) -> ExperimentResult:
     """Execute one canonical Tier-1 campaign: preflight, A→B→C→D→E.
 
     The single orchestration entrypoint. Verifies configuration,
     transcription, and preflight before deriving identity; executes
-    phases in order with no skips; persists the final result and
-    returns it. Fail-closed throughout; invents no science.
+    phases in order with no skips; persists the final result under its
+    execution-instance path and returns it. Fail-closed throughout;
+    invents no science.
+
+    ``execution_role`` labels what the run is for (required: no
+    role-less production executions; historical artefacts predate
+    roles). ``execution_instance`` distinguishes repeats
+    deterministically. Artefacts from different roles/instances can
+    never share a path, so nothing is silently overwritten.
     """
-    from experiments.harness.identity import result_path
+    from experiments.harness.identity import (
+        ExecutionRole,
+        execution_id,
+        execution_result_path,
+        result_path,
+    )
     from experiments.harness.preflight import ensure_preflight, preflight
+
+    if execution_role is None:
+        raise ValueError(
+            "execution_role is required: SYSTEM_VALIDATION, "
+            "TIER1_PRIMARY, or REPRODUCTION"
+        )
+    if isinstance(execution_role, str) and not isinstance(
+        execution_role, ExecutionRole
+    ):
+        execution_role = ExecutionRole.from_str(execution_role)
 
     config.verify_against_manifest(manifest)
     verify_transcription(manifest)
@@ -832,6 +860,7 @@ def run_experiment(
     assert_transition("R-H", "ASSEMBLY")
 
     # Phase E: verify seal, release once, assemble, persist, return.
+    exec_id = execution_id(experiment_id, execution_role, execution_instance)
     result = phase_e_assemble(
         config=config,
         experiment_id=experiment_id,
@@ -846,7 +875,11 @@ def run_experiment(
         integrity_notes={
             "preflight_experiment_id": report.experiment_id,
             "entrypoint": "run_experiment",
+            "execution_role": execution_role.value,
+            "execution_id": exec_id,
         },
+        execution_role=execution_role,
+        execution_id=exec_id,
     )
-    result.save(result_path(config.result_dir, experiment_id))
+    result.save(execution_result_path(config.result_dir, experiment_id, exec_id))
     return result

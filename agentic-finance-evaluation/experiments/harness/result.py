@@ -16,6 +16,7 @@ from typing import Any, Dict, Mapping, Optional
 
 from evaluation.contracts.fingerprints import fingerprint_of_dict, freeze, thaw
 from experiments.harness.errors import ProvenanceError
+from experiments.harness.identity import ExecutionRole
 
 RESULT_METHOD = "e3e-experiment-result"
 RESULT_VERSION = "v1"
@@ -73,6 +74,8 @@ class ExperimentResult:
     method: str = RESULT_METHOD
     method_version: str = RESULT_VERSION
     operational: Mapping[str, Any] = field(default_factory=dict)  # type: ignore[assignment]
+    execution_role: Optional[ExecutionRole] = None
+    execution_id: Optional[str] = None
 
     def __post_init__(self) -> None:
         _require_str(self.experiment_id, "experiment_id")
@@ -105,6 +108,29 @@ class ExperimentResult:
             raise TypeError("failure_detail must be a string")
         _require_str(self.method, "method")
         _require_str(self.method_version, "method_version")
+        role = self.execution_role
+        if role is not None:
+            if isinstance(role, str) and not isinstance(role, ExecutionRole):
+                role = ExecutionRole.from_str(role)
+            if not isinstance(role, ExecutionRole):
+                raise TypeError(
+                    f"execution_role must be an ExecutionRole or None, "
+                    f"got {role!r}"
+                )
+            object.__setattr__(self, "execution_role", role)
+            if (
+                not isinstance(self.execution_id, str)
+                or not self.execution_id.strip()
+            ):
+                raise ValueError(
+                    "a role-labelled result must carry a non-empty "
+                    "execution_id"
+                )
+        elif self.execution_id is not None:
+            raise ValueError(
+                "execution_id without an execution_role is forbidden: "
+                "historical role-less artefacts stay role-less"
+            )
         delta_heldout = dict(self.delta_heldout)
         comparator = delta_heldout.get("baseline_original_heldout")
         repaired = delta_heldout.get("repaired_heldout")
@@ -137,6 +163,12 @@ class ExperimentResult:
             "integrity_checks": thaw(self.integrity_checks),
             "method": self.method,
             "version": self.method_version,
+            "execution_role": (
+                self.execution_role.value
+                if self.execution_role is not None
+                else None
+            ),
+            "execution_id": self.execution_id,
         }
 
     @classmethod
@@ -150,7 +182,8 @@ class ExperimentResult:
             "metrics_nd", "metrics_nh", "metrics_rd", "metrics_rh",
             "delta_diagnostic", "delta_heldout", "rq4_vector",
             "rq4_status", "result_state", "failure_detail",
-            "integrity_checks", "method", "version", "operational",
+            "integrity_checks",             "method", "version", "operational",
+            "execution_role", "execution_id",
         }
         extra = set(payload) - known
         if extra:
@@ -191,6 +224,8 @@ class ExperimentResult:
                 method=payload.get("method", RESULT_METHOD),
                 method_version=payload.get("version", RESULT_VERSION),
                 operational=dict(payload.get("operational", {})),
+                execution_role=payload.get("execution_role"),
+                execution_id=payload.get("execution_id"),
             )
         except KeyError as exc:
             raise ValueError(
@@ -204,10 +239,23 @@ class ExperimentResult:
         return fingerprint_of_dict(payload)
 
     def save(self, path: str) -> None:
-        """Persist the result as canonical JSON (artefact store)."""
+        """Persist the result as canonical JSON (artefact store).
+
+        Fail-closed: an existing artefact is never silently
+        overwritten. Repeated executions must use distinct execution
+        instances (hence distinct paths); colliding with an existing
+        file raises instead of replacing history.
+        """
         import os
 
+        from experiments.harness.errors import IntegrityFailure
+
         _require_str(path, "path")
+        if os.path.exists(path):
+            raise IntegrityFailure(
+                f"refusing to overwrite existing artefact {path!r}: "
+                "repeated executions require explicit distinct instances"
+            )
         parent = os.path.dirname(path)
         if parent:
             os.makedirs(parent, exist_ok=True)
