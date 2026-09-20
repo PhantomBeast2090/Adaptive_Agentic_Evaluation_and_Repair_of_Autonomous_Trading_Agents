@@ -17,7 +17,14 @@ STATUS_AVAILABLE = "AVAILABLE"
 
 
 def as_dict(observation: Any) -> Dict[str, Any]:
-    """Return the observation payload as a plain dict, or raise."""
+    """Return the observation payload as a plain dict, or raise.
+
+    NOTE (test-only branch): the plain-mapping branch exists solely for
+    hand-built unit-test observations. It is not a valid production
+    invocation path — the evaluator calls benchmarks exclusively through
+    E0 ``invoke_act``, which requires a genuine ``TargetObservation``
+    and rejects plain mappings before ``act`` is ever reached.
+    """
     if isinstance(observation, Mapping):
         payload = dict(observation)
     elif hasattr(observation, "to_dict") and callable(

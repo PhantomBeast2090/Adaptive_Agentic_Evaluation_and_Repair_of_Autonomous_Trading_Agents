@@ -1,4 +1,10 @@
-# E3-C frozen experimental manifest (protocol revision E3-C.1)
+# E3-C frozen experimental manifest (protocol revision E3-C.2)
+#
+# Revision note: E3-C.2 removes the H-concentration hypothesis following
+# the E3-C narrow scientific audit, which established that the
+# concentration prediction was intervention-created rather than a
+# baseline failure mechanism. Class-B is a single-hypothesis
+# (H-turnover) controlled benchmark. No other substrate changed.
 #
 # Machine-readable freezing of the E3 experimental substrate. Every value
 # here is either a pre-existing repository convention or an E3-C design
@@ -6,7 +12,7 @@
 # outcomes. Manifest fingerprint (sha256 of this file) is recorded in
 # experiments/protocol/E3-C-benchmarks-temporal-protocol.md.
 
-protocol_revision: E3-C.1
+protocol_revision: E3-C.2
 
 benchmarks:
   - agent_id: hold-benchmark
@@ -82,13 +88,6 @@ hypotheses:
     primary_metric: turnover
     primary_direction: DECREASE
     secondary_metrics: [order_count, transaction_cost_total]
-  - hypothesis_id: H-concentration
-    failure_class: concentration
-    mechanism: persistent accumulation concentrates cost basis in the
-      traded names
-    primary_metric: concentration_cost_basis_max
-    primary_direction: INCREASE
-    secondary_metrics: [gross_exposure_max, position_persistence]
 
 candidate_pool:
   - test_id: T-null

@@ -1,12 +1,14 @@
-"""Competing-hypothesis and adaptivity contracts (Amendment 2).
+"""Single-hypothesis contracts (E3-C.2 revision).
 
-Freezes H-turnover vs H-concentration with distinct failure_class and
-mechanism, pre-registered directions, and a verified discriminating
-pair: on shared candidate T-uni-tcs the frozen E2-D machinery computes
-D=1 (unmodified selector code — this test only reads from it).
-Hypotheses are derived from the frozen benchmark behaviour, never
-fabricated for discrimination.
+Class-B carries exactly H-turnover. H-concentration was removed by the
+E3-C narrow scientific audit (intervention-created, not a baseline
+mechanism) and must not reappear here. With one open hypothesis the
+frozen E2-D machinery computes D=0 for every candidate while coverage
+reflects the single hypothesis — and the selector still returns a
+valid deterministic candidate. E2-D is read from, never modified.
 """
+
+import pytest
 
 from evaluation.contracts.agent import AgentIdentity
 from evaluation.contracts.budget import EvaluationBudget
@@ -21,30 +23,19 @@ from evaluation.diagnostics.selection.candidates import (
     candidate_statistics,
     eligible_candidates,
 )
+from evaluation.diagnostics.selection.selector import select_next_test
 
 
-def _hypotheses():
-    return (
-        Hypothesis(
-            hypothesis_id="H-turnover",
-            failure_class="turnover",
-            mechanism=(
-                "rule-based accumulation across two names sustains "
-                "elevated order flow in low-volatility regimes"
-            ),
-            confidence=0.5,
-            evidence_refs=("E3-C:benchmark-spec",),
+def _hypothesis():
+    return Hypothesis(
+        hypothesis_id="H-turnover",
+        failure_class="turnover",
+        mechanism=(
+            "rule-based accumulation across two names sustains "
+            "elevated order flow in low-volatility regimes"
         ),
-        Hypothesis(
-            hypothesis_id="H-concentration",
-            failure_class="concentration",
-            mechanism=(
-                "persistent accumulation concentrates cost basis in "
-                "the traded names"
-            ),
-            confidence=0.5,
-            evidence_refs=("E3-C:benchmark-spec",),
-        ),
+        confidence=0.5,
+        evidence_refs=("E3-C:benchmark-spec",),
     )
 
 
@@ -53,7 +44,7 @@ def _tests():
         DiagnosticTest(
             test_id="T-null",
             description="null control",
-            target_failure_classes=("turnover", "concentration"),
+            target_failure_classes=("turnover",),
             intervention={"type": "null_intervention"},
             measures=("turnover",),
             expected_discrimination="control",
@@ -62,13 +53,13 @@ def _tests():
         DiagnosticTest(
             test_id="T-uni-tcs",
             description="restrict universe to TCS",
-            target_failure_classes=("turnover", "concentration"),
+            target_failure_classes=("turnover",),
             intervention={
                 "type": "universe_restriction",
                 "nse_equity": ["TCS:EQ"],
             },
-            measures=("turnover", "concentration_cost_basis_max"),
-            expected_discrimination="shared discriminating candidate",
+            measures=("turnover",),
+            expected_discrimination="order-flow restriction probe",
             estimated_cost=1.0,
         ),
     )
@@ -84,23 +75,26 @@ def _state():
         config={},
         budget=EvaluationBudget(None, 10, None, None, None),
     )
-    for hypothesis in _hypotheses():
-        state.register_hypothesis(hypothesis)
+    state.register_hypothesis(_hypothesis())
     for test in _tests():
         state.register_test(test)
     return state
 
 
-def test_hypothesis_ids_unique_and_class_mechanism_distinct():
-    first, second = _hypotheses()
-    assert first.hypothesis_id != second.hypothesis_id
-    assert first.failure_class != second.failure_class
-    for hypothesis in (first, second):
-        assert hypothesis.failure_class != hypothesis.mechanism
-        assert hypothesis.status.value == "PROPOSED"
+def test_only_h_turnover_registered_and_well_formed():
+    hypothesis = _hypothesis()
+    assert hypothesis.hypothesis_id == "H-turnover"
+    assert hypothesis.failure_class == "turnover"
+    assert hypothesis.failure_class != hypothesis.mechanism
+    assert hypothesis.status.value == "PROPOSED"
 
 
-def test_shared_candidate_computes_nonzero_discrimination():
+def test_no_second_hypothesis_manufactured():
+    state = _state()
+    assert [h.hypothesis_id for h in state.hypotheses] == ["H-turnover"]
+
+
+def test_single_hypothesis_yields_zero_discrimination():
     state = _state()
     state.record_prediction(
         HypothesisPrediction(
@@ -111,24 +105,47 @@ def test_shared_candidate_computes_nonzero_discrimination():
             expected_direction=ExpectedDirection.DECREASE,
             rationale="fewer names, fewer orders",
             derivation_method="E3-C-spec",
-            derivation_version="1",
-        )
-    )
-    state.record_prediction(
-        HypothesisPrediction(
-            prediction_id="P2",
-            hypothesis_id="H-concentration",
-            test_id="T-uni-tcs",
-            predicted_observable="concentration_cost_basis_max",
-            expected_direction=ExpectedDirection.INCREASE,
-            rationale="fewer names, higher concentration",
-            derivation_method="E3-C-spec",
-            derivation_version="1",
+            derivation_version="2",
         )
     )
     eligible, _ = eligible_candidates(state)
     assert [t.test_id for t in eligible] == ["T-uni-tcs"]
     stats = candidate_statistics(state, eligible[0])
-    assert stats.discrimination_pairs == 1
-    assert stats.open_coverage == 2
-    assert stats.selection_key() == (-1, -2, 1.0, "T-uni-tcs")
+    assert stats.discrimination_pairs == 0
+    assert stats.open_coverage == 1
+    assert stats.selection_key() == (0, -1, 1.0, "T-uni-tcs")
+
+
+def test_selector_still_returns_deterministic_candidate():
+    first = _state()
+    first.record_prediction(
+        HypothesisPrediction(
+            prediction_id="P1",
+            hypothesis_id="H-turnover",
+            test_id="T-uni-tcs",
+            predicted_observable="turnover",
+            expected_direction=ExpectedDirection.DECREASE,
+            rationale="fewer names, fewer orders",
+            derivation_method="E3-C-spec",
+            derivation_version="2",
+        )
+    )
+    second = _state()
+    second.record_prediction(
+        HypothesisPrediction(
+            prediction_id="P1",
+            hypothesis_id="H-turnover",
+            test_id="T-uni-tcs",
+            predicted_observable="turnover",
+            expected_direction=ExpectedDirection.DECREASE,
+            rationale="fewer names, fewer orders",
+            derivation_method="E3-C-spec",
+            derivation_version="2",
+        )
+    )
+    first_outcome = select_next_test(first)
+    second_outcome = select_next_test(second)
+    assert first_outcome.selected_test_id == "T-uni-tcs"
+    assert (
+        first_outcome.to_dict() == second_outcome.to_dict()
+    )

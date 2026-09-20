@@ -23,7 +23,7 @@ def _manifest():
 
 def test_manifest_freezes_required_sections():
     manifest = _manifest()
-    assert manifest["protocol_revision"] == "E3-C.1"
+    assert manifest["protocol_revision"] == "E3-C.2"
     assert manifest["temporal"]["diagnostic_start"] == "2023-05-15"
     assert manifest["temporal"]["diagnostic_end"] == "2023-06-15"
     assert manifest["temporal"]["heldout_start"] == "2023-07-10"
@@ -35,6 +35,27 @@ def test_manifest_freezes_required_sections():
     }
     assert manifest["environment"]["strict_pit"] is True
     assert manifest["environment"]["vintage_policy"] == "explicit"
+
+
+def test_manifest_declares_only_h_turnover():
+    manifest = _manifest()
+    assert [h["hypothesis_id"] for h in manifest["hypotheses"]] == [
+        "H-turnover"
+    ]
+    (entry,) = manifest["hypotheses"]
+    assert entry["failure_class"] == "turnover"
+    assert entry["failure_class"] != entry["mechanism"]
+    assert entry["primary_metric"] == "turnover"
+    assert entry["primary_direction"] == "DECREASE"
+    assert "concentration" not in str(manifest["hypotheses"])
+
+
+def test_candidate_pool_unchanged():
+    manifest = _manifest()
+    assert [t["test_id"] for t in manifest["candidate_pool"]] == [
+        "T-null", "T-cost2x", "T-cost0",
+        "T-vintage-earliest", "T-uni-tcs",
+    ]
 
 
 def test_fixed_sequence_covered_by_pool_and_budget():

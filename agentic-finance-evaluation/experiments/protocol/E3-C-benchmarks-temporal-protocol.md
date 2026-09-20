@@ -2,8 +2,10 @@
 
 **Milestone:** E3-C (frozen substrate + protocol; no substantive experiments).
 **Status:** frozen pending review; zero experimental-result language by design.
-**Manifest:** `benchmarks/manifest.yaml`, protocol revision E3-C.1,
-sha256 `6759c8c30e71f6059a813ac254625352fd7a4c4069663249e796fbf24f06a23d`.
+**Revision:** E3-C.2 (supersedes E3-C.1: H-concentration removed per
+narrow scientific audit; see §6. Class-B is single-hypothesis.)
+**Manifest:** `benchmarks/manifest.yaml`, protocol revision E3-C.2,
+sha256 `412deb50682d5bea5a8283278764e4e416547d09b4cf04d93141e76f230dca86`.
 
 ---
 
@@ -74,34 +76,66 @@ requirement. Had no defensible mapping emerged, the incompatibility
 would have been recorded instead — the mapping below survived that
 test, it did not drive construction.
 
-## 6. Competing-hypothesis analysis (Amendment 2)
+## 6. Hypothesis analysis: single-hypothesis benchmark (E3-C.2)
 
-Two scientifically defensible hypotheses derived from the frozen
-Class-B behaviour (not invented for discrimination):
+Class-B carries exactly one scientifically defensible hypothesis:
 
 - **H-turnover** (`failure_class="turnover"`): rule-based accumulation
   across two names sustains elevated order flow in low-volatility
   regimes.
-- **H-concentration** (`failure_class="concentration"`): persistent
-  accumulation concentrates cost basis in the traded names.
 
-Both use the frozen E0 Hypothesis contract with distinct
-failure_class/mechanism. Distinguishability verified with unmodified
-frozen E2-D machinery (`candidate_statistics`): on shared candidate
-T-uni-tcs, H-turnover predicts turnover DECREASE while H-concentration
-predicts concentration_cost_basis_max INCREASE → D(T)=1, C=2 (pure
-computation, no episodes). Class-B is therefore a genuine two-hypothesis
-benchmark; no fallback declaration needed.
+It uses the frozen E0 Hypothesis contract with distinct
+failure_class/mechanism. No second hypothesis is manufactured, and none
+is needed for the benchmark to function.
+
+### Rejected hypothesis (audit record, not history rewriting)
+
+E3-C.1 additionally carried **H-concentration**
+(`failure_class="concentration"`, mechanism "persistent accumulation
+concentrates cost basis in the traded names", primary metric
+`concentration_cost_basis_max` INCREASE). The E3-C narrow scientific
+audit rejected it:
+
+- Baseline Class-B behaviour accumulates equal quantities in two names;
+  its cost-basis structure is diversified by construction (≈0.5 on
+  `concentration_cost_basis_max`, the structural minimum for a
+  two-position book). No baseline concentration failure exists.
+- The pre-registered prediction (T-uni-tcs →
+  `concentration_cost_basis_max` INCREASE, 0.5→1.0) is a mathematical
+  consequence of restricting the universe to one instrument, not
+  discrimination of a baseline mechanism.
+- H-concentration therefore served as manufactured discrimination
+  (a metric that moves under intervention, kept to make D(T)=1).
+
+H-concentration is removed from the active protocol. This section
+preserves the rejection and its reason so the history stays legible.
+
+### Discrimination consequence
+
+With one open hypothesis, D(T) = 0 for every candidate test while C(T)
+continues to reflect single-hypothesis coverage. The frozen E2-D
+selector is unchanged and still returns deterministic candidates
+(ordered by coverage, cost, test id). The protocol distinguishes three
+things that must not be conflated: **selector operation** (functions
+normally), **hypothesis-pair discrimination** (structurally unavailable
+for Class-B — correctly so), and **adaptive evaluation generally**
+(untouched as a research programme). Class-B therefore demonstrates no
+pairwise discrimination, and no such claim is made. Strong RQ4
+discrimination evidence is deferred to E3-D experiments containing
+genuinely competing hypotheses; RQ4 itself is untouched (E3-A unedited).
 
 ## 7. Mechanism ↔ metric mapping (pre-registered)
 
 | Hypothesis | Primary metric (direction) | Secondary metrics | Diagnostic evidence required | Provider mapping (pre-registered, not driving) |
 |---|---|---|---|---|
 | H-turnover | `turnover` DECREASE | `order_count`, `transaction_cost_total` | committed prediction + executed test + interpreted update | `rule-table/v1` turnover row → order cap, target turnover/DECREASE |
-| H-concentration | `concentration_cost_basis_max` INCREASE | `gross_exposure_max`, `position_persistence` | same bar as H-turnover | `rule-table/v1` concentration row → order cap (judged by validation) |
 
 All metrics from the frozen E1 25-inventory; none invented.
 `cumulative_return` is recorded, never sole repair evidence (E3-A §6).
+T-uni-tcs remains in the pool as a legitimate H-turnover diagnostic
+(fewer names to accumulate → less order flow); its concentration
+reading is descriptive arithmetic, not hypothesis evidence, and is
+never used as such.
 
 ## 8. Candidate diagnostic pool
 
@@ -111,18 +145,20 @@ T-cost0 (`transaction_cost_set 0.0`), T-vintage-earliest
 (`universe_restriction` to TCS:EQ) — all existing E2-B types, cost 1.0
 each. No new intervention invented.
 
-## 9. Prediction matrix (pre-registered directions)
+## 9. Prediction matrix (pre-registered directions, H-turnover only)
 
-| Test | H-turnover predicts | H-concentration predicts |
-|---|---|---|
-| T-null | turnover NO_CHANGE (control) | concentration NO_CHANGE (control) |
-| T-cost2x | transaction_cost_total INCREASE | transaction_cost_total INCREASE (shared; non-discriminating) |
-| T-cost0 | transaction_cost_total DECREASE | transaction_cost_total DECREASE (shared; non-discriminating) |
-| T-vintage-earliest | turnover NO_CHANGE | concentration NO_CHANGE |
-| T-uni-tcs | turnover DECREASE | concentration_cost_basis_max INCREASE (**discriminating pair**) |
+| Test | H-turnover predicts |
+|---|---|
+| T-null | turnover NO_CHANGE (control) |
+| T-cost2x | transaction_cost_total INCREASE |
+| T-cost0 | transaction_cost_total DECREASE |
+| T-vintage-earliest | turnover NO_CHANGE |
+| T-uni-tcs | turnover DECREASE (fewer names → less order flow) |
 
 Magnitudes are never pre-registered (directional-band interpretation is
-relative-change based); only directions are frozen.
+relative-change based); only directions are frozen. No concentration
+prediction appears: the removed H-concentration row is documented in
+§6, not silently dropped.
 
 ## 10. F-arm sequence and stopping semantics (Amendment 3)
 
@@ -136,8 +172,12 @@ are data in the manifest, not runner code (no runner is built in E3-C).
 
 The adaptive arm uses the identical candidate pool through the frozen
 E2-D selector (unmodified). Pool identity between arms is what makes
-the RQ4 contrast a selection-policy contrast rather than a
-candidate-availability contrast.
+any future RQ4 contrast a selection-policy contrast rather than a
+candidate-availability contrast. For Class-B specifically: with a
+single open hypothesis the selector orders candidates by coverage,
+cost, and test id — deterministic and valid, but pairwise
+discrimination is structurally absent (see §6). No discrimination
+capability is claimed for this configuration.
 
 ## 12. Admissibility rules
 
@@ -195,15 +235,17 @@ rationale — not dropped here).
 1. Identities frozen (manifest + §5). 2. Constants frozen (§4, untuned).
 3. Constants outcome-independent (§3–§4 selection basis). 4–6. Mechanism,
 binding, and provider mapping pre-registered (§6–§7) with Amendment-1
-independence statement. 7–8. F sequence frozen with exact stopping
-semantics; pool identical across arms (§8, §10–§11). 9–10. Windows
+independence statement; H-concentration removed per audit with its
+rejection preserved in §6 (no history rewriting). 7–8. F sequence frozen with exact stopping
+semantics; pool identical across arms (§8, §10–§11); single-hypothesis
+D=0 stated honestly with RQ4 discrimination deferred to E3-D. 9–10. Windows
 strictly separated; held-out cannot influence diagnosis (§3, §14).
 11–12. Reproduction labelled, not replication; trades never samples
 (§13). 13. Stubs separated from benchmarks (§5; failure stubs stay in
 tests). 14. Boundary verified by test (§14). 15. Class C honestly
 deferred (§16 + §2 of E3-B). 16. E0–E2 semantics unchanged (diff-gated).
-17. No circular construction (§5 independence + §6 derivation + D=1
-verification). 18. Zero result language (this document contains no
+17. No circular construction (§5 independence + §6 derivation; the
+removed D=1 claim is documented as rejected, not hidden). 18. Zero result language (this document contains no
 outcomes). 19. Manifest reconstructs the protocol (single file +
 fingerprints). 20. Hostile-reviewer test: every choice cites either a
 pre-existing convention or an explicit design convention marked
