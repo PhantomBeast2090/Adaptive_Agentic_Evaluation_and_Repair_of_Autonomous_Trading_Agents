@@ -87,11 +87,27 @@ imports). Statistics belong downstream.
 
 ## 9. Operator workflow
 
-1. Build config from manifest. 2. Run `preflight()`; fix failures
-   (config or manifest process — never weaken checks). 3. Execute
-   phases A→E sequentially, one campaign at a time (no parallel
-   environments; ~15 serial env constructions per campaign is the
-   accepted operational cost — isolation is never traded for speed).
-   4. Verify result fingerprint. 5. Reproduce from artefact file.
-   Tier-1 market execution itself is a later milestone gated on this
-   harness passing review, not part of the build.
+1. Build config from manifest. 2. Call `run_experiment()` — the
+   single canonical entrypoint composing verify → transcription →
+   preflight → identity → A → B → C → D → E → persist → return.
+   Fix failures (config or manifest process — never weaken checks).
+3. Execute phases A→E sequentially, one campaign at a time (no
+   parallel environments; ~15 serial env constructions per campaign
+   is the accepted operational cost — isolation is never traded for
+   speed). 4. Verify result fingerprint. 5. Reproduce from artefact
+   file. Tier-1 market execution itself is a later milestone gated
+   on this harness passing review, not part of the build.
+
+## 10. Original-agent ownership
+
+N-D, N-H, diagnosis, and repair each receive a separate fresh
+instance from the canonical benchmark identity, reset before use;
+no instance is shared across arms. The diagnosis instance is
+discarded after Phase B; repair receives a fresh equivalent
+instance. Legitimacy is determinism + reset-state equivalence
+(fingerprint-equal fresh instances), not object identity — proven
+by the mocked campaign test, which also proves the repair object
+is never the diagnosis object. Transcription (`verify_transcription`
+in `lifecycle.py`) is checked before any executable identity is
+derived and fails closed on hypothesis/pool/metric/descriptor
+mismatch.

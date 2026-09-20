@@ -223,6 +223,65 @@ def build_prediction_matrix() -> Tuple[Tuple[str, str, str, str, str], ...]:
     return FROZEN_PREDICTION_MATRIX
 
 
+def verify_transcription(manifest: Mapping[str, Any]) -> None:
+    """Fail closed unless the harness transcription matches frozen sources.
+
+    Pure and side-effect-free. Checks the transcribed prediction matrix
+    and test descriptors against the frozen E3-C manifest (hypothesis
+    ids, candidate pool) and the frozen E1 metric inventory
+    (observable names). Per-test directions are type-checked as
+    ``ExpectedDirection`` members at commit time; the manifest carries
+    no per-test direction table, so direction *values* are pinned by
+    the E3-C protocol document and covered by review, not by this
+    check. Must run before any executable identity is derived.
+    """
+    from evaluation.baseline.metrics import METRIC_FUNCTIONS
+
+    if not isinstance(manifest, Mapping):
+        raise TypeError("manifest must be a mapping")
+    manifest_hypotheses = manifest.get("hypotheses", [])
+    if len(manifest_hypotheses) != 1:
+        raise ProtocolAmbiguityError(
+            "E3-C.2 freezes exactly one active hypothesis; manifest "
+            f"declares {len(manifest_hypotheses)}: refusing to choose"
+        )
+    manifest_hyp_ids = {
+        entry["hypothesis_id"] for entry in manifest_hypotheses
+    }
+    pool_ids = {
+        entry["test_id"] for entry in manifest.get("candidate_pool", [])
+    }
+    if not pool_ids:
+        raise ProtocolAmbiguityError(
+            "manifest declares an empty candidate pool"
+        )
+    metric_names = {function.__name__ for function in METRIC_FUNCTIONS}
+    for hypothesis_id, test_id, observable, direction, _ in (
+        FROZEN_PREDICTION_MATRIX
+    ):
+        if hypothesis_id not in manifest_hyp_ids:
+            raise ProtocolAmbiguityError(
+                f"transcribed hypothesis {hypothesis_id!r} not in "
+                f"manifest {sorted(manifest_hyp_ids)}"
+            )
+        if test_id not in pool_ids:
+            raise ProtocolAmbiguityError(
+                f"transcribed test {test_id!r} not in manifest pool"
+            )
+        if observable not in metric_names:
+            raise ProtocolAmbiguityError(
+                f"transcribed observable {observable!r} is not a frozen "
+                "E1 metric"
+            )
+        ExpectedDirection.from_str(direction)
+    if set(TEST_SPECS) != pool_ids:
+        raise ProtocolAmbiguityError(
+            "transcribed test descriptors do not exactly match the "
+            f"manifest pool: specs={sorted(TEST_SPECS)} "
+            f"pool={sorted(pool_ids)}"
+        )
+
+
 def commit_predictions(
     state: DiagnosticState, hypothesis_id: str
 ) -> None:
@@ -383,6 +442,7 @@ def phase_a(
 ) -> Tuple[BaselineResult, SealedBaseline]:
     """Execute N-D and sealed N-H on isolated fresh instances."""
     agent_nd = _fresh_agent(config)
+    agent_nd.reset()
     baseline_nd = run_baseline(
         agent_nd,
         baseline_config_for(
@@ -393,6 +453,7 @@ def phase_a(
     )
     del agent_nd
     agent_nh = _fresh_agent(config)
+    agent_nh.reset()
     baseline_nh = run_baseline(
         agent_nh,
         baseline_config_for(
@@ -415,6 +476,56 @@ def phase_a(
     return baseline_nd, sealed
 
 
+def _diagnose_with_agent(
+    *,
+    config: ExperimentConfig,
+    baseline_nd: BaselineResult,
+    manifest: Mapping[str, Any],
+    agent: Any,
+    base_dir: str,
+) -> Tuple[DiagnosticState, Dict[str, Any]]:
+    """Shared diagnostic body for an explicitly owned agent instance."""
+    state = diagnostic_state_for(
+        config,
+        baseline_nd,
+        agent.identity,
+        f"{config.arm}-D",
+    )
+    hypotheses = manifest.get("hypotheses", [])
+    if not hypotheses:
+        raise ProtocolAmbiguityError(
+            "manifest declares no hypotheses: refusing to choose "
+            "a diagnostic target at runtime"
+        )
+    for entry in hypotheses:
+        state.register_hypothesis(
+            Hypothesis(
+                hypothesis_id=entry["hypothesis_id"],
+                failure_class=entry["failure_class"],
+                mechanism=entry["mechanism"],
+                confidence=0.5,
+                evidence_refs=("E3-C:manifest",),
+            )
+        )
+    pool = {
+        entry["test_id"]: entry
+        for entry in manifest.get("candidate_pool", [])
+    }
+    register_pool_tests(state, pool)
+    for entry in hypotheses:
+        commit_predictions(state, entry["hypothesis_id"])
+    trace = diagnose(
+        state=state,
+        baseline=baseline_nd,
+        target_agent=agent,
+        policy=config.diagnostic_policy,
+        fixed_sequence=config.fixed_sequence,
+        seed=config.seed_provenance,
+        base_dir=base_dir,
+    )
+    return state, trace
+
+
 def phase_b(
     config: ExperimentConfig,
     baseline_nd: BaselineResult,
@@ -424,45 +535,13 @@ def phase_b(
     """Diagnose under the configured policy. Sealed N-H never arrives."""
     agent = _fresh_agent(config)
     try:
-        state = diagnostic_state_for(
-            config,
-            baseline_nd,
-            agent.identity,
-            f"{config.arm}-D",
-        )
-        hypotheses = manifest.get("hypotheses", [])
-        if not hypotheses:
-            raise ProtocolAmbiguityError(
-                "manifest declares no hypotheses: refusing to choose "
-                "a diagnostic target at runtime"
-            )
-        for entry in hypotheses:
-            state.register_hypothesis(
-                Hypothesis(
-                    hypothesis_id=entry["hypothesis_id"],
-                    failure_class=entry["failure_class"],
-                    mechanism=entry["mechanism"],
-                    confidence=0.5,
-                    evidence_refs=("E3-C:manifest",),
-                )
-            )
-        pool = {
-            entry["test_id"]: entry
-            for entry in manifest.get("candidate_pool", [])
-        }
-        register_pool_tests(state, pool)
-        for entry in hypotheses:
-            commit_predictions(state, entry["hypothesis_id"])
-        trace = diagnose(
-            state=state,
-            baseline=baseline_nd,
-            target_agent=agent,
-            policy=config.diagnostic_policy,
-            fixed_sequence=config.fixed_sequence,
-            seed=config.seed_provenance,
+        return _diagnose_with_agent(
+            config=config,
+            baseline_nd=baseline_nd,
+            manifest=manifest,
+            agent=agent,
             base_dir=base_dir,
         )
-        return state, trace
     finally:
         del agent
 
@@ -646,3 +725,128 @@ def phase_e_assemble(
 def campaign_experiment_id(config: ExperimentConfig) -> str:
     """Identity helper shared by lifecycle entry points."""
     return experiment_identity(config)
+
+
+def run_experiment(
+    *,
+    config: ExperimentConfig,
+    manifest: Mapping[str, Any],
+    e3d_document_path: str,
+    environment_fingerprint: str,
+    benchmark_fingerprint: str,
+    agent_fingerprint: str,
+    base_dir: str = ".",
+) -> ExperimentResult:
+    """Execute one canonical Tier-1 campaign: preflight, A→B→C→D→E.
+
+    The single orchestration entrypoint. Verifies configuration,
+    transcription, and preflight before deriving identity; executes
+    phases in order with no skips; persists the final result and
+    returns it. Fail-closed throughout; invents no science.
+    """
+    from experiments.harness.identity import result_path
+    from experiments.harness.preflight import ensure_preflight, preflight
+
+    config.verify_against_manifest(manifest)
+    verify_transcription(manifest)
+    report = preflight(
+        config=config,
+        manifest=manifest,
+        e3d_document_path=e3d_document_path,
+        environment_fingerprint=environment_fingerprint,
+        benchmark_fingerprint=benchmark_fingerprint,
+        agent_fingerprint=agent_fingerprint,
+    )
+    ensure_preflight(report)
+    experiment_id = experiment_identity(config)
+
+    # Phase A: original baselines; N-H sealed, execution objects dropped.
+    assert_transition("N-D", "D-F" if config.diagnostic_policy == "fixed" else "D-A")
+    baseline_nd, sealed_nh = phase_a(config, experiment_id, base_dir)
+    assert_transition("N-H", "SEALED")
+
+    # Phase B: diagnosis on an explicitly owned fresh agent instance.
+    # The instance is discarded afterwards and never reused for repair.
+    agent_diag = _fresh_agent(config)
+    agent_diag.reset()
+    try:
+        diagnostic_state, trace = _diagnose_with_agent(
+            config=config,
+            baseline_nd=baseline_nd,
+            manifest=manifest,
+            agent=agent_diag,
+            base_dir=base_dir,
+        )
+    finally:
+        del agent_diag
+    assert_transition(
+        "D-F" if config.diagnostic_policy == "fixed" else "D-A", "REPAIR"
+    )
+
+    # Phase C: exactly one frozen run_repair on a fresh equivalent agent.
+    # Legitimacy is determinism + reset-state equivalence, not object
+    # identity: same canonical benchmark identity/version/config, reset
+    # before use. E2-F remains sole budget owner.
+    agent_repair = _fresh_agent(config)
+    agent_repair.reset()
+    try:
+        hypothesis_id = str(manifest["hypotheses"][0]["hypothesis_id"])
+        repair_result, validation_report, _analysis, live_candidate = (
+            phase_c(
+                diagnostic_state,
+                baseline_nd,
+                agent_repair,
+                hypothesis_id,
+                tuple(config.heldout_window),
+                config.seed_provenance,
+                base_dir,
+            )
+        )
+    finally:
+        del agent_repair
+    assert_transition("REPAIR", "R-D")
+
+    # Phase D: guarded repaired evaluations.
+    decision = repair_result.decision
+    decision_value = decision.value if hasattr(decision, "value") else str(
+        decision
+    )
+    baseline_rd = phase_d_rd(
+        config,
+        experiment_id,
+        live_candidate,
+        decision_value,
+        repair_result.validation_fingerprint,
+        base_dir,
+    )
+    assert_transition("R-D", "R-H")
+    baseline_rh = phase_d_rh(
+        config,
+        experiment_id,
+        live_candidate,
+        repair_result.candidate_id,
+        repair_result.fingerprint(),
+        sealed_nh,
+        base_dir,
+    )
+    assert_transition("R-H", "ASSEMBLY")
+
+    # Phase E: verify seal, release once, assemble, persist, return.
+    result = phase_e_assemble(
+        config=config,
+        experiment_id=experiment_id,
+        baseline_nd=baseline_nd,
+        sealed_nh=sealed_nh,
+        diagnostic_state=diagnostic_state,
+        diagnostic_trace=trace,
+        repair_result=repair_result,
+        validation_report=validation_report,
+        baseline_rd=baseline_rd,
+        baseline_rh=baseline_rh,
+        integrity_notes={
+            "preflight_experiment_id": report.experiment_id,
+            "entrypoint": "run_experiment",
+        },
+    )
+    result.save(result_path(config.result_dir, experiment_id))
+    return result

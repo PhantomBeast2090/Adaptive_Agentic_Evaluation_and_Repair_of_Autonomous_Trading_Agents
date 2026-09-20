@@ -109,8 +109,13 @@ def heldout_scope(
 
 
 def assert_same_scope(first: Mapping[str, Any], second: Mapping[str, Any]) -> None:
-    """Fail closed unless two held-out scopes are exactly equal."""
-    if dict(first) != dict(second):
+    """Fail closed unless two held-out scopes are exactly equal.
+
+    Comparison is canonical (frozen form on both sides) so that
+    list/tuple representation differences can never pass or fail
+    the check spuriously.
+    """
+    if freeze(dict(first)) != freeze(dict(second)):
         raise LineageError(
             "held-out scope mismatch between original and repaired "
             "evaluations: failing closed. Only agent lineage may differ."
