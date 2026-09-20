@@ -78,3 +78,31 @@ Nothing in E2-F persists across evaluations: no policy store, no
 training loop, no memory, no optimisation. Each `run_repair` call starts
 from its inputs and leaves only its returned artefacts plus E0 note
 anchors. Reusable repair knowledge is an explicitly later stage.
+
+## Budget accounting (`e2f-budget-ledger/v1`)
+
+One admitted `run_repair` consumes exactly 1 repair unit, recorded BEFORE
+provider, application, or validation work; every admitted outcome —
+accepted, rejected, unresolved, provider failure, application failure,
+validation failure — consumes, with no rollback. Refused attempts append
+nothing and invoke nothing.
+
+One complete validation consumes exactly 3 validation-run units across
+two temporal windows (candidate@diagnostic, candidate@heldout,
+original@heldout). Validation never starts with fewer than 3 units
+remaining. Partial failure records the invoked-run count N in {1,2,3},
+counting the failed invocation, with no rollback.
+
+Ownership: `run_repair` owns validation admission, budget consumption,
+and partial-failure accounting. `run_validation` owns execution only and
+is budget-unaware; a direct call is an internal unbudgeted primitive, and
+only a `run_repair`-admitted cycle is a budgeted validation cycle.
+
+The accounting owner is `RepairBudgetLedger` (`accounting.py`): frozen
+admission/consumption entries with strict serialisation and SHA-256
+fingerprints, rebuilt from the persisted E0 note slots
+(`from_evaluation_state`) rather than from ephemeral result objects or
+hidden counters. Admission markers use the `@admission` namespace,
+disjoint from applied-candidate identifiers (`@candidate-`), and precede
+the real provenance note — admission metadata is never evidence of an
+applied repair.

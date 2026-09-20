@@ -40,6 +40,13 @@ from evaluation.contracts.fingerprints import fingerprint_of_dict
 from evaluation.contracts.stopping import StoppingReason
 from evaluation.diagnostics.contracts.diagnostic_state import DiagnosticState
 from evaluation.diagnostics.contracts.predictions import ExpectedDirection
+from evaluation.diagnostics.repair.accounting import (
+    ADMISSION_RECORD_KIND,
+    COMPLETED_OUTCOME,
+    PARTIAL_OUTCOME,
+    RepairBudgetLedger,
+    admission_marker_id,
+)
 from evaluation.diagnostics.repair.application import (
     ApplicationStatus,
     apply_repair,
@@ -55,6 +62,7 @@ from evaluation.diagnostics.repair.regression import (
     analyze_regression,
 )
 from evaluation.diagnostics.repair.validation import (
+    ValidationPartialFailure,
     ValidationReport,
     run_validation,
 )
@@ -341,6 +349,14 @@ def run_repair(
     original agent and all input artefacts are never mutated; repair and
     validation provenance is anchored on the diagnostic state's E0
     evaluation state via its existing note slots.
+
+    Budget ownership: one admitted attempt consumes exactly 1 repair unit
+    before provider/application/validation work (all outcomes consume; no
+    rollback); one complete validation consumes exactly 3 validation-run
+    units, and validation never starts with fewer than 3 remaining.
+    Refused attempts append nothing and invoke nothing. Usage is derived
+    from the persisted E0 slots via ``RepairBudgetLedger`` — return shapes
+    are unchanged.
     """
     if not isinstance(diagnostic_state, DiagnosticState):
         raise TypeError(
@@ -357,14 +373,17 @@ def run_repair(
     provider = provider or DeterministicRuleProvider()
     hypothesis = diagnostic_state.hypothesis(hypothesis_id)
     budget = diagnostic_state.budget
-    if budget.is_exhausted({"repairs": 0}):
-        raise ValueError(
-            "repair budget exhausted before proposal: max_repairs "
-            "allows no attempts"
-        )
-    remaining_runs = budget.remaining({"validation_runs": 0}).get(
-        "validation_runs"
+    ledger = RepairBudgetLedger.from_evaluation_state(
+        diagnostic_state.evaluation_state
     )
+    if budget.is_exhausted({"repairs": ledger.repairs_used}):
+        raise ValueError(
+            "repair budget exhausted before proposal: "
+            f"{ledger.repairs_used} repair units already consumed"
+        )
+    remaining_runs = budget.remaining(
+        {"validation_runs": ledger.validation_runs_used}
+    ).get("validation_runs")
     if remaining_runs is not None and remaining_runs < 3:
         raise ValueError(
             "validation budget cannot cover the three fixed comparison "
@@ -372,6 +391,21 @@ def run_repair(
         )
     repair_id = (
         f"repair-{diagnostic_state.diagnostic_id}-{hypothesis_id}"
+    )
+    # Admission consumes exactly 1 repair unit BEFORE provider, application,
+    # or validation work. Every admitted outcome — success, rejection,
+    # or any failure — therefore consumes; refused attempts append nothing.
+    # The marker uses the @admission namespace, disjoint from
+    # applied-candidate identifiers, and is always followed by the real
+    # provenance note, so existing [-1] provenance reads are unaffected.
+    diagnostic_state.evaluation_state.note_repair_candidate(
+        {
+            "candidate_id": admission_marker_id(repair_id),
+            "repair_id": repair_id,
+            "diagnostic_id": diagnostic_state.diagnostic_id,
+            "hypothesis_id": hypothesis.hypothesis_id,
+            "record_kind": ADMISSION_RECORD_KIND,
+        }
     )
     try:
         return _attempt_repair(
@@ -484,17 +518,50 @@ def _attempt_repair(
             method_version=proposal.method_version,
         )
         return result, None, None, None
-    report, _artefacts = run_validation(
-        validation_id=f"validation-{repair_id}",
-        candidate_id=candidate.candidate_id,
-        candidate_fingerprint=candidate.candidate_fingerprint,
-        candidate_agent=live_candidate,
-        original_agent=original_agent,
-        baseline=baseline,
-        heldout_window=heldout_window,
-        seed=seed,
-        base_dir=base_dir,
-    )
+    try:
+        report, _artefacts = run_validation(
+            validation_id=f"validation-{repair_id}",
+            candidate_id=candidate.candidate_id,
+            candidate_fingerprint=candidate.candidate_fingerprint,
+            candidate_agent=live_candidate,
+            original_agent=original_agent,
+            baseline=baseline,
+            heldout_window=heldout_window,
+            seed=seed,
+            base_dir=base_dir,
+        )
+    except ValidationPartialFailure as exc:
+        # Invoked runs consumed execution: record exactly runs_invoked
+        # units with no rollback, then fail explicitly. Validation never
+        # started zero runs here would mean no note at all.
+        diagnostic_state.evaluation_state.note_validation_result(
+            {
+                "candidate_id": candidate.candidate_id,
+                "repair_id": repair_id,
+                "validation_runs_consumed": exc.runs_invoked,
+                "outcome": PARTIAL_OUTCOME,
+                "failed_label": exc.label,
+                "decision": RepairDecision.FAILED.value,
+            }
+        )
+        result = RepairResult(
+            repair_id=repair_id,
+            proposal_fingerprint=proposal.fingerprint(),
+            candidate_id=candidate.candidate_id,
+            candidate_fingerprint=candidate.candidate_fingerprint,
+            validation_fingerprint="none",
+            analysis_fingerprint="none",
+            decision=RepairDecision.FAILED,
+            reason=(
+                f"validation failed after {exc.runs_invoked} of 3 runs "
+                f"at {exc.label!r}: {exc.error} "
+                "(consumed runs are not rolled back)"
+            ),
+            suggested_stopping=StoppingReason.REPAIR_FAILED,
+            method=proposal.method,
+            method_version=proposal.method_version,
+        )
+        return result, None, None, None
     baseline_metrics = {
         metric.name: metric.value for metric in baseline.metrics
     }
@@ -528,6 +595,9 @@ def _attempt_repair(
     diagnostic_state.evaluation_state.note_validation_result(
         {
             "candidate_id": candidate.candidate_id,
+            "repair_id": repair_id,
+            "validation_runs_consumed": 3,
+            "outcome": COMPLETED_OUTCOME,
             "validation_fingerprint": report.fingerprint(),
             "analysis_fingerprint": analysis.fingerprint(),
             "decision": decision.value,

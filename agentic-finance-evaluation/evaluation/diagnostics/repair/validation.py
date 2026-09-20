@@ -17,6 +17,12 @@ The validator reads artefacts, computes comparisons, and writes a
 frozen ``ValidationReport``. It never judges the repair — acceptance
 lives in ``regression.py`` — and it never modifies the candidate,
 the original, or any baseline.
+
+Ownership: ``run_validation`` owns validation *execution* only and is
+budget-unaware. A direct call is an internal unbudgeted primitive; only a
+``run_repair``-admitted cycle is a budgeted validation cycle — ``run_repair``
+owns validation admission, budget consumption, and partial-failure
+accounting.
 """
 
 from __future__ import annotations
@@ -228,6 +234,41 @@ VALIDATOR_METHOD = "e1-rerun-comparison"
 VALIDATOR_VERSION = "v1"
 
 
+class ValidationPartialFailure(Exception):
+    """A validation sequence that failed partway through execution.
+
+    Carries ``runs_invoked``: the number of E1 runs whose execution began,
+    counting the failed invocation (an invoked run consumed environment
+    execution even when it raised). The budget owner records exactly this
+    count with no rollback. This is execution accounting, not budget
+    ownership — ``run_repair`` owns admission and consumption.
+    """
+
+    def __init__(
+        self, *, validation_id: str, runs_invoked: int, label: str,
+        error: str,
+    ) -> None:
+        if not isinstance(validation_id, str) or not validation_id.strip():
+            raise ValueError("validation_id must be a non-empty string")
+        if runs_invoked not in (1, 2, 3):
+            raise ValueError(
+                "runs_invoked must be 1, 2, or 3, "
+                f"got {runs_invoked!r}"
+            )
+        if not isinstance(label, str) or not label.strip():
+            raise ValueError("label must be a non-empty string")
+        if not isinstance(error, str) or not error.strip():
+            raise ValueError("error must be a non-empty string")
+        super().__init__(
+            f"validation {validation_id!r} failed at run "
+            f"{runs_invoked} ({label!r}): {error}"
+        )
+        self.validation_id = validation_id
+        self.runs_invoked = runs_invoked
+        self.label = label
+        self.error = error
+
+
 def _metric_map(result: BaselineResult) -> Dict[str, Optional[float]]:
     return {
         metric.name: metric.value for metric in result.metrics
@@ -329,12 +370,20 @@ def run_validation(
         ("original_heldout", original_agent,
          (str(held_start), str(held_end))),
     )
-    for label, agent, window in plan:
-        result = run_baseline(
-            agent,
-            _validation_config_for(baseline, window, seed),
-            base_dir=base_dir,
-        )
+    for index, (label, agent, window) in enumerate(plan):
+        try:
+            result = run_baseline(
+                agent,
+                _validation_config_for(baseline, window, seed),
+                base_dir=base_dir,
+            )
+        except Exception as exc:
+            raise ValidationPartialFailure(
+                validation_id=validation_id,
+                runs_invoked=index + 1,
+                label=label,
+                error=f"{type(exc).__name__}: {exc}",
+            ) from exc
         artefacts.append(result)
         runs.append(
             ValidationRun(

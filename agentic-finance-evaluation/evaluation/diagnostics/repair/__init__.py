@@ -7,6 +7,17 @@ existing E1 machinery, analyse regressions explicitly, and decide
 without ever letting the repair certify itself.
 """
 
+from evaluation.diagnostics.repair.accounting import (
+    ADMISSION_RECORD_KIND,
+    COMPLETED_OUTCOME,
+    LEDGER_METHOD,
+    LEDGER_VERSION,
+    PARTIAL_OUTCOME,
+    RepairAdmission,
+    RepairBudgetLedger,
+    ValidationConsumption,
+    admission_marker_id,
+)
 from evaluation.diagnostics.repair.application import (
     ApplicationStatus,
     GuardrailedAgent,
@@ -44,12 +55,22 @@ from evaluation.diagnostics.repair.results import (
 from evaluation.diagnostics.repair.validation import (
     VALIDATOR_METHOD,
     VALIDATOR_VERSION,
+    ValidationPartialFailure,
     ValidationReport,
     ValidationRun,
     run_validation,
 )
 
 __all__ = [
+    "ADMISSION_RECORD_KIND",
+    "COMPLETED_OUTCOME",
+    "LEDGER_METHOD",
+    "LEDGER_VERSION",
+    "PARTIAL_OUTCOME",
+    "RepairAdmission",
+    "RepairBudgetLedger",
+    "ValidationConsumption",
+    "admission_marker_id",
     "ApplicationStatus",
     "GuardrailedAgent",
     "RepairApplication",
