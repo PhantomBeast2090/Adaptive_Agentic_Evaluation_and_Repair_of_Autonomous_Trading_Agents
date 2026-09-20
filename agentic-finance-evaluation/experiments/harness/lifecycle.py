@@ -742,6 +742,9 @@ def run_experiment(
     base_dir: str = ".",
     execution_role: Any = None,
     execution_instance: str = "001",
+    amendment_supplement: Mapping[str, Any] | None = None,
+    manifest_path: str | None = None,
+    amendment_doc_path: str | None = None,
 ) -> ExperimentResult:
     """Execute one canonical Tier-1 campaign: preflight, A→B→C→D→E.
 
@@ -756,6 +759,13 @@ def run_experiment(
     roles). ``execution_instance`` distinguishes repeats
     deterministically. Artefacts from different roles/instances can
     never share a path, so nothing is silently overwritten.
+
+    ``amendment_supplement`` (optional): a verified E3-D.x overlay.
+    When present, ``manifest_path`` and ``amendment_doc_path`` are
+    required so the supplement is verified against actual frozen
+    files; the resolved effective manifest then governs verification
+    and phases, with amendment provenance recorded. When absent, the
+    base manifest governs exactly as before (legacy E3-C.2 path).
     """
     from experiments.harness.identity import (
         ExecutionRole,
@@ -775,11 +785,54 @@ def run_experiment(
     ):
         execution_role = ExecutionRole.from_str(execution_role)
 
-    config.verify_against_manifest(manifest)
-    verify_transcription(manifest)
+    amendment_provenance: Dict[str, Any] = {}
+    effective_manifest = manifest
+    if amendment_supplement is not None:
+        from experiments.harness.amendment import (
+            resolve_effective,
+            verify_supplement,
+        )
+
+        if not manifest_path or not amendment_doc_path:
+            raise ValueError(
+                "amendment_supplement requires manifest_path and "
+                "amendment_doc_path for file-anchored verification"
+            )
+        verify_supplement(
+            manifest=manifest,
+            manifest_path=manifest_path,
+            supplement=amendment_supplement,
+            amendment_doc_path=amendment_doc_path,
+        )
+        effective_manifest, effective_fp = resolve_effective(
+            manifest=manifest, supplement=amendment_supplement
+        )
+        amendment_provenance = {
+            "base_manifest_fingerprint": amendment_supplement.get(
+                "base_manifest_fingerprint"
+            ),
+            "amendment_id": amendment_supplement.get("amendment_id"),
+            "amendment_fingerprint": amendment_supplement.get(
+                "amendment_fingerprint"
+            ),
+            "effective_configuration_fingerprint": effective_fp,
+            "diagnostic_environment_fingerprint": (
+                amendment_supplement["overrides"]["fingerprints"][
+                    "diagnostic_env"
+                ]
+            ),
+            "heldout_environment_fingerprint": (
+                amendment_supplement["overrides"]["fingerprints"][
+                    "heldout_env"
+                ]
+            ),
+        }
+
+    config.verify_against_manifest(effective_manifest)
+    verify_transcription(effective_manifest)
     report = preflight(
         config=config,
-        manifest=manifest,
+        manifest=effective_manifest,
         e3d_document_path=e3d_document_path,
         environment_fingerprint=environment_fingerprint,
         benchmark_fingerprint=benchmark_fingerprint,
@@ -801,7 +854,7 @@ def run_experiment(
         diagnostic_state, trace = _diagnose_with_agent(
             config=config,
             baseline_nd=baseline_nd,
-            manifest=manifest,
+            manifest=effective_manifest,
             agent=agent_diag,
             base_dir=base_dir,
         )
@@ -818,7 +871,9 @@ def run_experiment(
     agent_repair = _fresh_agent(config)
     agent_repair.reset()
     try:
-        hypothesis_id = str(manifest["hypotheses"][0]["hypothesis_id"])
+        hypothesis_id = str(
+            effective_manifest["hypotheses"][0]["hypothesis_id"]
+        )
         repair_result, validation_report, _analysis, live_candidate = (
             phase_c(
                 diagnostic_state,
@@ -877,6 +932,7 @@ def run_experiment(
             "entrypoint": "run_experiment",
             "execution_role": execution_role.value,
             "execution_id": exec_id,
+            **amendment_provenance,
         },
         execution_role=execution_role,
         execution_id=exec_id,

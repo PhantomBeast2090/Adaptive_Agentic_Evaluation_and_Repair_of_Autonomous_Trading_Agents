@@ -1,0 +1,25 @@
+# E3-D.1 machine-readable amendment supplement (versioned overlay).
+#
+# This file does NOT replace benchmarks/manifest.yaml (E3-C.2, frozen).
+# It authorises exactly six leaf overrides for Tier-1 execution under
+# E3-D.1; every other field resolves straight through to the base
+# manifest. Fingerprints below are sha256 over the referenced files'
+# raw bytes, verified at load time — never trusted blindly.
+
+amendment_id: E3-D.1
+amendment_version: "1"
+base_manifest: benchmarks/manifest.yaml
+base_manifest_fingerprint: 412deb50682d5bea5a8283278764e4e416547d09b4cf04d93141e76f230dca86
+amendment_document: experiments/protocol/E3-D.1-remediation-amendment.md
+amendment_fingerprint: 01544896cbe2aa62f688d354d4b75ea402ca68b342980ff7bce99c42d0e86baf
+overrides:
+  temporal:
+    diagnostic_start: "2023-02-01"
+    diagnostic_end: "2023-02-28"
+    heldout_start: "2023-03-01"
+    heldout_end: "2023-03-31"
+  fingerprints:
+    diagnostic_env: 60d189e4d17310f0ec12b46c20a7411e17b44833700e6a1757b6d1f7a2d33acd
+    heldout_env: 484b82a73c8eef6837f1a0227edee869bbd5a8594ba233fe7b875fa268254437
+provenance: E3-D.1 replacement pair; E3-C.2 temporal superseded for
+  Tier-1 execution only. All other manifest fields remain authoritative.

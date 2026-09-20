@@ -8,6 +8,13 @@ metrics, runs no statistics, and makes no scientific decisions —
 ambiguity fails closed via ``ProtocolAmbiguityError``.
 """
 
+from experiments.harness.amendment import (
+    AMENDMENT_ID,
+    load_supplement,
+    resolve_effective,
+    sha256_file,
+    verify_supplement,
+)
 from experiments.harness.config import ARMS, ExperimentConfig
 from experiments.harness.errors import (
     HarnessError,
@@ -45,6 +52,7 @@ from experiments.harness.result import (
 )
 
 __all__ = [
+    "AMENDMENT_ID",
     "ARMS",
     "ASSEMBLY_PHASE",
     "ExperimentConfig",
@@ -70,7 +78,11 @@ __all__ = [
     "execution_result_path",
     "experiment_identity",
     "heldout_scope",
+    "load_supplement",
     "require_repair_lineage",
     "require_rh_lineage",
+    "resolve_effective",
     "result_path",
+    "sha256_file",
+    "verify_supplement",
 ]
