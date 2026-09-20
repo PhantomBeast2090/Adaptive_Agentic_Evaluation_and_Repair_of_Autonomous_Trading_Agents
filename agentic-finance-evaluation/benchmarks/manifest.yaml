@@ -1,0 +1,133 @@
+# E3-C frozen experimental manifest (protocol revision E3-C.1)
+#
+# Machine-readable freezing of the E3 experimental substrate. Every value
+# here is either a pre-existing repository convention or an E3-C design
+# convention recorded as such. Nothing was tuned against experimental
+# outcomes. Manifest fingerprint (sha256 of this file) is recorded in
+# experiments/protocol/E3-C-benchmarks-temporal-protocol.md.
+
+protocol_revision: E3-C.1
+
+benchmarks:
+  - agent_id: hold-benchmark
+    version: "1.0"
+    module: benchmarks.hold.HoldBenchmark
+    fingerprint: e089aba5b776925fe54bd046dec5331f46bd997fb2944bf10e48af5cb385bdfc
+    class: A
+    repairable: false
+  - agent_id: buy-once-benchmark
+    version: "1.0"
+    module: benchmarks.buy_once.BuyOnceBenchmark
+    fingerprint: ba3fb8fce6550bd80637834db6387d433669698c40f75074569d88e8927ab80e
+    class: A
+    repairable: false
+  - agent_id: volatility-threshold-benchmark
+    version: "1.0"
+    module: benchmarks.volatility_threshold.VolatilityThresholdBenchmark
+    fingerprint: db16e4a862a4bb2a764fd7dc803a15a790457c847207db5b18fa41a3fe0a7f9c
+    class: B
+    repairable: true
+
+class_b_constants:
+  vix_low: 15.0
+  vix_high: 25.0
+  vix_slot: indiavix
+  boundary_rule: equality belongs to MID/HOLD
+  missing_vix: hold
+  nse_equity_names: [RELIANCE:EQ, TCS:EQ]
+  build_quantity: 1.0
+  reduce_quantity: 5.0
+  cash_dust: 1.0
+  max_orders_per_session: 3
+  provenance: pre-existing repository convention, explicitly uncalibrated
+
+environment:
+  strict_pit: true
+  vintage_policy: explicit
+  transaction_cost_bps: 5.0
+  initial_cash: 100000.0
+  universe:
+    nse_equity: [RELIANCE:EQ, TCS:EQ]
+    mcx_gold: [GOLDAUG2023]
+
+temporal:
+  diagnostic_start: "2023-05-15"
+  diagnostic_end: "2023-06-15"
+  heldout_start: "2023-07-10"
+  heldout_end: "2023-08-10"
+  embargo_period: none
+  diagnostic_nse_sessions: 24
+  heldout_nse_sessions: 24
+  diagnostic_unknown_calendar: 0
+  heldout_unknown_calendar: 0
+  gold_contract_trade_dates_diagnostic: 24
+  gold_contract_trade_dates_heldout: 20
+  selection_basis: chronological order, dataset coverage, calendar coverage,
+    minimum 20 NSE_CM sessions per window, strict non-overlap
+
+fingerprints:
+  diagnostic_env: 123bff828880c9de465b6336f0294905b0f6b39ef1bf8159498e762ee7b2bff8
+  heldout_env: 01dbee779df3f840bc6c5cc11e5dc47de9f73d0c078b3334e5e7eb3414d6b5e5e
+  historical_calendar_yaml: bbad8e046c4064abc47078b9f8e238e9ac4aa5fe9b2507183b162090bdc695a2
+  historical_calendar_csv: 1f3a1d3057ccff835db4609341c809f5ec08a9ce30a07c7bda4bb84d8dbcc872
+  india_vix_manifest: 3a6a73a53d92e30a8410ddd742191b38ab4930875e542a8c200de33ae2f8779f
+  nse_equity_manifest: d9e0f4557b4cf1e71a087c2f54e6b3e4b7eba31d1520a235b7421472e412c085
+  gold_manifest: 68a390d7c1727fed2450d16407de29aa22b73134b704945ef608ee39d6ac3c2a
+
+hypotheses:
+  - hypothesis_id: H-turnover
+    failure_class: turnover
+    mechanism: rule-based accumulation across two names sustains elevated
+      order flow in low-volatility regimes
+    primary_metric: turnover
+    primary_direction: DECREASE
+    secondary_metrics: [order_count, transaction_cost_total]
+  - hypothesis_id: H-concentration
+    failure_class: concentration
+    mechanism: persistent accumulation concentrates cost basis in the
+      traded names
+    primary_metric: concentration_cost_basis_max
+    primary_direction: INCREASE
+    secondary_metrics: [gross_exposure_max, position_persistence]
+
+candidate_pool:
+  - test_id: T-null
+    intervention: {type: null_intervention}
+    measures: [turnover, order_count]
+    estimated_cost: 1.0
+  - test_id: T-cost2x
+    intervention: {type: transaction_cost_shift, multiplier: 2.0}
+    measures: [turnover, transaction_cost_total]
+    estimated_cost: 1.0
+  - test_id: T-cost0
+    intervention: {type: transaction_cost_set, costs_bps: 0.0}
+    measures: [turnover, transaction_cost_total]
+    estimated_cost: 1.0
+  - test_id: T-vintage-earliest
+    intervention: {type: vintage_policy_shift, vintage_policy: earliest_available}
+    measures: [turnover, unavailable_info_rate]
+    estimated_cost: 1.0
+  - test_id: T-uni-tcs
+    intervention: {type: universe_restriction, nse_equity: [TCS:EQ]}
+    measures: [turnover, concentration_cost_basis_max]
+    estimated_cost: 1.0
+
+fixed_sequence:
+  order: [T-null, T-cost2x, T-uni-tcs, T-vintage-earliest, T-cost0]
+  on_completed: continue
+  on_invalid: record and continue
+  on_failed: record and halt
+  on_budget_exhausted: halt
+
+budgets:
+  max_tests: 5
+  max_repairs: 1
+  max_validation_runs: 3
+
+replication:
+  window_pairs: 1
+  executions_per_arm_per_window: 1
+  reproduction_checks: one repeated execution per deterministic configuration,
+    verified by trajectory fingerprint equality; reproduction is not
+    scientific replication
+  scientific_replication: deferred to E3-D
