@@ -207,7 +207,6 @@ def paired_deltas(
         }
     return deltas
 
-
 def metric_map(baseline: BaselineResult) -> Dict[str, Any]:
     """Plain metric name → value map from a baseline artefact."""
     if not isinstance(baseline, BaselineResult):
@@ -216,6 +215,48 @@ def metric_map(baseline: BaselineResult) -> Dict[str, Any]:
             f"got {type(baseline).__name__}"
         )
     return {metric.name: metric.value for metric in baseline.metrics}
+
+
+def diagnostic_snapshot(state: DiagnosticState) -> Dict[str, Any]:
+    """Pinned read-only projection of a completed DiagnosticState.
+
+    Passthrough only: hypothesis id/status/confidence, the existing
+    deterministic update records, stopping reason, and open-hypothesis
+    ids. No recomputation, no new representation, no clock/UUID/PID/
+    randomness — same state always yields the same projection. Used
+    solely so future Tier-1 artefacts carry independently verifiable
+    RQ1 resolution evidence.
+    """
+    if not isinstance(state, DiagnosticState):
+        raise TypeError(
+            "state must be a DiagnosticState, "
+            f"got {type(state).__name__}"
+        )
+    stopping = state.stopping_reason
+    uncertainty = state.uncertainty
+    return {
+        "hypotheses": [
+            {
+                "id": hypothesis.hypothesis_id,
+                "status": hypothesis.status.value,
+                "confidence": float(hypothesis.confidence),
+            }
+            for hypothesis in sorted(
+                state.hypotheses, key=lambda h: h.hypothesis_id
+            )
+        ],
+        "hypothesis_updates": [
+            update.to_dict() for update in state.hypothesis_updates
+        ],
+        "stopping_reason": (
+            stopping.value if stopping is not None else None
+        ),
+        "uncertainty": (
+            {"open_hypothesis_ids": list(uncertainty.open_hypothesis_ids)}
+            if uncertainty is not None
+            else None
+        ),
+    }
 
 
 def build_prediction_matrix() -> Tuple[Tuple[str, str, str, str, str], ...]:
@@ -694,6 +735,9 @@ def phase_e_assemble(
             "arm": config.arm,
             "diagnostic_policy": config.diagnostic_policy,
             "diagnostic_trace": trace,
+            "diagnostic_state_snapshot": diagnostic_snapshot(
+                diagnostic_state
+            ),
         },
         benchmark_identity={
             "benchmark_id": config.benchmark_id,

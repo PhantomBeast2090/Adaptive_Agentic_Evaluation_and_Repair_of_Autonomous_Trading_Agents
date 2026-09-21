@@ -70,7 +70,14 @@ fingerprints, labelled REPRODUCTION — never independent replication.
 
 ## 7. RQ capture summary
 
-RQ1: E2 artefact references (hypotheses → traces → fingerprints).
+RQ1: E2 artefact references (hypotheses → traces → fingerprints),
+plus a pinned `diagnostic_state_snapshot` in `arm_records`
+(hypothesis id/status/confidence, hypothesis updates, stopping
+reason, open-hypothesis ids) so future Tier-1 artefacts carry
+independently verifiable resolution evidence. The snapshot is a
+read-only passthrough of the completed DiagnosticState using
+existing deterministic serialisation; the frozen E3-D resolution
+criterion itself is unchanged.
 RQ2: matched N-D/R-D full 25-metric vectors + Δturnover pairing data.
 RQ3: N-D/N-H/R-D/R-H vectors + Δdiagnostic/Δheldout with named
 comparators. RQ4: descriptive vector only; any "discrimination"
