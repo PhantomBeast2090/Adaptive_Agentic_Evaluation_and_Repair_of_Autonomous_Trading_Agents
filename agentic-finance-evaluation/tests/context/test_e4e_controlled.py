@@ -197,12 +197,12 @@ def test_temporary_payload_has_no_mem_ids():
 
 # 6. Arm C cannot contaminate arm D lineage.
 def test_temporary_copy_does_not_touch_store_or_original():
+    from evaluation.diagnostics.repair.application import fingerprint_agent
+
     package, store = _package_and_store()
     store_fp = store.fingerprint()
     agent = ContextualThresholdBenchmark()
-    agent_fp_before = agent.fingerprint() if hasattr(
-        agent, "fingerprint"
-    ) else None
+    agent_fp_before = fingerprint_agent(agent, agent.identity)
     payload = build_temporary_payload(
         [dict(entry) for entry in package.knowledge]
     )
@@ -211,7 +211,12 @@ def test_temporary_copy_does_not_touch_store_or_original():
     assert list(agent.learned_contexts) == []
     assert list(adapted.learned_contexts) != []
     assert store.fingerprint() == store_fp
-    assert agent_fp_before is None or True
+    # Original agent is fingerprint-identical before and after: the
+    # temporary delivery reached only the isolated copy.
+    assert fingerprint_agent(agent, agent.identity) == agent_fp_before
+    assert (
+        fingerprint_agent(adapted, adapted.identity) != agent_fp_before
+    )
 
 
 # 7. Arm D requires valid store lineage.

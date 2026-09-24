@@ -31,7 +31,7 @@ from typing import Any, Dict, Mapping, Optional, Tuple
 
 from evaluation.context.benchmark import ContextualThresholdBenchmark
 from evaluation.contracts.agent import AgentIdentity
-from evaluation.contracts.fingerprints import fingerprint_of_dict
+from evaluation.contracts.fingerprints import fingerprint_of_dict, thaw
 
 EXPERIMENT_METHOD = "e4e-controlled-context-repair"
 EXPERIMENT_VERSION = "v1"
@@ -182,7 +182,7 @@ def apply_temporary(agent: Any, payload: Mapping[str, Any]) -> Any:
             f"temporary delivery requires provenance "
             f"{TEMPORARY_PROVENANCE!r}: refusing foreign payloads"
         )
-    _checked_entries(payload.get("entries", ()))
+    cleaned = _checked_entries(payload.get("entries", ()))
     identity = getattr(agent, "identity", None)
     if not isinstance(identity, AgentIdentity):
         raise TypeError("agent must expose an AgentIdentity")
@@ -191,7 +191,13 @@ def apply_temporary(agent: Any, payload: Mapping[str, Any]) -> Any:
     if not callable(getattr(agent, "reset", None)):
         raise TypeError("agent must expose a callable reset()")
     isolated = copy.deepcopy(agent)
-    isolated.adapt(dict(payload))
+    # Deep-thaw (mirrors store-bound delivery): entries derived from
+    # frozen package knowledge may carry immutable proxies that policy
+    # snapshotting cannot traverse. Values are preserved; only ordinary
+    # containers reach the agent's mutable policy state.
+    delivery = dict(payload)
+    delivery["entries"] = [thaw(dict(entry)) for entry in cleaned]
+    isolated.adapt(delivery)
     return isolated
 
 
