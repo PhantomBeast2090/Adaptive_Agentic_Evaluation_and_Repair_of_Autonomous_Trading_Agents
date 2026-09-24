@@ -113,3 +113,17 @@ def test_high_and_missing_branches_unchanged_by_context():
     agent.adapt({"entries": [_turnover_entry()]})
     assert agent.act(make_obs(vix=None)) == []
     assert agent.act(make_obs(vix=20.0)) == []
+
+
+def test_applicability_matching_is_deferred_not_evaluated():
+    # DEFERRED ARCHITECTURE (E4-D limitation, pinned here): the
+    # benchmark keys its guard on failure_mechanism only.
+    # Applicability strings travel with the context as provenance
+    # but are not evaluated against the live observation; genuinely
+    # applicability-aware selection is future work, and no claim in
+    # this suite implies it already exists.
+    agent = ContextualThresholdBenchmark()
+    agent.adapt({"entries": [_turnover_entry(
+        applicability_conditions=("never-applies-here",),
+    )]})
+    assert len(agent.act(_low_with_positions())) == 1

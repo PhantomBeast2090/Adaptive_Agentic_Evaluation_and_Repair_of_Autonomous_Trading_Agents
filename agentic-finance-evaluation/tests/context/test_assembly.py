@@ -105,7 +105,7 @@ def _ctx_package():
 def test_delivery_original_unchanged_and_copy_adapted_once():
     from evaluation.diagnostics.repair.application import fingerprint_agent
 
-    package, _ = _ctx_package()
+    package, store = _ctx_package()
 
     delivered_payloads = []
 
@@ -116,7 +116,7 @@ def test_delivery_original_unchanged_and_copy_adapted_once():
 
     agent = CountingAgent()
     before = fingerprint_agent(agent, agent.identity)
-    adapted, record = deliver(agent, package)
+    adapted, record = deliver(agent, package, store)
     assert len(delivered_payloads) == 1
     assert delivered_payloads[0][
         "context_package_fingerprint"
@@ -134,10 +134,10 @@ def test_delivery_original_unchanged_and_copy_adapted_once():
 
 
 def test_delivery_rejects_mismatched_or_malformed():
-    package, _ = _package()
+    package, store = _package()
     other = ContextualThresholdBenchmark()
     with pytest.raises((TypeError, ValueError)):
-        deliver("not-an-agent", package)
+        deliver("not-an-agent", package, store)
 
     class Foreign:
         identity = AgentIdentity("foreign-agent", "1.0")
@@ -152,9 +152,9 @@ def test_delivery_rejects_mismatched_or_malformed():
             return None
 
     with pytest.raises(ValueError):
-        deliver(Foreign(), package)
+        deliver(Foreign(), package, store)
     with pytest.raises(TypeError):
-        deliver(other, "not-a-package")
+        deliver(other, "not-a-package", store)
 
 
 def test_unknown_fields_rejected():

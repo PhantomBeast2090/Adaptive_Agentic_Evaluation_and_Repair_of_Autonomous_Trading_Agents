@@ -93,6 +93,9 @@ Tier-1 artefacts untouched; no objective comparison performed.
 
 Single mechanism exercised end-to-end (turnover); retrieval is
 agent-scoped, not regime-conditioned; contraindications carried
-but unenforced; no C0/C1 objective comparison (E4-E); no repeated
-cycles (E4-F+); contextual benchmark is an instrument, not a
-trading advance.
+but unenforced; applicability conditions travel as provenance but
+are not evaluated against live observations — the benchmark guard
+keys on failure_mechanism only, so applicability-aware selection is
+explicitly deferred (no claim in this protocol implies it exists);
+no C0/C1 objective comparison (E4-E); no repeated cycles (E4-F+);
+contextual benchmark is an instrument, not a trading advance.

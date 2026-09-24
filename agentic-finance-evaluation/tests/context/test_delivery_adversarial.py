@@ -54,25 +54,28 @@ def test_rejected_and_quarantined_delivery_refused():
 
 
 def test_store_bypass_impossible():
+    from evaluation.context.memory import MemoryStore
+
     agent = ContextualThresholdBenchmark()
     with pytest.raises((TypeError, ValueError)):
-        deliver(agent, {"not": "a package"})
+        deliver(agent, {"not": "a package"},
+                MemoryStore(store_id="mem-1"))
 
 
 def test_manually_constructed_admitted_context_still_checked():
     # Even a hand-built ADMITTED object must pass assembly validation:
     # unknown fields and identity mismatch fail closed at delivery.
-    package, _ = _ctx_package()
+    package, store = _ctx_package()
     agent = ContextualThresholdBenchmark()
     with pytest.raises(ValueError):
         deliver(agent, ContextPackage.from_dict(
             {**package.to_dict(),
              "agent_identity": {"agent_id": "other", "version": "9.9"}}
-        ))
+        ), store)
 
 
 def test_tampered_package_fails_closed():
-    package, _ = _ctx_package()
+    package, store = _ctx_package()
     tampered_dict = package.to_dict()
     tampered_dict["knowledge"] = [
         {**tampered_dict["knowledge"][0], "context_id": "ctx-forged"}
@@ -80,12 +83,19 @@ def test_tampered_package_fails_closed():
     forged = ContextPackage.from_dict(tampered_dict)
     assert forged.fingerprint() != package.fingerprint()
     agent = ContextualThresholdBenchmark()
-    delivered, _ = deliver(agent, forged)
-    # The tamper is carried, not hidden — and therefore detectable:
-    # the delivered id matches nothing the store served.
-    assert delivered.learned_contexts[0]["context_id"] == "ctx-forged"
-    assert forged.retrieved_ids == ("ctx-1",)
-    assert "ctx-forged" not in forged.retrieved_ids
+    # Tampering is now refused at delivery, not merely detectable
+    # afterwards: the forged entry matches no admitted store entry.
+    with pytest.raises(ValueError):
+        deliver(agent, forged, store)
+
+
+def test_stale_store_fails_closed():
+    from evaluation.context.memory import MemoryStore
+
+    package, _ = _ctx_package()
+    agent = ContextualThresholdBenchmark()
+    with pytest.raises(ValueError):
+        deliver(agent, package, MemoryStore(store_id="other-mem"))
 
 
 def test_mutation_after_assembly_cannot_reach_store():
@@ -103,9 +113,9 @@ def test_mutation_after_assembly_cannot_reach_store():
 
 
 def test_provenance_survives_delivery():
-    package, _ = _ctx_package()
+    package, store = _ctx_package()
     agent = ContextualThresholdBenchmark()
-    delivered, record = deliver(agent, package)
+    delivered, record = deliver(agent, package, store)
     assert record.context_package_fingerprint == package.fingerprint()
     assert delivered.learned_contexts[0]["context_id"] == "ctx-1"
 

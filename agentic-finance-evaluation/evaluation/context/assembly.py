@@ -284,15 +284,26 @@ def assemble(
 
 
 def deliver(
-    agent: Any, package: ContextPackage
+    agent: Any, package: ContextPackage, store: Any
 ) -> Tuple[Any, DeliveryRecord]:
     """Deliver a ContextPackage to an isolated agent copy.
 
-    Validates package/agent identity agreement, deep-copies the
-    agent, invokes ``adapt()`` exactly once on the copy, and returns
-    ``(adapted_copy, delivery_record)``. The original agent is never
-    mutated. This is the sole production caller of ``adapt()``.
+    Validates package/agent identity agreement, then verifies the
+    package against the live store: the store fingerprint must match
+    and every knowledge entry must correspond to an admitted stored
+    entry with an identical context fingerprint. A hand-built or
+    tampered package therefore fails closed even when internally
+    self-consistent — recomputing a fingerprint never confers store
+    lineage. No secrets or signing are involved; trust is procedural
+    (live-store verification), consistent with E4-C.
+
+    Deep-copies the agent, invokes ``adapt()`` exactly once on the
+    copy, and returns ``(adapted_copy, delivery_record)``. The
+    original agent and the store are never mutated. This is the sole
+    production caller of ``adapt()``.
     """
+    from evaluation.context.memory import MemoryStore
+
     if not isinstance(package, ContextPackage):
         raise TypeError(
             f"package must be a ContextPackage, "
@@ -309,6 +320,28 @@ def deliver(
             "package agent identity does not match the target agent: "
             "refusing cross-agent delivery"
         )
+    if not isinstance(store, MemoryStore):
+        raise TypeError(
+            f"store must be a MemoryStore, "
+            f"got {type(store).__name__}"
+        )
+    if package.store_fingerprint != store.fingerprint():
+        raise ValueError(
+            "package store fingerprint does not match the live store: "
+            "refusing delivery from stale or foreign lineage"
+        )
+    admitted = {
+        entry.context.fingerprint(): entry.context.context_id
+        for entry in store.entries
+    }
+    for entry in package.knowledge:
+        known_id = admitted.get(entry.get("context_fingerprint"))
+        if known_id is None or known_id != entry.get("context_id"):
+            raise ValueError(
+                "package entry "
+                f"{entry.get('context_id')!r} is not admitted knowledge "
+                "in the live store: refusing tampered packages"
+            )
     if not callable(getattr(agent, "adapt", None)):
         raise TypeError("agent must expose a callable adapt()")
     if not callable(getattr(agent, "reset", None)):
