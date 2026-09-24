@@ -162,6 +162,7 @@ def adjudicate(
     report: ValidationReport,
     analysis: RegressionAnalysis,
     store: MemoryStore,
+    proposal: Any = None,
 ) -> Tuple[LearnedContext, AdmissionVerdict]:
     """Judge one candidate; return (possibly transitioned, verdict).
 
@@ -169,6 +170,13 @@ def adjudicate(
     fingerprints against the live artefacts, requires an ACCEPTED
     repair decision, and consults store state for duplicates and
     contradictions. It never mutates inputs and never writes memory.
+
+    When ``proposal`` is supplied, the result↔proposal linkage is
+    additionally verified (``result.proposal_fingerprint`` must equal
+    the live proposal fingerprint, and the candidate's recorded
+    proposal fingerprint must match too), closing cross-repair
+    artefact mixing. Callers with the proposal available should
+    always supply it.
     """
     for name, value, kind in (
         ("candidate", candidate, LearnedContext),
@@ -229,6 +237,26 @@ def adjudicate(
             candidate,
             "provenance missing proposal_fingerprint",
         )
+    if proposal is not None:
+        from evaluation.diagnostics.repair.proposal import RepairProposal
+
+        if not isinstance(proposal, RepairProposal):
+            raise TypeError(
+                "proposal must be a RepairProposal, "
+                f"got {type(proposal).__name__}"
+            )
+        if result.proposal_fingerprint != proposal.fingerprint():
+            return _reject(
+                candidate,
+                "result does not reference the supplied proposal: "
+                "cross-repair artefact mixing refused",
+            )
+        if provenance["proposal_fingerprint"] != proposal.fingerprint():
+            return _reject(
+                candidate,
+                "candidate provenance does not reference the supplied "
+                "proposal: refusing mismatched knowledge",
+            )
     validated = candidate.with_status(ContextStatus.VALIDATED)
     if store.contains(validated.fingerprint()):
         return _decide(

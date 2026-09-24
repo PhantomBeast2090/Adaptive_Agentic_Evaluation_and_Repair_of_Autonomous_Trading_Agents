@@ -18,8 +18,9 @@ it restates what validation already recorded.
 
 Use a validated T1 artefact as a BOOTSTRAP TEST FIXTURE where needed.
 A fixture exercises the transformer; it does not demonstrate
-autonomous learning. The scientific claim begins only when the
-extraction/admission pipeline itself produces the knowledge object.
+autonomous learning and makes no scientific claim: the claim begins
+only when the extraction/admission pipeline itself produces the
+knowledge object.
 """
 
 from __future__ import annotations
