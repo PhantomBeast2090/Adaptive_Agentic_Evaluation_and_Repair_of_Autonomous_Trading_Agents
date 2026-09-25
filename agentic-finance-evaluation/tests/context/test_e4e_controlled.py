@@ -426,7 +426,9 @@ def test_experiment_has_no_evaluator_routing():
     assert "rule-table" not in text
 
 
-# 20. Only the two sanctioned adapt() call sites exist in E4.
+# 20. Only the three sanctioned adapt() call sites exist in E4:
+# assembly (store-bound delivery), experiment (temporary arm C),
+# cycles (dual-temporary arm T12).
 def test_adapt_call_sites_remain_sanctioned():
     root = pathlib.Path(__file__).resolve().parent.parent.parent
     context_dir = root / "evaluation" / "context"
@@ -435,8 +437,9 @@ def test_adapt_call_sites_remain_sanctioned():
         counts[path.name] = path.read_text().count(".adapt(")
     assert counts.get("assembly.py") == 1
     assert counts.get("experiment.py") == 1
+    assert counts.get("cycles.py") == 1
     for name, count in counts.items():
-        if name not in ("assembly.py", "experiment.py"):
+        if name not in ("assembly.py", "experiment.py", "cycles.py"):
             assert count == 0, f"{name} has {count} adapt callers"
     # comparisons cover exactly the four required pairs
     assert set(COMPARISONS) == {"A_vs_D", "A_vs_C", "C_vs_D", "B_vs_C"}

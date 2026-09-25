@@ -46,14 +46,14 @@ def make_config(**overrides):
         "diagnostic_policy": "fixed",
         "candidate_pool": (
             "T-null", "T-cost2x", "T-cost0",
-            "T-vintage-earliest", "T-uni-tcs",
+            "T-vintage-earliest", "T-uni-tcs", "T-exp-narrow",
         ),
         "fixed_sequence": (
             "T-null", "T-cost2x", "T-uni-tcs",
-            "T-vintage-earliest", "T-cost0",
+            "T-vintage-earliest", "T-cost0", "T-exp-narrow",
         ),
         "budgets": {
-            "max_tests": 5,
+            "max_tests": 6,
             "max_repairs": 1,
             "max_validation_runs": 3,
         },
@@ -100,19 +100,47 @@ def make_manifest(**overrides):
             "heldout_end": "2023-08-10",
         },
         "candidate_pool": [
-            {"test_id": tid} for tid in (
-                "T-null", "T-cost2x", "T-cost0",
-                "T-vintage-earliest", "T-uni-tcs",
-            )
+            {"test_id": "T-null",
+             "intervention": {"type": "null_intervention"},
+             "measures": ["turnover", "order_count"],
+             "estimated_cost": 1.0},
+            {"test_id": "T-cost2x",
+             "intervention": {
+                 "type": "transaction_cost_shift", "multiplier": 2.0},
+             "measures": ["turnover", "transaction_cost_total"],
+             "estimated_cost": 1.0},
+            {"test_id": "T-cost0",
+             "intervention": {
+                 "type": "transaction_cost_set", "costs_bps": 0.0},
+             "measures": ["turnover", "transaction_cost_total"],
+             "estimated_cost": 1.0},
+            {"test_id": "T-vintage-earliest",
+             "intervention": {
+                 "type": "vintage_policy_shift",
+                 "vintage_policy": "earliest_available"},
+             "measures": ["turnover", "unavailable_info_rate"],
+             "estimated_cost": 1.0},
+            {"test_id": "T-uni-tcs",
+             "intervention": {
+                 "type": "universe_restriction",
+                 "nse_equity": ["TCS:EQ"]},
+             "measures": ["turnover", "concentration_cost_basis_max"],
+             "estimated_cost": 1.0},
+            {"test_id": "T-exp-narrow",
+             "intervention": {
+                 "type": "universe_restriction",
+                 "nse_equity": ["RELIANCE:EQ"]},
+             "measures": ["gross_exposure_max", "turnover"],
+             "estimated_cost": 1.0},
         ],
         "fixed_sequence": {
             "order": [
                 "T-null", "T-cost2x", "T-uni-tcs",
-                "T-vintage-earliest", "T-cost0",
+                "T-vintage-earliest", "T-cost0", "T-exp-narrow",
             ]
         },
         "budgets": {
-            "max_tests": 5,
+            "max_tests": 6,
             "max_repairs": 1,
             "max_validation_runs": 3,
         },
@@ -121,7 +149,12 @@ def make_manifest(**overrides):
                 "hypothesis_id": "H-turnover",
                 "failure_class": "turnover",
                 "mechanism": "m",
-            }
+            },
+            {
+                "hypothesis_id": "H-exposure",
+                "failure_class": "exposure",
+                "mechanism": "m2",
+            },
         ],
     }
     manifest.update(overrides)

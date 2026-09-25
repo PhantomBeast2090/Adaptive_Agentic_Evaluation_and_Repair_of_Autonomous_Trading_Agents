@@ -46,6 +46,15 @@ SOURCE_AGENT_VERSION = "1.0"
 DELIVERY_AGENT_ID = "contextual-threshold-benchmark"
 DELIVERY_AGENT_VERSION = "1.0"
 
+# E4-F accumulation scope (v2): the dual-guard delivery representation.
+# Closed set: v1 admits only the single-guard benchmark; v2 additionally
+# admits the accumulating benchmark. No other identity is ever approved.
+APPROVED_DELIVERY_V2 = {
+    "contextual-threshold-benchmark": "1.0",
+    "accumulating-threshold-benchmark": "1.0",
+}
+IDENTITY_SCOPE_VERSION_V2 = "v2"
+
 # Frozen manifest Class-B agent fingerprint (benchmarks/manifest.yaml,
 # repairable Class-B row). Pinned here and cross-checked against the
 # manifest file by test.
@@ -225,6 +234,7 @@ def resolve_delivery_scope(
     verdict: Any,
     store: Any,
     delivery_agent: Any,
+    scope_version: str = "v1",
 ) -> Tuple[str, IdentityScopeAttestation]:
     """Attest repair-source → delivery-target scope; return scope string.
 
@@ -294,16 +304,25 @@ def resolve_delivery_scope(
         )
 
     # Delivery end: approved representation, live identity, empty context.
+    if scope_version not in ("v1", IDENTITY_SCOPE_VERSION_V2):
+        raise ValueError(
+            f"unsupported scope version {scope_version!r}: refusing"
+        )
+    approved = (
+        {DELIVERY_AGENT_ID: DELIVERY_AGENT_VERSION}
+        if scope_version == "v1"
+        else dict(APPROVED_DELIVERY_V2)
+    )
     delivery_identity = getattr(delivery_agent, "identity", None)
     if not isinstance(delivery_identity, AgentIdentity):
         raise TypeError("delivery agent must expose an AgentIdentity")
     if (
-        delivery_identity.agent_id != DELIVERY_AGENT_ID
-        or delivery_identity.version != DELIVERY_AGENT_VERSION
+        approved.get(delivery_identity.agent_id)
+        != delivery_identity.version
     ):
         raise ValueError(
-            f"delivery agent {delivery_identity!r} is not the approved "
-            "v1 contextual representation: refusing"
+            f"delivery agent {delivery_identity!r} is not an approved "
+            f"{scope_version} representation: refusing"
         )
     if not callable(getattr(delivery_agent, "adapt", None)):
         raise TypeError("delivery agent must expose a callable adapt()")
@@ -318,9 +337,6 @@ def resolve_delivery_scope(
     # Base-policy proof, machine-checked live.
     from benchmarks.volatility_threshold import (
         VolatilityThresholdBenchmark,
-    )
-    from evaluation.context.benchmark import (
-        AGENT_VERSION as CONTEXTUAL_AGENT_VERSION,
     )
     from evaluation.context.benchmark import ContextualThresholdBenchmark
 
@@ -396,7 +412,13 @@ def resolve_delivery_scope(
         source_policy_fingerprint=source_fp,
         delivery_agent_id=delivery_identity.agent_id,
         delivery_version=delivery_identity.version,
-        wrapper_version=CONTEXTUAL_AGENT_VERSION,
+        wrapper_version=delivery_identity.version,
+        method=IDENTITY_SCOPE_METHOD,
+        method_version=(
+            IDENTITY_SCOPE_VERSION_V2
+            if scope_version == IDENTITY_SCOPE_VERSION_V2
+            else IDENTITY_SCOPE_VERSION
+        ),
         base_policy_proof={
             key: (tuple(value) if isinstance(value, tuple) else value)
             for key, value in proof.items()

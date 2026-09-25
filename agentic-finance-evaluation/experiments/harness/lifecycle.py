@@ -60,7 +60,9 @@ from experiments.harness.lineage import (
 )
 from experiments.harness.result import ExperimentResult
 
-# Transcribed from frozen E3-C §9 (prediction matrix, H-turnover only).
+# Transcribed from frozen E3-C §9 (prediction matrix, H-turnover only)
+# plus the E4-F amendment H-exposure rows. Rows are append-only: existing
+# H-turnover rows are byte-identical.
 # (hypothesis_id, test_id) -> (observable, direction, rationale).
 FROZEN_PREDICTION_MATRIX: Tuple[Tuple[str, str, str, str, str], ...] = (
     ("H-turnover", "T-null", "turnover", "NO_CHANGE", "null control"),
@@ -79,6 +81,32 @@ FROZEN_PREDICTION_MATRIX: Tuple[Tuple[str, str, str, str, str], ...] = (
     (
         "H-turnover", "T-uni-tcs", "turnover", "DECREASE",
         "fewer names to accumulate, less order flow",
+    ),
+    (
+        "H-turnover", "T-exp-narrow", "turnover", "DECREASE",
+        "narrower universe admits less order flow",
+    ),
+    ("H-exposure", "T-null", "gross_exposure_max", "NO_CHANGE",
+     "null control"),
+    (
+        "H-exposure", "T-cost2x", "gross_exposure_max", "NO_CHANGE",
+        "cost shift does not move holdings exposure",
+    ),
+    (
+        "H-exposure", "T-cost0", "gross_exposure_max", "NO_CHANGE",
+        "cost removal does not move holdings exposure",
+    ),
+    (
+        "H-exposure", "T-vintage-earliest", "gross_exposure_max",
+        "NO_CHANGE", "vintage resolution does not move holdings exposure",
+    ),
+    (
+        "H-exposure", "T-uni-tcs", "gross_exposure_max", "DECREASE",
+        "fewer names to accumulate, lower peak exposure",
+    ),
+    (
+        "H-exposure", "T-exp-narrow", "gross_exposure_max", "DECREASE",
+        "single-name universe caps accumulation breadth and peak exposure",
     ),
 )
 
@@ -108,6 +136,11 @@ TEST_SPECS: Dict[str, Dict[str, Any]] = {
         "description": "restrict universe to TCS:EQ",
         "target_failure_classes": ("turnover",),
         "expected_discrimination": "order-flow restriction probe",
+    },
+    "T-exp-narrow": {
+        "description": "restrict universe to RELIANCE:EQ",
+        "target_failure_classes": ("exposure",),
+        "expected_discrimination": "exposure-breadth restriction probe",
     },
 }
 
@@ -264,6 +297,31 @@ def build_prediction_matrix() -> Tuple[Tuple[str, str, str, str, str], ...]:
     return FROZEN_PREDICTION_MATRIX
 
 
+def repair_target_hypothesis(diagnostic_state: Any) -> str:
+    """Select the single SUPPORTED hypothesis for repair (deterministic).
+
+    Machine-checkable and provenance-bound: reads the live diagnostic
+    state's hypothesis lifecycle statuses and returns the supported id
+    iff exactly one hypothesis is SUPPORTED. Any other outcome (none
+    or several supported) fails closed, since repairing an ambiguous
+    diagnosis would be cherry-picking. Ordering of manifest entries
+    plays no role.
+    """
+    from evaluation.contracts.hypotheses import HypothesisStatus
+
+    supported = sorted(
+        hypothesis.hypothesis_id
+        for hypothesis in diagnostic_state.hypotheses
+        if hypothesis.status is HypothesisStatus.SUPPORTED
+    )
+    if len(supported) != 1:
+        raise ProtocolAmbiguityError(
+            "repair requires exactly one SUPPORTED hypothesis; "
+            f"diagnostic state supports {supported}: refusing to choose"
+        )
+    return supported[0]
+
+
 def verify_transcription(manifest: Mapping[str, Any]) -> None:
     """Fail closed unless the harness transcription matches frozen sources.
 
@@ -281,9 +339,11 @@ def verify_transcription(manifest: Mapping[str, Any]) -> None:
     if not isinstance(manifest, Mapping):
         raise TypeError("manifest must be a mapping")
     manifest_hypotheses = manifest.get("hypotheses", [])
-    if len(manifest_hypotheses) != 1:
+    if len(manifest_hypotheses) not in (1, 2):
         raise ProtocolAmbiguityError(
-            "E3-C.2 freezes exactly one active hypothesis; manifest "
+            "the manifest must freeze exactly one active hypothesis "
+            "(legacy single-mechanism campaigns) or exactly two "
+            "(H-turnover, H-exposure accumulation campaigns); manifest "
             f"declares {len(manifest_hypotheses)}: refusing to choose"
         )
     manifest_hyp_ids = {
@@ -915,9 +975,7 @@ def run_experiment(
     agent_repair = _fresh_agent(config)
     agent_repair.reset()
     try:
-        hypothesis_id = str(
-            effective_manifest["hypotheses"][0]["hypothesis_id"]
-        )
+        hypothesis_id = repair_target_hypothesis(diagnostic_state)
         repair_result, validation_report, _analysis, live_candidate = (
             phase_c(
                 diagnostic_state,

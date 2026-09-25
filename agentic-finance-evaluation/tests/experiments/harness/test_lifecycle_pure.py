@@ -42,7 +42,13 @@ def test_prediction_matrix_frozen_content():
     matrix = build_prediction_matrix()
     assert ("H-turnover", "T-uni-tcs", "turnover", "DECREASE",
             "fewer names to accumulate, less order flow") in matrix
-    assert all(row[0] == "H-turnover" for row in matrix)
+    assert ("H-turnover", "T-exp-narrow", "turnover", "DECREASE",
+            "narrower universe admits less order flow") in matrix
+    assert ("H-exposure", "T-exp-narrow", "gross_exposure_max",
+            "DECREASE",
+            "single-name universe caps accumulation breadth and peak "
+            "exposure") in matrix
+    assert {row[0] for row in matrix} == {"H-turnover", "H-exposure"}
     assert "H-concentration" not in str(matrix)
 
 

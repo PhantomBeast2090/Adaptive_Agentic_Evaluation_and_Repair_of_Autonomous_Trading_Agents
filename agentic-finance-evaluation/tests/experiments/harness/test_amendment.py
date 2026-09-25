@@ -185,7 +185,24 @@ def test_legacy_no_amendment_path_preserved():
     from tests.experiments.harness.fixtures import make_config
 
     manifest = _manifest()
-    make_config().verify_against_manifest(manifest)
+    # Legacy path: five-test/single-hypothesis config against the
+    # untouched base manifest (fixture defaults now mirror the E4-F
+    # six-test overlay shape, so the legacy shape is explicit here).
+    make_config(
+        candidate_pool=(
+            "T-null", "T-cost2x", "T-cost0",
+            "T-vintage-earliest", "T-uni-tcs",
+        ),
+        fixed_sequence=(
+            "T-null", "T-cost2x", "T-uni-tcs",
+            "T-vintage-earliest", "T-cost0",
+        ),
+        budgets={
+            "max_tests": 5,
+            "max_repairs": 1,
+            "max_validation_runs": 3,
+        },
+    ).verify_against_manifest(manifest)
 
 
 def test_incident_artefact_untouched():

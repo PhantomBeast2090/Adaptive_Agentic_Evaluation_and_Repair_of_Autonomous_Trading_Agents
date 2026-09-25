@@ -52,9 +52,9 @@ RULE_TABLE: Tuple[Tuple[str, List[Dict[str, Any]], str, str], ...] = (
     ),
     (
         "exposure",
-        [{"type": "per_session_order_cap", "max_orders": 1}],
-        "turnover",
-        "throttle trading intensity to limit position accumulation "
+        [{"type": "exposure_cap", "max_names_held": 1}],
+        "gross_exposure_max",
+        "restrict accumulation breadth to limit gross exposure "
         "behind exposure-class failures",
     ),
     (
@@ -142,10 +142,12 @@ class DeterministicRuleProvider:
         lowered = failure_class.lower() if isinstance(failure_class, str) else ""
         rules: List[Dict[str, Any]] = []
         rationale_fragment = ""
-        for keyword, table_rules, _target, fragment in RULE_TABLE:
+        target_metric = "turnover"
+        for keyword, table_rules, target, fragment in RULE_TABLE:
             if keyword in lowered:
                 rules = [dict(rule) for rule in table_rules]
                 rationale_fragment = fragment
+                target_metric = target
                 break
         if not rules:
             rules = [dict(rule) for rule in DEFAULT_RULES]
@@ -162,7 +164,7 @@ class DeterministicRuleProvider:
             hypothesis_fingerprint=hypothesis_fingerprint,
             failure_class=failure_class,
             evidence_refs=evidence_refs,
-            target_metric="turnover",
+            target_metric=target_metric,
             target_direction=ExpectedDirection.DECREASE,
             method=self.method,
             method_version=self.version,

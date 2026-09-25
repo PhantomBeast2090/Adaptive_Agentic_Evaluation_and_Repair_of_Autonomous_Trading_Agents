@@ -12,7 +12,6 @@ import pathlib
 from types import SimpleNamespace
 
 import pytest
-import yaml
 
 from benchmarks.hold import HoldBenchmark
 from evaluation.diagnostics.repair.application import fingerprint_agent
@@ -26,9 +25,12 @@ from experiments.harness.errors import IntegrityFailure, LineageError
 from experiments.harness.result import ExperimentResult
 
 REPO = pathlib.Path(__file__).resolve().parent.parent.parent.parent
-MANIFEST = yaml.safe_load(
-    (REPO / "benchmarks" / "manifest.yaml").read_text()
-)
+# Mocked orchestration campaign: the manifest mirrors the frozen
+# six-test/two-hypothesis shape via fixtures (live base manifest stays
+# five-test/single-hypothesis by overlay precedent).
+from tests.experiments.harness.fixtures import make_manifest as _make_manifest
+
+MANIFEST = _make_manifest()
 E3D_PATH = str(
     REPO / "experiments" / "protocol"
     / "E3-D-statistical-experimental-protocol.md"
@@ -106,7 +108,62 @@ class CampaignFakes:
         )
 
     def fake_interpret(self, **kwargs):
+        from evaluation.diagnostics.contracts.hypothesis_updates import (
+            Compatibility,
+            HypothesisUpdate,
+        )
+        from evaluation.diagnostics.contracts.test_results import (
+            DiagnosticTestResult,
+        )
+
         self.log.append(("interpret", kwargs.get("result_id")))
+        state = kwargs["diagnostic_state"]
+        result_id = kwargs.get("result_id")
+        prediction_ids = list(kwargs.get("prediction_ids", ()))
+        test_id = next(
+            pred.test_id for pred in state.predictions
+            if pred.prediction_id in prediction_ids
+        )
+        test = next(
+            item for item in state.available_tests
+            if item.test_id == test_id
+        )
+        state.record_result(DiagnosticTestResult(
+            result_id=result_id,
+            test_id=test_id,
+            execution_fingerprint=f"mock-{test_id}",
+            baseline_evaluation_id=state.baseline_evaluation_id,
+            baseline_fingerprint=state.baseline_fingerprint,
+            intervention_fingerprint=test.fingerprint(),
+            record_fps=(),
+            evidence_refs=("mock-episode",),
+            measured=(),
+            prediction_ids=tuple(prediction_ids),
+            status="COMPLETED",
+            provenance_method="mock-campaign",
+            provenance_version="v1",
+        ))
+        # Mocked diagnosis supports H-turnover only, mirroring a
+        # turnover-class finding; H-exposure stays PROPOSED so repair
+        # targeting resolves deterministically.
+        current = state.hypothesis("H-turnover")
+        if current.status.value != "SUPPORTED":
+            updated = current.with_status("SUPPORTED")
+            state.record_update(HypothesisUpdate(
+                update_id=f"U-{result_id}",
+                hypothesis_id="H-turnover",
+                prior=current,
+                prior_fingerprint=current.fingerprint(),
+                prediction_id=prediction_ids[0],
+                result_id=result_id,
+                compatibility=Compatibility.SUPPORTS,
+                assessment="mocked turnover support",
+                updated=updated,
+                updated_confidence=updated.confidence,
+                evidence_refs=("mock-episode",),
+                method="mock-campaign",
+                version="v1",
+            ))
         return None
 
     def fake_repair(self, **kwargs):

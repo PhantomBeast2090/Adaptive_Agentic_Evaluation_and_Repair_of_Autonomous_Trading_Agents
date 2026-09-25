@@ -625,6 +625,7 @@ def run_e4e(
     protocol_fingerprint: str,
     effective_manifest_fingerprint: str,
     base_dir: str = ".",
+    initial_store: Any = None,
 ) -> Tuple[E4EResult, Dict[str, Any]]:
     """Execute one E4-E four-arm campaign (heavy: real environment runs).
 
@@ -634,6 +635,11 @@ def run_e4e(
     evaluates arms A/B/C/D on both windows via frozen
     ``run_baseline``. Fresh agent instances per arm per window; arm C
     uses the provisional path; arm D uses store-bound delivery.
+
+    ``initial_store`` (E4-F accumulation only): when supplied, the new
+    candidate is admitted into this pre-existing store instead of a
+    fresh one, so Cycle 2 builds C1→C2. Must be a ``MemoryStore``;
+    ``None`` reproduces the exact single-cycle C0→C1 path.
     """
     from evaluation.baseline.config import BaselineConfig
     from evaluation.baseline.runner import run_baseline
@@ -654,7 +660,15 @@ def run_e4e(
     candidate = extract_candidate(
         proposal=proposal, result=result, report=report, analysis=analysis
     )
-    store_c0 = MemoryStore(store_id=f"e4e-{experiment_id}")
+    if initial_store is None:
+        store_c0 = MemoryStore(store_id=f"e4e-{experiment_id}")
+    else:
+        if not isinstance(initial_store, MemoryStore):
+            raise TypeError(
+                "initial_store must be a MemoryStore or None, "
+                f"got {type(initial_store).__name__}"
+            )
+        store_c0 = initial_store
     transitioned, verdict = adjudicate(
         candidate=candidate,
         result=result,

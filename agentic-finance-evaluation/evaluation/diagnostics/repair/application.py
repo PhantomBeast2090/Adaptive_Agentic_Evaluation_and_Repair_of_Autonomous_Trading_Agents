@@ -135,6 +135,17 @@ class GuardrailedAgent:
                     )
             elif kind == "hold_all":
                 pass
+            elif kind == "exposure_cap":
+                breadth = rule.get("max_names_held")
+                if (
+                    not isinstance(breadth, int)
+                    or isinstance(breadth, bool)
+                    or breadth < 1
+                ):
+                    raise ValueError(
+                        "exposure_cap requires positive integer "
+                        f"max_names_held, got {breadth!r}"
+                    )
             else:
                 raise ValueError(
                     f"unsupported guardrail rule type {kind!r}: refusing "
@@ -165,7 +176,58 @@ class GuardrailedAgent:
                 return []
             if rule["type"] == "per_session_order_cap":
                 orders = orders[: rule["max_orders"]]
+            if rule["type"] == "exposure_cap":
+                orders = self._apply_exposure_cap(orders, observation, rule)
         return orders
+
+    @staticmethod
+    def _apply_exposure_cap(
+        orders: Sequence[Mapping[str, Any]],
+        observation: Any,
+        rule: Mapping[str, Any],
+    ) -> Sequence[Mapping[str, Any]]:
+        """Drop BUYs that would broaden beyond max held names (breadth).
+
+        Breadth (distinct held names) is read defensively from the
+        observation portfolio; unreadable state degrades to an empty
+        holding set, which admits new-name BUYs rather than
+        suppressing them. SELLs and held-name orders always pass.
+        """
+        try:
+            payload = (
+                observation.to_dict()
+                if hasattr(observation, "to_dict")
+                else dict(observation)
+            )
+            positions = dict(
+                payload.get("portfolio", {}).get("positions", {})
+            )
+        except (TypeError, ValueError, AttributeError):
+            positions = {}
+        held = set()
+        for key, block in positions.items():
+            try:
+                quantity = float(dict(block).get("quantity", 0.0))
+            except (TypeError, ValueError):
+                continue
+            if quantity > 0:
+                held.add(str(key))
+        cap = rule.get("max_names_held", 1)
+        kept = []
+        seen_new = set()
+        for order in orders:
+            if not isinstance(order, Mapping) or order.get("side") != "BUY":
+                kept.append(order)
+                continue
+            key = f"{order.get('asset_id')}:{order.get('instrument')}"
+            if key in held or key in seen_new:
+                kept.append(order)
+                continue
+            if len(held | seen_new) >= cap:
+                continue
+            seen_new.add(key)
+            kept.append(order)
+        return kept
 
 
 @dataclass(frozen=True)
