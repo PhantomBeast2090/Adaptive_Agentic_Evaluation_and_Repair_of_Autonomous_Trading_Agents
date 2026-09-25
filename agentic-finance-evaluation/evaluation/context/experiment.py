@@ -816,8 +816,8 @@ def run_e4e(
         }
         for window in window_configs
     }
-    arms_record["_comparisons"] = comparisons
-    arms_record["_guards"] = guards
+    lineage["comparisons_by_window"] = comparisons
+    lineage["guards_by_window"] = guards
 
     result_obj = E4EResult(
         experiment_id=experiment_id,
