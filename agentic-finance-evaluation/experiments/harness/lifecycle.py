@@ -86,20 +86,10 @@ FROZEN_PREDICTION_MATRIX: Tuple[Tuple[str, str, str, str, str], ...] = (
         "H-turnover", "T-exp-narrow", "turnover", "DECREASE",
         "narrower universe admits less order flow",
     ),
-    ("H-exposure", "T-null", "gross_exposure_max", "NO_CHANGE",
-     "null control"),
-    (
-        "H-exposure", "T-cost2x", "gross_exposure_max", "NO_CHANGE",
-        "cost shift does not move holdings exposure",
-    ),
-    (
-        "H-exposure", "T-cost0", "gross_exposure_max", "NO_CHANGE",
-        "cost removal does not move holdings exposure",
-    ),
-    (
-        "H-exposure", "T-vintage-earliest", "gross_exposure_max",
-        "NO_CHANGE", "vintage resolution does not move holdings exposure",
-    ),
+    # H-exposure promotion set is exactly the two discriminating
+    # breadth-constraint rows below. Null/no-change rows are
+    # deliberately absent: a null intervention reproduces the baseline
+    # bit-identically and would auto-confirm without evidence.
     (
         "H-exposure", "T-uni-tcs", "gross_exposure_max", "DECREASE",
         "fewer names to accumulate, lower peak exposure",

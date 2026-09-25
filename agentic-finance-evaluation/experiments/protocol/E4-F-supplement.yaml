@@ -27,7 +27,7 @@
 amendment_id: E4-F.1
 amendment_version: "1"
 base_manifest: benchmarks/manifest.e4f.yaml
-base_manifest_fingerprint: e12f84da5c03d40ceb4a4013c70eb6ab4318f6123fbb4a405fd32f4c7a22d109
+base_manifest_fingerprint: 47b183f4d305b9bbde65941d9b330c83a9aa956bcac3b9c3d7d3f3159accd9dc
 protocol_document: experiments/protocol/E4-F-accumulation-cycles.md
 protocol_fingerprint: db8e2b40816783b61a6b42a8dcfb928af8c97a0779e2acb51f4157cbdb09e8ee
 windows:
@@ -42,7 +42,7 @@ windows:
   w2_diagnostic:
     role: cycle-2 diagnostic (R branch sources K2; P branch retention read)
     start: "2022-12-01"
-    end: "2022-12-31"
+    end: "2022-12-30"
     nse_sessions: 22
     unknown_calendar: 0
     gold_contract_trade_dates: 22
@@ -64,3 +64,8 @@ authority: the windows above govern E4-F execution. The placeholder
   Feb/Mar 2023 windows retain no authority over E4-F.
 provenance: E4-F blind triple; presence-only audit; no outcome data
   inspected during selection.
+correction: w2 end corrected 2022-12-31 to 2022-12-30 before any
+  behavioural arm executed. Diagnostic episode windows must lie within
+  the session grid and 2022-12-31 is a non-session; the grid and the
+  environment fingerprint are byte-identical either way. No arm metrics
+  had been observed and no parameter was tuned to any outcome.

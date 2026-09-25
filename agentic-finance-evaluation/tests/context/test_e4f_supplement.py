@@ -129,3 +129,37 @@ def test_forbidden_windows_excluded():
     for forbidden in ("2023-02", "2023-03", "2023-05", "2023-06",
                       "2023-07", "2023-08"):
         assert forbidden not in starts
+
+
+def test_diagnostic_window_ends_are_grid_sessions():
+    from environment.indian.environment import IndianMultiAssetEnvironment
+
+    with open(
+        ROOT / "experiments" / "protocol" / "E4-F-supplement.yaml",
+        encoding="utf-8",
+    ) as handle:
+        import yaml
+
+        supplement = yaml.safe_load(handle)
+    base = {
+        "strict_pit": True,
+        "vintage_policy": "explicit",
+        "transaction_cost_bps": 5.0,
+        "initial_cash": 100000.0,
+        "universe": {
+            "nse_equity": ["RELIANCE:EQ", "TCS:EQ"],
+            "mcx_gold": ["GOLDAUG2023"],
+        },
+    }
+    windows = supplement["windows"]
+    for key in ("w1_diagnostic", "w2_diagnostic"):
+        block = windows[key]
+        env = IndianMultiAssetEnvironment(
+            dict(base, start_date=block["start"], end_date=block["end"]),
+            base_dir=str(ROOT),
+        )
+        sessions = [d.isoformat() for d in env.grid]
+        assert block["start"] in sessions, key
+        assert block["end"] in sessions, key
+        assert len(sessions) == block["nse_sessions"], key
+        assert env.fingerprint() == block["environment_fingerprint"], key

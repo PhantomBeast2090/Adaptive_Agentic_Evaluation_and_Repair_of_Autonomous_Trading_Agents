@@ -48,6 +48,18 @@ def test_prediction_matrix_frozen_content():
             "DECREASE",
             "single-name universe caps accumulation breadth and peak "
             "exposure") in matrix
+    assert ("H-exposure", "T-uni-tcs", "gross_exposure_max",
+            "DECREASE",
+            "fewer names to accumulate, lower peak exposure") in matrix
+    # Promotion set is exactly the two discriminating breadth rows:
+    # no null/no-change exposure rows may manufacture support.
+    assert sorted(
+        row[1] for row in matrix if row[0] == "H-exposure"
+    ) == ["T-exp-narrow", "T-uni-tcs"]
+    assert all(
+        row[2] == "gross_exposure_max" and row[3] == "DECREASE"
+        for row in matrix if row[0] == "H-exposure"
+    )
     assert {row[0] for row in matrix} == {"H-turnover", "H-exposure"}
     assert "H-concentration" not in str(matrix)
 

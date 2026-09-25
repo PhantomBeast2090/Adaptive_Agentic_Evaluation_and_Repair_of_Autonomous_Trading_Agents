@@ -16,7 +16,7 @@ OVERLAY_PATH = ROOT / "benchmarks" / "manifest.e4f.yaml"
 BASE_PATH = ROOT / "benchmarks" / "manifest.yaml"
 
 OVERLAY_FINGERPRINT = (
-    "e12f84da5c03d40ceb4a4013c70eb6ab4318f6123fbb4a405fd32f4c7a22d109"
+    "47b183f4d305b9bbde65941d9b330c83a9aa956bcac3b9c3d7d3f3159accd9dc"
 )
 BASE_FINGERPRINT = (
     "412deb50682d5bea5a8283278764e4e416547d09b4cf04d93141e76f230dca86"
@@ -60,6 +60,19 @@ def test_overlay_two_hypotheses_six_tests():
     narrow = overlay["candidate_pool"][-1]
     assert narrow["intervention"]["type"] == "universe_restriction"
     assert "gross_exposure_max" in narrow["measures"]
+    # T-uni-tcs records the exposure observable so its H-exposure
+    # DECREASE prediction is assessable; T-null carries no exposure
+    # observable (a null control must not manufacture promotion
+    # evidence).
+    uni_tcs = overlay["candidate_pool"][4]
+    assert uni_tcs["test_id"] == "T-uni-tcs"
+    assert "gross_exposure_max" in uni_tcs["measures"]
+    # T-null carries no exposure observable: a null control
+    # reproduces the baseline bit-identically and must not manufacture
+    # promotion evidence.
+    null = overlay["candidate_pool"][0]
+    assert null["test_id"] == "T-null"
+    assert "gross_exposure_max" not in null["measures"]
     assert overlay["fixed_sequence"]["order"][-1] == "T-exp-narrow"
     assert overlay["budgets"]["max_tests"] >= 6
 
@@ -73,6 +86,12 @@ def test_overlay_environment_matches_base():
         "benchmarks", "class_b_constants", "environment", "fingerprints",
     ):
         assert overlay[section] == base[section]
-    assert copy.deepcopy(overlay["candidate_pool"][:5]) == (
-        base["candidate_pool"]
-    )
+    first_five = copy.deepcopy(overlay["candidate_pool"][:5])
+    assert first_five[0] == base["candidate_pool"][0]
+    assert first_five[1:4] == base["candidate_pool"][1:4]
+    tcs_base = dict(first_five[4])
+    assert tcs_base.pop("measures") == [
+        "turnover", "concentration_cost_basis_max", "gross_exposure_max",
+    ]
+    tcs_base["measures"] = ["turnover", "concentration_cost_basis_max"]
+    assert tcs_base == base["candidate_pool"][4]
