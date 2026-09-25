@@ -1,0 +1,66 @@
+# E4-F machine-readable window supplement (versioned overlay record).
+#
+# This file does NOT replace benchmarks/manifest.yaml (E3-C.2, frozen),
+# benchmarks/manifest.e4f.yaml (E4-F.1 overlay, frozen), or the E3-D.1
+# supplement (frozen). It records the blind-selected E4-F window triple
+# plus the file-anchored fingerprints that make it auditable. The
+# placeholder temporal values inside manifest.e4f.yaml are explicitly
+# NOT authoritative for execution; the windows below govern.
+#
+# Selection rule (applied presence-only, without outcome inspection):
+# latest consecutive calendar-month triple strictly before February
+# 2023 satisfying, per month: >=20 NSE_CM OPEN/SPECIAL sessions,
+# 0 UNKNOWN rows, >=20 GOLDAUG2023 trade dates (presence only — no
+# prices, returns, volatility, costs, or repair outcomes inspected at
+# any step). Backward scan from January 2023: Jan (21/0/21) accepted,
+# Dec22 (22/0/22) accepted, Nov22 (21/0/22) accepted, Oct22 (19
+# sessions) rejected, scan stops. No qualifying triple exists under
+# the full rule anywhere else in 2022-10..2023-12 given the forbidden
+# E4-E (Feb/Mar 2023) and retired (May-Aug 2023) months and the
+# post-August 2023 GOLDAUG2023 expiry.
+#
+# Environment fingerprints below are configuration fingerprints computed
+# with the frozen IndianMultiAssetEnvironment.fingerprint() method over
+# the stated windows (same method as E3-D.1) — no agents, no episodes,
+# no metrics were executed to produce them.
+
+amendment_id: E4-F.1
+amendment_version: "1"
+base_manifest: benchmarks/manifest.e4f.yaml
+base_manifest_fingerprint: e12f84da5c03d40ceb4a4013c70eb6ab4318f6123fbb4a405fd32f4c7a22d109
+protocol_document: experiments/protocol/E4-F-accumulation-cycles.md
+protocol_fingerprint: db8e2b40816783b61a6b42a8dcfb928af8c97a0779e2acb51f4157cbdb09e8ee
+windows:
+  w1_diagnostic:
+    role: cycle-1 diagnostic (sole source of K1 evidence)
+    start: "2022-11-01"
+    end: "2022-11-30"
+    nse_sessions: 21
+    unknown_calendar: 0
+    gold_contract_trade_dates: 22
+    environment_fingerprint: 87bbe2866f908b31d46a4c1882301bf8e264fb68788c9bd956e594c6bf1d2c9f
+  w2_diagnostic:
+    role: cycle-2 diagnostic (R branch sources K2; P branch retention read)
+    start: "2022-12-01"
+    end: "2022-12-31"
+    nse_sessions: 22
+    unknown_calendar: 0
+    gold_contract_trade_dates: 22
+    environment_fingerprint: 9c30824ed455a6aaba0d05dc44365385b5779b316b7a99e1b4dcefa1c4b3cf00
+  w3_heldout:
+    role: terminal held-out (locked C1+C2 evaluation only)
+    start: "2023-01-01"
+    end: "2023-01-31"
+    nse_sessions: 21
+    unknown_calendar: 0
+    gold_contract_trade_dates: 21
+    environment_fingerprint: 1b70c9dfac8b374cfc7edc9198ada005a6bc34f433209448a59ad39d8c7a3309
+ordering: w1_diagnostic < w2_diagnostic < w3_heldout (strictly later,
+  non-overlapping, disjoint from Feb/Mar 2023 E4-E windows and the
+  retired May-Aug 2023 pair)
+authority: the windows above govern E4-F execution. The placeholder
+  temporal values in benchmarks/manifest.e4f.yaml are structural only
+  and must never govern an execution. The E3-D.1 supplement and the
+  Feb/Mar 2023 windows retain no authority over E4-F.
+provenance: E4-F blind triple; presence-only audit; no outcome data
+  inspected during selection.
