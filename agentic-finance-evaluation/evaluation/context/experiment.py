@@ -640,6 +640,7 @@ def run_e4e(
     from evaluation.context.assembly import assemble, deliver
     from evaluation.context.extraction import extract_candidate
     from evaluation.context.gate import AdmissionDecision, adjudicate
+    from evaluation.context.identity_scope import resolve_delivery_scope
     from evaluation.context.memory import MemoryStore
     from evaluation.context.retrieval import retrieve
     from evaluation.diagnostics.repair.application import fingerprint_agent
@@ -673,7 +674,18 @@ def run_e4e(
     probe = ContextualThresholdBenchmark()
     if not isinstance(probe.identity, AgentIdentity):
         raise TypeError("agent factory product lacks an AgentIdentity")
-    agent_id_str = str(probe.identity)
+    # E4-E.1 identity scope: the repair source identity carried by the
+    # candidate differs from the delivery representation identity.
+    # The attested source string is the exact-match key for retrieve();
+    # the probe's own identity goes to assemble()/deliver() unchanged,
+    # so exact retrieval and the deliver() cross-agent backstop hold.
+    agent_id_str, scope_attestation = resolve_delivery_scope(
+        candidate=transitioned,
+        proposal=proposal,
+        verdict=verdict,
+        store=store_c1,
+        delivery_agent=probe,
+    )
     contexts, record = retrieve(store_c1, agent_id=agent_id_str)
     package = assemble(
         contexts, record, store_c1.fingerprint(), probe.identity
@@ -717,6 +729,8 @@ def run_e4e(
         "store_c1_fingerprint": store_c1.fingerprint(),
         "retrieval_fingerprint": record.fingerprint(),
         "package_fingerprint": package.fingerprint(),
+        "scope_attestation_fingerprint": scope_attestation.fingerprint(),
+        "scope_attestation": scope_attestation.to_dict(),
         "temporary_payload_fingerprint": temporary_payload_fingerprint(
             temporary_payload
         ),
