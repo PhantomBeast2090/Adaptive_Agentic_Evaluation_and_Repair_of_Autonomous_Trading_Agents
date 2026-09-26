@@ -22,9 +22,21 @@ class DecisionTimeState(BaseModel):
 
 
 class AttributionOutcomes(BaseModel):
-    """Information revealed ONLY AFTER the decision, used exclusively by the evaluator."""
+    """Information revealed ONLY AFTER the decision, used exclusively by the evaluator.
+
+    PIT classification: RETROSPECTIVE_EVALUATION_ONLY. These fields must
+    never enter a TargetObservation or any agent-visible state.
+
+    Pre-trend legs use exact-bar closes strictly before the decision
+    timestamp (agent-visible horizon). Forward/MAE/MFE/hold legs use the
+    execution price and post-decision bars (evaluator-only horizon).
+    A None leg means measured-but-missing (absent bar) or
+    not-applicable (e.g. MAE/MFE on a NOOP row); the row-level
+    attribution_status disambiguates.
+    """
     pre_trend_1d: Optional[float] = None
     pre_trend_3d: Optional[float] = None
+    pre_trend_5d: Optional[float] = None
     forward_return_1d: Optional[float] = None
     forward_return_3d: Optional[float] = None
     mae: Optional[float] = None
@@ -40,10 +52,21 @@ class AttributedDecision(BaseModel):
     arm: str
     decision_time_state: DecisionTimeState
     outcomes: AttributionOutcomes
+    # Row-level lifecycle classification (E5a). Defaults preserve
+    # backward compatibility with pre-E5a artefacts.
+    participation_status: str = "UNKNOWN"
+    attribution_status: str = "UNKNOWN"
+    provenance: Dict[str, Any] = Field(default_factory=dict)
 
 
 class DecisionAttributionResult(BaseModel):
-    """Collection of all attributed decisions for a specific run."""
+    """Collection of all attributed decisions for a specific run.
+
+    created_at is execution metadata only: it is excluded from
+    scientific identity (see fingerprint()). Repeated attribution of
+    identical input must produce identical rows and identical
+    fingerprints regardless of wall-clock time.
+    """
     run_id: str
     experiment_id: str
     episode_id: str
@@ -51,7 +74,20 @@ class DecisionAttributionResult(BaseModel):
     trajectory_fingerprint: str
     attributed_decisions: List[AttributedDecision]
     activity_count: int
+    grid_start: Optional[str] = None
+    grid_end: Optional[str] = None
+    context_descriptor: Optional[str] = None
     created_at: str = Field(default_factory=_utc_now_iso)
 
     def to_dict(self) -> Dict[str, Any]:
         return self.model_dump()
+
+    def fingerprint(self) -> str:
+        """Deterministic identity over scientific content (excludes created_at)."""
+        import hashlib
+        import json
+
+        payload = self.model_dump()
+        payload.pop("created_at", None)
+        canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+        return hashlib.sha256(canonical.encode("utf-8")).hexdigest()

@@ -11,6 +11,8 @@ pyyaml
 matplotlib
 jupyter
 pytest
+tabpfn==9.0.0
+torch==2.14.0
 yfinance
 openpyxl
 xlrd
