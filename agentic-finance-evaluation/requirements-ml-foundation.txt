@@ -1,0 +1,5 @@
+# Optional ML-foundation dependencies (never hard-required).
+# The ordinary test suite must pass without these installed.
+# Weights download to the HF cache outside the repo on first use.
+chronos-forecasting
+timesfm[torch]==3.0.0

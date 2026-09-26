@@ -39,6 +39,7 @@ from evaluation.ml.falsification import (
     check_permutation_integrity, missingness_matrix, permute_labels,
 )
 from evaluation.ml.models.base import BaseModel
+from evaluation.ml.models.timeseries_base import ModelUnavailable
 from evaluation.ml.models.logistic import LogisticModel
 from evaluation.ml.models.tabpfn import (
     TabPFNModel, TabPFNUnavailable, availability_probe,
@@ -277,7 +278,7 @@ def run_cell(dataset: Mapping[str, Any],
     try:
         model = make_model(pre.feature_names)
         model.fit(X_train, y_train)
-    except TabPFNUnavailable as exc:
+    except ModelUnavailable as exc:
         ok, probe_reason = availability_probe()
         artefacts["status"] = "BLOCKED"
         artefacts["blocker"] = {

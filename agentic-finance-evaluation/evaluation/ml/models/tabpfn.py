@@ -18,6 +18,7 @@ from __future__ import annotations
 from typing import Any, Dict, List, Tuple
 
 from evaluation.ml.models.base import BaseModel
+from evaluation.ml.models.timeseries_base import ModelUnavailable
 
 TABPFN_PIN = "9.0.0"
 TABPFN_SEED = 20260926
@@ -29,7 +30,7 @@ TABPFN_CITATION = (
     "Used as an external diagnostic tool; not a contribution of this work.")
 
 
-class TabPFNUnavailable(Exception):
+class TabPFNUnavailable(ModelUnavailable):
     """Raised when the TabPFN backend cannot run; carries the reason."""
 
 

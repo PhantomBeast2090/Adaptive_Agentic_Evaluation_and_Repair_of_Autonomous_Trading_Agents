@@ -5,6 +5,12 @@ condition is associated with failure". It is NOT validated knowledge:
 it must still pass extraction conventions, validation, admission, and
 MemoryStore before it can ever become a LearnedContext. This module
 creates hypotheses only; it never writes to MemoryStore.
+
+(Moved verbatim from ``evaluation/ml/diagnosis.py`` into the
+``evaluation/ml/diagnosis/`` package; the old module path is retired
+to avoid a module/package shadowing ambiguity. All existing imports
+of ``from evaluation.ml.diagnosis import FailureHypothesis`` resolve
+through the package ``__init__`` unchanged.)
 """
 
 from __future__ import annotations
