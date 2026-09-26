@@ -16,6 +16,7 @@ from typing import Any, Mapping
 
 REGISTRY_SUBDIR = ("data", "frozen_traces", "_m2")
 FOUNDATION_SUBDIR = ("data", "frozen_traces", "_ml_foundation")
+SEQUENCE_SUBDIR = ("data", "frozen_traces", "_ml_sequence")
 
 
 def fingerprint_artefacts(artefacts: Mapping[str, Any]) -> str:
@@ -27,8 +28,9 @@ def fingerprint_artefacts(artefacts: Mapping[str, Any]) -> str:
 def save_m2(base_dir: str, experiment_id: str,
             artefacts: Mapping[str, Any],
             code_sha: str, data_sha: str,
-            overwrite: bool = False) -> str:
-    out_dir = os.path.join(base_dir, *REGISTRY_SUBDIR, experiment_id)
+            overwrite: bool = False,
+            subdir: tuple = REGISTRY_SUBDIR) -> str:
+    out_dir = os.path.join(base_dir, *subdir, experiment_id)
     if os.path.exists(out_dir) and not overwrite:
         raise FileExistsError(f"refusing to overwrite {out_dir}")
     os.makedirs(out_dir, exist_ok=True)
