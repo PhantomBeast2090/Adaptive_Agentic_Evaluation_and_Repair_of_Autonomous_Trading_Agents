@@ -1,0 +1,435 @@
+{
+  "actions": {
+    "BUY": 36
+  },
+  "attribution": {
+    "DECIDABLE": 36,
+    "NOT_APPLICABLE": 6
+  },
+  "base_adverse_forward_3d": {
+    "count": 9,
+    "n": 36,
+    "rate": 0.25
+  },
+  "base_adverse_mae": {
+    "count": 18,
+    "n": 36,
+    "rate": 0.5
+  },
+  "exposure_conditioning": {
+    "high": {
+      "forward_3d": {
+        "count": 2,
+        "n": 12,
+        "rate": 0.16666666666666666
+      },
+      "mae": {
+        "count": 5,
+        "n": 12,
+        "rate": 0.4166666666666667
+      },
+      "range": [
+        "0.6927074732090831",
+        "0.9771742360798757"
+      ]
+    },
+    "low": {
+      "forward_3d": {
+        "count": 3,
+        "n": 12,
+        "rate": 0.25
+      },
+      "mae": {
+        "count": 5,
+        "n": 12,
+        "rate": 0.4166666666666667
+      },
+      "range": [
+        "0.0",
+        "0.28350408823988077"
+      ]
+    },
+    "mid": {
+      "forward_3d": {
+        "count": 4,
+        "n": 12,
+        "rate": 0.3333333333333333
+      },
+      "mae": {
+        "count": 8,
+        "n": 12,
+        "rate": 0.6666666666666666
+      },
+      "range": [
+        "0.3440231766738564",
+        "0.6351540578744572"
+      ]
+    }
+  },
+  "instrument_conditioning": {
+    "RELIANCE:EQ": {
+      "forward_3d": {
+        "count": 4,
+        "n": 18,
+        "rate": 0.2222222222222222
+      },
+      "mae": {
+        "count": 8,
+        "n": 18,
+        "rate": 0.4444444444444444
+      }
+    },
+    "TCS:EQ": {
+      "forward_3d": {
+        "count": 5,
+        "n": 18,
+        "rate": 0.2777777777777778
+      },
+      "mae": {
+        "count": 10,
+        "n": 18,
+        "rate": 0.5555555555555556
+      }
+    }
+  },
+  "instruments": {
+    "RELIANCE:EQ": 18,
+    "TCS:EQ": 18
+  },
+  "leg_coverage": {
+    "forward_return_1d": {
+      "n": 36,
+      "populated": 36
+    },
+    "forward_return_3d": {
+      "n": 36,
+      "populated": 36
+    },
+    "hold_return": {
+      "n": 36,
+      "populated": 36
+    },
+    "mae": {
+      "n": 36,
+      "populated": 36
+    },
+    "mfe": {
+      "n": 36,
+      "populated": 36
+    },
+    "opportunity_return": {
+      "n": 36,
+      "populated": 36
+    },
+    "pre_trend_1d": {
+      "n": 36,
+      "populated": 32
+    },
+    "pre_trend_3d": {
+      "n": 36,
+      "populated": 28
+    },
+    "pre_trend_5d": {
+      "n": 36,
+      "populated": 24
+    }
+  },
+  "n_executed": 36,
+  "n_noop": 6,
+  "n_rows": 42,
+  "participation": {
+    "EXECUTED": 36,
+    "NO_ORDERS": 6
+  },
+  "pre_trend_conditioning": {
+    "pre_trend_1d": {
+      "flat": {
+        "forward_3d": {
+          "count": 5,
+          "n": 24,
+          "rate": 0.20833333333333334
+        },
+        "mae": {
+          "count": 10,
+          "n": 24,
+          "rate": 0.4166666666666667
+        }
+      },
+      "missing": {
+        "forward_3d": {
+          "count": 3,
+          "n": 4,
+          "rate": 0.75
+        },
+        "mae": {
+          "count": 4,
+          "n": 4,
+          "rate": 1.0
+        }
+      },
+      "negative": {
+        "forward_3d": {
+          "count": 0,
+          "n": 4,
+          "rate": 0.0
+        },
+        "mae": {
+          "count": 1,
+          "n": 4,
+          "rate": 0.25
+        }
+      },
+      "positive": {
+        "forward_3d": {
+          "count": 1,
+          "n": 4,
+          "rate": 0.25
+        },
+        "mae": {
+          "count": 3,
+          "n": 4,
+          "rate": 0.75
+        }
+      }
+    },
+    "pre_trend_3d": {
+      "flat": {
+        "forward_3d": {
+          "count": 3,
+          "n": 14,
+          "rate": 0.21428571428571427
+        },
+        "mae": {
+          "count": 9,
+          "n": 14,
+          "rate": 0.6428571428571429
+        }
+      },
+      "missing": {
+        "forward_3d": {
+          "count": 3,
+          "n": 8,
+          "rate": 0.375
+        },
+        "mae": {
+          "count": 4,
+          "n": 8,
+          "rate": 0.5
+        }
+      },
+      "negative": {
+        "forward_3d": {
+          "count": 1,
+          "n": 8,
+          "rate": 0.125
+        },
+        "mae": {
+          "count": 2,
+          "n": 8,
+          "rate": 0.25
+        }
+      },
+      "positive": {
+        "forward_3d": {
+          "count": 2,
+          "n": 6,
+          "rate": 0.3333333333333333
+        },
+        "mae": {
+          "count": 3,
+          "n": 6,
+          "rate": 0.5
+        }
+      }
+    },
+    "pre_trend_5d": {
+      "flat": {
+        "forward_3d": {
+          "count": 3,
+          "n": 10,
+          "rate": 0.3
+        },
+        "mae": {
+          "count": 5,
+          "n": 10,
+          "rate": 0.5
+        }
+      },
+      "missing": {
+        "forward_3d": {
+          "count": 3,
+          "n": 12,
+          "rate": 0.25
+        },
+        "mae": {
+          "count": 5,
+          "n": 12,
+          "rate": 0.4166666666666667
+        }
+      },
+      "negative": {
+        "forward_3d": {
+          "count": 0,
+          "n": 5,
+          "rate": 0.0
+        },
+        "mae": {
+          "count": 3,
+          "n": 5,
+          "rate": 0.6
+        }
+      },
+      "positive": {
+        "forward_3d": {
+          "count": 3,
+          "n": 9,
+          "rate": 0.3333333333333333
+        },
+        "mae": {
+          "count": 5,
+          "n": 9,
+          "rate": 0.5555555555555556
+        }
+      }
+    }
+  },
+  "sessions": [
+    "2023-05-15",
+    "2023-05-16",
+    "2023-05-17",
+    "2023-05-18",
+    "2023-05-19",
+    "2023-05-22",
+    "2023-05-23",
+    "2023-05-24",
+    "2023-05-25",
+    "2023-05-26",
+    "2023-05-29",
+    "2023-05-30",
+    "2023-05-31",
+    "2023-06-01",
+    "2023-06-02",
+    "2023-06-05",
+    "2023-06-06",
+    "2023-06-07",
+    "2023-06-08",
+    "2023-06-09",
+    "2023-06-12",
+    "2023-06-13",
+    "2023-06-14",
+    "2023-06-15"
+  ],
+  "temporal_conditioning": {
+    "early": {
+      "forward_3d": {
+        "count": 3,
+        "n": 12,
+        "rate": 0.25
+      },
+      "mae": {
+        "count": 5,
+        "n": 12,
+        "rate": 0.4166666666666667
+      },
+      "sessions": [
+        "2023-05-15",
+        "2023-05-16",
+        "2023-05-17",
+        "2023-05-18",
+        "2023-05-19",
+        "2023-05-22"
+      ]
+    },
+    "late": {
+      "forward_3d": {
+        "count": 2,
+        "n": 12,
+        "rate": 0.16666666666666666
+      },
+      "mae": {
+        "count": 5,
+        "n": 12,
+        "rate": 0.4166666666666667
+      },
+      "sessions": [
+        "2023-05-31",
+        "2023-06-01",
+        "2023-06-02",
+        "2023-06-05",
+        "2023-06-06",
+        "2023-06-07"
+      ]
+    },
+    "mid": {
+      "forward_3d": {
+        "count": 4,
+        "n": 12,
+        "rate": 0.3333333333333333
+      },
+      "mae": {
+        "count": 8,
+        "n": 12,
+        "rate": 0.6666666666666666
+      },
+      "sessions": [
+        "2023-05-23",
+        "2023-05-24",
+        "2023-05-25",
+        "2023-05-26",
+        "2023-05-29",
+        "2023-05-30"
+      ]
+    }
+  },
+  "vix_conditioning": {
+    "high": {
+      "forward_3d": {
+        "count": 1,
+        "n": 12,
+        "rate": 0.08333333333333333
+      },
+      "mae": {
+        "count": 3,
+        "n": 12,
+        "rate": 0.25
+      },
+      "range": [
+        12.605,
+        13.2925
+      ]
+    },
+    "low": {
+      "forward_3d": {
+        "count": 2,
+        "n": 11,
+        "rate": 0.18181818181818182
+      },
+      "mae": {
+        "count": 6,
+        "n": 11,
+        "rate": 0.5454545454545454
+      },
+      "range": [
+        11.125,
+        11.9725
+      ]
+    },
+    "mid": {
+      "forward_3d": {
+        "count": 4,
+        "n": 11,
+        "rate": 0.36363636363636365
+      },
+      "mae": {
+        "count": 7,
+        "n": 11,
+        "rate": 0.6363636363636364
+      },
+      "range": [
+        11.9725,
+        12.57
+      ]
+    }
+  },
+  "vix_missing_n": 2
+}

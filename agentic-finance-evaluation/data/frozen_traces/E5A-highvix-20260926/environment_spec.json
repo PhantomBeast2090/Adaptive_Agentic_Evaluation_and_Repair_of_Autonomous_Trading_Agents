@@ -1,0 +1,1 @@
+{"equity_universe":["RELIANCE:EQ","TCS:EQ","INFY:EQ"],"gold_universe":["GOLDAUG2023"],"grid_end":"2020-04-15","grid_sessions":18,"grid_start":"2020-03-17","initial_cash":100000.0,"market_fingerprint":"1129a931e6a17c8098d9abb5af0c4f00c6623af9db2a79b7c78aa4f241925048","strict_pit":true,"transaction_cost_bps":5.0,"vintage_policy":"explicit"}

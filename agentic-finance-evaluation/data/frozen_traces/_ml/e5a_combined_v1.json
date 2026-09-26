@@ -1,0 +1,3766 @@
+{
+ "manifest": {
+  "adverse_band": 0.01,
+  "builder": "evaluation/attribution/features.py:build_ml_dataset",
+  "feature_missingness": {
+   "action": 0,
+   "avg_cost": 6,
+   "cash_before": 0,
+   "exposure_before": 0,
+   "instrument": 0,
+   "position_qty": 6,
+   "pre_trend_1d": 16,
+   "pre_trend_3d": 28,
+   "pre_trend_5d": 40,
+   "quantity": 0,
+   "realized_pnl_before": 0,
+   "total_equity_before": 0,
+   "unrealized_pnl_before": 0,
+   "vix_tm1": 8
+  },
+  "feature_schema": [
+   "pre_trend_1d",
+   "pre_trend_3d",
+   "pre_trend_5d",
+   "vix_tm1",
+   "cash_before",
+   "position_qty",
+   "exposure_before",
+   "avg_cost",
+   "realized_pnl_before",
+   "unrealized_pnl_before",
+   "total_equity_before",
+   "instrument",
+   "action",
+   "quantity"
+  ],
+  "n_rows": 106,
+  "outcome_schema": [
+   "forward_return_1d",
+   "forward_return_3d",
+   "mae",
+   "mfe",
+   "hold_return",
+   "opportunity_return",
+   "adverse_forward_3d",
+   "adverse_mae"
+  ],
+  "windows": [
+   "E5A-deterministic-attribution-20260926",
+   "E5A-window2-20260926",
+   "E5A-window3-20260926"
+  ]
+ },
+ "rows": [
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": null,
+    "cash_before": 100000.0,
+    "exposure_before": 0.0,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": null,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100000.0,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": null
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-15-nse_equity-RELIANCE-EQ-0-c661be24b93434e4",
+    "decision_timestamp": "2023-05-15",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.014241237320477983,
+    "forward_return_3d": -0.0221753540222958,
+    "hold_return": -0.0221753540222958,
+    "mae": -0.02494727327508282,
+    "mfe": 0.00415787887918044,
+    "opportunity_return": -0.0221753540222958
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": null,
+    "cash_before": 100000.0,
+    "exposure_before": 0.0,
+    "instrument": "TCS:EQ",
+    "position_qty": null,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100000.0,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": null
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-15-nse_equity-TCS-EQ-1-3161d2b70e2904fa",
+    "decision_timestamp": "2023-05-15",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": 0.0009523663230979275,
+    "forward_return_3d": -0.01695826485000239,
+    "hold_return": -0.01695826485000239,
+    "mae": -0.018448257323236256,
+    "mfe": 0.009201087540897933,
+    "opportunity_return": -0.01695826485000239
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2489.25,
+    "cash_before": 94252.82784999999,
+    "exposure_before": 0.05744464989651201,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 1.0,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99997.12784999999,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": 13.1725
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-16-nse_equity-RELIANCE-EQ-0-aa67fc6970fc1cb7",
+    "decision_timestamp": "2023-05-16",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.0059092020539571275,
+    "forward_return_3d": -0.004829244437199593,
+    "hold_return": -0.004829244437199593,
+    "mae": -0.014243214605917463,
+    "mfe": 0.004564349172711638,
+    "opportunity_return": -0.004829244437199593
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3255.05,
+    "cash_before": 94252.82784999999,
+    "exposure_before": 0.05744464989651201,
+    "instrument": "TCS:EQ",
+    "position_qty": 1.0,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99997.12784999999,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": 13.1725
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-16-nse_equity-TCS-EQ-1-9f8ca39c260ecf84",
+    "decision_timestamp": "2023-05-16",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.015177324555345909,
+    "forward_return_3d": -0.01083436919724389,
+    "hold_return": -0.01083436919724389,
+    "mae": -0.019382164725380995,
+    "mfe": 0.006706259687245802,
+    "opportunity_return": -0.01083436919724389
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2471.525,
+    "cash_before": 88538.02187499999,
+    "exposure_before": 0.11428251663953916,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 2.0,
+    "pre_trend_1d": -0.014241237320477983,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99961.921875,
+    "unrealized_pnl_before": -32.350000000000364,
+    "vix_tm1": 13.2925
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-17-nse_equity-RELIANCE-EQ-0-42d35fc5c906ef90",
+    "decision_timestamp": "2023-05-17",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": -0.002152256794982167,
+    "forward_return_3d": 0.006436272701184691,
+    "hold_return": 0.006436272701184691,
+    "mae": -0.008383552658549695,
+    "mfe": 0.010945763128766373,
+    "opportunity_return": 0.006436272701184691
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3256.6000000000004,
+    "cash_before": 88538.02187499999,
+    "exposure_before": 0.11428251663953916,
+    "instrument": "TCS:EQ",
+    "position_qty": 2.0,
+    "pre_trend_1d": 0.0009523663230979275,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99961.921875,
+    "unrealized_pnl_before": -32.350000000000364,
+    "vix_tm1": 13.2925
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-17-nse_equity-TCS-EQ-1-dbffce239bbc9d30",
+    "decision_timestamp": "2023-05-17",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": -0.0027581263440022157,
+    "forward_return_3d": 0.028048742481378754,
+    "hold_return": 0.028048742481378754,
+    "mae": -0.004269641911054264,
+    "mfe": 0.031087356250194785,
+    "opportunity_return": 0.028048742481378754
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2460.7833333333333,
+    "cash_before": 82887.19787499998,
+    "exposure_before": 0.16972650194196623,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 3.0,
+    "pre_trend_1d": -0.0059092020539571275,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99831.19787499998,
+    "unrealized_pnl_before": -160.2500000000009,
+    "vix_tm1": 13.105
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-18-nse_equity-RELIANCE-EQ-0-7f36dc16fedd57df",
+    "decision_timestamp": "2023-05-18",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.003245619440849463,
+    "forward_return_3d": 0.008422177030052791,
+    "hold_return": 0.008422177030052791,
+    "mae": -0.006244736139356328,
+    "mfe": 0.01394794683757516,
+    "opportunity_return": 0.008422177030052791
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3240.6333333333337,
+    "cash_before": 82887.19787499998,
+    "exposure_before": 0.16972650194196623,
+    "instrument": "TCS:EQ",
+    "position_qty": 3.0,
+    "pre_trend_1d": -0.015177324555345909,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99831.19787499998,
+    "unrealized_pnl_before": -160.2500000000009,
+    "vix_tm1": 13.105
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-18-nse_equity-TCS-EQ-1-de899e415adc5099",
+    "decision_timestamp": "2023-05-18",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.0071878369298560875,
+    "forward_return_3d": 0.030376423894870157,
+    "hold_return": 0.030376423894870157,
+    "mae": 0.0010000468771974539,
+    "mfe": 0.040033126552807136,
+    "opportunity_return": 0.030376423894870157
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2454.1000000000004,
+    "cash_before": 77250.480925,
+    "exposure_before": 0.22583911294139244,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 4.0,
+    "pre_trend_1d": -0.002152256794982167,
+    "pre_trend_3d": -0.0221753540222958,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99786.08092499999,
+    "unrealized_pnl_before": -202.5500000000029,
+    "vix_tm1": 12.795
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-19-nse_equity-RELIANCE-EQ-0-178a675f22181260",
+    "decision_timestamp": "2023-05-19",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.005344089764327764,
+    "forward_return_3d": -0.0006961649501422299,
+    "hold_return": -0.0006961649501422299,
+    "mae": -0.003931284424332975,
+    "mfe": 0.010667704088945386,
+    "opportunity_return": -0.0006961649501422299
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3230.4375000000005,
+    "cash_before": 77250.480925,
+    "exposure_before": 0.22583911294139244,
+    "instrument": "TCS:EQ",
+    "position_qty": 4.0,
+    "pre_trend_1d": -0.0027581263440022157,
+    "pre_trend_3d": -0.01695826485000239,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99786.08092499999,
+    "unrealized_pnl_before": -202.5500000000029,
+    "vix_tm1": 12.795
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-19-nse_equity-TCS-EQ-1-bf68b0185126cb92",
+    "decision_timestamp": "2023-05-19",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.02353506989155558,
+    "forward_return_3d": 0.024977892238236345,
+    "hold_return": 0.024977892238236345,
+    "mae": -0.001799649378655453,
+    "mfe": 0.03261088787874084,
+    "opportunity_return": 0.024977892238236345
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2451.6700000000005,
+    "cash_before": 71582.848525,
+    "exposure_before": 0.28350408823988077,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 5.0,
+    "pre_trend_1d": 0.003245619440849463,
+    "pre_trend_3d": -0.004829244437199593,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99906.848525,
+    "unrealized_pnl_before": -78.95000000000664,
+    "vix_tm1": 12.3025
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-22-nse_equity-RELIANCE-EQ-0-81b804d1455af489",
+    "decision_timestamp": "2023-05-22",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.00018329938900196255,
+    "forward_return_3d": -0.0061303462321793,
+    "hold_return": -0.0061303462321793,
+    "mae": -0.0158655804480651,
+    "mfe": 0.005295315682281059,
+    "opportunity_return": -0.0061303462321793
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3228.9200000000005,
+    "cash_before": 71582.848525,
+    "exposure_before": 0.28350408823988077,
+    "instrument": "TCS:EQ",
+    "position_qty": 5.0,
+    "pre_trend_1d": 0.0071878369298560875,
+    "pre_trend_3d": -0.01083436919724389,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99906.848525,
+    "unrealized_pnl_before": -78.95000000000664,
+    "vix_tm1": 12.3025
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-22-nse_equity-TCS-EQ-1-4197cac825d06281",
+    "decision_timestamp": "2023-05-22",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": -0.0005001970473215619,
+    "forward_return_3d": -0.001576378573377336,
+    "hold_return": -0.001576378573377336,
+    "mae": -0.009579531330524119,
+    "mfe": 0.008867129475247825,
+    "opportunity_return": -0.001576378573377336
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2452.2250000000004,
+    "cash_before": 65826.271675,
+    "exposure_before": 0.3440231766738564,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 6.0,
+    "pre_trend_1d": 0.005344089764327764,
+    "pre_trend_3d": 0.006436272701184691,
+    "pre_trend_5d": -0.013759164406949884,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100348.471675,
+    "unrealized_pnl_before": 365.5499999999929,
+    "vix_tm1": 12.57
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-23-nse_equity-RELIANCE-EQ-0-a6b6bc31b84c599d",
+    "decision_timestamp": "2023-05-23",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.005825915137194264,
+    "forward_return_3d": 0.021164775620785812,
+    "hold_return": 0.021164775620785812,
+    "mae": -0.01568515613859974,
+    "mfe": 0.02218329225316242,
+    "opportunity_return": 0.021164775620785812
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3240.5500000000006,
+    "cash_before": 65826.271675,
+    "exposure_before": 0.3440231766738564,
+    "instrument": "TCS:EQ",
+    "position_qty": 6.0,
+    "pre_trend_1d": 0.02353506989155558,
+    "pre_trend_3d": 0.028048742481378754,
+    "pre_trend_5d": 0.01340993225910497,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100348.471675,
+    "unrealized_pnl_before": 365.5499999999929,
+    "vix_tm1": 12.57
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-23-nse_equity-TCS-EQ-1-4b55032a7a943666",
+    "decision_timestamp": "2023-05-23",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.0019107990476334078,
+    "forward_return_3d": 0.009660150740813729,
+    "hold_return": 0.009660150740813729,
+    "mae": -0.009083878012162469,
+    "mfe": 0.012617339743103655,
+    "opportunity_return": 0.009660150740813729
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2452.557142857143,
+    "cash_before": 60071.795874999996,
+    "exposure_before": 0.4012757682443718,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 7.0,
+    "pre_trend_1d": -0.00018329938900196255,
+    "pre_trend_3d": 0.008422177030052791,
+    "pre_trend_5d": 0.0003056483821012307,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100332.995875,
+    "unrealized_pnl_before": 352.94999999999845,
+    "vix_tm1": 12.605
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-24-nse_equity-RELIANCE-EQ-0-4af8e7e2e3cdb6ca",
+    "decision_timestamp": "2023-05-24",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": -0.00012293822354274435,
+    "forward_return_3d": 0.03292695420551169,
+    "hold_return": 0.03292695420551169,
+    "mae": -0.009917016699108624,
+    "mfe": 0.03677901854318205,
+    "opportunity_return": 0.03292695420551169
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3248.621428571429,
+    "cash_before": 60071.795874999996,
+    "exposure_before": 0.4012757682443718,
+    "instrument": "TCS:EQ",
+    "position_qty": 7.0,
+    "pre_trend_1d": -0.0005001970473215619,
+    "pre_trend_3d": 0.030376423894870157,
+    "pre_trend_5d": 0.011939290701778644,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100332.995875,
+    "unrealized_pnl_before": 352.94999999999845,
+    "vix_tm1": 12.605
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-24-nse_equity-TCS-EQ-1-e97f6b687dc0ca15",
+    "decision_timestamp": "2023-05-24",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.0029818214842508087,
+    "forward_return_3d": 0.005146290886524286,
+    "hold_return": 0.005146290886524286,
+    "mae": -0.010973708508029728,
+    "mfe": 0.020781933491758393,
+    "opportunity_return": 0.005146290886524286
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2451.01875,
+    "cash_before": 54325.324075,
+    "exposure_before": 0.4582318761082631,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 8.0,
+    "pre_trend_1d": -0.005825915137194264,
+    "pre_trend_3d": -0.0006961649501422299,
+    "pre_trend_5d": 0.00038945599147288896,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100274.124075,
+    "unrealized_pnl_before": 296.9499999999971,
+    "vix_tm1": 13.1125
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-25-nse_equity-RELIANCE-EQ-0-29864310881de51d",
+    "decision_timestamp": "2023-05-25",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.027275149080923867,
+    "forward_return_3d": 0.032787557122072174,
+    "hold_return": 0.032787557122072174,
+    "mae": 0.004426320211479818,
+    "mfe": 0.04006229635853194,
+    "opportunity_return": 0.032787557122072174
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3255.4625,
+    "cash_before": 54325.324075,
+    "exposure_before": 0.4582318761082631,
+    "instrument": "TCS:EQ",
+    "position_qty": 8.0,
+    "pre_trend_1d": 0.0019107990476334078,
+    "pre_trend_3d": 0.024977892238236345,
+    "pre_trend_5d": 0.02949792750958335,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100274.124075,
+    "unrealized_pnl_before": 296.9499999999971,
+    "vix_tm1": 13.1125
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-25-nse_equity-TCS-EQ-1-dba551f50dee4d2c",
+    "decision_timestamp": "2023-05-25",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.010748443904660723,
+    "forward_return_3d": 0.006892363746773893,
+    "hold_return": 0.006892363746773893,
+    "mae": -0.0007590708972218005,
+    "mfe": 0.023834826172764535,
+    "opportunity_return": 0.006892363746773893
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2449.7888888888892,
+    "cash_before": 48589.00735,
+    "exposure_before": 0.5150316445047928,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 9.0,
+    "pre_trend_1d": -0.00012293822354274435,
+    "pre_trend_3d": -0.0061303462321793,
+    "pre_trend_5d": 0.0024239436330394347,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100190.05735,
+    "unrealized_pnl_before": 215.74999999999545,
+    "vix_tm1": 12.52
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-26-nse_equity-RELIANCE-EQ-0-80b03a0a8720e3ed",
+    "decision_timestamp": "2023-05-26",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": 0.00562537402752839,
+    "forward_return_3d": -0.014602034709754602,
+    "hold_return": -0.014602034709754602,
+    "mae": -0.01815280271294634,
+    "mfe": 0.012447636146020274,
+    "opportunity_return": -0.014602034709754602
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3259.688888888889,
+    "cash_before": 48589.00735,
+    "exposure_before": 0.5150316445047928,
+    "instrument": "TCS:EQ",
+    "position_qty": 9.0,
+    "pre_trend_1d": -0.0029818214842508087,
+    "pre_trend_3d": -0.001576378573377336,
+    "pre_trend_5d": 0.02926699689047927,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100190.05735,
+    "unrealized_pnl_before": 215.74999999999545,
+    "vix_tm1": 12.52
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-26-nse_equity-TCS-EQ-1-1978fb8c64c1758c",
+    "decision_timestamp": "2023-05-26",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.0025684159932711052,
+    "forward_return_3d": -0.01183574153624323,
+    "hold_return": -0.01183574153624323,
+    "mae": -0.019150470125266605,
+    "mfe": 0.01294721980233708,
+    "opportunity_return": -0.01183574153624323
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2455.46,
+    "cash_before": 42750.68965,
+    "exposure_before": 0.5771641276186836,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 10.0,
+    "pre_trend_1d": 0.027275149080923867,
+    "pre_trend_3d": 0.021164775620785812,
+    "pre_trend_5d": 0.02643379266569757,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101104.68965,
+    "unrealized_pnl_before": 1133.2999999999993,
+    "vix_tm1": 11.9
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-29-nse_equity-RELIANCE-EQ-0-6b86b266da575427",
+    "decision_timestamp": "2023-05-29",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.0002578751091010438,
+    "forward_return_3d": -0.022752519241450414,
+    "hold_return": -0.022752519241450414,
+    "mae": -0.024835356661112397,
+    "mfe": 0.006784099024041859,
+    "opportunity_return": -0.022752519241450414
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3266.61,
+    "cash_before": 42750.68965,
+    "exposure_before": 0.5771641276186836,
+    "instrument": "TCS:EQ",
+    "position_qty": 10.0,
+    "pre_trend_1d": 0.010748443904660723,
+    "pre_trend_3d": 0.009660150740813729,
+    "pre_trend_5d": 0.032905658035589674,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101104.68965,
+    "unrealized_pnl_before": 1133.2999999999993,
+    "vix_tm1": 11.9
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-29-nse_equity-TCS-EQ-1-0a6759810353f9c0",
+    "decision_timestamp": "2023-05-29",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.0012498682367822944,
+    "forward_return_3d": 0.001099281702230214,
+    "hold_return": 0.001099281702230214,
+    "mae": -0.016624753414549616,
+    "mfe": 0.005918050807896785,
+    "opportunity_return": 0.001099281702230214
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2461.381818181818,
+    "cash_before": 36906.819175,
+    "exposure_before": 0.6351540578744572,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 11.0,
+    "pre_trend_1d": 0.00562537402752839,
+    "pre_trend_3d": 0.03292695420551169,
+    "pre_trend_5d": 0.026720977596741306,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101157.269175,
+    "unrealized_pnl_before": 1188.7999999999993,
+    "vix_tm1": 12.2975
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-30-nse_equity-RELIANCE-EQ-0-2c3dfc93c08831f4",
+    "decision_timestamp": "2023-05-30",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.019861505188594905,
+    "forward_return_3d": -0.025694954264965576,
+    "hold_return": -0.025694954264965576,
+    "mae": -0.027361654001071378,
+    "mfe": -0.004008016032064092,
+    "opportunity_return": -0.025694954264965576
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3271.495454545455,
+    "cash_before": 36906.819175,
+    "exposure_before": 0.6351540578744572,
+    "instrument": "TCS:EQ",
+    "position_qty": 11.0,
+    "pre_trend_1d": -0.0025684159932711052,
+    "pre_trend_3d": 0.005146290886524286,
+    "pre_trend_5d": 0.0065631915603116655,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101157.269175,
+    "unrealized_pnl_before": 1188.7999999999993,
+    "vix_tm1": 12.2975
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-30-nse_equity-TCS-EQ-1-74b8af755c185ad6",
+    "decision_timestamp": "2023-05-30",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.008051384114347693,
+    "forward_return_3d": -0.0031964296483927112,
+    "hold_return": -0.0031964296483927112,
+    "mae": -0.01539412580664608,
+    "mfe": 0.007176889210542242,
+    "opportunity_return": -0.0031964296483927112
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2466.2625,
+    "cash_before": 31067.751099999998,
+    "exposure_before": 0.6927074732090831,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 12.0,
+    "pre_trend_1d": -0.0002578751091010438,
+    "pre_trend_3d": 0.032787557122072174,
+    "pre_trend_5d": 0.026644395102971882,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101101.55109999998,
+    "unrealized_pnl_before": 1135.9999999999982,
+    "vix_tm1": 12.01
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-31-nse_equity-RELIANCE-EQ-0-9031520a0c71dd19",
+    "decision_timestamp": "2023-05-31",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": -0.002692416697032305,
+    "forward_return_3d": 0.002975828980930365,
+    "hold_return": 0.002975828980930365,
+    "mae": -0.007652131665249642,
+    "mfe": 0.006073120369245719,
+    "opportunity_return": 0.002975828980930365
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3275.2208333333333,
+    "cash_before": 31067.751099999998,
+    "exposure_before": 0.6927074732090831,
+    "instrument": "TCS:EQ",
+    "position_qty": 12.0,
+    "pre_trend_1d": -0.0012498682367822944,
+    "pre_trend_3d": 0.006892363746773893,
+    "pre_trend_5d": 0.005808222501933436,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101101.55109999998,
+    "unrealized_pnl_before": 1135.9999999999982,
+    "vix_tm1": 12.01
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-05-31-nse_equity-TCS-EQ-1-4bcecd5a49ec504b",
+    "decision_timestamp": "2023-05-31",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.010487916096671226,
+    "forward_return_3d": -0.00018239854081164586,
+    "hold_return": -0.00018239854081164586,
+    "mae": -0.0013527891776865231,
+    "mfe": 0.01535187718498252,
+    "opportunity_return": -0.00018239854081164586
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2466.5423076923075,
+    "cash_before": 25305.4714,
+    "exposure_before": 0.7473940944488754,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 13.0,
+    "pre_trend_1d": -0.019861505188594905,
+    "pre_trend_3d": -0.014602034709754602,
+    "pre_trend_5d": 0.01215039442680057,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100177.67139999999,
+    "unrealized_pnl_before": 215.00000000000455,
+    "vix_tm1": 11.9725
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-06-01-nse_equity-RELIANCE-EQ-0-016862917eca5a3e",
+    "decision_timestamp": "2023-06-01",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": -0.0032680401908049047,
+    "forward_return_3d": 0.0065360803816096255,
+    "hold_return": 0.0065360803816096255,
+    "mae": -0.004973104638181265,
+    "mfe": 0.009925910890084164,
+    "opportunity_return": 0.0065360803816096255
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3276.3192307692307,
+    "cash_before": 25305.4714,
+    "exposure_before": 0.7473940944488754,
+    "instrument": "TCS:EQ",
+    "position_qty": 13.0,
+    "pre_trend_1d": -0.008051384114347693,
+    "pre_trend_3d": -0.01183574153624323,
+    "pre_trend_5d": -0.00419271345755064,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100177.67139999999,
+    "unrealized_pnl_before": 215.00000000000455,
+    "vix_tm1": 11.9725
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-06-01-nse_equity-TCS-EQ-1-79a5deeea44b869a",
+    "decision_timestamp": "2023-06-01",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.005535499398315311,
+    "forward_return_3d": -0.027587244283995133,
+    "hold_return": -0.027587244283995133,
+    "mae": -0.031107099879663085,
+    "mfe": 0.0035800240673887155,
+    "opportunity_return": -0.027587244283995133
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2466.307142857143,
+    "cash_before": 19515.327774999998,
+    "exposure_before": 0.8058887652724132,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 14.0,
+    "pre_trend_1d": -0.002692416697032305,
+    "pre_trend_3d": -0.022752519241450414,
+    "pre_trend_5d": 0.009549376011803596,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100536.827775,
+    "unrealized_pnl_before": 577.0500000000002,
+    "vix_tm1": 11.5975
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-06-02-nse_equity-RELIANCE-EQ-0-d8a34dff8d0a917b",
+    "decision_timestamp": "2023-06-02",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.008980938416422363,
+    "forward_return_3d": 0.017493483219289785,
+    "hold_return": 0.017493483219289785,
+    "mae": 0.001323721081785598,
+    "mfe": 0.01824698598892155,
+    "opportunity_return": 0.017493483219289785
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3279.725,
+    "cash_before": 19515.327774999998,
+    "exposure_before": 0.8058887652724132,
+    "instrument": "TCS:EQ",
+    "position_qty": 14.0,
+    "pre_trend_1d": 0.010487916096671226,
+    "pre_trend_3d": 0.001099281702230214,
+    "pre_trend_5d": 0.009260664946105966,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100536.827775,
+    "unrealized_pnl_before": 577.0500000000002,
+    "vix_tm1": 11.5975
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-06-02-nse_equity-TCS-EQ-1-5b68d9e58a48b998",
+    "decision_timestamp": "2023-06-02",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.005052032913843121,
+    "forward_return_3d": -0.009287270087124825,
+    "hold_return": -0.009287270087124825,
+    "mae": -0.025713939980638915,
+    "mfe": 0.00647386253630206,
+    "opportunity_return": -0.009287270087124825
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2465.5666666666666,
+    "cash_before": 13751.647374999999,
+    "exposure_before": 0.8627082006756845,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 15.0,
+    "pre_trend_1d": -0.0032680401908049047,
+    "pre_trend_3d": -0.025694954264965576,
+    "pre_trend_5d": -0.020466786355475837,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100163.647375,
+    "unrealized_pnl_before": 206.74999999999955,
+    "vix_tm1": 11.125
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-06-05-nse_equity-RELIANCE-EQ-0-ecc107bc9b7b4e1a",
+    "decision_timestamp": "2023-06-05",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.0008477141992128001,
+    "forward_return_3d": 0.00904228479160363,
+    "hold_return": 0.00904228479160363,
+    "mae": -0.0061560197799979816,
+    "mfe": 0.015985467756584885,
+    "opportunity_return": 0.00904228479160363
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3281.45,
+    "cash_before": 13751.647374999999,
+    "exposure_before": 0.8627082006756845,
+    "instrument": "TCS:EQ",
+    "position_qty": 15.0,
+    "pre_trend_1d": -0.005535499398315311,
+    "pre_trend_3d": -0.0031964296483927112,
+    "pre_trend_5d": -0.006999309081077888,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100163.647375,
+    "unrealized_pnl_before": 206.74999999999955,
+    "vix_tm1": 11.125
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-06-05-nse_equity-TCS-EQ-1-f18be60f26ac3df9",
+    "decision_timestamp": "2023-06-05",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.017209401319590107,
+    "forward_return_3d": -0.015947581258171507,
+    "hold_return": -0.015947581258171507,
+    "mae": -0.020766821733710413,
+    "mfe": -1.520265134244942e-05,
+    "opportunity_return": -0.015947581258171507
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2466.296875,
+    "cash_before": 7982.614299999999,
+    "exposure_before": 0.9203657868414047,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 16.0,
+    "pre_trend_1d": 0.008980938416422363,
+    "pre_trend_3d": 0.002975828980930365,
+    "pre_trend_5d": -0.017198286122351785,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100241.0143,
+    "unrealized_pnl_before": 287.0,
+    "vix_tm1": 11.1375
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-06-06-nse_equity-RELIANCE-EQ-0-9c0f988407861efd",
+    "decision_timestamp": "2023-06-06",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.0075826325448202885,
+    "forward_return_3d": 0.0010486619476878655,
+    "hold_return": 0.0010486619476878655,
+    "mae": -0.0027224877488051303,
+    "mfe": 0.01512493193780628,
+    "opportunity_return": 0.0010486619476878655
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3281.915625,
+    "cash_before": 7982.614299999999,
+    "exposure_before": 0.9203657868414047,
+    "instrument": "TCS:EQ",
+    "position_qty": 16.0,
+    "pre_trend_1d": -0.005052032913843121,
+    "pre_trend_3d": -0.00018239854081164586,
+    "pre_trend_5d": -0.0094718930233258,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100241.0143,
+    "unrealized_pnl_before": 287.0,
+    "vix_tm1": 11.1375
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-06-06-nse_equity-TCS-EQ-1-26cebdd60d1923fa",
+    "decision_timestamp": "2023-06-06",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.013179469727438636,
+    "forward_return_3d": -0.007115676143922284,
+    "hold_return": -0.007115676143922284,
+    "mae": -0.008337716177335109,
+    "mfe": 0.014401509760851321,
+    "opportunity_return": -0.007115676143922284
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2467.064705882353,
+    "cash_before": 2268.108475,
+    "exposure_before": 0.9771742360798757,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 17.0,
+    "pre_trend_1d": 0.0008477141992128001,
+    "pre_trend_3d": 0.0065360803816096255,
+    "pre_trend_5d": -0.01611143078235676,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99366.158475,
+    "unrealized_pnl_before": -585.0000000000014,
+    "vix_tm1": 11.38
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-06-07-nse_equity-RELIANCE-EQ-0-e5af0b2cbdc45c04",
+    "decision_timestamp": "2023-06-07",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": 0.0006004443288033144,
+    "forward_return_3d": -0.005604147068830934,
+    "hold_return": -0.005604147068830934,
+    "mae": -0.013269819666553285,
+    "mfe": 0.007485539299081247,
+    "opportunity_return": -0.005604147068830934
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3278.9970588235296,
+    "cash_before": 2268.108475,
+    "exposure_before": 0.9771742360798757,
+    "instrument": "TCS:EQ",
+    "position_qty": 17.0,
+    "pre_trend_1d": -0.017209401319590107,
+    "pre_trend_3d": -0.027587244283995133,
+    "pre_trend_5d": -0.025300042216995246,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99366.158475,
+    "unrealized_pnl_before": -585.0000000000014,
+    "vix_tm1": 11.38
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-deterministic-attribution-20260926-E5A-deterministic-attribution-20260926-ep1-2023-06-07-nse_equity-TCS-EQ-1-6645ce4ad1e7f05c",
+    "decision_timestamp": "2023-06-07",
+    "episode_id": "E5A-deterministic-attribution-20260926-ep1",
+    "experiment_id": "E5A-deterministic-attribution-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.011740816513481411,
+    "forward_return_3d": -0.008549879385630095,
+    "hold_return": -0.008549879385630095,
+    "mae": -0.02123728968823481,
+    "mfe": -0.0014962288924852945,
+    "opportunity_return": -0.008549879385630095
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": null,
+    "cash_before": 100000.0,
+    "exposure_before": 0.0,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": null,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100000.0,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": null
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-16-nse_equity-RELIANCE-EQ-0-9c19a9265425e4be",
+    "decision_timestamp": "2023-06-16",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.009932490106308648,
+    "forward_return_3d": -0.005082641421587611,
+    "hold_return": -0.005082641421587611,
+    "mae": -0.01645068673857379,
+    "mfe": 0.002560720105532672,
+    "opportunity_return": -0.005082641421587611
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": null,
+    "cash_before": 100000.0,
+    "exposure_before": 0.0,
+    "instrument": "TCS:EQ",
+    "position_qty": null,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100000.0,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": null
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-16-nse_equity-TCS-EQ-1-5cb33e84960ed061",
+    "decision_timestamp": "2023-06-16",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.011181454534001071,
+    "forward_return_3d": 0.026237046836120735,
+    "hold_return": 0.026237046836120735,
+    "mae": 3.149705502532648e-05,
+    "mfe": 0.027244952596932187,
+    "opportunity_return": 0.026237046836120735
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2577.4,
+    "cash_before": 94244.82385,
+    "exposure_before": 0.05752465449535027,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 1.0,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99997.12385,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": 10.84
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-19-nse_equity-RELIANCE-EQ-0-e584b3cb6f2a4377",
+    "decision_timestamp": "2023-06-19",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.002076965279410505,
+    "forward_return_3d": -0.006387647934791199,
+    "hold_return": -0.006387647934791199,
+    "mae": -0.007759228779684999,
+    "mfe": 0.008425425190061916,
+    "opportunity_return": -0.006387647934791199
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3174.9,
+    "cash_before": 94244.82385,
+    "exposure_before": 0.05752465449535027,
+    "instrument": "TCS:EQ",
+    "position_qty": 1.0,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99997.12385,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": 10.84
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-19-nse_equity-TCS-EQ-1-3c3cadfcb5247f10",
+    "decision_timestamp": "2023-06-19",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.005388736606030316,
+    "forward_return_3d": 0.008752803388985767,
+    "hold_return": 0.008752803388985767,
+    "mae": -0.002912409668577096,
+    "mfe": 0.017832668826314478,
+    "opportunity_return": 0.008752803388985767
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2564.6000000000004,
+    "cash_before": 88479.74275,
+    "exposure_before": 0.11523922592696792,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 2.0,
+    "pre_trend_1d": -0.009932490106308648,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100004.14275,
+    "unrealized_pnl_before": 9.899999999999636,
+    "vix_tm1": 11.225
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-20-nse_equity-RELIANCE-EQ-0-bb9464ef3cb5682b",
+    "decision_timestamp": "2023-06-20",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": 0.0028156896484299687,
+    "forward_return_3d": -0.016561730084861722,
+    "hold_return": -0.016561730084861722,
+    "mae": -0.01763716710335924,
+    "mfe": 0.006335301708967296,
+    "opportunity_return": -0.016561730084861722
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3192.65,
+    "cash_before": 88479.74275,
+    "exposure_before": 0.11523922592696792,
+    "instrument": "TCS:EQ",
+    "position_qty": 2.0,
+    "pre_trend_1d": 0.011181454534001071,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100004.14275,
+    "unrealized_pnl_before": 9.899999999999636,
+    "vix_tm1": 11.225
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-20-nse_equity-TCS-EQ-1-f0dbf97d7b5396a1",
+    "decision_timestamp": "2023-06-20",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.00944945317098863,
+    "forward_return_3d": -0.003516435852154757,
+    "hold_return": -0.003516435852154757,
+    "mae": -0.005747126436781525,
+    "mfe": 0.012377234563311421,
+    "opportunity_return": -0.003516435852154757
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2562.1000000000004,
+    "cash_before": 82692.05035,
+    "exposure_before": 0.17346342563167208,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 3.0,
+    "pre_trend_1d": 0.002076965279410505,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100046.45035,
+    "unrealized_pnl_before": 55.099999999997635,
+    "vix_tm1": 11.1325
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-21-nse_equity-RELIANCE-EQ-0-7e2ea8a634cc8398",
+    "decision_timestamp": "2023-06-21",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.011231135202589471,
+    "forward_return_3d": -0.02681043559645907,
+    "hold_return": -0.02681043559645907,
+    "mae": -0.029481729906797316,
+    "mfe": 0.0035097297508091875,
+    "opportunity_return": -0.02681043559645907
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3204.3333333333335,
+    "cash_before": 82692.05035,
+    "exposure_before": 0.17346342563167208,
+    "instrument": "TCS:EQ",
+    "position_qty": 3.0,
+    "pre_trend_1d": 0.005388736606030316,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100046.45035,
+    "unrealized_pnl_before": 55.099999999997635,
+    "vix_tm1": 11.1325
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-21-nse_equity-TCS-EQ-1-6abef3c9f0dfacc0",
+    "decision_timestamp": "2023-06-21",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.006046283223865883,
+    "forward_return_3d": -0.02103922411147251,
+    "hold_return": -0.02103922411147251,
+    "mae": -0.026149407648394764,
+    "mfe": 0.002900374439874861,
+    "opportunity_return": -0.02103922411147251
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2562.6500000000005,
+    "cash_before": 76866.6391,
+    "exposure_before": 0.23253575808136318,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 4.0,
+    "pre_trend_1d": 0.0028156896484299687,
+    "pre_trend_3d": -0.005082641421587611,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100156.6391,
+    "unrealized_pnl_before": 168.1999999999971,
+    "vix_tm1": 11.2925
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-22-nse_equity-RELIANCE-EQ-0-48fc21e3fb74c4a5",
+    "decision_timestamp": "2023-06-22",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.008183790179451785,
+    "forward_return_3d": -0.01540130151843825,
+    "hold_return": -0.01540130151843825,
+    "mae": -0.019266416880299706,
+    "mfe": -0.0008282390061131568,
+    "opportunity_return": -0.01540130151843825
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3217.8,
+    "cash_before": 76866.6391,
+    "exposure_before": 0.23253575808136318,
+    "instrument": "TCS:EQ",
+    "position_qty": 4.0,
+    "pre_trend_1d": 0.00944945317098863,
+    "pre_trend_3d": 0.026237046836120735,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100156.6391,
+    "unrealized_pnl_before": 168.1999999999971,
+    "vix_tm1": 11.2925
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-22-nse_equity-TCS-EQ-1-8c83c13f110bf927",
+    "decision_timestamp": "2023-06-22",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.006839586228192092,
+    "forward_return_3d": -0.012706499922803795,
+    "hold_return": -0.012706499922803795,
+    "mae": -0.020225412999845607,
+    "mfe": 0.0033657557511193735,
+    "opportunity_return": -0.012706499922803795
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2557.2200000000003,
+    "cash_before": 71089.7521,
+    "exposure_before": 0.2888162424724541,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 5.0,
+    "pre_trend_1d": -0.011231135202589471,
+    "pre_trend_3d": -0.006387647934791199,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99959.7521,
+    "unrealized_pnl_before": -25.800000000001546,
+    "vix_tm1": 11.5475
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-23-nse_equity-RELIANCE-EQ-0-29556b558a95b784",
+    "decision_timestamp": "2023-06-23",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": null,
+    "adverse_mae": true,
+    "forward_return_1d": -0.007634953772740757,
+    "forward_return_3d": null,
+    "hold_return": null,
+    "mae": -0.011174072969480031,
+    "mfe": 0.00025847499751469966,
+    "opportunity_return": null
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3221.94,
+    "cash_before": 71089.7521,
+    "exposure_before": 0.2888162424724541,
+    "instrument": "TCS:EQ",
+    "position_qty": 5.0,
+    "pre_trend_1d": -0.006046283223865883,
+    "pre_trend_3d": 0.008752803388985767,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99959.7521,
+    "unrealized_pnl_before": -25.800000000001546,
+    "vix_tm1": 11.5475
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-23-nse_equity-TCS-EQ-1-6833dac166083861",
+    "decision_timestamp": "2023-06-23",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": null,
+    "adverse_mae": true,
+    "forward_return_1d": -0.008301335364621331,
+    "forward_return_3d": null,
+    "hold_return": null,
+    "mae": -0.013478010788626833,
+    "mfe": -0.000761733020349097,
+    "opportunity_return": null
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2550.141666666667,
+    "cash_before": 65355.78655,
+    "exposure_before": 0.3447541330160803,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 6.0,
+    "pre_trend_1d": -0.008183790179451785,
+    "pre_trend_3d": -0.016561730084861722,
+    "pre_trend_5d": -0.024307441607821872,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99742.38655,
+    "unrealized_pnl_before": -240.3000000000011,
+    "vix_tm1": 11.235
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-26-nse_equity-RELIANCE-EQ-0-32c01409e6a4a25a",
+    "decision_timestamp": "2023-06-26",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.0003606419426577853,
+    "forward_return_3d": 0.02191901584820974,
+    "hold_return": 0.02191901584820974,
+    "mae": -0.003566348099617355,
+    "mfe": 0.024483580773777287,
+    "opportunity_return": 0.02191901584820974
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3221.008333333333,
+    "cash_before": 65355.78655,
+    "exposure_before": 0.3447541330160803,
+    "instrument": "TCS:EQ",
+    "position_qty": 6.0,
+    "pre_trend_1d": -0.006839586228192092,
+    "pre_trend_3d": -0.003516435852154757,
+    "pre_trend_5d": 0.013055529308009644,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99742.38655,
+    "unrealized_pnl_before": -240.3000000000011,
+    "vix_tm1": 11.235
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-26-nse_equity-TCS-EQ-1-174bec9ed0ccc579",
+    "decision_timestamp": "2023-06-26",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.002414057968742595,
+    "forward_return_3d": 0.035301678867587324,
+    "hold_return": 0.035301678867587324,
+    "mae": -0.002304328061072503,
+    "mfe": 0.03773141253742571,
+    "opportunity_return": 0.035301678867587324
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2542.342857142857,
+    "cash_before": 59667.74395,
+    "exposure_before": 0.40010800294028975,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 7.0,
+    "pre_trend_1d": -0.007634953772740757,
+    "pre_trend_3d": -0.02681043559645907,
+    "pre_trend_5d": -0.022043263578650364,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99464.14395,
+    "unrealized_pnl_before": -515.6999999999985,
+    "vix_tm1": 11.395
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-27-nse_equity-RELIANCE-EQ-0-2d134fc119eac7f1",
+    "decision_timestamp": "2023-06-27",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": null,
+    "forward_return_3d": 0.04776783031905306,
+    "hold_return": 0.04776783031905306,
+    "mae": 0.014821045885156923,
+    "mfe": 0.05029141380760688,
+    "opportunity_return": 0.04776783031905306
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3216.5285714285715,
+    "cash_before": 59667.74395,
+    "exposure_before": 0.40010800294028975,
+    "instrument": "TCS:EQ",
+    "position_qty": 7.0,
+    "pre_trend_1d": -0.008301335364621331,
+    "pre_trend_3d": -0.02103922411147251,
+    "pre_trend_5d": -0.0064633690505855965,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99464.14395,
+    "unrealized_pnl_before": -515.6999999999985,
+    "vix_tm1": 11.395
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-27-nse_equity-TCS-EQ-1-92e3eb389c910ddb",
+    "decision_timestamp": "2023-06-27",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": null,
+    "forward_return_3d": 0.023441287316058698,
+    "hold_return": 0.023441287316058698,
+    "mae": 0.005238713309459396,
+    "mfe": 0.03798458098112508,
+    "opportunity_return": 0.023441287316058698
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2536.6062500000003,
+    "cash_before": 53971.09705,
+    "exposure_before": 0.4599147344784783,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 8.0,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99930.69704999999,
+    "unrealized_pnl_before": -46.30000000000291,
+    "vix_tm1": null
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-30-nse_equity-RELIANCE-EQ-0-a671121347b0cf0c",
+    "decision_timestamp": "2023-06-30",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.025664150573473116,
+    "forward_return_3d": 0.013430055876874816,
+    "hold_return": 0.013430055876874816,
+    "mae": 0.001999803940790083,
+    "mfe": 0.029310851877266935,
+    "opportunity_return": 0.013430055876874816
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3214.13125,
+    "cash_before": 53971.09705,
+    "exposure_before": 0.4599147344784783,
+    "instrument": "TCS:EQ",
+    "position_qty": 8.0,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99930.69704999999,
+    "unrealized_pnl_before": -46.30000000000291,
+    "vix_tm1": null
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-06-30-nse_equity-TCS-EQ-1-7603f5a1d542e1e9",
+    "decision_timestamp": "2023-06-30",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.009069573775456074,
+    "forward_return_3d": 0.005359981830570011,
+    "hold_return": 0.005359981830570011,
+    "mae": -0.010144598379892497,
+    "mfe": 0.008100537512302218,
+    "opportunity_return": 0.005359981830570011
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2538.1222222222223,
+    "cash_before": 48115.6708,
+    "exposure_before": 0.5226059723270621,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 9.0,
+    "pre_trend_1d": null,
+    "pre_trend_3d": 0.02191901584820974,
+    "pre_trend_5d": 0.005817393019128377,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100788.17079999999,
+    "unrealized_pnl_before": 814.1000000000017,
+    "vix_tm1": 10.8
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-03-nse_equity-RELIANCE-EQ-0-e877f0911290fa27",
+    "decision_timestamp": "2023-07-03",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.010303169323699133,
+    "forward_return_3d": 0.008812172649768775,
+    "hold_return": 0.008812172649768775,
+    "mae": -0.016228925335474185,
+    "mfe": 0.010991321634744046,
+    "opportunity_return": 0.008812172649768775
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3223.922222222222,
+    "cash_before": 48115.6708,
+    "exposure_before": 0.5226059723270621,
+    "instrument": "TCS:EQ",
+    "position_qty": 9.0,
+    "pre_trend_1d": null,
+    "pre_trend_3d": 0.035301678867587324,
+    "pre_trend_5d": 0.01968503937007874,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100788.17079999999,
+    "unrealized_pnl_before": 814.1000000000017,
+    "vix_tm1": 10.8
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-03-nse_equity-TCS-EQ-1-de466770b3a08184",
+    "decision_timestamp": "2023-07-03",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.011169513797634607,
+    "forward_return_3d": 0.015463129908626931,
+    "hold_return": 0.015463129908626931,
+    "mae": 0.001527977263698316,
+    "mfe": 0.01732726217033885,
+    "opportunity_return": 0.015463129908626931
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2545.88,
+    "cash_before": 42224.7268,
+    "exposure_before": 0.5823664418427567,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 10.0,
+    "pre_trend_1d": 0.025664150573473116,
+    "pre_trend_3d": 0.04776783031905306,
+    "pre_trend_5d": 0.040143155383238815,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101104.7268,
+    "unrealized_pnl_before": 1133.6000000000013,
+    "vix_tm1": 11.54
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-04-nse_equity-RELIANCE-EQ-0-b61fe60085672ef8",
+    "decision_timestamp": "2023-07-04",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": -0.0016417189763399324,
+    "forward_return_3d": 0.01732496378561078,
+    "hold_return": 0.01732496378561078,
+    "mae": -0.005002414292612194,
+    "mfe": 0.029435055528730013,
+    "opportunity_return": 0.01732496378561078
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3228.7599999999998,
+    "cash_before": 42224.7268,
+    "exposure_before": 0.5823664418427567,
+    "instrument": "TCS:EQ",
+    "position_qty": 10.0,
+    "pre_trend_1d": -0.009069573775456074,
+    "pre_trend_3d": 0.023441287316058698,
+    "pre_trend_5d": 0.017395494893279736,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101104.7268,
+    "unrealized_pnl_before": 1133.6000000000013,
+    "vix_tm1": 11.54
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-04-nse_equity-TCS-EQ-1-8b42527d813bd12e",
+    "decision_timestamp": "2023-07-04",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.0033546398295480027,
+    "forward_return_3d": 0.006165284011061273,
+    "hold_return": 0.006165284011061273,
+    "mae": -0.0020702056605769103,
+    "mfe": 0.014521661604484997,
+    "opportunity_return": 0.006165284011061273
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2549.777272727273,
+    "cash_before": 36324.178,
+    "exposure_before": 0.6410575536549825,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 11.0,
+    "pre_trend_1d": -0.010303169323699133,
+    "pre_trend_3d": null,
+    "pre_trend_5d": 0.03734647672857679,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101197.77799999999,
+    "unrealized_pnl_before": 1229.5999999999972,
+    "vix_tm1": 11.7
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-05-nse_equity-RELIANCE-EQ-0-959b1b419b579eda",
+    "decision_timestamp": "2023-07-05",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.020990520410137357,
+    "forward_return_3d": 0.0582511124008513,
+    "hold_return": 0.0582511124008513,
+    "mae": -0.0032694911975236288,
+    "mfe": 0.06635712903849875,
+    "opportunity_return": 0.0582511124008513
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3236.040909090909,
+    "cash_before": 36324.178,
+    "exposure_before": 0.6410575536549825,
+    "instrument": "TCS:EQ",
+    "position_qty": 11.0,
+    "pre_trend_1d": 0.011169513797634607,
+    "pre_trend_3d": null,
+    "pre_trend_5d": 0.03737087141222385,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101197.77799999999,
+    "unrealized_pnl_before": 1229.5999999999972,
+    "vix_tm1": 11.7
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-05-nse_equity-TCS-EQ-1-dee1e831fac6d858",
+    "decision_timestamp": "2023-07-05",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": 0.0008885675989097043,
+    "forward_return_3d": -0.014458049067004023,
+    "hold_return": -0.014458049067004023,
+    "mae": -0.016491212217051462,
+    "mfe": 0.011129685688037553,
+    "opportunity_return": -0.014458049067004023
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2552.6708333333336,
+    "cash_before": 30416.775775000002,
+    "exposure_before": 0.6996472501185406,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 12.0,
+    "pre_trend_1d": -0.0016417189763399324,
+    "pre_trend_3d": 0.013430055876874816,
+    "pre_trend_5d": 0.03527008351859648,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101270.175775,
+    "unrealized_pnl_before": 1304.9500000000007,
+    "vix_tm1": 11.8825
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-06-nse_equity-RELIANCE-EQ-0-cc38242172a16683",
+    "decision_timestamp": "2023-07-06",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": -0.0019516816674562164,
+    "forward_return_3d": 0.04773093320701083,
+    "hold_return": 0.04773093320701083,
+    "mae": -0.004073898626243486,
+    "mfe": 0.04973945997157745,
+    "opportunity_return": 0.04773093320701083
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3243.033333333333,
+    "cash_before": 30416.775775000002,
+    "exposure_before": 0.6996472501185406,
+    "instrument": "TCS:EQ",
+    "position_qty": 12.0,
+    "pre_trend_1d": 0.0033546398295480027,
+    "pre_trend_3d": 0.005359981830570011,
+    "pre_trend_5d": 0.03834425383520725,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101270.175775,
+    "unrealized_pnl_before": 1304.9500000000007,
+    "vix_tm1": 11.8825
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-06-nse_equity-TCS-EQ-1-63862edc9ab67797",
+    "decision_timestamp": "2023-07-06",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": 0.0019109813716933729,
+    "forward_return_3d": -0.015197568389057751,
+    "hold_return": -0.015197568389057751,
+    "mae": -0.01868849498931653,
+    "mfe": 0.010232026242137891,
+    "opportunity_return": -0.015197568389057751
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2559.292307692308,
+    "cash_before": 24452.14495,
+    "exposure_before": 0.7601639749732042,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 13.0,
+    "pre_trend_1d": 0.020990520410137357,
+    "pre_trend_3d": 0.008812172649768775,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101953.59495000001,
+    "unrealized_pnl_before": 1991.3500000000013,
+    "vix_tm1": 11.84
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-07-nse_equity-RELIANCE-EQ-0-9361a54e280ab88b",
+    "decision_timestamp": "2023-07-07",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.038521415552855515,
+    "forward_return_3d": 0.050937879708383996,
+    "hold_return": 0.050937879708383996,
+    "mae": 0.015719927095990315,
+    "mfe": 0.06394289185905229,
+    "opportunity_return": 0.050937879708383996
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3249.176923076923,
+    "cash_before": 24452.14495,
+    "exposure_before": 0.7601639749732042,
+    "instrument": "TCS:EQ",
+    "position_qty": 13.0,
+    "pre_trend_1d": 0.0008885675989097043,
+    "pre_trend_3d": 0.015463129908626931,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101953.59495000001,
+    "unrealized_pnl_before": 1991.3500000000013,
+    "vix_tm1": 11.84
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-07-nse_equity-TCS-EQ-1-dd0ff56add5de332",
+    "decision_timestamp": "2023-07-07",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.01721108357738235,
+    "forward_return_3d": -0.02083051738379512,
+    "hold_return": -0.02083051738379512,
+    "mae": -0.023774123301043806,
+    "mfe": -0.0013516557783284523,
+    "opportunity_return": -0.02083051738379512
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2564.6,
+    "cash_before": 18486.313525,
+    "exposure_before": 0.8187015788277011,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 14.0,
+    "pre_trend_1d": -0.0019516816674562164,
+    "pre_trend_3d": 0.01732496378561078,
+    "pre_trend_5d": 0.03268307028722671,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101966.213525,
+    "unrealized_pnl_before": 2006.9500000000044,
+    "vix_tm1": 11.5325
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-10-nse_equity-RELIANCE-EQ-0-cd8008b9ca0919bf",
+    "decision_timestamp": "2023-07-10",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.01084075245425116,
+    "forward_return_3d": 0.0029067110290487623,
+    "hold_return": 0.0029067110290487623,
+    "mae": 0.0008043728633845151,
+    "mfe": 0.024478528728907996,
+    "opportunity_return": 0.0029067110290487623
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3254.8964285714283,
+    "cash_before": 18486.313525,
+    "exposure_before": 0.8187015788277011,
+    "instrument": "TCS:EQ",
+    "position_qty": 14.0,
+    "pre_trend_1d": 0.0019109813716933729,
+    "pre_trend_3d": 0.006165284011061273,
+    "pre_trend_5d": 0.008176243470361118,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 101966.213525,
+    "unrealized_pnl_before": 2006.9500000000044,
+    "vix_tm1": 11.5325
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-10-nse_equity-TCS-EQ-1-d1f76d67fc41bd03",
+    "decision_timestamp": "2023-07-10",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.00013753266400778522,
+    "forward_return_3d": 0.02096609055761866,
+    "hold_return": 0.02096609055761866,
+    "mae": -0.006677974907929494,
+    "mfe": 0.02918748758385672,
+    "opportunity_return": 0.02096609055761866
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2575.9633333333336,
+    "cash_before": 12476.310025,
+    "exposure_before": 0.8783763823842822,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 15.0,
+    "pre_trend_1d": 0.038521415552855515,
+    "pre_trend_3d": 0.0582511124008513,
+    "pre_trend_5d": 0.04562832129066803,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 102581.310025,
+    "unrealized_pnl_before": 2625.0500000000034,
+    "vix_tm1": 11.4625
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-11-nse_equity-RELIANCE-EQ-0-59ced4b9858e30a2",
+    "decision_timestamp": "2023-07-11",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": 0.001103193836582697,
+    "forward_return_3d": -0.008680869533764965,
+    "hold_return": -0.008680869533764965,
+    "mae": -0.01432343473071216,
+    "mfe": 0.013491518067059784,
+    "opportunity_return": -0.008680869533764965
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3256.033333333333,
+    "cash_before": 12476.310025,
+    "exposure_before": 0.8783763823842822,
+    "instrument": "TCS:EQ",
+    "position_qty": 15.0,
+    "pre_trend_1d": -0.01721108357738235,
+    "pre_trend_3d": -0.014458049067004023,
+    "pre_trend_5d": -0.0001069584084589933,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 102581.310025,
+    "unrealized_pnl_before": 2625.0500000000034,
+    "vix_tm1": 11.4625
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-11-nse_equity-TCS-EQ-1-5b23e6de548c159a",
+    "decision_timestamp": "2023-07-11",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": -0.003819826427087153,
+    "forward_return_3d": 0.07402823615694902,
+    "hold_return": 0.07402823615694902,
+    "mae": -0.006814570345923537,
+    "mfe": 0.0771452145214521,
+    "opportunity_return": 0.07402823615694902
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2587.759375,
+    "cash_before": 6436.191475000001,
+    "exposure_before": 0.9375307725769616,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 16.0,
+    "pre_trend_1d": 0.01084075245425116,
+    "pre_trend_3d": 0.04773093320701083,
+    "pre_trend_5d": 0.06796716562047313,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 103029.791475,
+    "unrealized_pnl_before": 3076.550000000003,
+    "vix_tm1": 11.0125
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-12-nse_equity-RELIANCE-EQ-0-c83f40a43d0a02b0",
+    "decision_timestamp": "2023-07-12",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": null,
+    "adverse_mae": true,
+    "forward_return_1d": -0.008942281636708517,
+    "forward_return_3d": null,
+    "hold_return": null,
+    "mae": -0.015409628759822994,
+    "mfe": 0.011290759642308735,
+    "opportunity_return": null
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3257.0562499999996,
+    "cash_before": 6436.191475000001,
+    "exposure_before": 0.9375307725769616,
+    "instrument": "TCS:EQ",
+    "position_qty": 16.0,
+    "pre_trend_1d": 0.00013753266400778522,
+    "pre_trend_3d": -0.015197568389057751,
+    "pre_trend_5d": -0.011015911872704964,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 103029.791475,
+    "unrealized_pnl_before": 3076.550000000003,
+    "vix_tm1": 11.0125
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-12-nse_equity-TCS-EQ-1-9af2cb33f35cbd20",
+    "decision_timestamp": "2023-07-12",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": null,
+    "adverse_mae": false,
+    "forward_return_1d": 0.024740022700082853,
+    "forward_return_3d": null,
+    "hold_return": null,
+    "mae": 0.003941838706708767,
+    "mfe": 0.08127549924844314,
+    "opportunity_return": null
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2598.3470588235296,
+    "cash_before": 405.52765000000136,
+    "exposure_before": 0.9960580765691573,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 17.0,
+    "pre_trend_1d": 0.001103193836582697,
+    "pre_trend_3d": 0.050937879708383996,
+    "pre_trend_5d": 0.07090346295221513,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 102875.57765,
+    "unrealized_pnl_before": 2925.3500000000026,
+    "vix_tm1": 10.935
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-13-nse_equity-RELIANCE-EQ-0-4cc336c380723084",
+    "decision_timestamp": "2023-07-13",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": null,
+    "adverse_mae": false,
+    "forward_return_1d": -0.0008384979948961655,
+    "forward_return_3d": null,
+    "hold_return": null,
+    "mae": -0.006525701786365326,
+    "mfe": 0.006525701786365326,
+    "opportunity_return": null
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3257.2235294117645,
+    "cash_before": 405.52765000000136,
+    "exposure_before": 0.9960580765691573,
+    "instrument": "TCS:EQ",
+    "position_qty": 17.0,
+    "pre_trend_1d": -0.003819826427087153,
+    "pre_trend_3d": -0.02083051738379512,
+    "pre_trend_5d": -0.018087621801533074,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 102875.57765,
+    "unrealized_pnl_before": 2925.3500000000026,
+    "vix_tm1": 10.935
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window2-20260926-E5A-window2-20260926-ep1-2023-07-13-nse_equity-TCS-EQ-1-7adcf5137f3c78e9",
+    "decision_timestamp": "2023-07-13",
+    "episode_id": "E5A-window2-20260926-ep1",
+    "experiment_id": "E5A-window2-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": null,
+    "adverse_mae": false,
+    "forward_return_1d": 0.052117166334884946,
+    "forward_return_3d": null,
+    "hold_return": null,
+    "mae": 0.003427579290835287,
+    "mfe": 0.05517055574680808,
+    "opportunity_return": null
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": null,
+    "cash_before": 100000.0,
+    "exposure_before": 0.0,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": null,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100000.0,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": null
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-17-nse_equity-RELIANCE-EQ-0-2cba3b804ebf19fb",
+    "decision_timestamp": "2023-07-17",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": 0.008492151464225696,
+    "forward_return_3d": -0.06323524153466582,
+    "hold_return": -0.06323524153466582,
+    "mae": -0.07748417778095607,
+    "mfe": 0.02120356134015096,
+    "opportunity_return": -0.06323524153466582
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": null,
+    "cash_before": 100000.0,
+    "exposure_before": 0.0,
+    "instrument": "TCS:EQ",
+    "position_qty": null,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100000.0,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": null
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-17-nse_equity-TCS-EQ-1-e4cb5a692cfe5e8e",
+    "decision_timestamp": "2023-07-17",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": 0.0014749262536873419,
+    "forward_return_3d": -0.008133573903828977,
+    "hold_return": -0.008133573903828977,
+    "mae": -0.015937795343242443,
+    "mfe": 0.009250508348369041,
+    "opportunity_return": -0.008133573903828977
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2796.7,
+    "cash_before": 93708.4558,
+    "exposure_before": 0.06288597726089704,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 1.0,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99996.85579999999,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": 11.315
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-18-nse_equity-RELIANCE-EQ-0-defe6d1a6bc3ce69",
+    "decision_timestamp": "2023-07-18",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": 0.007587441720292894,
+    "forward_return_3d": -0.09987767909376158,
+    "hold_return": -0.09987767909376158,
+    "mae": -0.10524916236770726,
+    "mfe": 0.012604371642823018,
+    "opportunity_return": -0.09987767909376158
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3491.7,
+    "cash_before": 93708.4558,
+    "exposure_before": 0.06288597726089704,
+    "instrument": "TCS:EQ",
+    "position_qty": 1.0,
+    "pre_trend_1d": null,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99996.85579999999,
+    "unrealized_pnl_before": 0.0,
+    "vix_tm1": 11.315
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-18-nse_equity-TCS-EQ-1-cc91cda320d76410",
+    "decision_timestamp": "2023-07-18",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.007664040493587008,
+    "forward_return_3d": -0.03676165691979917,
+    "hold_return": -0.03676165691979917,
+    "mae": -0.03940689477672755,
+    "mfe": 0.005719433204169467,
+    "opportunity_return": -0.03676165691979917
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2808.575,
+    "cash_before": 87387.99715,
+    "exposure_before": 0.12631745585502427,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 2.0,
+    "pre_trend_1d": 0.008492151464225696,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100022.59714999999,
+    "unrealized_pnl_before": 28.900000000000546,
+    "vix_tm1": 11.71
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-19-nse_equity-RELIANCE-EQ-0-f04cb624052f985a",
+    "decision_timestamp": "2023-07-19",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.0781181272762461,
+    "forward_return_3d": -0.12472509104984424,
+    "hold_return": -0.12472509104984424,
+    "mae": -0.13109418160705166,
+    "mfe": -0.07421222091243383,
+    "opportunity_return": -0.12472509104984424
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3494.2749999999996,
+    "cash_before": 87387.99715,
+    "exposure_before": 0.12631745585502427,
+    "instrument": "TCS:EQ",
+    "position_qty": 2.0,
+    "pre_trend_1d": 0.0014749262536873419,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100022.59714999999,
+    "unrealized_pnl_before": 28.900000000000546,
+    "vix_tm1": 11.71
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-19-nse_equity-TCS-EQ-1-2397ebdfb20ad021",
+    "decision_timestamp": "2023-07-19",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.0019452169277099753,
+    "forward_return_3d": -0.021699975504675777,
+    "hold_return": -0.021699975504675777,
+    "mae": -0.03198801170011959,
+    "mfe": 0.0025503955274419413,
+    "opportunity_return": -0.021699975504675777
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2819.6666666666665,
+    "cash_before": 81072.94119999999,
+    "exposure_before": 0.18934063869672899,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 3.0,
+    "pre_trend_1d": 0.007587441720292894,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100008.64119999998,
+    "unrealized_pnl_before": 18.100000000002638,
+    "vix_tm1": 11.6
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-20-nse_equity-RELIANCE-EQ-0-6155f5f66b72f1a2",
+    "decision_timestamp": "2023-07-20",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.030955970761684794,
+    "forward_return_3d": -0.05116705154875269,
+    "hold_return": -0.05116705154875269,
+    "mae": -0.05746512204897217,
+    "mfe": -0.0018894211500657741,
+    "opportunity_return": -0.05116705154875269
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3486.1999999999994,
+    "cash_before": 81072.94119999999,
+    "exposure_before": 0.18934063869672899,
+    "instrument": "TCS:EQ",
+    "position_qty": 3.0,
+    "pre_trend_1d": -0.007664040493587008,
+    "pre_trend_3d": null,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100008.64119999998,
+    "unrealized_pnl_before": 18.100000000002638,
+    "vix_tm1": 11.6
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-20-nse_equity-TCS-EQ-1-959dc757768a06c4",
+    "decision_timestamp": "2023-07-20",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.027430485375220165,
+    "forward_return_3d": -0.01852279617705659,
+    "hold_return": -0.01852279617705659,
+    "mae": -0.030101348424912654,
+    "mfe": -0.008200271417434265,
+    "opportunity_return": -0.01852279617705659
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2769.7125,
+    "cash_before": 74986.74962499998,
+    "exposure_before": 0.24499354951348942,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 4.0,
+    "pre_trend_1d": -0.0781181272762461,
+    "pre_trend_3d": -0.06323524153466582,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99319.34962499997,
+    "unrealized_pnl_before": -668.1499999999978,
+    "vix_tm1": 11.785
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-21-nse_equity-RELIANCE-EQ-0-b1882736b765babd",
+    "decision_timestamp": "2023-07-21",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.020226489414081696,
+    "forward_return_3d": -0.004943377646479639,
+    "hold_return": -0.004943377646479639,
+    "mae": -0.027355982274741435,
+    "mfe": 0.0032496307237813884,
+    "opportunity_return": -0.004943377646479639
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3480.4749999999995,
+    "cash_before": 74986.74962499998,
+    "exposure_before": 0.24499354951348942,
+    "instrument": "TCS:EQ",
+    "position_qty": 4.0,
+    "pre_trend_1d": -0.0019452169277099753,
+    "pre_trend_3d": -0.008133573903828977,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99319.34962499997,
+    "unrealized_pnl_before": -668.1499999999978,
+    "vix_tm1": 11.785
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-21-nse_equity-TCS-EQ-1-c6a858bc32371417",
+    "decision_timestamp": "2023-07-21",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.007852625953745158,
+    "forward_return_3d": 0.005937713386574829,
+    "hold_return": 0.005937713386574829,
+    "mae": 0.0011281655434491366,
+    "mfe": 0.015601341923225284,
+    "opportunity_return": 0.005937713386574829
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2723.52,
+    "cash_before": 69076.74609999997,
+    "exposure_before": 0.299509706405791,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 5.0,
+    "pre_trend_1d": -0.030955970761684794,
+    "pre_trend_3d": -0.09987767909376158,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98611.99609999997,
+    "unrealized_pnl_before": -1372.5499999999965,
+    "vix_tm1": 11.485
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-24-nse_equity-RELIANCE-EQ-0-0ac00c768b0fc2f1",
+    "decision_timestamp": "2023-07-24",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": -0.0006432419393744106,
+    "forward_return_3d": 0.006151001045268042,
+    "hold_return": 0.006151001045268042,
+    "mae": -0.002974993969606855,
+    "mfe": 0.02396076224169812,
+    "opportunity_return": 0.006151001045268042
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3458.0399999999995,
+    "cash_before": 69076.74609999997,
+    "exposure_before": 0.299509706405791,
+    "instrument": "TCS:EQ",
+    "position_qty": 5.0,
+    "pre_trend_1d": -0.027430485375220165,
+    "pre_trend_3d": -0.03676165691979917,
+    "pre_trend_5d": null,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98611.99609999997,
+    "unrealized_pnl_before": -1372.5499999999965,
+    "vix_tm1": 11.485
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-24-nse_equity-TCS-EQ-1-8474703f1e8a5100",
+    "decision_timestamp": "2023-07-24",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.0012961190072906961,
+    "forward_return_3d": 0.000633330878562513,
+    "hold_return": 0.000633330878562513,
+    "mae": -0.0042860298991089715,
+    "mfe": 0.007688342293246899,
+    "opportunity_return": 0.000633330878562513
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2684.1666666666665,
+    "cash_before": 63191.65502499997,
+    "exposure_before": 0.3583597447441481,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 6.0,
+    "pre_trend_1d": -0.020226489414081696,
+    "pre_trend_3d": -0.12472509104984424,
+    "pre_trend_5d": -0.1105946293846318,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98484.55502499998,
+    "unrealized_pnl_before": -1497.0499999999965,
+    "vix_tm1": 11.6525
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-25-nse_equity-RELIANCE-EQ-0-5fed99b1698c4428",
+    "decision_timestamp": "2023-07-25",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.016252313138627256,
+    "forward_return_3d": 0.01691608335344747,
+    "hold_return": 0.01691608335344747,
+    "mae": -0.00032182798294319007,
+    "mfe": 0.02461984069514837,
+    "opportunity_return": 0.01691608335344747
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3447.4916666666663,
+    "cash_before": 63191.65502499997,
+    "exposure_before": 0.3583597447441481,
+    "instrument": "TCS:EQ",
+    "position_qty": 6.0,
+    "pre_trend_1d": 0.007852625953745158,
+    "pre_trend_3d": -0.021699975504675777,
+    "pre_trend_5d": -0.027765844717472815,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98484.55502499998,
+    "unrealized_pnl_before": -1497.0499999999965,
+    "vix_tm1": 11.6525
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-25-nse_equity-TCS-EQ-1-a8bd123c32974181",
+    "decision_timestamp": "2023-07-25",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.0031919744642042594,
+    "forward_return_3d": -0.012870864775017284,
+    "hold_return": -0.012870864775017284,
+    "mae": -0.020049129929541235,
+    "mfe": 0.006383948928408519,
+    "opportunity_return": -0.012870864775017284
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2655.828571428571,
+    "cash_before": 57303.76254999997,
+    "exposure_before": 0.4182265371950912,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 7.0,
+    "pre_trend_1d": -0.0006432419393744106,
+    "pre_trend_3d": -0.05116705154875269,
+    "pre_trend_5d": -0.11865127905121511,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98498.41254999998,
+    "unrealized_pnl_before": -1480.249999999994,
+    "vix_tm1": 10.2425
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-26-nse_equity-RELIANCE-EQ-0-76e21aa13718c87d",
+    "decision_timestamp": "2023-07-26",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.009302509698361175,
+    "forward_return_3d": 0.009124376533924543,
+    "hold_return": 0.009124376533924543,
+    "mae": -0.014191275433457332,
+    "mfe": 0.010965085899770514,
+    "opportunity_return": 0.009124376533924543
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3440.585714285714,
+    "cash_before": 57303.76254999997,
+    "exposure_before": 0.4182265371950912,
+    "instrument": "TCS:EQ",
+    "position_qty": 7.0,
+    "pre_trend_1d": 0.0012961190072906961,
+    "pre_trend_3d": -0.01852279617705659,
+    "pre_trend_5d": -0.027939431202367793,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98498.41254999998,
+    "unrealized_pnl_before": -1480.249999999994,
+    "vix_tm1": 10.2425
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-26-nse_equity-TCS-EQ-1-29f607610cb730aa",
+    "decision_timestamp": "2023-07-26",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": 0.0025381459729067403,
+    "forward_return_3d": 0.009783667325797489,
+    "hold_return": 0.009783667325797489,
+    "mae": -0.016911135377623048,
+    "mfe": 0.011318360239648174,
+    "opportunity_return": 0.009783667325797489
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2639.625,
+    "cash_before": 51386.30529999997,
+    "exposure_before": 0.47938090053910837,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 8.0,
+    "pre_trend_1d": 0.016252313138627256,
+    "pre_trend_3d": -0.004943377646479639,
+    "pre_trend_5d": -0.11107201294931122,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98702.30529999998,
+    "unrealized_pnl_before": -1273.3999999999978,
+    "vix_tm1": 10.4575
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-27-nse_equity-RELIANCE-EQ-0-b3b21ebf5d4a4376",
+    "decision_timestamp": "2023-07-27",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.010049146921325006,
+    "forward_return_3d": 0.004195468893594918,
+    "hold_return": 0.004195468893594918,
+    "mae": -0.0008590722020216711,
+    "mfe": 0.022495704638989967,
+    "opportunity_return": 0.004195468893594918
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3434.0499999999997,
+    "cash_before": 51386.30529999997,
+    "exposure_before": 0.47938090053910837,
+    "instrument": "TCS:EQ",
+    "position_qty": 8.0,
+    "pre_trend_1d": -0.0031919744642042594,
+    "pre_trend_3d": 0.005937713386574829,
+    "pre_trend_5d": -0.023558738346709702,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98702.30529999998,
+    "unrealized_pnl_before": -1273.3999999999978,
+    "vix_tm1": 10.4575
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-27-nse_equity-TCS-EQ-1-e55bc14a00773fdd",
+    "decision_timestamp": "2023-07-27",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.012217021401866408,
+    "forward_return_3d": 0.016235391091877913,
+    "hold_return": 0.016235391091877913,
+    "mae": -0.01940004121404813,
+    "mfe": 0.01857576025199444,
+    "opportunity_return": 0.016235391091877913
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2624.411111111111,
+    "cash_before": 45483.75549999997,
+    "exposure_before": 0.5386114449778893,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 9.0,
+    "pre_trend_1d": -0.009302509698361175,
+    "pre_trend_3d": 0.006151001045268042,
+    "pre_trend_5d": -0.044716300551558334,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98580.15549999996,
+    "unrealized_pnl_before": -1392.599999999998,
+    "vix_tm1": 10.5125
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-28-nse_equity-RELIANCE-EQ-0-21d926f19f587b40",
+    "decision_timestamp": "2023-07-28",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": 0.008465692189014416,
+    "forward_return_3d": -0.016417113357200783,
+    "hold_return": -0.016417113357200783,
+    "mae": -0.02541685622169037,
+    "mfe": 0.012322724845224238,
+    "opportunity_return": -0.016417113357200783
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3429.922222222222,
+    "cash_before": 45483.75549999997,
+    "exposure_before": 0.5386114449778893,
+    "instrument": "TCS:EQ",
+    "position_qty": 9.0,
+    "pre_trend_1d": 0.0025381459729067403,
+    "pre_trend_3d": 0.000633330878562513,
+    "pre_trend_5d": -0.01917246556752233,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98580.15549999996,
+    "unrealized_pnl_before": -1392.599999999998,
+    "vix_tm1": 10.5125
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-28-nse_equity-TCS-EQ-1-f5c3b9b0e6440c52",
+    "decision_timestamp": "2023-07-28",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.01968468736961308,
+    "forward_return_3d": 0.025406806938069976,
+    "hold_return": 0.025406806938069976,
+    "mae": 0.001639148834714192,
+    "mfe": 0.031173630565655332,
+    "opportunity_return": 0.025406806938069976
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2614.755,
+    "cash_before": 39597.56387499997,
+    "exposure_before": 0.5977086439231981,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 10.0,
+    "pre_trend_1d": 0.010049146921325006,
+    "pre_trend_3d": 0.01691608335344747,
+    "pre_trend_5d": -0.0042934515017233246,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98430.06387499996,
+    "unrealized_pnl_before": -1539.749999999999,
+    "vix_tm1": 10.135
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-31-nse_equity-RELIANCE-EQ-0-2f2052cf1d9f3aa9",
+    "decision_timestamp": "2023-07-31",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.014141414141414213,
+    "forward_return_3d": -0.028773168578993785,
+    "hold_return": -0.028773168578993785,
+    "mae": -0.035775228008237646,
+    "mfe": 0.0038246543100912034,
+    "opportunity_return": -0.028773168578993785
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3422.47,
+    "cash_before": 39597.56387499997,
+    "exposure_before": 0.5977086439231981,
+    "instrument": "TCS:EQ",
+    "position_qty": 10.0,
+    "pre_trend_1d": -0.012217021401866408,
+    "pre_trend_3d": -0.012870864775017284,
+    "pre_trend_5d": -0.003829825134340792,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98430.06387499996,
+    "unrealized_pnl_before": -1539.749999999999,
+    "vix_tm1": 10.135
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-07-31-nse_equity-TCS-EQ-1-0f488d8716b68c50",
+    "decision_timestamp": "2023-07-31",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": 0.008943576553800396,
+    "forward_return_3d": -0.006283885487147262,
+    "hold_return": -0.006283885487147262,
+    "mae": -0.015622031594791629,
+    "mfe": 0.011267152815326888,
+    "opportunity_return": -0.006283885487147262
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2608.8,
+    "cash_before": 33623.87852499997,
+    "exposure_before": 0.6613963340317406,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 11.0,
+    "pre_trend_1d": 0.008465692189014416,
+    "pre_trend_3d": 0.009124376533924543,
+    "pre_trend_5d": 0.02486532121894344,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99301.57852499996,
+    "unrealized_pnl_before": -665.2499999999977,
+    "vix_tm1": 10.4125
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-01-nse_equity-RELIANCE-EQ-0-535e3f979e610352",
+    "decision_timestamp": "2023-08-01",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.010683590641413302,
+    "forward_return_3d": -0.0014523316886836052,
+    "hold_return": -0.0014523316886836052,
+    "mae": -0.02194413496737213,
+    "mfe": 0.0011141174598122642,
+    "opportunity_return": -0.0014523316886836052
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3422.377272727272,
+    "cash_before": 33623.87852499997,
+    "exposure_before": 0.6613963340317406,
+    "instrument": "TCS:EQ",
+    "position_qty": 11.0,
+    "pre_trend_1d": 0.01968468736961308,
+    "pre_trend_3d": 0.009783667325797489,
+    "pre_trend_5d": 0.007865085794241054,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99301.57852499996,
+    "unrealized_pnl_before": -665.2499999999977,
+    "vix_tm1": 10.4125
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-01-nse_equity-TCS-EQ-1-2f52e9fdf48a9c55",
+    "decision_timestamp": "2023-08-01",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.0033023855390275606,
+    "forward_return_3d": -0.0024623050071696526,
+    "hold_return": -0.0024623050071696526,
+    "mae": -0.02434785127677762,
+    "mfe": 0.005489491751278173,
+    "opportunity_return": -0.0024623050071696526
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2600.8333333333335,
+    "cash_before": 27655.64589999997,
+    "exposure_before": 0.721321813198985,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 12.0,
+    "pre_trend_1d": -0.014141414141414213,
+    "pre_trend_3d": 0.004195468893594918,
+    "pre_trend_5d": 0.011022608415801606,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99238.64589999997,
+    "unrealized_pnl_before": -725.2000000000007,
+    "vix_tm1": 10.2825
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-02-nse_equity-RELIANCE-EQ-0-9a82622d3938b11d",
+    "decision_timestamp": "2023-08-02",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.004202948096607404,
+    "forward_return_3d": 0.0150823496289742,
+    "hold_return": 0.0150823496289742,
+    "mae": -0.011382146519999086,
+    "mfe": 0.016912341383956475,
+    "opportunity_return": 0.0150823496289742
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3424.85,
+    "cash_before": 27655.64589999997,
+    "exposure_before": 0.721321813198985,
+    "instrument": "TCS:EQ",
+    "position_qty": 12.0,
+    "pre_trend_1d": 0.008943576553800396,
+    "pre_trend_3d": 0.016235391091877913,
+    "pre_trend_5d": 0.015562714207963782,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99238.64589999997,
+    "unrealized_pnl_before": -725.2000000000007,
+    "vix_tm1": 10.2825
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-02-nse_equity-TCS-EQ-1-0d6d745579eed60c",
+    "decision_timestamp": "2023-08-02",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.0118291601877553,
+    "forward_return_3d": 0.012613895630186183,
+    "hold_return": 0.012613895630186183,
+    "mae": -0.021115196256521324,
+    "mfe": 0.013761934518186943,
+    "opportunity_return": 0.012613895630186183
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2592.026923076923,
+    "cash_before": 21725.682399999972,
+    "exposure_before": 0.7800525197635106,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 13.0,
+    "pre_trend_1d": -0.010683590641413302,
+    "pre_trend_3d": -0.016417113357200783,
+    "pre_trend_5d": -0.01577468133956136,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98776.68239999998,
+    "unrealized_pnl_before": -1184.2000000000003,
+    "vix_tm1": 11.2775
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-03-nse_equity-RELIANCE-EQ-0-7ddf32dccd13c638",
+    "decision_timestamp": "2023-08-03",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.013591017407811337,
+    "forward_return_3d": 0.013227513227513227,
+    "hold_return": 0.013227513227513227,
+    "mae": -0.0017367421947575353,
+    "mfe": 0.023647966396057887,
+    "opportunity_return": 0.013227513227513227
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3426.0653846153846,
+    "cash_before": 21725.682399999972,
+    "exposure_before": 0.7800525197635106,
+    "instrument": "TCS:EQ",
+    "position_qty": 13.0,
+    "pre_trend_1d": -0.0033023855390275606,
+    "pre_trend_3d": 0.025406806938069976,
+    "pre_trend_5d": 0.01545022577693826,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98776.68239999998,
+    "unrealized_pnl_before": -1184.2000000000003,
+    "vix_tm1": 11.2775
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-03-nse_equity-TCS-EQ-1-324ecd61324408fd",
+    "decision_timestamp": "2023-08-03",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.012823717995852989,
+    "forward_return_3d": 0.02077971734878457,
+    "hold_return": 0.02077971734878457,
+    "mae": 0.00038235856409658434,
+    "mfe": 0.026470977514375212,
+    "opportunity_return": 0.02077971734878457
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2583.7321428571427,
+    "cash_before": 15846.894474999972,
+    "exposure_before": 0.8384763103063296,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 14.0,
+    "pre_trend_1d": -0.004202948096607404,
+    "pre_trend_3d": -0.028773168578993785,
+    "pre_trend_5d": -0.010708434890318348,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98108.79447499997,
+    "unrealized_pnl_before": -1849.149999999996,
+    "vix_tm1": 11.185
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-04-nse_equity-RELIANCE-EQ-0-686e410eded089ac",
+    "decision_timestamp": "2023-08-04",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": 0.005698232750891485,
+    "forward_return_3d": 0.006236177800800795,
+    "hold_return": 0.006236177800800795,
+    "mae": -0.011336693829571146,
+    "mfe": 0.009922097587216686,
+    "opportunity_return": 0.006236177800800795
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3424.2,
+    "cash_before": 15846.894474999972,
+    "exposure_before": 0.8384763103063296,
+    "instrument": "TCS:EQ",
+    "position_qty": 14.0,
+    "pre_trend_1d": -0.0118291601877553,
+    "pre_trend_3d": -0.006283885487147262,
+    "pre_trend_5d": 0.0008978774765226315,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 98108.79447499997,
+    "unrealized_pnl_before": -1849.149999999996,
+    "vix_tm1": 11.185
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-04-nse_equity-TCS-EQ-1-5f905701777a3639",
+    "decision_timestamp": "2023-08-04",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": false,
+    "forward_return_1d": 0.011761118613059196,
+    "forward_return_3d": 0.005503041918949868,
+    "hold_return": 0.005503041918949868,
+    "mae": -0.0053723628232492625,
+    "mfe": 0.013474466756689937,
+    "opportunity_return": 0.005503041918949868
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2578.786666666667,
+    "cash_before": 9890.81792499997,
+    "exposure_before": 0.9002814257718021,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 15.0,
+    "pre_trend_1d": 0.013591017407811337,
+    "pre_trend_3d": -0.0014523316886836052,
+    "pre_trend_5d": -0.007239353600886021,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99187.31792499997,
+    "unrealized_pnl_before": -767.6499999999942,
+    "vix_tm1": 10.5725
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-07-nse_equity-RELIANCE-EQ-0-6809ae9d49290d79",
+    "decision_timestamp": "2023-08-07",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.006022544921449301,
+    "forward_return_3d": 0.004992372763832997,
+    "hold_return": 0.004992372763832997,
+    "mae": -0.016938407591576363,
+    "mfe": 0.010361154585256688,
+    "opportunity_return": 0.004992372763832997
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3425.49,
+    "cash_before": 9890.81792499997,
+    "exposure_before": 0.9002814257718021,
+    "instrument": "TCS:EQ",
+    "position_qty": 15.0,
+    "pre_trend_1d": 0.012823717995852989,
+    "pre_trend_3d": -0.0024623050071696526,
+    "pre_trend_5d": 0.026271085414555667,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 99187.31792499997,
+    "unrealized_pnl_before": -767.6499999999942,
+    "vix_tm1": 10.5725
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-07-nse_equity-TCS-EQ-1-188794c7bbe9339a",
+    "decision_timestamp": "2023-08-07",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": true,
+    "adverse_mae": true,
+    "forward_return_1d": -0.003860449763924247,
+    "forward_return_3d": -0.012040584951421556,
+    "hold_return": -0.012040584951421556,
+    "mae": -0.016934314949555832,
+    "mfe": 0.0016934314949554787,
+    "opportunity_return": -0.012040584951421556
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 2575.353125,
+    "cash_before": 3879.913974999971,
+    "exposure_before": 0.9612033098633163,
+    "instrument": "RELIANCE:EQ",
+    "position_qty": 16.0,
+    "pre_trend_1d": 0.005698232750891485,
+    "pre_trend_3d": 0.0150823496289742,
+    "pre_trend_5d": -0.009963714818083785,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100006.31397499997,
+    "unrealized_pnl_before": 54.349999999998545,
+    "vix_tm1": 11.1025
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-08-nse_equity-RELIANCE-EQ-0-58742714b754ba50",
+    "decision_timestamp": "2023-08-08",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": 0.0065971737787255,
+    "forward_return_3d": 0.01534689972694477,
+    "hold_return": 0.01534689972694477,
+    "mae": -0.010982002272138473,
+    "mfe": 0.020010762760847393,
+    "opportunity_return": 0.01534689972694477
+   }
+  },
+  {
+   "features": {
+    "action": "BUY",
+    "avg_cost": 3429.15,
+    "cash_before": 3879.913974999971,
+    "exposure_before": 0.9612033098633163,
+    "instrument": "TCS:EQ",
+    "position_qty": 16.0,
+    "pre_trend_1d": 0.011761118613059196,
+    "pre_trend_3d": 0.012613895630186183,
+    "pre_trend_5d": 0.01829633634862423,
+    "quantity": 1.0,
+    "realized_pnl_before": 0.0,
+    "total_equity_before": 100006.31397499997,
+    "unrealized_pnl_before": 54.349999999998545,
+    "vix_tm1": 11.1025
+   },
+   "keys": {
+    "attribution_status": "DECIDABLE",
+    "decision_id": "E5A-window3-20260926-E5A-window3-20260926-ep1-2023-08-08-nse_equity-TCS-EQ-1-f56ea0c385823acd",
+    "decision_timestamp": "2023-08-08",
+    "episode_id": "E5A-window3-20260926-ep1",
+    "experiment_id": "E5A-window3-20260926"
+   },
+   "outcomes": {
+    "adverse_forward_3d": false,
+    "adverse_mae": true,
+    "forward_return_1d": -0.00233389039359186,
+    "forward_return_3d": -0.006281334639543517,
+    "hold_return": -0.006281334639543517,
+    "mae": -0.016308419293493893,
+    "mfe": -0.0010372846193741454,
+    "opportunity_return": -0.006281334639543517
+   }
+  }
+ ]
+}

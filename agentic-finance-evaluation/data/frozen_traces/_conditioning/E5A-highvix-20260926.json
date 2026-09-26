@@ -1,0 +1,279 @@
+{
+  "actions": {},
+  "attribution": {
+    "NOT_APPLICABLE": 18
+  },
+  "base_adverse_forward_3d": {
+    "count": 0,
+    "n": 0,
+    "rate": null
+  },
+  "base_adverse_mae": {
+    "count": 0,
+    "n": 0,
+    "rate": null
+  },
+  "exposure_conditioning": {},
+  "exposure_missing_n": 0,
+  "instrument_conditioning": {},
+  "instruments": {},
+  "leg_coverage": {
+    "forward_return_1d": {
+      "n": 0,
+      "populated": 0
+    },
+    "forward_return_3d": {
+      "n": 0,
+      "populated": 0
+    },
+    "hold_return": {
+      "n": 0,
+      "populated": 0
+    },
+    "mae": {
+      "n": 0,
+      "populated": 0
+    },
+    "mfe": {
+      "n": 0,
+      "populated": 0
+    },
+    "opportunity_return": {
+      "n": 0,
+      "populated": 0
+    },
+    "pre_trend_1d": {
+      "n": 0,
+      "populated": 0
+    },
+    "pre_trend_3d": {
+      "n": 0,
+      "populated": 0
+    },
+    "pre_trend_5d": {
+      "n": 0,
+      "populated": 0
+    }
+  },
+  "n_executed": 0,
+  "n_noop": 18,
+  "n_rows": 18,
+  "participation": {
+    "NO_ORDERS": 18
+  },
+  "pre_trend_conditioning": {
+    "pre_trend_1d": {
+      "flat": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      },
+      "missing": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      },
+      "negative": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      },
+      "positive": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      }
+    },
+    "pre_trend_3d": {
+      "flat": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      },
+      "missing": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      },
+      "negative": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      },
+      "positive": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      }
+    },
+    "pre_trend_5d": {
+      "flat": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      },
+      "missing": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      },
+      "negative": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      },
+      "positive": {
+        "forward_3d": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        },
+        "mae": {
+          "count": 0,
+          "n": 0,
+          "rate": null
+        }
+      }
+    }
+  },
+  "sessions": [
+    "2020-03-17",
+    "2020-03-18",
+    "2020-03-19",
+    "2020-03-20",
+    "2020-03-23",
+    "2020-03-24",
+    "2020-03-25",
+    "2020-03-26",
+    "2020-03-27",
+    "2020-03-30",
+    "2020-03-31",
+    "2020-04-01",
+    "2020-04-03",
+    "2020-04-07",
+    "2020-04-08",
+    "2020-04-09",
+    "2020-04-13",
+    "2020-04-15"
+  ],
+  "temporal_conditioning": {
+    "early": {
+      "forward_3d": {
+        "count": 0,
+        "n": 0,
+        "rate": null
+      },
+      "mae": {
+        "count": 0,
+        "n": 0,
+        "rate": null
+      },
+      "sessions": []
+    },
+    "late": {
+      "forward_3d": {
+        "count": 0,
+        "n": 0,
+        "rate": null
+      },
+      "mae": {
+        "count": 0,
+        "n": 0,
+        "rate": null
+      },
+      "sessions": []
+    },
+    "mid": {
+      "forward_3d": {
+        "count": 0,
+        "n": 0,
+        "rate": null
+      },
+      "mae": {
+        "count": 0,
+        "n": 0,
+        "rate": null
+      },
+      "sessions": []
+    }
+  },
+  "vix_conditioning": {},
+  "vix_missing_n": 0
+}

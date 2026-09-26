@@ -1,0 +1,443 @@
+{
+  "actions": {
+    "BUY": 36
+  },
+  "attribution": {
+    "DECIDABLE": 38,
+    "NOT_APPLICABLE": 1
+  },
+  "base_adverse_forward_3d": {
+    "count": 8,
+    "n": 36,
+    "rate": 0.2222222222222222
+  },
+  "base_adverse_mae": {
+    "count": 15,
+    "n": 36,
+    "rate": 0.4166666666666667
+  },
+  "exposure_conditioning": {
+    "high": {
+      "forward_3d": {
+        "count": 2,
+        "n": 12,
+        "rate": 0.16666666666666666
+      },
+      "mae": {
+        "count": 4,
+        "n": 12,
+        "rate": 0.3333333333333333
+      },
+      "range": [
+        "0.6996472501185406",
+        "0.9960580765691573"
+      ]
+    },
+    "low": {
+      "forward_3d": {
+        "count": 5,
+        "n": 12,
+        "rate": 0.4166666666666667
+      },
+      "mae": {
+        "count": 8,
+        "n": 12,
+        "rate": 0.6666666666666666
+      },
+      "range": [
+        "0.0",
+        "0.2888162424724541"
+      ]
+    },
+    "mid": {
+      "forward_3d": {
+        "count": 1,
+        "n": 12,
+        "rate": 0.08333333333333333
+      },
+      "mae": {
+        "count": 3,
+        "n": 12,
+        "rate": 0.25
+      },
+      "range": [
+        "0.3447541330160803",
+        "0.6410575536549825"
+      ]
+    }
+  },
+  "exposure_missing_n": 0,
+  "instrument_conditioning": {
+    "RELIANCE:EQ": {
+      "forward_3d": {
+        "count": 3,
+        "n": 18,
+        "rate": 0.16666666666666666
+      },
+      "mae": {
+        "count": 8,
+        "n": 18,
+        "rate": 0.4444444444444444
+      }
+    },
+    "TCS:EQ": {
+      "forward_3d": {
+        "count": 5,
+        "n": 18,
+        "rate": 0.2777777777777778
+      },
+      "mae": {
+        "count": 7,
+        "n": 18,
+        "rate": 0.3888888888888889
+      }
+    }
+  },
+  "instruments": {
+    "RELIANCE:EQ": 18,
+    "TCS:EQ": 18
+  },
+  "leg_coverage": {
+    "forward_return_1d": {
+      "n": 36,
+      "populated": 34
+    },
+    "forward_return_3d": {
+      "n": 36,
+      "populated": 30
+    },
+    "hold_return": {
+      "n": 36,
+      "populated": 30
+    },
+    "mae": {
+      "n": 36,
+      "populated": 36
+    },
+    "mfe": {
+      "n": 36,
+      "populated": 36
+    },
+    "opportunity_return": {
+      "n": 36,
+      "populated": 30
+    },
+    "pre_trend_1d": {
+      "n": 36,
+      "populated": 28
+    },
+    "pre_trend_3d": {
+      "n": 36,
+      "populated": 24
+    },
+    "pre_trend_5d": {
+      "n": 36,
+      "populated": 20
+    }
+  },
+  "n_executed": 36,
+  "n_noop": 3,
+  "n_rows": 39,
+  "participation": {
+    "BLOCKED": 2,
+    "EXECUTED": 36,
+    "NO_ORDERS": 1
+  },
+  "populated_adverse_forward_3d": {
+    "count": 8,
+    "n": 30,
+    "rate": 0.26666666666666666
+  },
+  "populated_adverse_mae": {
+    "count": 15,
+    "n": 36,
+    "rate": 0.4166666666666667
+  },
+  "pre_trend_conditioning": {
+    "pre_trend_1d": {
+      "flat": {
+        "forward_3d": {
+          "count": 7,
+          "n": 19,
+          "rate": 0.3684210526315789
+        },
+        "mae": {
+          "count": 8,
+          "n": 19,
+          "rate": 0.42105263157894735
+        }
+      },
+      "missing": {
+        "forward_3d": {
+          "count": 0,
+          "n": 8,
+          "rate": 0.0
+        },
+        "mae": {
+          "count": 3,
+          "n": 8,
+          "rate": 0.375
+        }
+      },
+      "negative": {
+        "forward_3d": {
+          "count": 0,
+          "n": 3,
+          "rate": 0.0
+        },
+        "mae": {
+          "count": 1,
+          "n": 3,
+          "rate": 0.3333333333333333
+        }
+      },
+      "positive": {
+        "forward_3d": {
+          "count": 1,
+          "n": 6,
+          "rate": 0.16666666666666666
+        },
+        "mae": {
+          "count": 3,
+          "n": 6,
+          "rate": 0.5
+        }
+      }
+    },
+    "pre_trend_3d": {
+      "flat": {
+        "forward_3d": {
+          "count": 2,
+          "n": 7,
+          "rate": 0.2857142857142857
+        },
+        "mae": {
+          "count": 4,
+          "n": 7,
+          "rate": 0.5714285714285714
+        }
+      },
+      "missing": {
+        "forward_3d": {
+          "count": 4,
+          "n": 12,
+          "rate": 0.3333333333333333
+        },
+        "mae": {
+          "count": 6,
+          "n": 12,
+          "rate": 0.5
+        }
+      },
+      "negative": {
+        "forward_3d": {
+          "count": 0,
+          "n": 6,
+          "rate": 0.0
+        },
+        "mae": {
+          "count": 0,
+          "n": 6,
+          "rate": 0.0
+        }
+      },
+      "positive": {
+        "forward_3d": {
+          "count": 2,
+          "n": 11,
+          "rate": 0.18181818181818182
+        },
+        "mae": {
+          "count": 5,
+          "n": 11,
+          "rate": 0.45454545454545453
+        }
+      }
+    },
+    "pre_trend_5d": {
+      "flat": {
+        "forward_3d": {
+          "count": 0,
+          "n": 4,
+          "rate": 0.0
+        },
+        "mae": {
+          "count": 1,
+          "n": 4,
+          "rate": 0.25
+        }
+      },
+      "missing": {
+        "forward_3d": {
+          "count": 6,
+          "n": 16,
+          "rate": 0.375
+        },
+        "mae": {
+          "count": 10,
+          "n": 16,
+          "rate": 0.625
+        }
+      },
+      "negative": {
+        "forward_3d": {
+          "count": 0,
+          "n": 4,
+          "rate": 0.0
+        },
+        "mae": {
+          "count": 0,
+          "n": 4,
+          "rate": 0.0
+        }
+      },
+      "positive": {
+        "forward_3d": {
+          "count": 2,
+          "n": 12,
+          "rate": 0.16666666666666666
+        },
+        "mae": {
+          "count": 4,
+          "n": 12,
+          "rate": 0.3333333333333333
+        }
+      }
+    }
+  },
+  "sessions": [
+    "2023-06-16",
+    "2023-06-19",
+    "2023-06-20",
+    "2023-06-21",
+    "2023-06-22",
+    "2023-06-23",
+    "2023-06-26",
+    "2023-06-27",
+    "2023-06-29",
+    "2023-06-30",
+    "2023-07-03",
+    "2023-07-04",
+    "2023-07-05",
+    "2023-07-06",
+    "2023-07-07",
+    "2023-07-10",
+    "2023-07-11",
+    "2023-07-12",
+    "2023-07-13",
+    "2023-07-14"
+  ],
+  "temporal_conditioning": {
+    "early": {
+      "forward_3d": {
+        "count": 5,
+        "n": 12,
+        "rate": 0.4166666666666667
+      },
+      "mae": {
+        "count": 8,
+        "n": 12,
+        "rate": 0.6666666666666666
+      },
+      "sessions": [
+        "2023-06-16",
+        "2023-06-19",
+        "2023-06-20",
+        "2023-06-21",
+        "2023-06-22",
+        "2023-06-23"
+      ]
+    },
+    "late": {
+      "forward_3d": {
+        "count": 2,
+        "n": 12,
+        "rate": 0.16666666666666666
+      },
+      "mae": {
+        "count": 4,
+        "n": 12,
+        "rate": 0.3333333333333333
+      },
+      "sessions": [
+        "2023-07-06",
+        "2023-07-07",
+        "2023-07-10",
+        "2023-07-11",
+        "2023-07-12",
+        "2023-07-13"
+      ]
+    },
+    "mid": {
+      "forward_3d": {
+        "count": 1,
+        "n": 12,
+        "rate": 0.08333333333333333
+      },
+      "mae": {
+        "count": 3,
+        "n": 12,
+        "rate": 0.25
+      },
+      "sessions": [
+        "2023-06-26",
+        "2023-06-27",
+        "2023-06-30",
+        "2023-07-03",
+        "2023-07-04",
+        "2023-07-05"
+      ]
+    }
+  },
+  "vix_conditioning": {
+    "high": {
+      "forward_3d": {
+        "count": 3,
+        "n": 12,
+        "rate": 0.25
+      },
+      "mae": {
+        "count": 5,
+        "n": 12,
+        "rate": 0.4166666666666667
+      },
+      "range": [
+        11.5325,
+        11.8825
+      ]
+    },
+    "low": {
+      "forward_3d": {
+        "count": 2,
+        "n": 10,
+        "rate": 0.2
+      },
+      "mae": {
+        "count": 4,
+        "n": 10,
+        "rate": 0.4
+      },
+      "range": [
+        10.8,
+        11.1325
+      ]
+    },
+    "mid": {
+      "forward_3d": {
+        "count": 3,
+        "n": 10,
+        "rate": 0.3
+      },
+      "mae": {
+        "count": 4,
+        "n": 10,
+        "rate": 0.4
+      },
+      "range": [
+        11.225,
+        11.4625
+      ]
+    }
+  },
+  "vix_missing_n": 4
+}

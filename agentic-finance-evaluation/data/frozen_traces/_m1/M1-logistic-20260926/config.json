@@ -1,0 +1,1 @@
+{"C":1.0,"adverse_band":0.01,"dataset":"./data/frozen_traces/_ml/e5a_combined_v1.json","dropped_unlabelled":0,"model":"logistic_regression","permutation_seed":20260926,"solver":"lbfgs","target":"adverse_mae","test_window":"E5A-window3-20260926","train_window":"E5A-deterministic-attribution-20260926","valid_window":"E5A-window2-20260926"}
