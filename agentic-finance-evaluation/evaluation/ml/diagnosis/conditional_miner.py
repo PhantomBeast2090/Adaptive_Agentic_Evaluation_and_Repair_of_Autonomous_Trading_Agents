@@ -34,11 +34,31 @@ def _terciles(values: List[float]) -> Tuple[float, float]:
     return s[n // 3], s[(2 * n) // 3]
 
 
-def fit_bands(train_rows: List[Mapping[str, Any]]
+def _num_cols(spec: Mapping[str, Any]):
+    return spec.get("numeric_columns", MINER_NUMERIC_COLUMNS)
+
+
+def _cat_cols(spec: Mapping[str, Any]):
+    return spec.get("categorical_columns", MINER_CATEGORICAL_COLUMNS)
+
+
+def fit_bands(train_rows: List[Mapping[str, Any]],
+              numeric_columns: Optional[Tuple[str, ...]] = None,
+              categorical_columns: Optional[Tuple[str, ...]] = None
               ) -> Dict[str, Any]:
-    """TRAIN-only band cut points + baseline prevalence."""
+    """TRAIN-only band cut points + baseline prevalence.
+
+    Column lists default to the frozen forecast-diagnostic contract;
+    callers with a different frozen decision-time schema (e.g. the
+    regret miner over R1 features) pass their own. Thresholds and
+    selection rules are unchanged.
+    """
+    num_cols = tuple(numeric_columns) if numeric_columns is not None \
+        else tuple(MINER_NUMERIC_COLUMNS)
+    cat_cols = tuple(categorical_columns) if categorical_columns is not None \
+        else tuple(MINER_CATEGORICAL_COLUMNS)
     bands = {}
-    for col in MINER_NUMERIC_COLUMNS:
+    for col in num_cols:
         vals = [r["features"][col] for r in train_rows
                 if r["features"].get(col) is not None]
         if len(vals) < 3:
@@ -47,11 +67,13 @@ def fit_bands(train_rows: List[Mapping[str, Any]]
             lo, hi = _terciles(vals)
             bands[col] = {"lo": lo, "hi": hi}
     cats: Dict[str, List[str]] = {}
-    for col in MINER_CATEGORICAL_COLUMNS:
+    for col in cat_cols:
         cats[col] = sorted(set(str(r["features"].get(col))
                                for r in train_rows))
     y = [r["outcome"] for r in train_rows if r.get("outcome") is not None]
     return {"bands": bands, "categories": cats,
+            "numeric_columns": list(num_cols),
+            "categorical_columns": list(cat_cols),
             "train_baseline": (sum(1 for v in y if v) / len(y)) if y else None,
             "train_n": len(y)}
 
@@ -75,11 +97,11 @@ def _conditions_for(row: Mapping[str, Any], spec: Mapping[str, Any]
                     ) -> List[Tuple[str, ...]]:
     feats = row["features"]
     singles: List[Tuple[str, ...]] = []
-    for col in MINER_NUMERIC_COLUMNS:
+    for col in _num_cols(spec):
         b = _band_of(col, feats.get(col), spec["bands"])
         if b is not None:
             singles.append((f"{col}={b}",))
-    for col in MINER_CATEGORICAL_COLUMNS:
+    for col in _cat_cols(spec):
         singles.append((f"{col}={feats.get(col)}",))
     conds = list(singles)
     for i in range(len(singles)):
@@ -114,9 +136,12 @@ def _conditions_flat(row: Mapping[str, Any],
 def mine(train_rows: List[Mapping[str, Any]],
          valid_rows: List[Mapping[str, Any]],
          test_rows: List[Mapping[str, Any]],
-         target: str) -> Dict[str, Any]:
+         target: str,
+         numeric_columns: Optional[Tuple[str, ...]] = None,
+         categorical_columns: Optional[Tuple[str, ...]] = None
+         ) -> Dict[str, Any]:
     """Discover conditions on TRAIN, confirm on VALID, report TEST."""
-    spec = fit_bands(train_rows)
+    spec = fit_bands(train_rows, numeric_columns, categorical_columns)
     train_base = spec["train_baseline"]
     if train_base is None:
         return {"spec": spec, "candidates": [], "target": target,
