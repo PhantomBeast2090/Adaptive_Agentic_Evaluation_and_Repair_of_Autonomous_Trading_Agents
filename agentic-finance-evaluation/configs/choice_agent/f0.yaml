@@ -1,0 +1,40 @@
+# F0 ChoiceAccumulator frozen policy + experiment record.
+# Mirrors agents/choice/policy.py constants verbatim. Frozen BEFORE any
+# F0 run; any change requires a new experiment id, never an overwrite.
+agent:
+  agent_id: choice-accumulator
+  version: "1.0"
+  module: agents.choice.policy.ChoiceAccumulator
+policy:
+  vix_low: 15.0
+  vix_high: 25.0
+  vix_slot: indiavix
+  trend_lookback: 5
+  trend_min: -0.03
+  trend_sell: -0.08
+  buy_q_full: 2
+  buy_q_small: 1
+  cash_full: 20000.0
+  sell_q: 2
+  instruments: [RELIANCE:EQ, TCS:EQ, INFY:EQ]
+  max_names_held: 3
+  max_name_cost: 60000.0
+  cash_dust: 1000.0
+  max_orders_per_session: 3
+environment:
+  universe:
+    nse_equity: [RELIANCE:EQ, TCS:EQ, INFY:EQ]
+    mcx_gold: [GOLDAUG2023]
+  transaction_cost_bps: 5.0
+  initial_cash: 100000.0
+  strict_pit: true
+  vintage_policy: explicit
+windows:
+  F0-A: {start: "2019-11-01", end: "2020-05-29"}
+  F0-B: {start: "2023-05-15", end: "2023-08-14"}
+diversity_gate:
+  min_action_classes: 2
+  minor_class_min_session_share: 0.05
+  min_distinct_quantities: 2
+  min_exposure_range_pp: 15.0
+  require_full_exit: true
