@@ -16,6 +16,7 @@ from typing import Any, Mapping
 
 REGISTRY_SUBDIR = ("data", "frozen_traces", "_m2")
 FOUNDATION_SUBDIR = ("data", "frozen_traces", "_ml_foundation")
+F1_SUBDIR = ("data", "frozen_traces", "_ml_f1")
 SEQUENCE_SUBDIR = ("data", "frozen_traces", "_ml_sequence")
 
 
@@ -56,8 +57,9 @@ def save_foundation(base_dir: str, run_id: str,
                     artefacts: Mapping[str, Any],
                     provenance: Mapping[str, Any],
                     environment: Mapping[str, Any] | None = None,
-                    overwrite: bool = False) -> str:
-    """Persist one foundation run under _ml_foundation/<run_id>/.
+                    overwrite: bool = False,
+                    subdir: tuple = FOUNDATION_SUBDIR) -> str:
+    """Persist one foundation run under <subdir>/<run_id>/.
 
     JSON artefacts are written as ``<name>.json``; ``forecast_outputs``
     and ``diagnostic_table`` (list-of-dict rows) additionally persist
@@ -66,7 +68,7 @@ def save_foundation(base_dir: str, run_id: str,
     (RSS, wall-clock) persist unfingerprinted for audit, never for
     identity.
     """
-    out_dir = os.path.join(base_dir, *FOUNDATION_SUBDIR, run_id)
+    out_dir = os.path.join(base_dir, *subdir, run_id)
     if os.path.exists(out_dir) and not overwrite:
         raise FileExistsError(f"refusing to overwrite {out_dir}")
     os.makedirs(out_dir, exist_ok=True)

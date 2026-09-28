@@ -14,6 +14,8 @@ import json
 import os
 import sys
 
+import yaml
+
 sys.path.insert(0, ".")
 
 from agents.choice.policy import ChoiceAccumulator
@@ -25,6 +27,15 @@ from evaluation.contracts.budget import EvaluationBudget
 WINDOWS = {
     "F0-A": ("2019-11-01", "2020-05-29"),
     "F0-B": ("2023-05-15", "2023-08-14"),
+    "F0R-A": ("2019-11-01", "2020-05-29"),
+    "F0R-B": ("2023-05-15", "2023-08-14"),
+}
+
+POLICY_CONFIGS = {
+    "F0-A": "configs/choice_agent/f0.yaml",
+    "F0-B": "configs/choice_agent/f0.yaml",
+    "F0R-A": "configs/choice_agent/f0r.yaml",
+    "F0R-B": "configs/choice_agent/f0r.yaml",
 }
 
 MANIFEST_PATHS = [
@@ -67,7 +78,8 @@ def build_config(experiment_id: str, start: str, end: str) -> BaselineConfig:
 
 
 def save_f0(base_dir: str, experiment_id: str, config: BaselineConfig,
-            result_dict: dict, overwrite: bool = False) -> str:
+            result_dict: dict, agent_params: dict, policy_config: str,
+            overwrite: bool = False) -> str:
     out_dir = os.path.join(base_dir, "data", "frozen_traces", experiment_id)
     if os.path.exists(out_dir) and not overwrite:
         raise FileExistsError(
@@ -87,10 +99,13 @@ def save_f0(base_dir: str, experiment_id: str, config: BaselineConfig,
     manifest = {
         "experiment_id": experiment_id,
         "agent": dict(result_dict["agent_identity"]),
+        "agent_params": dict(agent_params),
+        "policy_config": policy_config,
         "result_fingerprint": result_dict["result_fingerprint"],
         "code_sha": code_sha(base_dir),
         "data_shas": {p: sha256_of_file(os.path.join(base_dir, p))
-                      for p in MANIFEST_PATHS},
+                      for p in MANIFEST_PATHS + [policy_config,
+                                                 "agents/choice/policy.py"]},
         "config_fingerprint": _fingerprint(config.to_dict()),
     }
     manifest["manifest_fingerprint"] = _fingerprint(
@@ -108,8 +123,17 @@ def main() -> None:
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
     start, end = WINDOWS[args.window]
+    policy_config = POLICY_CONFIGS[args.window]
+    with open(os.path.join(args.base_dir, policy_config)) as h:
+        params = dict(yaml.safe_load(h)["policy"])
+    # Schema guard: yaml keys must match the agent's parameter table.
+    from agents.choice.policy import DEFAULTS
+    unknown = set(params) - set(DEFAULTS) - {"vix_slot", "instruments"}
+    if unknown:
+        raise ValueError(f"policy config keys not in agent table: {unknown}")
+    agent_params = {k: params[k] for k in DEFAULTS if k in params}
     config = build_config(args.experiment_id, start, end)
-    agent = ChoiceAccumulator()
+    agent = ChoiceAccumulator(agent_params)
     result = run_baseline(agent, config, base_dir=args.base_dir)
     result_dict = {
         "evaluation_id": result.evaluation_id,
@@ -125,7 +149,7 @@ def main() -> None:
         "result_fingerprint": result.fingerprint(),
     }
     out = save_f0(args.base_dir, args.experiment_id, config, result_dict,
-                  args.overwrite)
+                  agent.params, policy_config, args.overwrite)
     n = len(result_dict["decision_records"])
     print(f"F0 {args.experiment_id} ({args.window}): {n} records -> {out}")
     print(f"result fingerprint: {result_dict['result_fingerprint']}")

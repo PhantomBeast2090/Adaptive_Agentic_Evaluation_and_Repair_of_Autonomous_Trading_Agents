@@ -1,0 +1,54 @@
+# F0R ChoiceAccumulator repeat: rationale-first deltas vs F0.
+# Addresses ONLY the two failed F0 diversity gates; every change below
+# carries an a priori justification recorded BEFORE the F0R runs.
+# No constant was fitted to F0 outcomes.
+agent:
+  agent_id: choice-accumulator
+  version: "1.0"
+  module: agents.choice.policy.ChoiceAccumulator
+policy:
+  vix_low: 15.0          # unchanged: regime convention inherited, not fitted
+  vix_high: 25.0         # unchanged
+  vix_slot: indiavix
+  trend_lookback: 5      # unchanged
+  trend_min: -0.05       # RATIONALE: -3% excluded normal pullbacks in
+                         # volatile regimes, throttling legitimate
+                         # accumulation to near-zero; -5% admits ordinary
+                         # dip-buying while keeping margin above the -8%
+                         # exit band. Pre-registered, not scanned.
+  trend_sell: -0.08      # unchanged: exit discipline preserved
+  sizing_mode: affordability
+                         # RATIONALE: fixed CASH_FULL=20000 can never bind
+                         # at 100k capital with <=3-name exposure
+                         # (arithmetic, not outcome) -> sizing must scale
+                         # with price x capital to vary at all.
+  buy_q_full: 2
+  buy_q_small: 1
+  cash_full: 20000.0     # inert under affordability mode; retained for schema
+  sell_q: 2              # unchanged
+  instruments: [RELIANCE:EQ, TCS:EQ, INFY:EQ]
+  max_names_held: 4      # RATIONALE: SELL recurrence needs pre-stress
+                         # inventory (the agent cannot sell what it never
+                         # held); capital still binds first, so exposure
+                         # discipline is preserved. Adds taper to q=1
+                         # (pyramiding) under affordability mode.
+  max_name_cost: 60000.0 # unchanged
+  cash_dust: 1000.0      # unchanged
+  max_orders_per_session: 3  # unchanged
+environment:
+  universe:
+    nse_equity: [RELIANCE:EQ, TCS:EQ, INFY:EQ]
+    mcx_gold: [GOLDAUG2023]
+  transaction_cost_bps: 5.0
+  initial_cash: 100000.0
+  strict_pit: true
+  vintage_policy: explicit
+windows:
+  F0R-A: {start: "2019-11-01", end: "2020-05-29"}
+  F0R-B: {start: "2023-05-15", end: "2023-08-14"}
+diversity_gate:
+  min_action_classes: 2
+  minor_class_min_session_share: 0.05
+  min_distinct_quantities: 2
+  min_exposure_range_pp: 15.0
+  require_full_exit: true
