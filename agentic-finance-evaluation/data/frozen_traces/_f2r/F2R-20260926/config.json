@@ -1,0 +1,1 @@
+{"experiment_id":"F2R-20260926","seed":20260926,"split_spec_sha256":"aba2ade5401c80ed357d2df81fcab3dfd872f6c5cf14358d2eaea8d587ee595d","splits":{"test":"F1R-A>2020-03-10","train":"F1R-B + F1R-A<2020-02-15","valid":"F1R-A 2020-02-15..2020-03-10"},"targets":["adverse_mae","adverse_forward_3d"]}
