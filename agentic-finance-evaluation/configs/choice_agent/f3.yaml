@@ -1,0 +1,61 @@
+# F3 ChoiceAccumulator v1.1 frozen policy + experiment record.
+# FROZEN BEFORE any F3 run. Deltas vs F0R are restricted to the three
+# approved mechanisms (A/B/C); every constant below carries an a priori
+# rationale. Nothing was fitted to F0/F0R outcomes.
+agent:
+  agent_id: choice-accumulator
+  version: "1.1"
+  module: agents.choice.policy.ChoiceAccumulator
+  policy_version: "1.1"
+policy:
+  vix_low: 15.0            # unchanged: inherited regime convention
+  vix_high: 25.0           # unchanged
+  vix_slot: indiavix
+  trend_lookback: 5        # unchanged
+  trend_min: -0.05         # unchanged from F0R
+  trend_sell: -0.08        # unchanged
+  sizing_mode: affordability  # unchanged from F0R
+  buy_q_full: 2
+  buy_q_small: 1
+  cash_full: 20000.0       # inert under affordability; schema retained
+  sell_q: 2                # unchanged
+  instruments: [RELIANCE:EQ, TCS:EQ, INFY:EQ]
+  max_names_held: 4        # unchanged from F0R
+  max_name_cost: 60000.0   # unchanged
+  cash_dust: 1000.0        # unchanged
+  max_orders_per_session: 3  # unchanged
+  # A. sizing ladder (exposure-tiered risk scaling; FinRL-style pattern;
+  #   round tiers, not fitted cut-points).
+  exp_tier_full: 0.25
+  exp_tier_halt: 0.5
+  conc_cap: 0.4
+  # B. staged exits (drawdown-control pattern: trim then flatten;
+  #   creates exits outside HIGH-VIX liquidation).
+  dd_trim: -0.05
+  dd_flatten: -0.10
+  # C. cash-trajectory pause (treasury-preservation pattern; exits
+  #   unaffected; creates BUY/HOLD overlap inside LOW regime).
+  cash_drop: 0.20
+  cash_window: 5
+environment:
+  universe:
+    nse_equity: [RELIANCE:EQ, TCS:EQ, INFY:EQ]
+    mcx_gold: [GOLDAUG2023]
+  transaction_cost_bps: 5.0
+  initial_cash: 100000.0
+  strict_pit: true
+  vintage_policy: explicit
+windows:
+  F3-A: {start: "2019-11-01", end: "2020-05-29"}
+  F3-B: {start: "2023-05-15", end: "2023-08-14"}
+diversity_gate:
+  min_action_classes: 2
+  minor_class_min_session_share: 0.05
+  min_distinct_quantities: 2
+  min_exposure_range_pp: 15.0
+  require_full_exit: true
+overlap_gate:
+  min_train_labelled: 15
+  min_valid_labelled: 10
+  min_test_labelled: 20
+  min_shared_action_regimes: 2

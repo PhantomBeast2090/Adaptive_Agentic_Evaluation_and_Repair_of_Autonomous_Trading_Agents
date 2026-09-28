@@ -29,6 +29,8 @@ WINDOWS = {
     "F0-B": ("2023-05-15", "2023-08-14"),
     "F0R-A": ("2019-11-01", "2020-05-29"),
     "F0R-B": ("2023-05-15", "2023-08-14"),
+    "F3-A": ("2019-11-01", "2020-05-29"),
+    "F3-B": ("2023-05-15", "2023-08-14"),
 }
 
 POLICY_CONFIGS = {
@@ -36,6 +38,8 @@ POLICY_CONFIGS = {
     "F0-B": "configs/choice_agent/f0.yaml",
     "F0R-A": "configs/choice_agent/f0r.yaml",
     "F0R-B": "configs/choice_agent/f0r.yaml",
+    "F3-A": "configs/choice_agent/f3.yaml",
+    "F3-B": "configs/choice_agent/f3.yaml",
 }
 
 MANIFEST_PATHS = [
@@ -125,15 +129,18 @@ def main() -> None:
     start, end = WINDOWS[args.window]
     policy_config = POLICY_CONFIGS[args.window]
     with open(os.path.join(args.base_dir, policy_config)) as h:
-        params = dict(yaml.safe_load(h)["policy"])
-    # Schema guard: yaml keys must match the agent's parameter table.
-    from agents.choice.policy import DEFAULTS
-    unknown = set(params) - set(DEFAULTS) - {"vix_slot", "instruments"}
+        cfg = yaml.safe_load(h)
+    policy = cfg.get("policy", {})
+    policy_version = str(cfg.get("agent", {}).get("policy_version", "1.0"))
+    from agents.choice.policy import DEFAULTS, V11_DEFAULTS
+    allowed = set(DEFAULTS) | set(V11_DEFAULTS) | {"vix_slot", "instruments"}
+    unknown = set(policy) - allowed
     if unknown:
         raise ValueError(f"policy config keys not in agent table: {unknown}")
-    agent_params = {k: params[k] for k in DEFAULTS if k in params}
+    agent_params = {k: policy[k] for k in list(DEFAULTS) + list(V11_DEFAULTS)
+                    if k in policy}
     config = build_config(args.experiment_id, start, end)
-    agent = ChoiceAccumulator(agent_params)
+    agent = ChoiceAccumulator(agent_params, policy_version=policy_version)
     result = run_baseline(agent, config, base_dir=args.base_dir)
     result_dict = {
         "evaluation_id": result.evaluation_id,
@@ -151,7 +158,7 @@ def main() -> None:
     out = save_f0(args.base_dir, args.experiment_id, config, result_dict,
                   agent.params, policy_config, args.overwrite)
     n = len(result_dict["decision_records"])
-    print(f"F0 {args.experiment_id} ({args.window}): {n} records -> {out}")
+    print(f"RUN {args.experiment_id} ({args.window}): {n} records -> {out}")
     print(f"result fingerprint: {result_dict['result_fingerprint']}")
 
 

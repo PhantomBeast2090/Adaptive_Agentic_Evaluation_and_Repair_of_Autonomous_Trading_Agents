@@ -85,6 +85,8 @@ class CachedAttributionEngine(DecisionAttributionEngine):
 F0_MAP = {
     "F0R-A-20260926": "F1R-A-20260926",
     "F0R-B-20260926": "F1R-B-20260926",
+    "F3-A-20260926": "F3A-20260926",
+    "F3-B-20260926": "F3B-20260926",
 }
 
 
@@ -96,8 +98,8 @@ def main() -> None:
     parser.add_argument("--base-dir", default=".")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
-    assert args.experiment_id.startswith("F1R-"), \
-        "F1 experiment ids live under the F1R- namespace"
+    assert args.experiment_id.startswith(("F1R-", "F3")), \
+        "attribution ids live under the F1R-/F3 namespaces"
 
     src = os.path.join(base_dir := args.base_dir, "data", "frozen_traces",
                        args.f0_id)
@@ -128,6 +130,9 @@ def main() -> None:
     extra = {"attribution_fingerprint": attribution.fingerprint(),
              "arm": args.arm, "registry": REGISTRY_ROOT,
              "source_experiment": args.f0_id}
+    policy_cfg = ("configs/choice_agent/f3.yaml"
+                  if args.experiment_id.startswith("F3")
+                  else "configs/choice_agent/f0r.yaml")
     out = save_experiment(
         base_dir=base_dir, experiment_id=args.experiment_id,
         config_dict=config_dict, environment_spec=env_spec,
@@ -135,7 +140,7 @@ def main() -> None:
         attribution_dict=attribution_dict,
         manifest_paths=[
             "configs/indian_environment.yaml",
-            "configs/choice_agent/f0r.yaml",
+            policy_cfg,
             "agents/choice/policy.py",
             "data/processed/india/calendars/historical_calendar.csv",
             "data/processed/india/equities/nse_equity_daily.csv",
