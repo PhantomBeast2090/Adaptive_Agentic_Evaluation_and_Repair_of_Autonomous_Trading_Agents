@@ -17,6 +17,7 @@ from typing import Any, Mapping
 REGISTRY_SUBDIR = ("data", "frozen_traces", "_m2")
 FOUNDATION_SUBDIR = ("data", "frozen_traces", "_ml_foundation")
 F1_SUBDIR = ("data", "frozen_traces", "_ml_f1")
+F2R_SUBDIR = ("data", "frozen_traces", "_f2r")
 SEQUENCE_SUBDIR = ("data", "frozen_traces", "_ml_sequence")
 
 
