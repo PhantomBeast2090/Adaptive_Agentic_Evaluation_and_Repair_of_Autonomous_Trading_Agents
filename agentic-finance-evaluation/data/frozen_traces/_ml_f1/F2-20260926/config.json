@@ -1,0 +1,1 @@
+{"experiment_id":"F2-20260926","seed":20260926,"splits":{"test":"F1R-A>2020-04-30","train":"F1R-B + F1R-A<2020-03-01","valid":"F1R-A 2020-03-01..2020-04-30"},"targets":["adverse_mae","adverse_forward_3d"],"taxonomy":["F-ACC","F-CASH","F-CONC","F-VOL"]}
