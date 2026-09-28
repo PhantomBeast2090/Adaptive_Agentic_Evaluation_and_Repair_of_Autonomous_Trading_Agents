@@ -87,6 +87,8 @@ F0_MAP = {
     "F0R-B-20260926": "F1R-B-20260926",
     "F3-A-20260926": "F3A-20260926",
     "F3-B-20260926": "F3B-20260926",
+    "G1-A-20260926": "G1A-20260926",
+    "G1-B-20260926": "G1B-20260926",
 }
 
 
@@ -98,8 +100,8 @@ def main() -> None:
     parser.add_argument("--base-dir", default=".")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()
-    assert args.experiment_id.startswith(("F1R-", "F3")), \
-        "attribution ids live under the F1R-/F3 namespaces"
+    assert args.experiment_id.startswith(("F1R-", "F3", "G1")), \
+        "attribution ids live under the F1R-/F3/G1 namespaces"
 
     src = os.path.join(base_dir := args.base_dir, "data", "frozen_traces",
                        args.f0_id)
@@ -130,9 +132,12 @@ def main() -> None:
     extra = {"attribution_fingerprint": attribution.fingerprint(),
              "arm": args.arm, "registry": REGISTRY_ROOT,
              "source_experiment": args.f0_id}
-    policy_cfg = ("configs/choice_agent/f3.yaml"
-                  if args.experiment_id.startswith("F3")
-                  else "configs/choice_agent/f0r.yaml")
+    if args.experiment_id.startswith("G1"):
+        policy_cfg = "configs/choice_agent/g1.yaml"
+    elif args.experiment_id.startswith("F3"):
+        policy_cfg = "configs/choice_agent/f3.yaml"
+    else:
+        policy_cfg = "configs/choice_agent/f0r.yaml"
     out = save_experiment(
         base_dir=base_dir, experiment_id=args.experiment_id,
         config_dict=config_dict, environment_spec=env_spec,

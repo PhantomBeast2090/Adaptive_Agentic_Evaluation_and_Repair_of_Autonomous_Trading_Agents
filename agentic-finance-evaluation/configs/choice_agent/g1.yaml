@@ -1,0 +1,60 @@
+# G1 multi-asset policy record. FROZEN BEFORE any G1 run.
+# Inherits v1.1 mechanisms (ladder/exits/pause, F0R-calibrated values);
+# adds ONLY cross-asset rotation + 6-name universe. Each constant below
+# carries an a priori rationale; nothing fitted to G1 outcomes.
+agent:
+  agent_id: multi-asset-choice
+  version: "1.0"
+  module: agents.choice.multi_asset.MultiAssetChoice
+  policy_version: "1.1"
+policy:
+  vix_low: 15.0
+  vix_high: 25.0
+  trend_lookback: 5
+  trend_min: -0.05
+  trend_sell: -0.08
+  sizing_mode: affordability
+  buy_q_full: 2
+  buy_q_small: 1
+  sell_q: 2
+  instruments: [YESBANK:EQ, ICICIBANK:EQ, RELIANCE:EQ, SBIN:EQ, INFY:EQ, TCS:EQ]
+  max_names_held: 4
+  max_name_cost: 60000.0
+  cash_dust: 1000.0
+  max_orders_per_session: 6
+  exp_tier_full: 0.25
+  exp_tier_halt: 0.5
+  conc_cap: 0.4
+  dd_trim: -0.05
+  dd_flatten: -0.10
+  cash_drop: 0.20
+  cash_window: 5
+  # G1 rotation (rebalancing-toward-momentum precedent; round margin).
+  rotation_edge: 0.02
+environment:
+  universe:
+    nse_equity: [YESBANK:EQ, ICICIBANK:EQ, RELIANCE:EQ, SBIN:EQ, INFY:EQ, TCS:EQ]
+    mcx_gold: [GOLDAUG2023]
+  transaction_cost_bps: 5.0
+  initial_cash: 100000.0
+  strict_pit: true
+  vintage_policy: explicit
+windows:
+  G1-A: {start: "2020-01-01", end: "2020-09-30"}
+  G1-B: {start: "2020-10-01", end: "2021-03-31"}
+splits:
+  TRAIN: {source: [G1-A 2020-01-01..2020-05-29], note: descent+crash+rebound start}
+  VALID: {source: [G1-A 2020-06-01..2020-09-30], note: rebound/MID grind}
+  TEST: {source: [G1-B 2020-10-01..2021-03-31], note: post-crash transition}
+  rule: strictly chronological; support-checked before any mining
+diversity_gate:
+  min_action_classes: 2
+  minor_class_min_session_share: 0.05
+  min_distinct_quantities: 2
+  min_exposure_range_pp: 15.0
+  require_full_exit: true
+support_gate:
+  min_train_labelled: 45
+  min_valid_labelled: 15
+  min_test_labelled: 20
+  min_shared_action_regimes: 2
