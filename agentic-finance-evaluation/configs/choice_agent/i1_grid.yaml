@@ -1,0 +1,96 @@
+# I1 pre-registered factorial grid specification (frozen before execution)
+#
+# I1 = controlled policy-boundary perturbation for behavioural
+# identifiability. Six deterministic configuration cells of the FROZEN
+# MultiAssetChoice logic (agents/choice/multi_asset.py @ multi-asset-choice
+# 1.0, policy_version 1.1), evaluated against the same market paths.
+# These are NOT six independent agents and NOT naturally occurring
+# variation. No frozen file is modified; this file is purely additive.
+experiment: I1-20260928
+framing: controlled policy-boundary perturbation for behavioural identifiability
+agent: {module: agents.choice.multi_asset.MultiAssetChoice, policy_version: "1.1", base_params: configs/choice_agent/g1.yaml}
+# One-factor-at-a-time symmetric bracketing of each frozen boundary.
+# C0 reproduces G1 exactly (reproduction anchor). C5 reuses the F0-frozen
+# trend_min (-0.03); no new number is invented anywhere in this grid.
+cells:
+  - {id: C0, vix_low: 15.0, vix_high: 25.0, trend_min: -0.05, role: frozen-reproduction-anchor}
+  - {id: C1, vix_low: 12.0, vix_high: 25.0, trend_min: -0.05, role: widen-LOW-accumulate-earlier}
+  - {id: C2, vix_low: 18.0, vix_high: 25.0, trend_min: -0.05, role: narrow-LOW-accumulate-later}
+  - {id: C3, vix_low: 15.0, vix_high: 22.0, trend_min: -0.05, role: earlier-liquidation-boundary}
+  - {id: C4, vix_low: 15.0, vix_high: 28.0, trend_min: -0.05, role: later-liquidation-boundary}
+  - {id: C5, vix_low: 15.0, vix_high: 25.0, trend_min: -0.03, role: stricter-entry-F0-value}
+fixed_policy_constants: from configs/choice_agent/g1.yaml verbatim (all non-varied keys identical across cells)
+initial_cash: 100000.0  # fixed across cells (isolates threshold effects; H0 covered capital)
+windows:
+  W1: {start: "2020-01-01", end: "2020-09-30", role: G1-A-equivalent-reproduction}
+  W2: {start: "2021-07-01", end: "2022-03-31", role: second-transition-window}
+second_window_rule:
+  declared_before_selection: true
+  inputs_allowed: India VIX daily closes only (data/processed/india/market/nse_india_vix_daily.csv); no returns, no actions, no outcomes
+  rule: first quarter-aligned 9-month window with start >= 2021-04-01 (no overlap with any frozen evidence window) satisfying min(VIX close) <= 15.0 AND max(VIX close) >= 28.0
+  outcome: "2021-07-01 -> 2022-03-31 (VIX n=187, min=11.71, max=31.98)"
+  feasibility_note: 6-name bar completeness verified (187 bars/name, Neumann-equivalent of W1 188/name); feasibility is a calendar precondition, not outcome selection
+splits:
+  rule: within-window chronological thirds by session date, pooled across windows
+  W1_T1: {start: "2020-01-01", end: "2020-03-31"}
+  W1_T2: {start: "2020-04-01", end: "2020-06-30"}
+  W1_T3: {start: "2020-07-01", end: "2020-09-30"}
+  W2_T1: {start: "2021-07-01", end: "2021-09-30"}
+  W2_T2: {start: "2021-10-01", end: "2021-12-31"}
+  W2_T3: {start: "2022-01-01", end: "2022-03-31"}
+  TRAIN: [W1_T1, W2_T1]
+  VALID: [W1_T2, W2_T2]
+  TEST: [W1_T3, W2_T3]
+cluster_unit: (window, market date)  # branches never counted as independent market samples
+action_taxonomy:
+  BUY: submitted_orders non-empty and all sides BUY
+  SELL: submitted_orders non-empty and all sides SELL
+  MIXED: submitted_orders contains both BUY and SELL
+  HOLD: submitted_orders empty
+paired_contrast: a (window, date) cluster where >= 2 executed cells disagree in action class (raw observations without disagreement do NOT count)
+regime_label: per-date VIX band under the FROZEN C0 bands only (LOW <15, MID 15..25, HIGH >25); fixed date attribute, identical for all cells
+gates:
+  min_cells_executed: 6
+  min_paired_contrast_train: 15
+  min_paired_contrast_valid: 10
+  min_paired_contrast_test: 20
+  min_shared_action_regimes: 2
+  min_contrast_instruments: 3
+  min_second_window_contrasts: 10
+  require_action_overlap_per_split: true  # reject BUY/VALID-HOLD/TEST-SELL segregation
+  require_bit_identical_rerun: true
+  reproduction_anchor: W1-C0 behavioural payload (decision_records + metrics + budget_usage, canonical JSON) must equal frozen G1-A-20260926 baseline_result payload
+  reproduction_anchor_reference: c9c9c1243947ae74a8df9dd211c4e6ae05b4b71177f1bda89da0a9956a268bc8 (full-artefact fingerprint, covers evaluation_id)
+  anchor_correction_20260928: full-artefact fingerprint() covers evaluation_id + config by design (evaluation/baseline/results.py:218-221), so cross-experiment fingerprint equality is mathematically impossible; anchor corrected pre-audit to ID-independent behavioural-payload equality. No outcomes viewed beyond fingerprints at correction time.
+miner_frozen:
+  invoke: only if ALL gates pass and only under separate mining authorisation
+  min_train_n: 15
+  min_train_delta: 0.02
+  max_candidates: 5
+  permutation_seed: 20260926
+  primary_target: adverse_mae
+  secondary_target: adverse_forward_3d
+  adverse_band: 0.01
+failure_taxonomy: [F-ACC, F-CONC, F-CASH, F-VOL]  # exposure-slope, concentration, cash, volatility-regime
+falsification:
+  - real candidates > permutation candidates AND real top TRAIN delta > permutation top delta
+  - VALID confirmation (n>=5; n<5 is vacuous, never validation)
+  - TEST confirmation
+  - cross-instrument support (no single-instrument survivor)
+  - cross-window transfer (W1-mined conditions confirm on W2)
+  - no missingness artefact; deterministic rerun
+  - suppression-vs-quality: failure rate AND participation/exposure/quality (suppress-everything = reject)
+stop_conditions:
+  - TRAIN contrasts <15 or VALID <10 or TEST <20
+  - TEST effectively single-action
+  - contrasts in <2 VIX regimes (C0 bands)
+  - contrasts on <3 instruments
+  - second window contributes <10 contrasts
+  - deterministic rerun fails (incl. C0-W1 reproduction anchor mismatch)
+  - any frozen path requires modification
+  - outcome-dependent window/cell/threshold selection discovered
+  - policy optimisation, new grid, new model, threshold relaxation
+  - verdict on stop: I1-NULL / SUPPORT-FAIL (or I1-INFRA-FAIL for rerun/provenance faults); branch closes, no I2
+identifiability_rule: policy disagreement is NOT failure-mechanism evidence; cell-A BUY vs cell-B HOLD proves disagreement only; outcome analysis comes later
+forbidden_in_I1: [conditional miner, hypothesis extraction, LearnedContext, MemoryStore, repair, candidate translation, held-out repair verification]
+rationale: outcome-blind OFAT bracketing; tier/boundary crossings predicted arithmetically, asserted nowhere

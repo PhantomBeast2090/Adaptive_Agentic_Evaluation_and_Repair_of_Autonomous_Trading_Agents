@@ -1,0 +1,29 @@
+# H0 pre-registered state specification (frozen before execution)
+experiment: H0-20260926
+window: {start: "2020-01-01", end: "2020-09-30"}
+agent: {module: agents.choice.multi_asset.MultiAssetChoice, policy_version: "1.1", params: configs/choice_agent/g1.yaml}
+states:
+  - {id: S0, initial_cash: 100000.0, role: baseline-reproduction}
+  - {id: S1, initial_cash: 25000.0, role: dust-and-binding-regime}
+  - {id: S2, initial_cash: 50000.0, role: affordability-binds-expensive-names}
+  - {id: S3, initial_cash: 200000.0, role: exposure-brake-and-taper-regime}
+validity_rules:
+  - initial_cash >= 0 (environment-enforced)
+  - positions start empty (environment-enforced; no injection)
+  - same market dates across branches (paired clusters)
+  - policy/config identical across branches (only capital varies)
+splits:
+  TRAIN: {start: "2020-01-01", end: "2020-03-31"}
+  VALID: {start: "2020-04-01", end: "2020-06-30"}
+  TEST: {start: "2020-07-01", end: "2020-09-30"}
+gates:
+  min_states_executed: 3
+  min_action_classes: 2
+  min_distinct_quantities: 2
+  min_instruments: 3
+  min_paired_contrast_train: 15
+  min_valid_labelled: 10
+  min_test_labelled: 20
+  require_same_regime_split: true
+rationale: outcome-blind capital scaling (0.25x/0.5x/1x/2x); tier crossings predicted arithmetically, asserted nowhere
+synthetic_label: controlled initial-state interventions (not historical observed states)
