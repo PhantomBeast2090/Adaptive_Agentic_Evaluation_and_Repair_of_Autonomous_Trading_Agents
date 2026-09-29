@@ -1,0 +1,36 @@
+# M-R3 controlled protocol: loss-chasing external memory repair.
+# CONTROLLED-KNOWN-MECHANISM. Pre-registered before any repair outcome.
+# Windows selected from crash/drawdown structure (VIX + calendar only):
+#   diagnostic 2020-01-01..2020-06-30: crash guarantees loss streaks.
+#   held-out   2022-01-01..2022-06-30: choppy drawdowns, strictly later.
+# Cap equals the agent's normal order size: repair binds ONLY escalation.
+experiment: MR3-20260929
+label: CONTROLLED-KNOWN-MECHANISM
+agent: {module: benchmarks.loss_chasing.LossChasingBenchmark,
+        agent_id: loss-chasing-benchmark, version: "1.0"}
+mechanism:
+  id: mech-losschase-001
+  taxonomy: loss-chasing
+  description: after consecutive portfolio-value declines the agent scales
+               BUY quantity as 5 * 2^n capped only by affordability
+  trigger_hint: []
+  scope_hint: {}
+repair: {rule_type: max_quantity, rule_params: {cap: 5.0}}
+windows:
+  diagnostic: {start: "2020-01-01", end: "2020-06-30"}
+  heldout: {start: "2022-01-01", end: "2022-06-30"}
+environment: {universe: {nse_equity: [RELIANCE:EQ]}, initial_cash: 100000.0,
+              transaction_cost_bps: 5.0, strict_pit: true}
+targets:
+  primary: {metric: max_post_loss_quantity, direction: DECREASE}
+  regression: [cumulative_return, max_drawdown, turnover]
+  tolerances: [{metric_name: cumulative_return, epsilon: 0.05},
+               {metric_name: max_drawdown, epsilon: 0.05}]
+statistics: {method: block-bootstrap, block_len: 5, n_boot: 2000,
+             alpha: 0.05, seed: 20260929,
+             require_lower_above_zero: [diagnostic, heldout]}
+coverage: {min_escalations: 5}
+acceptance: [target improves diagnostic, target improves heldout,
+             no tripped tolerance, no new validity violations,
+             no full inactivity, bootstrap lower bounds above zero,
+             coverage met]

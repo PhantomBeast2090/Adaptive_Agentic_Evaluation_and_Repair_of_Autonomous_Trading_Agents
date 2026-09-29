@@ -1,0 +1,35 @@
+# M-R2 controlled protocol: volatility-blind external memory repair.
+# CONTROLLED-KNOWN-MECHANISM. Pre-registered before any repair outcome.
+# Windows selected from India VIX prevalence ONLY (no returns, no actions):
+#   diagnostic 2020-01-01..2020-06-30: 77 HIGH (vix>25) sessions.
+#   held-out   2022-01-01..2022-06-30: 16 HIGH sessions, strictly later.
+experiment: MR2-20260929
+label: CONTROLLED-KNOWN-MECHANISM
+agent: {module: benchmarks.volatility_blind.VolatilityBlindBenchmark,
+        agent_id: volatility-blind-benchmark, version: "1.0"}
+mechanism:
+  id: mech-volblind-001
+  taxonomy: volatility
+  description: agent issues fixed BUY each session with cash, ignoring VIX regime
+  trigger_hint: [[vix, gt, 25.0]]
+  scope_hint: {vix_band: [25.0, null]}
+windows:
+  diagnostic: {start: "2020-01-01", end: "2020-06-30"}
+  heldout: {start: "2022-01-01", end: "2022-06-30"}
+environment: {universe: {nse_equity: [RELIANCE:EQ]}, initial_cash: 100000.0,
+              transaction_cost_bps: 5.0, strict_pit: true}
+vix_threshold: 25.0
+repair: {rule_type: hold_all, scope: {vix_band: [25.0, null]}}
+targets:
+  primary: {metric: high_vix_buy_count, direction: DECREASE}
+  regression: [cumulative_return, max_drawdown, turnover]
+  tolerances: [{metric_name: cumulative_return, epsilon: 0.05},
+               {metric_name: max_drawdown, epsilon: 0.05}]
+statistics: {method: block-bootstrap, block_len: 5, n_boot: 2000,
+             alpha: 0.05, seed: 20260929,
+             require_lower_above_zero: [diagnostic, heldout]}
+coverage: {min_fires: 10}
+acceptance: [target improves diagnostic, target improves heldout,
+             no tripped tolerance, no new validity violations,
+             no full inactivity, bootstrap lower bounds above zero,
+             coverage met]
