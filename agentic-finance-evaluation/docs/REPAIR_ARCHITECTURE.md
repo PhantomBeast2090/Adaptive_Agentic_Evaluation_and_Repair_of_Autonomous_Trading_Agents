@@ -91,9 +91,10 @@ fallback default, deliberately: the compiler is the safe path).
 
 ## 7. Supported repair vocabulary
 
-Exactly the three `GuardrailedAgent`-enforced types with their frozen
-validators. Any extension requires a registered `(type, validator,
-enforcer)` triple plus conformance tests (M-R3: `max_quantity`).
+The three `GuardrailedAgent`-enforced types with their frozen
+validators, plus the M-R3-authorised `max_quantity {cap}` (bounded size
+truncation for escalation flaws; validator + enforcer +
+provider-table row + compiler mapping; see `docs/M-R3_LOSS_CHASING_REPAIR.md`).
 
 ## 8. Lifecycle
 
@@ -159,12 +160,16 @@ returned permutation parity plus confinement; the gate correctly refused
 admission. The repair architecture here changes nothing about that
 verdict — it builds the road the next validated mechanism would travel.
 
-## 17. Controlled-benchmark path (M-R2/R3, not yet run)
+## 17. Controlled-benchmark path (M-R2/R3 executed)
 
-R1: `VolatilityBlindAgent` (+ `LegacyAgentAdapter`) → regime-triggered
-`hold_all` (existing vocab). R2: `LossChasingAgent` → `max_quantity`
-(M-R3 extension). Both labelled controlled/known-mechanism; success
-claims fenced to the benchmark, never natural discovery.
+R1 (`VolatilityBlindBenchmark` + `LegacyAgentAdapter`-independent
+canonical E0 agent): regime-triggered `hold_all` → behavioural repair
+demonstrated (31→2 / 6→2 high-VIX buys), gate REJECT on economics
+(rebound forfeiture). R2 (`LossChasingBenchmark`): `max_quantity`
+truncation → escalations 4→0 / 2→0, `_decide` ACCEPTED, gate NSF on
+bootstrap power. Both labelled controlled/known-mechanism; no admission
+occurred; see `docs/REPAIR_COMPLETION_REPORT.md`. Success claims remain
+fenced to the benchmark, never natural discovery.
 
 ## 18. Explicit limitations
 
