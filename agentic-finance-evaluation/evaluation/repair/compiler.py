@@ -37,6 +37,7 @@ from evaluation.repair.schemas import (
 
 CONCENTRATION_KEYS = ("concentration", "exposure")
 VOLATILITY_KEYS = ("volatility", "regime", "execution")
+LOSS_CHASING_KEYS = ("loss-chasing", "losschasing", "loss/chasing")
 TURNOVER_KEYS = ("turnover", "accumulation", "risk", "leverage")
 
 # hold_all without a regime trigger would suppress the agent on every
@@ -72,6 +73,38 @@ def compile(  # noqa: A001 - established domain verb
         )
     key = _taxonomy_key(mechanism.taxonomy)
     scope = _compile_scope(mechanism)
+    if any(k in key for k in LOSS_CHASING_KEYS):
+        # M-R3: bounded quantity ceiling. The cap is pre-registered in
+        # the benchmark protocol and carried in scope_hint
+        # ("max_quantity_cap"); the compiler never invents it.
+        cap = mechanism.scope_hint.get("max_quantity_cap")
+        if (
+            not isinstance(cap, (int, float))
+            or isinstance(cap, bool)
+            or cap != cap
+            or cap in (float("inf"), float("-inf"))
+            or cap <= 0
+        ):
+            return Uncompilable(
+                mechanism_id=mechanism.mechanism_id,
+                reason=(
+                    "max_quantity requires a pre-registered positive cap "
+                    "in scope_hint['max_quantity_cap']"
+                ),
+            )
+        return RepairSpec(
+            spec_id=spec_id,
+            mechanism_fingerprint=mechanism.fingerprint(),
+            rule_type="max_quantity",
+            rule_params={"cap": float(cap)},
+            scope=scope,
+            trigger=tuple(mechanism.trigger_hint),
+            priority=priority,
+            rationale=(
+                f"compiler {COMPILER_VERSION}: {mechanism.taxonomy} -> "
+                f"max_quantity{{cap:{float(cap)}}}"
+            ),
+        )
     if any(k in key for k in CONCENTRATION_KEYS):
         return RepairSpec(
             spec_id=spec_id,

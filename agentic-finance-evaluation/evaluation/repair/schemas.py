@@ -42,12 +42,13 @@ COMPILER_VERSION = "v1"
 REPAIR_METHOD = "control-plane"
 REPAIR_METHOD_VERSION = "v1"
 
-# Rule vocabulary approved for M-R1. ``max_quantity`` is explicitly
-# reserved for M-R3 and must not appear here.
+# Rule vocabulary: M-R1 triple plus the M-R3-authorised max_quantity
+# extension for loss-chasing escalation (bounded size truncation).
 APPROVED_RULE_TYPES = (
     "per_session_order_cap",
     "exposure_cap",
     "hold_all",
+    "max_quantity",
 )
 
 # Trigger clause operators. Clauses are (field, op, value) triples.
@@ -190,7 +191,7 @@ class RepairScope:
     agent_id: str = ""
     instruments: Tuple[str, ...] = ()
     actions: Tuple[str, ...] = ()
-    vix_band: Optional[Tuple[float, float]] = None
+    vix_band: Optional[Tuple[float, Optional[float]]] = None
     date_from: str = ""
     date_to: str = ""
 
@@ -211,10 +212,18 @@ class RepairScope:
         )
         if self.vix_band is not None:
             lo, hi = self.vix_band
-            if not lo < hi:
-                raise ValueError("vix_band requires lo < hi")
+            if not isinstance(lo, (int, float)) or isinstance(lo, bool):
+                raise ValueError("vix_band lo must be a number")
+            if hi is not None:
+                if not isinstance(hi, (int, float)) or isinstance(
+                    hi, bool
+                ):
+                    raise ValueError("vix_band hi must be a number or None")
+                if not lo < hi:
+                    raise ValueError("vix_band requires lo < hi")
             object.__setattr__(
-                self, "vix_band", (float(lo), float(hi))
+                self, "vix_band",
+                (float(lo), None if hi is None else float(hi)),
             )
         if self.date_from and self.date_to and self.date_to < self.date_from:
             raise ValueError("date_to must not precede date_from")
@@ -235,13 +244,12 @@ class RepairScope:
         return score
 
     def to_dict(self) -> dict:
+        band = self.vix_band
         return {
             "agent_id": self.agent_id,
             "instruments": list(self.instruments),
             "actions": list(self.actions),
-            "vix_band": list(self.vix_band)
-            if self.vix_band is not None
-            else None,
+            "vix_band": [band[0], band[1]] if band is not None else None,
             "date_from": self.date_from,
             "date_to": self.date_to,
         }

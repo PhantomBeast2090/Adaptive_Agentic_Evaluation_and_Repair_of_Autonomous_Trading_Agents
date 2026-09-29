@@ -133,7 +133,9 @@ def scope_matches(
     if scope.vix_band is not None:
         vix = read_indicator_close(payload, VIX_SLOT)
         lo, hi = scope.vix_band
-        if vix is None or not lo <= vix < hi:
+        if vix is None or not lo <= vix:
+            return False
+        if hi is not None and not vix < hi:
             return False
     timestamp = payload.get("decision_timestamp")
     if scope.date_from and (
@@ -175,6 +177,10 @@ def apply_rule_ops(
                 GuardrailedAgent._apply_exposure_cap(
                     orders, observation, rule
                 )
+            )
+        elif kind == "max_quantity":
+            orders = list(
+                GuardrailedAgent._apply_max_quantity(orders, rule)
             )
         else:
             raise ValueError(

@@ -71,6 +71,15 @@ RULE_TABLE: Tuple[Tuple[str, List[Dict[str, Any]], str, str], ...] = (
         "throttle trading intensity to limit position accumulation "
         "behind leverage-class failures",
     ),
+    (
+        # M-R3 controlled-repair extension (pre-registered cap equals the
+        # benchmark's normal order size, so only escalation binds).
+        "loss-chasing",
+        [{"type": "max_quantity", "cap": 5.0}],
+        "max_post_loss_quantity",
+        "truncate escalated quantities to the pre-registered ceiling "
+        "behind loss-chasing failures",
+    ),
 )
 
 DEFAULT_RULES: Tuple[Dict[str, Any], ...] = (

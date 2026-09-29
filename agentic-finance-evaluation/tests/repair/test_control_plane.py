@@ -184,6 +184,9 @@ def test_apply_conformance_vs_guardrailed_agent():
         [{"type": "exposure_cap", "max_names_held": 1}],
         [{"type": "per_session_order_cap", "max_orders": 2},
          {"type": "exposure_cap", "max_names_held": 1}],
+        [{"type": "max_quantity", "cap": 1.0}],
+        [{"type": "per_session_order_cap", "max_orders": 2},
+         {"type": "max_quantity", "cap": 1.0}],
     ]
     for rules in rule_sets:
         for observation in (obs, held_obs):
@@ -193,5 +196,5 @@ def test_apply_conformance_vs_guardrailed_agent():
             got = apply_rule_ops(list(BUY_TWO), rules, observation)
             assert got == expected, rules
     with pytest.raises(ValueError):
-        apply_rule_ops(list(BUY_TWO), [{"type": "max_quantity", "cap": 1}],
+        apply_rule_ops(list(BUY_TWO), [{"type": "quantum-throttle"}],
                        obs)

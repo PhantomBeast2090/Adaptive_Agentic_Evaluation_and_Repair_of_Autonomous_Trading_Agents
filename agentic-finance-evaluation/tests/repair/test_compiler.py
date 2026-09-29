@@ -43,13 +43,27 @@ def test_unknown_taxonomy_is_uncompilable():
     assert result.compiler_version == "v1"
 
 
-def test_max_quantity_reserved_for_mr3():
-    assert "max_quantity" not in APPROVED_RULE_TYPES
+def test_mr3_loss_chasing_maps_to_max_quantity():
+    # M-R3 authorised extension: loss-chasing compiles to a bounded
+    # quantity ceiling whose cap comes pre-registered from scope_hint.
+    spec = compile(
+        make_mechanism(taxonomy="loss-chasing",
+                       scope_hint={"max_quantity_cap": 5.0}),
+        "spec-lc")
+    assert spec.rule_type == "max_quantity"
+    assert spec.rule() == {"type": "max_quantity", "cap": 5.0}
+    missing = compile(make_mechanism(taxonomy="loss-chasing"), "spec-lc2")
+    from evaluation.repair.compiler import Uncompilable
+    assert isinstance(missing, Uncompilable)
+    assert "pre-registered" in missing.reason
+
+
+def test_repair_spec_rejects_unknown_rule_type():
     with pytest.raises(ValueError):
         from evaluation.repair.schemas import RepairSpec
         RepairSpec(spec_id="s", mechanism_fingerprint="m",
-                   rule_type="max_quantity",
-                   rule_params={"cap": 5.0})
+                   rule_type="quantum-throttle",
+                   rule_params={})
 
 
 def test_scope_hint_flows_into_spec():

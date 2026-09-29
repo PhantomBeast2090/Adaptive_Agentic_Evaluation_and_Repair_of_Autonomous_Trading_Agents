@@ -66,11 +66,12 @@ def test_scope_validation_and_specificity():
 
 
 def test_repair_spec_vocab_and_round_trip():
+    # M-R1 triple plus the M-R3-authorised max_quantity extension.
     assert set(APPROVED_RULE_TYPES) == {
-        "per_session_order_cap", "exposure_cap", "hold_all"}
-    assert "max_quantity" not in APPROVED_RULE_TYPES
-    with pytest.raises(ValueError):
-        _spec(rule_type="max_quantity")
+        "per_session_order_cap", "exposure_cap", "hold_all",
+        "max_quantity"}
+    capped = _spec(rule_type="max_quantity", rule_params={"cap": 5.0})
+    assert capped.rule() == {"type": "max_quantity", "cap": 5.0}
     spec = _spec()
     assert spec.rule() == {"type": "per_session_order_cap",
                            "max_orders": 1}

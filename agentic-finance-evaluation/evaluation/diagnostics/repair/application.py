@@ -22,7 +22,10 @@ are non-adaptive during validation. Rule semantics:
   order list to the first ``max_orders`` entries per decision;
 * ``hold_all {}`` — suppress all orders (explicit inactivity switch,
   present so validation can prove that permanent inactivity is not
-  automatically successful).
+  automatically successful);
+* ``max_quantity {cap}`` — truncate every order quantity to a fixed
+  ceiling (M-R3 controlled-repair extension for loss-chasing
+  escalation; binds size only, never invents or deletes orders).
 
 Unknown rule types fail the application loudly instead of degrading
 into an undeclared no-op.
@@ -146,6 +149,19 @@ class GuardrailedAgent:
                         "exposure_cap requires positive integer "
                         f"max_names_held, got {breadth!r}"
                     )
+            elif kind == "max_quantity":
+                cap = rule.get("cap")
+                if (
+                    not isinstance(cap, (int, float))
+                    or isinstance(cap, bool)
+                    or cap != cap
+                    or cap in (float("inf"), float("-inf"))
+                    or cap <= 0
+                ):
+                    raise ValueError(
+                        "max_quantity requires a finite positive cap, "
+                        f"got {cap!r}"
+                    )
             else:
                 raise ValueError(
                     f"unsupported guardrail rule type {kind!r}: refusing "
@@ -178,7 +194,37 @@ class GuardrailedAgent:
                 orders = orders[: rule["max_orders"]]
             if rule["type"] == "exposure_cap":
                 orders = self._apply_exposure_cap(orders, observation, rule)
+            if rule["type"] == "max_quantity":
+                orders = self._apply_max_quantity(orders, rule)
         return orders
+
+    @staticmethod
+    def _apply_max_quantity(
+        orders: Sequence[Mapping[str, Any]],
+        rule: Mapping[str, Any],
+    ) -> Sequence[Mapping[str, Any]]:
+        """Truncate every order quantity to a fixed ceiling (bounded).
+
+        SELLs pass with truncated quantities; orders are well-formed
+        (positive) by contract and the cap is positive by validation, so
+        truncation never invents or deletes orders — it only bounds size.
+        """
+        cap = float(rule.get("cap", 0.0))
+        kept = []
+        for order in orders:
+            if not isinstance(order, Mapping):
+                kept.append(order)
+                continue
+            capped = dict(order)
+            try:
+                quantity = float(capped.get("quantity", 0.0))
+            except (TypeError, ValueError):
+                kept.append(order)
+                continue
+            if quantity > cap:
+                capped["quantity"] = cap
+            kept.append(capped)
+        return kept
 
     @staticmethod
     def _apply_exposure_cap(
