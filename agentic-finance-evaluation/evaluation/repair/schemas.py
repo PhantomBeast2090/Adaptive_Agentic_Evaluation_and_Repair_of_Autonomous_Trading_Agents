@@ -43,12 +43,18 @@ REPAIR_METHOD = "control-plane"
 REPAIR_METHOD_VERSION = "v1"
 
 # Rule vocabulary: M-R1 triple plus the M-R3-authorised max_quantity
-# extension for loss-chasing escalation (bounded size truncation).
+# extension for loss-chasing escalation (bounded size truncation), plus
+# the M-R5 adaptive-synthesis extension ops (serving-path only; the
+# frozen GuardrailedAgent vocabulary is untouched).
 APPROVED_RULE_TYPES = (
     "per_session_order_cap",
     "exposure_cap",
     "hold_all",
     "max_quantity",
+    "quantity_reduction",
+    "cooldown_after_loss",
+    "block_action",
+    "drawdown_risk_scaler",
 )
 
 # Trigger clause operators. Clauses are (field, op, value) triples.

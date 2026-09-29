@@ -66,10 +66,14 @@ def test_scope_validation_and_specificity():
 
 
 def test_repair_spec_vocab_and_round_trip():
-    # M-R1 triple plus the M-R3-authorised max_quantity extension.
+    # M-R1 triple + M-R3 max_quantity + M-R5 adaptive-synthesis
+    # extension (quantity_reduction, cooldown_after_loss, block_action,
+    # drawdown_risk_scaler). GuardrailedAgent keeps the frozen 4-type
+    # vocabulary; these live on the control-plane serving path.
     assert set(APPROVED_RULE_TYPES) == {
         "per_session_order_cap", "exposure_cap", "hold_all",
-        "max_quantity"}
+        "max_quantity", "quantity_reduction", "cooldown_after_loss",
+        "block_action", "drawdown_risk_scaler"}
     capped = _spec(rule_type="max_quantity", rule_params={"cap": 5.0})
     assert capped.rule() == {"type": "max_quantity", "cap": 5.0}
     spec = _spec()

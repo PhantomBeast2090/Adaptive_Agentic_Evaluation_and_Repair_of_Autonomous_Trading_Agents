@@ -103,6 +103,11 @@ class MemoryConditionedAgent:
         self._replay_log: List[Dict[str, Any]] = []
         self._shadow_log: List[Dict[str, Any]] = []
         self._base_calls = 0
+        # Cooldown state (M-R5): entry_id -> last suppressed session idx.
+        # Session idx counts this wrapper's act() calls since reset, so
+        # replay of an identical observation sequence reproduces it.
+        self._session_idx = 0
+        self._cooldown_until: Dict[str, int] = {}
         errors = validate_target_agent(self._base)
         if errors:  # deepcopy must preserve contract validity
             raise TypeError(f"wrapped base copy is invalid: {errors}")
@@ -147,6 +152,8 @@ class MemoryConditionedAgent:
 
     def reset(self) -> None:
         self._base.reset()
+        self._session_idx = 0
+        self._cooldown_until = {}
 
     def set_active(
         self, active_ids: Sequence[str], shadow: Optional[bool] = None
@@ -166,6 +173,8 @@ class MemoryConditionedAgent:
         payload = as_dict(observation)
         base_orders = [dict(o) for o in self._base.act(observation)]
         self._base_calls += 1
+        self._session_idx += 1
+        idx = self._session_idx
         payload_fp = _fingerprint_payload(payload)
         base_fp = _fingerprint_orders(base_orders)
         selection = control_plane.select(
@@ -177,7 +186,39 @@ class MemoryConditionedAgent:
             payload_fingerprint=payload_fp,
             base_orders_fingerprint=base_fp,
         )
-        rules = [entry.spec.rule() for entry in selection.fired]
+        rules = []
+        fired_ids = []
+        by_id = {e.entry_id: e for e in self._entries}
+        for entry in selection.fired:
+            if entry.spec.rule_type == "cooldown_after_loss":
+                continue  # handled below via cooldown windows
+            rules.append(entry.spec.rule())
+            fired_ids.append(entry.entry_id)
+        # Stateful cooldown (M-R5): a trigger match arms suppression for
+        # the arming session plus the next N sessions. Firing outside an
+        # armed window is impossible by construction.
+        for eid in self._active:
+            entry = by_id.get(eid)
+            if entry is None or entry.spec.rule_type != "cooldown_after_loss":
+                continue
+            params = entry.spec.rule()
+            horizon = params.get("sessions", 0)
+            if (
+                not isinstance(horizon, int)
+                or isinstance(horizon, bool)
+                or horizon < 0
+            ):
+                raise ValueError(
+                    "cooldown_after_loss requires non-negative integer "
+                    f"sessions, got {horizon!r}"
+                )
+            if control_plane.evaluate_trigger(
+                entry.spec.trigger, payload, base_orders
+            ):
+                self._cooldown_until[eid] = idx + horizon
+            if idx <= self._cooldown_until.get(eid, -1):
+                rules.append({"type": "block_action", "side": "BUY"})
+                fired_ids.append(eid)
         conditioned = control_plane.apply_rule_ops(
             base_orders, rules, observation
         )
@@ -185,7 +226,7 @@ class MemoryConditionedAgent:
         record = {
             "payload_fingerprint": payload_fp,
             "base_orders_fingerprint": base_fp,
-            "fired_ids": list(selection.record.fired_ids),
+            "fired_ids": list(fired_ids),
             "quarantined": selection.quarantined,
             "result_fingerprint": base_fp if self._shadow else conditioned_fp,
             "shadow": self._shadow,

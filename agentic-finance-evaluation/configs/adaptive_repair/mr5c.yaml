@@ -1,0 +1,37 @@
+# M-R5C protocol: adaptive exposure repair synthesis (frozen).
+# CONTROLLED-KNOWN-MECHANISM. Gently rising multi-name feed so economics
+# are meaningful (repair must preserve profitable breadth discipline,
+# not merely suppress). Agent holds all 3 names against normal 1.
+experiment_id: M-R5C
+label: CONTROLLED-KNOWN-MECHANISM
+benchmark:
+  agent: benchmarks.overexposure.ExposureBenchmark
+  names: ["AAA:EQ", "BBB:EQ", "CCC:EQ"]
+  starts: [100.0, 120.0, 90.0]
+  initial_cash: 500000.0
+feed:
+  diagnostic: {unit: [0.003, 0.003, 0.003, 0.003, 0.003, 0.003, 0.003,
+                      0.003, 0.003, 0.003], n_blocks: 8}
+  heldout: {unit: [0.003, 0.003, 0.003, 0.003, 0.003, 0.003, 0.003,
+                   0.003, 0.003, 0.003], n_blocks: 4}
+episodes:
+  diagnostic: [[0, 9], [10, 19], [20, 29], [30, 39], [40, 49], [50, 59],
+               [60, 69], [70, 79]]
+  heldout: [[0, 9], [10, 19], [20, 29], [30, 39]]
+mechanism:
+  failure_type: exposure
+  taxonomy: exposure
+  detector_params: {max_normal_names: 1, min_support: 8}
+  trigger_hint: []
+  scope_hint: {}
+  expected: EXPOSURE
+target:
+  field: names_held
+  aggregate: max
+  direction: decrease
+adjudication:
+  min_support: 6
+  tolerance_value: 0.04
+  tolerance_drawdown: 0.03
+  bootstrap: {seed: 20260932, n_boot: 5000, alpha: 0.05}
+normal_bound: {kind: names, max_normal_names: 1}

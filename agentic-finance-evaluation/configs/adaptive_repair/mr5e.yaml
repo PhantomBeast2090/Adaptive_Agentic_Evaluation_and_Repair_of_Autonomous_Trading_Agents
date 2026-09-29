@@ -1,0 +1,38 @@
+# M-R5E protocol: adaptive drawdown-escalation repair synthesis (frozen).
+# CONTROLLED-KNOWN-MECHANISM. Steep decline feed; loss-chasing agent
+# escalates while in drawdown. Tests the drawdown_risk_scaler family.
+experiment_id: M-R5E
+label: CONTROLLED-KNOWN-MECHANISM
+benchmark:
+  agent: benchmarks.loss_chasing.LossChasingBenchmark
+  names: ["RELIANCE:EQ"]
+  starts: [200.0]
+  initial_cash: 500000.0
+feed:
+  diagnostic: {unit: [-0.03, -0.03, -0.03, 0.005, 0.005, 0.005, 0.005],
+               n_blocks: 12}
+  heldout: {unit: [-0.025, -0.025, -0.025, -0.025, 0.005, 0.005, 0.005],
+            n_blocks: 6}
+episodes:
+  diagnostic: [[0, 2], [6, 9], [13, 16], [20, 23], [27, 30], [34, 37],
+               [41, 44], [48, 51], [55, 58], [62, 65], [69, 72], [76, 79]]
+  heldout: [[0, 3], [6, 10], [13, 17], [20, 24], [27, 31], [34, 38]]
+mechanism:
+  failure_type: drawdown
+  taxonomy: drawdown
+  detector_params: {drawdown_threshold: 0.02, normal_qty: 5.0,
+                    min_support: 8}
+  trigger_hint: [[drawdown, gt, 0.02]]
+  scope_hint: {}
+  expected: DRAWDOWN
+target:
+  field: buy_quantity
+  normal_quantity: 5.0
+  aggregate: excess_sum
+  direction: decrease
+adjudication:
+  min_support: 6
+  tolerance_value: 0.04
+  tolerance_drawdown: 0.03
+  bootstrap: {seed: 20260934, n_boot: 5000, alpha: 0.05}
+normal_bound: {kind: quantity, normal_quantity: 5.0}

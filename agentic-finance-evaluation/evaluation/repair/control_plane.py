@@ -171,7 +171,10 @@ def apply_rule_ops(
     Enforcement is reused, not reimplemented: ``exposure_cap`` delegates
     to ``GuardrailedAgent._apply_exposure_cap``; ``hold_all`` and
     ``per_session_order_cap`` are the same two operations
-    (pinned by conformance test vs ``GuardrailedAgent.act``). A dedicated
+    (pinned by conformance test vs ``GuardrailedAgent.act``). M-R5
+    extension ops (``quantity_reduction``, ``block_action``,
+    ``drawdown_risk_scaler``) live ONLY on this serving path — the
+    frozen ``GuardrailedAgent`` vocabulary is untouched. A dedicated
     function (rather than an ephemeral GuardrailedAgent) is required
     because the wrapper must call the base policy exactly once per
     decision — re-invoking ``act`` would corrupt stateful policies
@@ -194,12 +197,119 @@ def apply_rule_ops(
             orders = list(
                 GuardrailedAgent._apply_max_quantity(orders, rule)
             )
+        elif kind == "quantity_reduction":
+            orders = _apply_quantity_reduction(orders, rule)
+        elif kind == "block_action":
+            side = rule.get("side")
+            if side not in ("BUY", "SELL"):
+                raise ValueError(
+                    f"block_action requires side BUY/SELL, got {side!r}"
+                )
+            orders = [
+                order for order in orders
+                if order.get("side") != side
+            ]
+        elif kind == "drawdown_risk_scaler":
+            orders = _apply_drawdown_risk_scaler(
+                orders, observation, rule
+            )
         else:
             raise ValueError(
                 f"unsupported guardrail rule type {kind!r}: refusing "
                 "to degrade into an undeclared no-op"
             )
     return orders
+
+
+def _apply_quantity_reduction(
+    orders: Sequence[Mapping[str, Any]],
+    rule: Mapping[str, Any],
+) -> List[Dict[str, Any]]:
+    """Scale every order quantity by a fixed fraction (M-R5).
+
+    ``fraction`` must satisfy 0 < fraction < 1 (validated by the
+    compiler/admission path; re-checked here fail-closed). Orders scaled
+    to non-positive quantity are dropped. Deterministic and stateless.
+    """
+    fraction = rule.get("fraction")
+    if (
+        not isinstance(fraction, (int, float))
+        or isinstance(fraction, bool)
+        or not 0.0 < float(fraction) < 1.0
+    ):
+        raise ValueError(
+            "quantity_reduction requires 0 < fraction < 1, "
+            f"got {fraction!r}"
+        )
+    scaled = []
+    for order in orders:
+        reduced = dict(order)
+        try:
+            quantity = float(reduced.get("quantity", 0.0))
+        except (TypeError, ValueError):
+            scaled.append(order)
+            continue
+        reduced["quantity"] = quantity * float(fraction)
+        if reduced["quantity"] > 0:
+            scaled.append(reduced)
+    return scaled
+
+
+def _apply_drawdown_risk_scaler(
+    orders: Sequence[Mapping[str, Any]],
+    observation: Any,
+    rule: Mapping[str, Any],
+) -> List[Dict[str, Any]]:
+    """Scale quantities by explicit drawdown band (M-R5).
+
+    ``bands`` is a frozen ordered list of [lo, hi, scale] triples over
+    the own-portfolio drawdown fraction; the first matching band wins,
+    non-matching drawdown passes through unchanged. Deterministic,
+    stateless, PIT-safe (own portfolio only).
+    """
+    bands = rule.get("bands")
+    if not isinstance(bands, (list, tuple)) or not bands:
+        raise ValueError("drawdown_risk_scaler requires a non-empty bands list")
+    try:
+        payload = (
+            observation.to_dict()
+            if hasattr(observation, "to_dict")
+            else dict(observation)
+        )
+        portfolio = payload.get("portfolio", {})
+        unrealized = _finite_number(portfolio.get("unrealized_pnl"))
+        equity = _finite_number(portfolio.get("total_equity"))
+        drawdown = (
+            max(0.0, -unrealized / equity)
+            if unrealized is not None and equity
+            else 0.0
+        )
+    except (TypeError, ValueError, AttributeError):
+        return [dict(o) for o in orders]
+    scale = 1.0
+    for band in bands:
+        lo, hi, candidate = band
+        if lo <= drawdown < hi:
+            scale = float(candidate)
+            break
+    if not 0.0 <= scale <= 1.0:
+        raise ValueError(
+            f"drawdown_risk_scaler scale out of [0,1]: {scale!r}"
+        )
+    if scale == 1.0:
+        return [dict(o) for o in orders]
+    scaled = []
+    for order in orders:
+        reduced = dict(order)
+        try:
+            quantity = float(reduced.get("quantity", 0.0))
+        except (TypeError, ValueError):
+            scaled.append(order)
+            continue
+        reduced["quantity"] = quantity * scale
+        if reduced["quantity"] > 0:
+            scaled.append(reduced)
+    return scaled
 
 
 @dataclass(frozen=True)

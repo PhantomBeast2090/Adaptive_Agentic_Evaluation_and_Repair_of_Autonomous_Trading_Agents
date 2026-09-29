@@ -1,0 +1,7 @@
+# M-R5F protocol: cross-mechanism comparative report (frozen).
+# META-ANALYSIS over M-R5A/B/C/D/E artefacts. No new runs, no new
+# selection. Asserts per-mechanism selected families differ where the
+# evidence supports mechanism specificity.
+experiment_id: M-R5F
+label: CONTROLLED-KNOWN-MECHANISM-META
+inputs: [M-R5A, M-R5B, M-R5C, M-R5D, M-R5E]
