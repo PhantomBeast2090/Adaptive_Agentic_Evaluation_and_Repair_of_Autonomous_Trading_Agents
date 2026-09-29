@@ -1,0 +1,1 @@
+{"equity_universe":["YESBANK:EQ","ICICIBANK:EQ","RELIANCE:EQ","SBIN:EQ","INFY:EQ","TCS:EQ"],"gold_universe":["GOLDAUG2023"],"grid_end":"2020-09-30","grid_sessions":189,"grid_start":"2020-01-01","initial_cash":50000.0,"market_fingerprint":"91ac9b8861a36fbab1a37bd06351d2a7b8fab593a073ab3fd7f3b6121dd81ebe","strict_pit":true,"transaction_cost_bps":5.0,"vintage_policy":"explicit"}
