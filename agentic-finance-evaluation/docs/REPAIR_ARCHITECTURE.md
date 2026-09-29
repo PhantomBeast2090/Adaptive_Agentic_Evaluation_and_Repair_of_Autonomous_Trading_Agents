@@ -142,9 +142,11 @@ no second hashing system.
 
 `base_policy_fingerprint()` (frozen snapshot machinery, adapter-aware via
 `policy_snapshot()` through wrapper stacks) is asserted equal at
-construction and twin-equal after any act sequence. The causal tests
-prove memory moves ORDERS while policy-state evolution matches an
-untouched twin exactly.
+construction; after act sequences, twin advancement proofs apply
+(stateful policies evolve counters — equality is proven against an
+untouched twin over identical sessions, never against a stale
+pre-run snapshot). Trigger fields: vix/cash/exposure/drawdown/sides/date
+(drawdown = own-portfolio underwater fraction, PIT-safe).
 
 ## 15. Frozen E0–I2 boundary
 
@@ -160,16 +162,18 @@ returned permutation parity plus confinement; the gate correctly refused
 admission. The repair architecture here changes nothing about that
 verdict — it builds the road the next validated mechanism would travel.
 
-## 17. Controlled-benchmark path (M-R2/R3 executed)
+## 17. Controlled-benchmark path (M-R2/R3 executed, M-R4A admitted)
 
-R1 (`VolatilityBlindBenchmark` + `LegacyAgentAdapter`-independent
-canonical E0 agent): regime-triggered `hold_all` → behavioural repair
-demonstrated (31→2 / 6→2 high-VIX buys), gate REJECT on economics
-(rebound forfeiture). R2 (`LossChasingBenchmark`): `max_quantity`
-truncation → escalations 4→0 / 2→0, `_decide` ACCEPTED, gate NSF on
-bootstrap power. Both labelled controlled/known-mechanism; no admission
-occurred; see `docs/REPAIR_COMPLETION_REPORT.md`. Success claims remain
-fenced to the benchmark, never natural discovery.
+R1 (`VolatilityBlindBenchmark`, canonical E0 agent): regime-triggered
+`hold_all` → behavioural repair demonstrated (31→2 / 6→2 high-VIX buys),
+gate REJECT on economics (rebound forfeiture). R2 (`LossChasingBenchmark`):
+`max_quantity` truncation → escalations 4→0 / 2→0, `_decide` ACCEPTED,
+gate NSF on bootstrap power. M-R4A (power benchmark, 16+8 episodes):
+ACCEPTED, admitted, persistence reproduced, rollback restored — first
+admissible controlled repair. M-R4B (drawdown-gated hold_all): REJECT,
+reported separately. All labelled controlled/known-mechanism; see
+`docs/REPAIR_COMPLETION_REPORT.md` and `docs/M-R4_COMPLETION_REPORT.md`.
+Success claims remain fenced to the benchmark, never natural discovery.
 
 ## 18. Explicit limitations
 
