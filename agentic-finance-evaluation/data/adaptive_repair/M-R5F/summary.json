@@ -1,0 +1,41 @@
+{
+ "inputs": [
+  "M-R5A",
+  "M-R5B",
+  "M-R5C",
+  "M-R5D",
+  "M-R5E"
+ ],
+ "selections": [
+  {
+   "experiment": "M-R5A",
+   "family": "max_quantity",
+   "candidate": "M-R5A-C-max_quantity-cap=5.0",
+   "verdict": "ACCEPT"
+  },
+  {
+   "experiment": "M-R5B",
+   "family": "per_session_order_cap",
+   "candidate": "M-R5B-C-per_session_order_cap-max_orders=1",
+   "verdict": "ACCEPT"
+  },
+  {
+   "experiment": "M-R5C",
+   "family": "exposure_cap",
+   "candidate": "M-R5C-C-exposure_cap-max_names_held=2",
+   "verdict": "ACCEPT"
+  },
+  {
+   "experiment": "M-R5D",
+   "family": "hold_all",
+   "candidate": "M-R5D-C-hold_all",
+   "verdict": "ACCEPT"
+  },
+  {
+   "experiment": "M-R5E",
+   "family": "cooldown_after_loss",
+   "candidate": "M-R5E-C-cooldown_after_loss-sessions=1",
+   "verdict": "ACCEPT"
+  }
+ ]
+}
