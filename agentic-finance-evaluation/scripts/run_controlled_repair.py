@@ -214,7 +214,11 @@ def run_benchmark(base_dir: str, name: str, overwrite: bool = False) -> dict:
     )
     cap = (protocol.get("repair", {}).get("rule_params", {}) or {}).get("cap")
     base_custom = custom_metrics(base_records, vix, threshold, cap)
-    if name == "mr2":
+    flaw_check = protocol.get("flaw_check")
+    if flaw_check is not None:
+        assert base_custom[flaw_check["metric"]] >= flaw_check["min"], \
+            f"flaw absent: {flaw_check['metric']} below minimum in diagnostic"
+    elif name == "mr2":
         assert base_custom["high_vix_buy_count"] > 0, \
             "flaw absent: no high-VIX BUYs in diagnostic"
     else:
@@ -503,6 +507,9 @@ def run_benchmark(base_dir: str, name: str, overwrite: bool = False) -> dict:
         assert re_entry.fingerprint() == serving.fingerprint()
         re_served = MemoryConditionedAgent(
             build_agent(protocol), [re_entry], (re_entry.entry_id,))
+        # Construction-time equality (fresh-vs-fresh); stateful policies
+        # evolve counters during runs, so post-run proof is twin-based.
+        assert re_served.base_policy_fingerprint() == base_fp
         re_result = run_baseline(
             re_served, build_config(f"{exp}-persist-diag", diag,
                                     protocol["environment"]),
@@ -510,7 +517,14 @@ def run_benchmark(base_dir: str, name: str, overwrite: bool = False) -> dict:
         re_records = [r.to_dict() for r in re_result.decision_records]
         assert re_records == cand_diag_recs, \
             "reloaded repair must reproduce conditioned behaviour exactly"
-        assert re_served.base_policy_fingerprint() == base_fp
+        twin_re = MemoryConditionedAgent(
+            build_agent(protocol), [re_entry], (re_entry.entry_id,))
+        twin_re_result = run_baseline(
+            twin_re, build_config(f"{exp}-persist-twin", diag,
+                                  protocol["environment"]),
+            base_dir=base_dir)
+        assert re_served.base_policy_fingerprint() == \
+            twin_re.base_policy_fingerprint()
         chain.append("PERSISTED", {
             "store": re_store.fingerprint(),
             "behaviour_reproduced": True})
@@ -526,7 +540,13 @@ def run_benchmark(base_dir: str, name: str, overwrite: bool = False) -> dict:
         roll_records = [r.to_dict() for r in roll_result.decision_records]
         assert roll_records == base_records, \
             "deactivation must restore base behaviour exactly"
-        assert rolled.base_policy_fingerprint() == base_fp
+        twin_roll = build_agent(protocol)
+        twin_roll_result = run_baseline(
+            twin_roll, build_config(f"{exp}-rollback-twin", diag,
+                                    protocol["environment"]),
+            base_dir=base_dir)
+        assert rolled.base_policy_fingerprint() == fingerprint_agent(
+            twin_roll, twin_roll.identity)
         chain.append("ROLLED_BACK", {"restored": True})
         result_payload["rollback"] = "RESTORED"
     else:
@@ -561,7 +581,8 @@ def run_benchmark(base_dir: str, name: str, overwrite: bool = False) -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Controlled repair benchmarks")
-    parser.add_argument("--benchmark", choices=["mr2", "mr3"], required=True)
+    parser.add_argument("--benchmark", choices=["mr2", "mr3", "mr4b"],
+                        required=True)
     parser.add_argument("--base-dir", default=".")
     parser.add_argument("--overwrite", action="store_true")
     args = parser.parse_args()

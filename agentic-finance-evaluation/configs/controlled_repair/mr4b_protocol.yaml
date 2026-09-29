@@ -1,0 +1,40 @@
+# M-R4B controlled protocol: refined volatility repair (drawdown-gated).
+# CONTROLLED-KNOWN-MECHANISM. Pre-registered before any repair outcome.
+# Investigates the M-R2 failure (VIX>25 too coarse: 59/77 HIGH sessions
+# were post-crash recovery). Mechanistic refinement, NOT threshold search:
+# suppress accumulation only while high VIX coincides with an existing
+# underwater position (drawdown > 5%, conventional fixed threshold).
+# Same agent, windows, universe, costs, metrics, tolerances, statistics
+# as M-R2. M-R2 result (REJECT) stands unmodified under version M-R2.
+experiment: MR4B-20260930
+label: CONTROLLED-KNOWN-MECHANISM
+agent: {module: benchmarks.volatility_blind.VolatilityBlindBenchmark,
+        agent_id: volatility-blind-benchmark, version: "1.0"}
+mechanism:
+  id: mech-voldrawdown-001
+  taxonomy: volatility
+  description: high-VIX accumulation while own position is underwater
+               (drawdown proxy = max(0, -unrealized_pnl/total_equity) > 0.05)
+  trigger_hint: [[vix, gt, 25.0], [drawdown, gt, 0.05]]
+  scope_hint: {vix_band: [25.0, null]}
+windows:
+  diagnostic: {start: "2020-01-01", end: "2020-06-30"}
+  heldout: {start: "2022-01-01", end: "2022-06-30"}
+environment: {universe: {nse_equity: [RELIANCE:EQ]}, initial_cash: 100000.0,
+              transaction_cost_bps: 5.0, strict_pit: true}
+vix_threshold: 25.0
+repair: {rule_type: hold_all, scope: {vix_band: [25.0, null]}}
+flaw_check: {metric: high_vix_buy_count, min: 1}
+targets:
+  primary: {metric: high_vix_buy_count, direction: DECREASE}
+  regression: [cumulative_return, max_drawdown, turnover]
+  tolerances: [{metric_name: cumulative_return, epsilon: 0.05},
+               {metric_name: max_drawdown, epsilon: 0.05}]
+statistics: {method: block-bootstrap, block_len: 5, n_boot: 2000,
+             alpha: 0.05, seed: 20260930,
+             require_lower_above_zero: [diagnostic, heldout]}
+coverage: {min_fires: 10}
+acceptance: [target improves diagnostic, target improves heldout,
+             no tripped tolerance, no new validity violations,
+             no full inactivity, bootstrap lower bounds above zero,
+             coverage met]

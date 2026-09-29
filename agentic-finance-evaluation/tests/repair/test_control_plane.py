@@ -72,6 +72,22 @@ def test_scope_matching_axes():
         list(BUY_TWO))
 
 
+def test_drawdown_trigger_field():
+    from evaluation.repair.control_plane import resolve_trigger_field
+    base = {"decision_timestamp": "2023-05-15",
+            "portfolio": {"cash": 90000.0, "total_equity": 100000.0,
+                          "unrealized_pnl": -8000.0, "positions": {}}}
+    assert resolve_trigger_field("drawdown", base, []) == pytest.approx(0.08)
+    assert evaluate_trigger((("drawdown", "gt", 0.05),), base, []) is True
+    assert evaluate_trigger((("drawdown", "gt", 0.10),), base, []) is False
+    flat = {"decision_timestamp": "2023-05-15",
+            "portfolio": {"cash": 100000.0, "total_equity": 100000.0,
+                          "unrealized_pnl": 0.0, "positions": {}}}
+    assert evaluate_trigger((("drawdown", "gt", 0.05),), flat, []) is False
+    missing = {"decision_timestamp": "2023-05-15", "portfolio": {}}
+    assert evaluate_trigger((("drawdown", "gt", 0.05),), missing, []) is False
+
+
 def test_trigger_evaluation():
     payload = make_obs(vix=30.0, cash=5000.0)
     assert evaluate_trigger((("vix", "gt", 25.0),), payload, list(BUY_TWO))

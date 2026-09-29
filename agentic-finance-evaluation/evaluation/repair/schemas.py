@@ -55,12 +55,15 @@ APPROVED_RULE_TYPES = (
 TRIGGER_OPERATORS = ("eq", "ne", "gt", "gte", "lt", "lte", "in", "not_in")
 
 # Trigger fields readable from an observation payload + base orders.
-# ``vix`` resolves via the frozen ``indiavix`` slot reader; ``*_present``
+# ``vix`` resolves via the frozen ``indiavix`` slot reader; ``drawdown``
+# is the position-underwater fraction max(0, -unrealized_pnl/total_equity)
+# from the own-portfolio block (PIT-safe, stateless); ``*_present``
 # inspect base-order sides; ``date`` is the decision_timestamp string.
 TRIGGER_FIELDS = (
     "vix",
     "cash",
     "exposure",
+    "drawdown",
     "buy_present",
     "sell_present",
     "date",

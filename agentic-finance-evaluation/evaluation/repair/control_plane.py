@@ -56,6 +56,18 @@ def resolve_trigger_field(
         if not isinstance(portfolio, Mapping):
             return None
         return _finite_number(portfolio.get("exposure"))
+    if field_name == "drawdown":
+        # Position-underwater fraction from own-portfolio accounting only:
+        # max(0, -unrealized_pnl / total_equity). Stateless, PIT-safe
+        # (no price history, no future data). Unusable inputs fail closed.
+        portfolio = payload.get("portfolio", {})
+        if not isinstance(portfolio, Mapping):
+            return None
+        unrealized = _finite_number(portfolio.get("unrealized_pnl"))
+        equity = _finite_number(portfolio.get("total_equity"))
+        if unrealized is None or equity is None or equity <= 0:
+            return None
+        return max(0.0, -unrealized / equity)
     if field_name == "buy_present":
         return any(o.get("side") == "BUY" for o in base_orders)
     if field_name == "sell_present":

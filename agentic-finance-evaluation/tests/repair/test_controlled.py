@@ -171,3 +171,22 @@ def test_deliverables_pinned():
         assert manifest["label"] == "CONTROLLED-KNOWN-MECHANISM"
         assert result["policy_fingerprint"] == \
             manifest["policy_fingerprint"]
+
+
+def test_mr4a_and_mr4b_deliverables_pinned():
+    import json
+
+    result = json.load(open(os.path.join(
+        BASE, "data", "controlled_repair", "MR4A-20260930", "result.json")))
+    assert result["verdict"] == "ACCEPT"
+    assert result["support"] == {"diag": 16, "held": 8}
+    assert result["persistence"] == "REPRODUCED"
+    assert result["rollback"] == "RESTORED"
+    assert "store_fingerprint" in result
+    result_b = json.load(open(os.path.join(
+        BASE, "data", "controlled_repair", "MR4B-20260930", "result.json")))
+    assert result_b["verdict"] == "REJECT"
+    manifest_b = json.load(open(os.path.join(
+        BASE, "data", "controlled_repair", "MR4B-20260930", "manifest.json")))
+    assert manifest_b["label"] == "CONTROLLED-KNOWN-MECHANISM"
+    assert manifest_b["verdict"] == "REJECT"
