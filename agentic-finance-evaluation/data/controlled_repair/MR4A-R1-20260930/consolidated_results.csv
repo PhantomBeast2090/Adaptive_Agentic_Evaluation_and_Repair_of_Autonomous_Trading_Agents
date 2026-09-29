@@ -1,0 +1,5 @@
+window,episodes,support,excess_delta,drawdown_delta,equity_delta,escalation_delta,policy,behaviour,verdict
+W1,16,16,-600.0,-0.0214,10507.02,reduced,PASS,PASS,REPLICATED
+W2,12,12,-885.0,-0.028,31670.44,reduced,PASS,PASS,REPLICATED
+W3,20,20,-385.0,-0.0074,1721.11,reduced,PASS,PASS,REPLICATED
+W4,12,12,-900.0,-0.0144,52769.96,reduced,PASS,PASS,REPLICATED

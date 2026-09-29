@@ -1,0 +1,66 @@
+# M-R4A-R1 final replication protocol: four-window generalisation study.
+# FINAL FOUR-WINDOW REPLICATION / GENERALISATION STUDY of the frozen
+# admitted M-R4A repair (mem-MR4A, max_quantity 5.0). NOT a new repair.
+# Windows defined by frozen formulas ONLY (explicit unit patterns in
+# benchmarks/replication_feeds.py); episode tables derived mechanically
+# and recorded below. Base-only structural QA precedes any repaired run:
+# 16/12/20/12 episodes with base excess, zero cash-starved sessions,
+# zero inactivity. Repaired results never feed back into window design.
+experiment: MR4A-R1-20260930
+label: CONTROLLED-KNOWN-MECHANISM-REPLICATION
+admitted_repair:
+  source_experiment: MR4A-20260930
+  entry_id: mem-MR4A
+  rule: {rule_type: max_quantity, rule_params: {cap: 5.0}}
+  entry_fingerprint: 49bad01b13f0f866
+  store_fingerprint: 721a99e0c34b0c09935481ca0b834e4abc1b926f89c416b828632b409f832f75
+agent: {module: benchmarks.loss_chasing.LossChasingBenchmark,
+        agent_id: loss-chasing-benchmark, version: "1.0"}
+cost_bps: 5.0
+normal_quantity: 5.0
+statistics: {method: paired-bootstrap, n_boot: 5000, alpha: 0.05,
+             seed: 20260930}
+support: {min_episodes_with_base_excess: 5}
+tolerances: [{metric_name: final_portfolio_value, epsilon_relative: 0.04},
+             {metric_name: max_drawdown_ratio, epsilon: 0.03}]
+windows:
+  W1: {start_price: 100.0, n_blocks: 8, n_sessions: 96,
+       initial_cash: 500000.0,
+       unit: [0.004, 0.004, -0.015, -0.015, -0.015, 0.003, 0.003, 0.003,
+              -0.02, -0.02, 0.003, 0.003],
+       episodes: [[1, 4], [7, 9], [13, 16], [19, 21], [25, 28], [31, 33],
+                  [37, 40], [43, 45], [49, 52], [55, 57], [61, 64],
+                  [67, 69], [73, 76], [79, 81], [85, 88], [91, 93]],
+       feed_fingerprint: 8b3e1d8aef41}
+  W2: {start_price: 250.0, n_blocks: 6, n_sessions: 84,
+       initial_cash: 1250000.0,
+       unit: [-0.01, -0.01, 0.005, 0.005, 0.005, -0.025, -0.025, -0.025,
+              -0.025, 0.005, 0.005, 0.005, 0.005, 0.005],
+       episodes: [[0, 1], [4, 8], [13, 15], [18, 22], [27, 29], [32, 36],
+                  [41, 43], [46, 50], [55, 57], [60, 64], [69, 71],
+                  [74, 78]],
+       feed_fingerprint: 938c2dc36557}
+  W3: {start_price: 50.0, n_blocks: 10, n_sessions: 80,
+       initial_cash: 250000.0,
+       unit: [-0.01, -0.01, 0.004, 0.004, -0.01, -0.01, 0.004, 0.004],
+       episodes: [[0, 1], [3, 5], [7, 9], [11, 13], [15, 17], [19, 21],
+                  [23, 25], [27, 29], [31, 33], [35, 37], [39, 41],
+                  [43, 45], [47, 49], [51, 53], [55, 57], [59, 61],
+                  [63, 65], [67, 69], [71, 73], [75, 77]],
+       feed_fingerprint: 7f221669a1f2}
+  W4: {start_price: 1000.0, n_blocks: 6, n_sessions: 96,
+       initial_cash: 5000000.0,
+       unit: [0.005, 0.005, 0.005, 0.005, -0.03, -0.03, 0.015, 0.015,
+              -0.01, -0.01, -0.01, -0.01, 0.005, 0.005, 0.005, 0.005],
+       episodes: [[3, 5], [7, 11], [19, 21], [23, 27], [35, 37], [39, 43],
+                  [51, 53], [55, 59], [67, 69], [71, 75], [83, 85],
+                  [87, 91]],
+       feed_fingerprint: a8236ff6d6c9}
+acceptance_per_window: [support met, target CI below zero,
+  no tripped tolerance, no full inactivity, normal sessions equal,
+  policy preserved]
+verdict_rule:
+  REPLICATION-CONSISTENT: all four windows meet acceptance
+  PARTIALLY-CONSISTENT: behaviour replicates everywhere but economics mixed
+  NOT-CONSISTENT: behavioural repair fails to reproduce reliably
+  EXPERIMENT-INVALID: contamination, tuning, leakage, or implementation error
