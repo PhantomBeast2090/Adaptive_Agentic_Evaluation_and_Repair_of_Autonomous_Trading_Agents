@@ -1,0 +1,50 @@
+# M-R4A controlled protocol: loss-chasing POWER benchmark (v1.1).
+# CONTROLLED-KNOWN-MECHANISM. Pre-registered before any repair outcome.
+# Synthetic deterministic feed (formula below); frozen before evaluation;
+# never tuned after repair results. Separated from the natural-market track.
+# Addresses M-R3 rare-event insufficiency (4/2 events) with 16 diagnostic
+# + 8 held-out pre-registered decline episodes (base-only structural QA:
+# 40/20 escalation sessions, counter resets after every episode, zero
+# cash-starved sessions). Repair principle and cap UNCHANGED from M-R3.
+experiment: MR4A-20260930
+label: CONTROLLED-KNOWN-MECHANISM
+benchmark: {module: benchmarks.loss_chasing_power, version: "1.1",
+            agent: loss-chasing-benchmark, agent_version: "1.0"}
+mechanism:
+  id: mech-losschase-power-001
+  taxonomy: loss-chasing
+  description: post-loss quantity escalation 5 * 2^n on repeated exogenous
+               decline episodes; counters reset in calm gaps
+feed:
+  formula: repeat-12 block [+0.4%, +0.4%, -1.5% x3, +0.3% x3, -2.0% x2, +0.3% x2]
+  start_price: 100.0
+  cost_bps: 5.0
+  initial_cash: 500000.0
+  normal_quantity: 5.0
+segments:
+  diagnostic: {sessions: [0, 95], blocks: 8}
+  heldout: {sessions: [96, 143], blocks: 4}
+episodes:
+  diagnostic: [[1, 4], [7, 9], [13, 16], [19, 21], [25, 28], [31, 33],
+               [37, 40], [43, 45], [49, 52], [55, 57], [61, 64], [67, 69],
+               [73, 76], [79, 81], [85, 88], [91, 93]]
+  heldout: [[97, 100], [103, 105], [109, 112], [115, 117], [121, 124],
+            [127, 129], [133, 136], [139, 141]]
+repair: {rule_type: max_quantity, rule_params: {cap: 5.0}}
+targets:
+  primary: {metric: mean_episode_excess, direction: DECREASE,
+            unit: paired per-episode (repaired - baseline) excess quantity}
+  also_report: [max_post_loss_quantity, escalation_events]
+  regression: [final_portfolio_value, max_drawdown_ratio, turnover]
+  tolerances: [{metric_name: final_portfolio_value, epsilon: 20000.0},
+               {metric_name: max_drawdown_ratio, epsilon: 0.03}]
+statistics: {method: paired-bootstrap, n_boot: 5000, alpha: 0.05,
+             seed: 20260930, require_ci_below_zero: [diagnostic, heldout]}
+support:
+  min_episodes_with_base_excess: {diagnostic: 10, heldout: 5}
+  episode_definition: maximal decline run from frozen price formula,
+    separated by >=2 calm sessions with counter reset (verified base-only)
+acceptance: [support met, target CI below zero both splits,
+             no tripped tolerance, no full inactivity,
+             normal-session equality BASE==REPAIRED,
+             persistence reproduced, rollback restored]
