@@ -1285,13 +1285,54 @@ def _write_figures(out_root):
     return skipped
 
 
+def report_only(base_dir: str) -> dict:
+    """Regenerate summary/tables/figures from frozen per-exp artefacts.
+
+    Zero episodes consumed. Fails if any experiment lacks result.json
+    (the campaign must be executed first, staged via --only).
+    """
+    out_root = os.path.join(base_dir, OUT_DIR)
+    protocol = dict(yaml.safe_load(
+        open(os.path.join(base_dir, PROTOCOL_PATH))))
+    bank = json.load(open(os.path.join(out_root, "window_bank.json")))
+    results = {}
+    for tag in EXPERIMENTS:
+        path = os.path.join(out_root, tag, "result.json")
+        if not os.path.exists(path):
+            raise FileNotFoundError(f"missing {path}: run --only {tag} first")
+        results[tag] = json.load(open(path))
+    ep = sum(r.get("episodes_used", 0) for r in results.values())
+    n_adm = sum(1 for r in results.values()
+                if r.get("verdict") == "SUCCESS")
+    summary = {"experiment": "M-R9",
+               "protocol_fingerprint": _fingerprint(protocol),
+               "bank_fingerprint": bank["bank_fingerprint"],
+               "episodes_used": ep, "experiments": results,
+               "n_admitted": n_adm,
+               "campaign_verdict": "SUCCESS" if n_adm else "NULL"}
+    with open(os.path.join(out_root, "summary.json"), "w",
+              encoding="utf-8") as handle:
+        json.dump(summary, handle, sort_keys=True, separators=(",", ":"))
+        handle.write("\n")
+    _write_tables(out_root)
+    skipped = _write_figures(out_root)
+    print(f"M-R9 report: verdict={summary['campaign_verdict']} "
+          f"admitted={n_adm}/6 episodes={ep} skipped={skipped}")
+    return summary
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="M-R9 campaign")
     parser.add_argument("--base-dir", default=".")
     parser.add_argument("--overwrite", action="store_true")
     parser.add_argument("--only", default="")
+    parser.add_argument("--report-only", action="store_true",
+                        help="regenerate summary/tables/figures only")
     args = parser.parse_args()
-    run_campaign(args.base_dir, args.overwrite, args.only)
+    if args.report_only:
+        report_only(args.base_dir)
+    else:
+        run_campaign(args.base_dir, args.overwrite, args.only)
 
 
 if __name__ == "__main__":

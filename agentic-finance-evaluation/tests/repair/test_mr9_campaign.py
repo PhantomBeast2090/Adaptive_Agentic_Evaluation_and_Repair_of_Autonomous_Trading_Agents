@@ -121,3 +121,25 @@ def test_activity_module_has_no_forbidden_channels():
     for token in ("heldout", "held_out", "candidate_result",
                   "economic_result", "pnl", "sharpe", "profit"):
         assert token not in source, token
+
+
+def test_report_only_is_deterministic():
+    import hashlib
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "run_mr9_report", "scripts/run_mr9.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    import os
+    before = {}
+    for name in ("summary.json", "tables/table2_candidates.json"):
+        path = os.path.join("data", "adaptive_repair", "M-R9", name)
+        if not os.path.exists(path):
+            return
+        with open(path, "rb") as handle:
+            before[name] = hashlib.sha256(handle.read()).hexdigest()
+    module.report_only(".")
+    for name, digest in before.items():
+        path = os.path.join("data", "adaptive_repair", "M-R9", name)
+        with open(path, "rb") as handle:
+            assert hashlib.sha256(handle.read()).hexdigest() == digest

@@ -29,6 +29,16 @@ cd agentic-finance-evaluation
 ./.venv/bin/python scripts/run_mr7_controls.py
 ./.venv/bin/python scripts/run_mr8.py --base-dir .
 ./.venv/bin/python scripts/run_mr8_controls.py
+# M-R9: sequential, one experiment per invocation (CPU-bounded).
+./.venv/bin/python scripts/run_mr9.py --base-dir . --only R9-A
+./.venv/bin/python scripts/run_mr9.py --base-dir . --only R9-B
+./.venv/bin/python scripts/run_mr9.py --base-dir . --only R9-C
+./.venv/bin/python scripts/run_mr9.py --base-dir . --only R9-D
+./.venv/bin/python scripts/run_mr9.py --base-dir . --only R9-E
+./.venv/bin/python scripts/run_mr9.py --base-dir . --only R9-F
+# Aggregate summary/tables/figures from frozen per-exp artefacts only.
+./.venv/bin/python scripts/run_mr9.py --base-dir . --report-only
+./.venv/bin/python scripts/run_mr9_controls.py
 ```
 
 Expected verdicts: M-R6 NULL (0/9), M-R7 NULL×3 (0/9 each), M-R8 NULL
@@ -55,7 +65,10 @@ cd agentic-finance-evaluation
 ./.venv/bin/pytest tests/diagnostics/repair/test_budget_accounting.py -q
 ```
 
-Reference state at freeze: repair suite + budget tests 130 passed.
+Reference state at freeze: repair suite + budget tests 130 passed
+(M-R8); M-R9 adds 15 unit tests (protocol + activity/status proofs),
+all passing. Campaign reference: 6/6 NULL, 44 candidates
+(26 STATISTICAL_NULL, 18 SPECIFICITY_REJECT), 94 episodes.
 The broader suite was intentionally not re-swept at freeze (CPU cost);
 see paper §12.
 

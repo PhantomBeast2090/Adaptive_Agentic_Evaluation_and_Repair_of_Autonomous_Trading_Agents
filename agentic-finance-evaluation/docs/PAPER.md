@@ -41,7 +41,9 @@ robust to mechanism-gated conditional serving (M-R8: identical nine
 actions under trigger-scoped serving, fixed N1 adjudication, 0/9 NULL —
 5 fail bootstrap power and 5 fail trajectory-level preservation through
 portfolio-state path dependence (`max_quantity{4.0}` fails both; 4 fail
-preservation only).
+preservation only); (vii) the NULL extends across six independent
+windows (M-R9: exposure selected 5/6, one full abstention, 44 candidates
+— 26 statistical-NULL, 18 specificity-reject, 0 admitted, 94 episodes).
 
 The overarching natural-market repair claim is therefore NOT
 established. The contribution is a validated external-repair boundary:
@@ -252,6 +254,22 @@ mechanism-absent sessions). N2 sensitivity (4/9 survive, order-cap-1
 first) descriptive only, not admitted. Programme terminates per stop
 rule.
 
+**M-R9 (NULL 0/6, this work):** six pre-registered triples spanning
+2021–2026 (3-month diag/held/rep, disjoint, 2020 excluded, 2024
+calendar-gap rule applied and documented); same agent, detectors,
+thresholds, generator, gates as M-R6; broad serving; fixed generalized
+mechanism-relative adjudication with disclosure-only multiplicity.
+Exposure selected 5/6 (supports 14–57); R9-B full abstention (all five
+detectors silent over 61 sessions); overtrading fired twice (10, 24)
+but lost on support; loss-chasing, volatility, drawdown never fired in
+any of nine natural diagnostic windows (M-R6–M-R9). 44 candidates, all
+rejected: 26 STATISTICAL_NULL (specific but under-powered, reproducing
+the M-R8 power pattern at lower supports), 18 SPECIFICITY_REJECT
+(order caps and quantity reductions leaking via portfolio-state path
+dependence). No POLICY/SHADOW/SAFETY/INACTIVITY/ECONOMIC failures. 94
+episodes under the 240-episode budget. Controls clean. Table 3
+(admitted) empty; Figures 2 and 7 skipped with recorded reasons.
+
 ## 7. Ablations
 
 Removing adaptive selection reduces the system to static benchmarking
@@ -321,32 +339,43 @@ Under the evaluated protocols, an external evaluation environment can
 diagnose behavioural vulnerabilities and repair effective behaviour
 without touching the agent — in controlled conditions automatically
 (M-R5), with replication (M-R4A-R1). On the tested natural Indian-market
-trajectory, the same machinery diagnoses, synthesises, verifies, and
-fails closed across four serving/normality definitions (M-R6/M-R7/M-R8),
+trajectories, the same machinery diagnoses, synthesises, verifies, and
+fails closed across four serving/normality definitions on one trajectory
+(M-R6/M-R7/M-R8) and six further independent windows (M-R9: 5/6 exposure
+selected, one abstention, 44 candidates all rejected),
 establishing a bounded NULL whose mechanism is trajectory-level
-intervention specificity under portfolio-state path dependence. The
+intervention specificity under portfolio-state path dependence compounded
+by bootstrap power at low support — with the added prevalence result
+that non-exposure mechanisms never fired in nine natural diagnostic
+windows for this configuration. The
 answer to the research question is therefore PARTIAL with a precise
 boundary: YES in controlled known-mechanism conditions; NOT ESTABLISHED
-— and specifically refuted for the tested candidate set — on the
-natural trajectory studied.
+— and specifically refuted for the tested candidate sets — on the
+natural trajectories studied.
 
 ---
 
 ## Supplementary Material
 
 **S1. Protocols:** `configs/adaptive_repair/{mr5a-e,mr6_natural,
-mr7_normality,mr8_conditional}.yaml` with fingerprints
-(M-R8 protocol `8ebbe7ec…`, trigger `89aad28d…`, N1 `d46b518f…`).
+mr7_normality,mr8_conditional,mr9_campaign}.yaml` with fingerprints
+(M-R8 protocol `8ebbe7ec…`, trigger `89aad28d…`, N1 `d46b518f…`;
+M-R9 bank fingerprinted in `data/adaptive_repair/M-R9/window_bank.json`).
 
-**S2. Artefacts:** `data/adaptive_repair/{M-R5A-E,M-R6,M-R7,M-R8}/`
+**S2. Artefacts:** `data/adaptive_repair/{M-R5A-E,M-R6,M-R7,M-R8,M-R9}/`
 (manifests, adjudications, candidate results, audits, normality
 matrices, conflict analyses, freeze records; held-out/store/
-replication present only where admitted).
+replication present only where admitted; M-R9 adds per-experiment
+diagnosis vectors, §14 statuses, `tables/table{1,2,4,5}.json` with
+Table 3 empty by construction, and `figures/` with `skipped.json`).
 
 **S3. Reproduction:** `scripts/run_{mr6,mr6_controls,mr7,mr7_controls,
-mr8,mr8_controls}.py --base-dir .` (M-R8 refuses overwrite without
-`--overwrite`); `pytest tests/repair/ tests/diagnostics/repair/
-test_budget_accounting.py` (130 passed at M-R8 commit).
+mr8,mr8_controls}.py --base-dir .` (refuse overwrite without
+`--overwrite`); `scripts/run_mr9.py --base-dir . [--only R9-X]`
+(sequential; ~94 episodes campaign total under the 240-episode budget)
+plus `scripts/run_mr9_controls.py` audit; `pytest tests/repair/
+tests/diagnostics/repair/test_budget_accounting.py` (130 passed at M-R8
+commit; M-R9 adds 15 unit tests, all passing).
 
 **S4. Data contracts:** `INDIAN_DATA_CONTRACT.md`,
 `INDIAN_DATA_SOURCE_INVENTORY.md`, manifests under
