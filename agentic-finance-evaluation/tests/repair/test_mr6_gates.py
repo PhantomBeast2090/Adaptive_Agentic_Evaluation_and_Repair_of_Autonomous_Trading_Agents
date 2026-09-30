@@ -142,3 +142,46 @@ def test_mr6_verdict_and_gates():
         assert os.path.getmtime(
             os.path.join(base, "freeze.json")) <= os.path.getmtime(
                 os.path.join(base, "heldout.json"))
+
+
+def test_window_metrics_success_path_keys():
+    """Regression test for the M-R7 correction: _window_metrics must
+    resolve every key it advertises against _trace_metrics output, so
+    the successful held-out path cannot KeyError."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(
+        "run_mr6_for_test", "scripts/run_mr6.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    records = []
+    equity = 100000.0
+    for day in range(1, 6):
+        equity += 100.0 if day % 2 else -50.0
+        records.append({
+            "decision_timestamp": f"2020-01-{day:02d}",
+            "submitted_orders": [{
+                "asset_id": "nse_equity", "instrument": "RELIANCE:EQ",
+                "side": "BUY", "quantity": 1.0}],
+            "executions": [{
+                "execution_status": "EXECUTED_FULL",
+                "executed_quantity": 1.0, "execution_price": 100.0}],
+            "validation": [{"status": "VALIDATED"}],
+            "transaction_cost": 0.05,
+            "portfolio_before": {
+                "cash": 90000.0, "total_equity": equity - 100.0,
+                "exposure": 0.1, "positions": {},
+                "unrealized_pnl": 0.0},
+            "portfolio_after": {
+                "cash": 89900.0, "total_equity": equity,
+                "exposure": 0.1, "positions": {},
+                "unrealized_pnl": 0.0},
+            "reward": 100.0 if day % 2 else -50.0,
+        })
+    metrics = module._window_metrics(records)
+    assert set(metrics) == {
+        "final_portfolio_value", "max_drawdown_ratio", "turnover",
+        "inactivity_rate"}
+    assert metrics["turnover"] == 5 * 1.0 * 100.0
+    assert metrics["final_portfolio_value"] == equity
+    assert metrics["inactivity_rate"] == 0.0

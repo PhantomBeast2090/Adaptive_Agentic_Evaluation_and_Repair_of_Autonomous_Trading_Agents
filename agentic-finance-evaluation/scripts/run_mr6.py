@@ -115,9 +115,18 @@ def _build_config(protocol: dict, experiment_id: str, window: dict):
 
 
 def _trace_metrics(records):
-    """Economics + validity from canonical records (no future legs)."""
+    """Economics + validity from canonical records (no future legs).
+
+    Engineering note (M-R7 correction): this function previously exposed
+    ``costs`` while ``_window_metrics`` expected ``turnover``, which
+    would have raised KeyError on the successful held-out path (never
+    reached under the M-R6 NULL verdict). It now exposes both: ``costs``
+    (summed transaction_cost) and ``turnover`` (summed executed notional).
+    No M-R6 evidence or results change.
+    """
     equities = []
     costs = 0.0
+    turnover = 0.0
     violations = 0
     inactivity = 0
     for record in records:
@@ -132,6 +141,14 @@ def _trace_metrics(records):
             costs += float(record.get("transaction_cost", 0.0))
         except (TypeError, ValueError):
             pass
+        for leg in record.get("executions", []) or []:
+            try:
+                if str(leg.get("execution_status", "")).startswith(
+                        "EXECUTED"):
+                    turnover += (float(leg.get("executed_quantity", 0.0))
+                                 * float(leg.get("execution_price", 0.0)))
+            except (TypeError, ValueError):
+                continue
         if not record.get("submitted_orders"):
             inactivity += 1
         for entry in record.get("validation", []) or []:
@@ -150,6 +167,7 @@ def _trace_metrics(records):
         "initial_value": equities[0] if equities else 0.0,
         "max_drawdown": max_drawdown,
         "costs": costs,
+        "turnover": turnover,
         "inactivity_rate": inactivity / n if n else 1.0,
         "violations": violations,
         "n_sessions": n,
