@@ -60,3 +60,30 @@ the unsafe/ineffective ones, select admissibly, and verify held-out —
 all without touching the agent. Does not establish: natural-market
 diagnosis (I2 Class-C NULL stands), universal repair efficacy, or
 weight-level learning (no weights exist in this loop).
+
+## Evidence separation (M-R6 terminal assessment)
+
+### A. Controlled known-mechanism evidence: M-R4 / M-R5
+
+Deterministic synthetic benchmarks with pre-registered flaws. M-R4A
+admitted (loss-chasing, max_quantity); M-R5A–E demonstrated automatic
+synthesis, adjudication, admission, persistence, rollback across five
+mechanism families. These validate the repair *machinery*.
+
+### B. Natural Indian-market evidence: M-R6
+
+Real NSE trajectories, frozen MultiAssetChoice, outcome-blind
+diagnosis. Result: NULL — exposure/overtrading detected with adequate
+support, 9 candidates evaluated through the serving path, all refused
+by the frozen gates (binding constraint: pre-registered
+regime-relative normality vs mechanism-relative repair scope).
+Machinery proven working on natural data; no mechanism admitted.
+
+### C. Remaining limitations
+
+- Normality is regime-relative by frozen definition; mechanism-relative
+  normality remains an open design question (raised by M-R6, not
+  resolved by it).
+- Single canonical agent; single diagnostic/held-out pair.
+- Bootstrap CIs assume approximate stationarity within windows.
+- No weight-level or autonomous-policy claims anywhere in this system.

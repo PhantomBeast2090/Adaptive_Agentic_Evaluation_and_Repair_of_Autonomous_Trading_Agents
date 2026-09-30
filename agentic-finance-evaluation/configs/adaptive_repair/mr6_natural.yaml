@@ -1,0 +1,60 @@
+# M-R6 protocol: natural Indian-market adaptive repair (FROZEN).
+# CONTROLLED design, NATURAL data. Windows selected from VIX prevalence
+# ONLY (no returns, no actions, no outcomes consulted):
+#   diagnostic 2020-01-01..2020-06-30: 77 HIGH (vix>25) sessions of ~123,
+#     plus LOW/MID Jan-Feb shoulders for normal behaviour.
+#   held-out   2022-01-01..2022-06-30: 16 HIGH sessions, strictly later.
+#   replication 2020-07-01..2020-12-31 (IF main accepted; support-gated).
+# Canonical agent fixed before any M-R6 outcome: MultiAssetChoice g1.yaml.
+experiment_id: M-R6
+label: NATURAL-ADAPTIVE-REPAIR
+agent:
+  module: agents.choice.multi_asset.MultiAssetChoice
+  config: configs/choice_agent/g1.yaml
+  agent_id: multi-asset-choice
+environment:
+  universe:
+    nse_equity: [YESBANK:EQ, ICICIBANK:EQ, RELIANCE:EQ, SBIN:EQ, INFY:EQ, TCS:EQ]
+    mcx_gold: [GOLDAUG2023]
+  transaction_cost_bps: 5.0
+  initial_cash: 100000.0
+  strict_pit: true
+  vintage_policy: explicit
+windows:
+  diagnostic: {start: "2020-01-01", end: "2020-06-30"}
+  heldout: {start: "2022-01-01", end: "2022-06-30"}
+  replication: {start: "2020-07-01", end: "2020-12-31"}
+detection:
+  min_support: 10
+  multi_rule: highest-support-wins-then-severity-then-lexical
+  detector_params:
+    loss_chasing: {normal_qty: 2.0, min_support: 10}
+    overtrading: {max_normal_orders: 2, min_support: 10}
+    exposure: {max_normal_names: 2, min_support: 10}
+    volatility: {vix_high: 25.0, min_support: 10}
+    drawdown: {drawdown_threshold: 0.05, normal_qty: 2.0, min_support: 10}
+mechanism_templates:
+  loss_chasing: {taxonomy: loss-chasing, trigger_hint: [], scope_hint: {}}
+  overtrading: {taxonomy: overtrading, trigger_hint: [], scope_hint: {}}
+  exposure: {taxonomy: exposure, trigger_hint: [], scope_hint: {}}
+  volatility: {taxonomy: volatility, trigger_hint: [[vix, gt, 25.0]],
+               scope_hint: {}}
+  drawdown: {taxonomy: drawdown, trigger_hint: [[drawdown, gt, 0.05]],
+             scope_hint: {}}
+target:
+  aggregate: block_excess
+  block_size: 10
+  normal_quantity: 2.0
+  direction: decrease
+normal_bound: {kind: vix_calm_regime, vix_high: 25.0, normal_quantity: 2.0}
+adjudication:
+  min_support: 6
+  tolerance_value: 0.04
+  tolerance_drawdown: 0.03
+  bootstrap: {seed: 20260930, n_boot: 5000, alpha: 0.05}
+replication_support_gate: {min_high_action_sessions: 8}
+negative_controls:
+  - {family: block_action, params: {side: SELL}, expect: REJECT}
+  - {family: hold_all, params: {}, expect: REFUSE-OR-REJECT}
+  - {family: per_session_order_cap, params: {max_orders: 0},
+     expect: REJECT}

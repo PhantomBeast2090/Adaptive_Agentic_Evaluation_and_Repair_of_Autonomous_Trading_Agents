@@ -1,0 +1,1 @@
+[{"evidence_refs":["burst_sessions:18"],"failure_type":"overtrading","mechanism_id":"M-R6-overtrading","severity":3.0,"support":18},{"evidence_refs":["breadth_sessions:46"],"failure_type":"exposure","mechanism_id":"M-R6-exposure","severity":3.0,"support":46}]
