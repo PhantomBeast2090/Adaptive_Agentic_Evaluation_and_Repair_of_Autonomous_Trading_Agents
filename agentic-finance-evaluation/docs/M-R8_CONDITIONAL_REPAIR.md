@@ -65,11 +65,13 @@ protects only 6/123 sessions and was never the decision rule).
 
 Conditional scoping moved the barrier downstream exactly as predicted:
 
-- 5/9 candidates (both `exposure_cap`, all three `max_quantity`) now
+- 4/9 candidates (both `exposure_cap`, `max_quantity{5.0}` and
+  `max_quantity{6.0}`) now
   PASS normal-preservation under N1 — the M-R6/M-R7 spill onto
   mechanism-absent sessions is cured for these actions — but FAIL on
   bootstrap power (CI includes null). The repair is specific but the
   effect is not demonstrable under the frozen statistical gate.
+  (`max_quantity{4.0}` fails both gates.)
 - 4/9 candidates (both order caps, both quantity reductions) still FAIL
   normal-preservation despite single-step bit-equality on
   trigger-inactive decisions: altering trigger-active sessions changes

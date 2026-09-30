@@ -30,16 +30,18 @@ external repair works (M-R4A `max_quantity=5.0` admitted, replicated
 across four deterministic windows W1–W4 with 95% CIs below zero,
 persistence and rollback demonstrated); (iii) adaptive repair synthesis
 works in controlled conditions (M-R5: five mechanisms, eight families,
-32 candidates, automatic selection with held-out isolation, negative
-controls, 6–7 rejections per mechanism where warranted); (iv) the full
+32 compiled candidates from 38 generated, automatic selection with
+held-out isolation, negative
+controls, 0–6 rejections per mechanism (6/2/5/4/0)); (iv) the full
 machinery ingests natural trajectories and fails closed (M-R6: 123
 sessions, exposure support 46 selected, 9/9 candidates rejected under
 frozen gates, no MemoryStore write); (v) the NULL is robust across
 normality definitions (M-R7: N0/N1/N2 all 0/9 NULL); (vi) the NULL is
 robust to mechanism-gated conditional serving (M-R8: identical nine
 actions under trigger-scoped serving, fixed N1 adjudication, 0/9 NULL —
-5 fail bootstrap power, 4 fail trajectory-level preservation through
-portfolio-state path dependence).
+5 fail bootstrap power and 5 fail trajectory-level preservation through
+portfolio-state path dependence (`max_quantity{4.0}` fails both; 4 fail
+preservation only).
 
 The overarching natural-market repair claim is therefore NOT
 established. The contribution is a validated external-repair boundary:
@@ -214,10 +216,11 @@ W1–W4 with unchanged policy, persistence, rollback, CIs below zero —
 core controlled evidence.
 
 **M-R5A–E:** five mechanisms auto-diagnosed (supports 35/80/80/45/20),
-32 candidates synthesised, mechanism-specific winners selected
+32 compiled candidates synthesised (38 generated, 6 refused),
+mechanism-specific winners selected
 (`max_quantity 5.0`, `order_cap 1`, `exposure_cap 2`, `hold_all`,
-`cooldown 1` with deterministic tie-break), losers rejected (2–6 per
-mechanism), held-out isolation, MemoryStore persistence, rollback,
+`cooldown 1` with deterministic tie-break), losers rejected (6/2/5/4/0
+per mechanism), held-out isolation, MemoryStore persistence, rollback,
 negative controls. Corrections disclosed (cost-basis P&L fix, returns/
 price-level fix, trigger-scoped normality).
 
@@ -239,10 +242,11 @@ definitions; impossibility not claimed.
 
 **M-R8 (NULL, this work):** strict-isolation conditional serving;
 trigger exactly `names_held > 2`; nine actions byte-equivalent; fixed
-N1 adjudication. 0/9 NULL: 5 fail bootstrap power only (both
-`exposure_cap`, all three `max_quantity` now preserve normality but
-show no demonstrable effect), 4 fail trajectory preservation only
-(order caps, quantity reductions — single-step bit-equality holds, but
+N1 adjudication. 0/9 NULL: 5 fail bootstrap power (both
+`exposure_cap`, all three `max_quantity` — of which `max_quantity{4.0}`
+additionally fails preservation) and 5 fail trajectory preservation
+(`max_quantity{4.0}`, both order caps, both quantity reductions —
+single-step bit-equality holds, but
 portfolio-state path dependence propagates alterations into later
 mechanism-absent sessions). N2 sensitivity (4/9 survive, order-cap-1
 first) descriptive only, not admitted. Programme terminates per stop
