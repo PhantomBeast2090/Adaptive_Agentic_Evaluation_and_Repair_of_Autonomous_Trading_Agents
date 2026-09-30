@@ -1,0 +1,88 @@
+# M-R8 protocol: mechanism-specific conditional external repair (FROZEN).
+# STRICT ISOLATION vs M-R6/M-R7: dataset, universe, agent, policy, windows,
+# PIT rules, adapter, detectors, mechanism, candidate actions/params,
+# compile rules, and all gates are identical to M-R6/M-R7. The ONLY
+# experimental modification is the serving scope wrapper:
+#   trigger TRUE  -> apply the byte-identical existing repair action;
+#   trigger FALSE -> reproduce the frozen baseline decision exactly.
+# Trigger is EXACTLY the frozen exposure-mechanism condition
+# (names_held > max_normal_names with max_normal_names=2). No VIX, regime,
+# price, future, outcome, or additional predicate enters the trigger.
+# Adjudication normality is FIXED to N1 (mechanism-relative), already
+# pre-registered/tested in M-R7. N0/N2 may be reported as sensitivity only.
+# Windows selected from VIX prevalence ONLY (mirrors mr6_natural.yaml):
+#   diagnostic 2020-01-01..2020-06-30; held-out 2022-01-01..2022-06-30;
+#   replication 2020-07-01..2020-12-31 is strictly post-admission
+#   verification and must not influence diagnosis, trigger, selection,
+#   normality, or adjudication.
+experiment_id: M-R8
+label: CONDITIONAL-EXPOSURE-REPAIR
+agent:
+  module: agents.choice.multi_asset.MultiAssetChoice
+  config: configs/choice_agent/g1.yaml
+  agent_id: multi-asset-choice
+environment:
+  universe:
+    nse_equity: [YESBANK:EQ, ICICIBANK:EQ, RELIANCE:EQ, SBIN:EQ, INFY:EQ, TCS:EQ]
+    mcx_gold: [GOLDAUG2023]
+  transaction_cost_bps: 5.0
+  initial_cash: 100000.0
+  strict_pit: true
+  vintage_policy: explicit
+windows:
+  diagnostic: {start: "2020-01-01", end: "2020-06-30"}
+  heldout: {start: "2022-01-01", end: "2022-06-30"}
+  replication: {start: "2020-07-01", end: "2020-12-31"}
+detection:
+  min_support: 10
+  multi_rule: highest-support-wins-then-severity-then-lexical
+  detector_params:
+    loss_chasing: {normal_qty: 2.0, min_support: 10}
+    overtrading: {max_normal_orders: 2, min_support: 10}
+    exposure: {max_normal_names: 2, min_support: 10}
+    volatility: {vix_high: 25.0, min_support: 10}
+    drawdown: {drawdown_threshold: 0.05, normal_qty: 2.0, min_support: 10}
+mechanism_templates:
+  loss_chasing: {taxonomy: loss-chasing, trigger_hint: [], scope_hint: {}}
+  overtrading: {taxonomy: overtrading, trigger_hint: [], scope_hint: {}}
+  exposure: {taxonomy: exposure, trigger_hint: [], scope_hint: {}}
+  volatility: {taxonomy: volatility, trigger_hint: [[vix, gt, 25.0]],
+               scope_hint: {}}
+  drawdown: {taxonomy: drawdown, trigger_hint: [[drawdown, gt, 0.05]],
+             scope_hint: {}}
+target:
+  aggregate: block_excess
+  block_size: 10
+  normal_quantity: 2.0
+  direction: decrease
+normal_bound: {kind: vix_calm_regime, vix_high: 25.0, normal_quantity: 2.0}
+conditional:
+  mechanism: exposure
+  field: names_held
+  operator: gt
+  threshold: 2
+  method: conditional-exposure-scope
+  version: v1
+normality:
+  adjudication: N1
+  N0: {specification_id: N0, version: v1,
+       fingerprint: cd0910726d36d1ee,
+       description: regime-protected normality, M-R6 control}
+  N1: {specification_id: N1, version: v1,
+       fingerprint: d46b518f4c83ec01,
+       description: mechanism-relative normality, M-R8 fixed adjudication}
+  N2: {specification_id: N2, version: v1,
+       fingerprint: e8929b534252e923,
+       description: regime x mechanism hybrid normality}
+  exposure_normal_names: 2
+adjudication:
+  min_support: 6
+  tolerance_value: 0.04
+  tolerance_drawdown: 0.03
+  bootstrap: {seed: 20260930, n_boot: 5000, alpha: 0.05}
+replication_support_gate: {min_high_action_sessions: 8}
+negative_controls:
+  - {family: block_action, params: {side: SELL}, expect: REJECT}
+  - {family: hold_all, params: {}, expect: REFUSE-OR-REJECT}
+  - {family: per_session_order_cap, params: {max_orders: 0},
+     expect: REJECT}

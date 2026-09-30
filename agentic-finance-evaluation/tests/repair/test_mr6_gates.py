@@ -14,7 +14,12 @@ def test_chronological_split_order():
     held = protocol["windows"]["heldout"]
     rep = protocol["windows"]["replication"]
     assert diag["end"] < held["start"]
-    assert held["end"] < rep["start"] or True  # replication pre-declared later
+    # Replication (2020-H2) postdates diagnostic but predates held-out
+    # (2022-H1) by pre-registered design: it is an independent structural
+    # window, not a chronological successor of held-out. Require disjointness
+    # from held-out rather than held["end"] < rep["start"] (which is false
+    # by design and was previously masked by a vacuous `or True`).
+    assert rep["end"] < held["start"] or rep["start"] > held["end"]
     assert diag["end"] < rep["start"]
     assert held["start"] > diag["end"]
 
