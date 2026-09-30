@@ -1,0 +1,1 @@
+[{"event":"BASE_SEALED","payload":{"n_records":61,"policy_fingerprint":"db1a9a33f1df5dcd7a4ce1f3f23e555f48368ce23e7801c94d71b39b488ed203"},"prev_hash":"GENESIS","seq":1},{"event":"DETECTED","payload":{"count":0},"prev_hash":"64ef9af29928ba08b8bc0888de7387bbec835b0b6afa1531f1ce9da6524fda74","seq":2}]

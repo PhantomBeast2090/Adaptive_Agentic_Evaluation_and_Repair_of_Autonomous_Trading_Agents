@@ -1,0 +1,103 @@
+# M-R9 protocol: multi-mechanism / multi-window repair campaign (FROZEN).
+# Window-bank selection rule (VIX prevalence + NSE calendar coverage ONLY;
+# never P&L/actions/returns/outcomes): contiguous diag->held->rep triples,
+# 3 months each, chronological, mutually disjoint, all outside 2020, spread
+# 2021-2026 for regime coverage. Calendar validation (NSE_CM OPEN sessions,
+# data/processed/india/calendars/historical_calendar.csv) required >=40
+# sessions per window. 2024 is ABSENT from the NSE calendar, so the
+# pre-registered nearest-valid-shift rule moved R9-D/E/F off 2024 (R9-D rep
+# spans the gap to 2025Q1; documented here, decided before any outcome).
+# R9-B overlaps the M-R6 held-out window, which was NEVER constructed
+# (M-R6 NULL path); disclosed, not hidden.
+# Serving: BROAD MemoryConditionedAgent (M-R6 style). Adjudication
+# normality: FIXED generalized mechanism-relative (activity.py); N0
+# regime-protected reported as descriptive sensitivity only.
+experiment_id: M-R9
+label: MULTI-MECHANISM-MULTI-WINDOW-CAMPAIGN
+agent:
+  module: agents.choice.multi_asset.MultiAssetChoice
+  config: configs/choice_agent/g1.yaml
+  agent_id: multi-asset-choice
+environment:
+  universe:
+    nse_equity: [YESBANK:EQ, ICICIBANK:EQ, RELIANCE:EQ, SBIN:EQ, INFY:EQ, TCS:EQ]
+    mcx_gold: [GOLDAUG2023]
+  transaction_cost_bps: 5.0
+  initial_cash: 100000.0
+  strict_pit: true
+  vintage_policy: explicit
+window_bank:
+  R9-A: {diagnostic: {start: "2021-04-01", end: "2021-06-30"},
+         heldout: {start: "2021-07-01", end: "2021-09-30"},
+         replication: {start: "2021-10-01", end: "2021-12-31"},
+         regime_label: normal-2021}
+  R9-B: {diagnostic: {start: "2022-01-01", end: "2022-03-31"},
+         heldout: {start: "2022-04-01", end: "2022-06-30"},
+         replication: {start: "2022-07-01", end: "2022-09-30"},
+         regime_label: elevated-2022}
+  R9-C: {diagnostic: {start: "2022-10-01", end: "2022-12-31"},
+         heldout: {start: "2023-01-01", end: "2023-03-31"},
+         replication: {start: "2023-04-01", end: "2023-06-30"},
+         regime_label: transition-to-calm}
+  R9-D: {diagnostic: {start: "2023-07-01", end: "2023-09-30"},
+         heldout: {start: "2023-10-01", end: "2023-12-31"},
+         replication: {start: "2025-01-01", end: "2025-03-31"},
+         regime_label: calm-2023-spanning-gap}
+  R9-E: {diagnostic: {start: "2025-04-01", end: "2025-06-30"},
+         heldout: {start: "2025-07-01", end: "2025-09-30"},
+         replication: {start: "2025-10-01", end: "2025-12-31"},
+         regime_label: later-2025}
+  R9-F: {diagnostic: {start: "2026-01-01", end: "2026-03-31"},
+         heldout: {start: "2026-04-01", end: "2026-06-30"},
+         replication: {start: "2026-07-01", end: "2026-09-30"},
+         regime_label: recent-2026}
+detection:
+  min_support: 10
+  multi_rule: highest-support-wins-then-severity-then-lexical
+  detector_params:
+    loss_chasing: {normal_qty: 2.0, min_support: 10}
+    overtrading: {max_normal_orders: 2, min_support: 10}
+    exposure: {max_normal_names: 2, min_support: 10}
+    volatility: {vix_high: 25.0, min_support: 10}
+    drawdown: {drawdown_threshold: 0.05, normal_qty: 2.0, min_support: 10}
+mechanism_templates:
+  loss_chasing: {taxonomy: loss-chasing, trigger_hint: [], scope_hint: {}}
+  overtrading: {taxonomy: overtrading, trigger_hint: [], scope_hint: {}}
+  exposure: {taxonomy: exposure, trigger_hint: [], scope_hint: {}}
+  volatility: {taxonomy: volatility, trigger_hint: [[vix, gt, 25.0]],
+               scope_hint: {}}
+  drawdown: {taxonomy: drawdown, trigger_hint: [[drawdown, gt, 0.05]],
+             scope_hint: {}}
+target:
+  aggregate: block_excess
+  block_size: 10
+  normal_quantity: 2.0
+  direction: decrease
+normal_bound: {kind: vix_calm_regime, vix_high: 25.0, normal_quantity: 2.0}
+normality:
+  adjudication: MECHANISM_RELATIVE_GENERALIZED
+  sensitivity: N0_VIX_CALM_REGIME
+  exposure_normal_names: 2
+adjudication:
+  min_support: 6
+  tolerance_value: 0.04
+  tolerance_drawdown: 0.03
+  bootstrap: {seed: 20260930, n_boot: 5000, alpha: 0.05}
+replication_support_gate: {min_high_action_sessions: 8}
+episode_budget:
+  max_per_experiment: 40
+  max_campaign_total: 240
+  note: M-R path consumes EvaluationBudget episodes (one run_baseline
+    episode per baseline run); the E2-F run_repair ledger is inapplicable
+    here. Runner refuses held-out/validation stages when exhausted.
+multiplicity:
+  method: disclosure-only
+  note: report experiment/candidate/mechanism counts with all CIs;
+    ADMISSIBLE only on frozen-gate passes, else at most PROMISING
+    DIAGNOSTIC SIGNAL. No correction claimed, none shopped.
+negative_controls:
+  - {family: block_action, params: {side: SELL}, expect: REJECT}
+  - {family: hold_all, params: {}, expect: REFUSE-OR-REJECT}
+  - {family: per_session_order_cap, params: {max_orders: 0},
+     expect: REJECT}
+stopping_rule: exactly the six frozen triples, then STOP

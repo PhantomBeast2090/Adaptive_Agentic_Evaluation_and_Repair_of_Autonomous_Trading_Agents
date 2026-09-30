@@ -1,0 +1,182 @@
+adjudication:
+  bootstrap:
+    alpha: 0.05
+    n_boot: 5000
+    seed: 20260930
+  min_support: 6
+  tolerance_drawdown: 0.03
+  tolerance_value: 0.04
+agent:
+  agent_id: multi-asset-choice
+  config: configs/choice_agent/g1.yaml
+  module: agents.choice.multi_asset.MultiAssetChoice
+detection:
+  detector_params:
+    drawdown:
+      drawdown_threshold: 0.05
+      min_support: 10
+      normal_qty: 2.0
+    exposure:
+      max_normal_names: 2
+      min_support: 10
+    loss_chasing:
+      min_support: 10
+      normal_qty: 2.0
+    overtrading:
+      max_normal_orders: 2
+      min_support: 10
+    volatility:
+      min_support: 10
+      vix_high: 25.0
+  min_support: 10
+  multi_rule: highest-support-wins-then-severity-then-lexical
+environment:
+  initial_cash: 100000.0
+  strict_pit: true
+  transaction_cost_bps: 5.0
+  universe:
+    mcx_gold:
+    - GOLDAUG2023
+    nse_equity:
+    - YESBANK:EQ
+    - ICICIBANK:EQ
+    - RELIANCE:EQ
+    - SBIN:EQ
+    - INFY:EQ
+    - TCS:EQ
+  vintage_policy: explicit
+episode_budget:
+  max_campaign_total: 240
+  max_per_experiment: 40
+  note: M-R path consumes EvaluationBudget episodes (one run_baseline episode per
+    baseline run); the E2-F run_repair ledger is inapplicable here. Runner refuses
+    held-out/validation stages when exhausted.
+experiment_id: M-R9
+label: MULTI-MECHANISM-MULTI-WINDOW-CAMPAIGN
+mechanism_templates:
+  drawdown:
+    scope_hint: {}
+    taxonomy: drawdown
+    trigger_hint:
+    - - drawdown
+      - gt
+      - 0.05
+  exposure:
+    scope_hint: {}
+    taxonomy: exposure
+    trigger_hint: []
+  loss_chasing:
+    scope_hint: {}
+    taxonomy: loss-chasing
+    trigger_hint: []
+  overtrading:
+    scope_hint: {}
+    taxonomy: overtrading
+    trigger_hint: []
+  volatility:
+    scope_hint: {}
+    taxonomy: volatility
+    trigger_hint:
+    - - vix
+      - gt
+      - 25.0
+multiplicity:
+  method: disclosure-only
+  note: report experiment/candidate/mechanism counts with all CIs; ADMISSIBLE only
+    on frozen-gate passes, else at most PROMISING DIAGNOSTIC SIGNAL. No correction
+    claimed, none shopped.
+negative_controls:
+- expect: REJECT
+  family: block_action
+  params:
+    side: SELL
+- expect: REFUSE-OR-REJECT
+  family: hold_all
+  params: {}
+- expect: REJECT
+  family: per_session_order_cap
+  params:
+    max_orders: 0
+normal_bound:
+  kind: vix_calm_regime
+  normal_quantity: 2.0
+  vix_high: 25.0
+normality:
+  adjudication: MECHANISM_RELATIVE_GENERALIZED
+  exposure_normal_names: 2
+  sensitivity: N0_VIX_CALM_REGIME
+replication_support_gate:
+  min_high_action_sessions: 8
+stopping_rule: exactly the six frozen triples, then STOP
+target:
+  aggregate: block_excess
+  block_size: 10
+  direction: decrease
+  normal_quantity: 2.0
+window_bank:
+  R9-A:
+    diagnostic:
+      end: '2021-06-30'
+      start: '2021-04-01'
+    heldout:
+      end: '2021-09-30'
+      start: '2021-07-01'
+    regime_label: normal-2021
+    replication:
+      end: '2021-12-31'
+      start: '2021-10-01'
+  R9-B:
+    diagnostic:
+      end: '2022-03-31'
+      start: '2022-01-01'
+    heldout:
+      end: '2022-06-30'
+      start: '2022-04-01'
+    regime_label: elevated-2022
+    replication:
+      end: '2022-09-30'
+      start: '2022-07-01'
+  R9-C:
+    diagnostic:
+      end: '2022-12-31'
+      start: '2022-10-01'
+    heldout:
+      end: '2023-03-31'
+      start: '2023-01-01'
+    regime_label: transition-to-calm
+    replication:
+      end: '2023-06-30'
+      start: '2023-04-01'
+  R9-D:
+    diagnostic:
+      end: '2023-09-30'
+      start: '2023-07-01'
+    heldout:
+      end: '2023-12-31'
+      start: '2023-10-01'
+    regime_label: calm-2023-spanning-gap
+    replication:
+      end: '2025-03-31'
+      start: '2025-01-01'
+  R9-E:
+    diagnostic:
+      end: '2025-06-30'
+      start: '2025-04-01'
+    heldout:
+      end: '2025-09-30'
+      start: '2025-07-01'
+    regime_label: later-2025
+    replication:
+      end: '2025-12-31'
+      start: '2025-10-01'
+  R9-F:
+    diagnostic:
+      end: '2026-03-31'
+      start: '2026-01-01'
+    heldout:
+      end: '2026-06-30'
+      start: '2026-04-01'
+    regime_label: recent-2026
+    replication:
+      end: '2026-09-30'
+      start: '2026-07-01'
